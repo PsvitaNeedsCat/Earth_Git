@@ -34,8 +34,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_playerController.ApplyDrag();
-
         // Move player
         if (m_moveDirection != Vector2.zero)
         {
@@ -88,15 +86,15 @@ public class Player : MonoBehaviour
             }
         }
 
-        AttemptDeactivateTileTargeter();
+        DeactivateTileTargeter();
     }
 
-    public void AttemptActivateTileTargeter()
+    public void ActivateTileTargeter()
     {
         m_playerController.ActivateTileTargeter();
     }
 
-    private void AttemptDeactivateTileTargeter()
+    private void DeactivateTileTargeter()
     {
         m_playerController.DeactivateTileTargeter();
     }

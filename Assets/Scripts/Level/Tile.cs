@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class Tile : MonoBehaviour
 {
     // Public variables
 
     // Private variables
-    [SerializeField] private GlobalTileSettings m_globalSettings;
-    private eType m_type;
+    GlobalTileSettings m_globalSettings;
+    eChunkType m_chunkType;
+
+    // Tiles automatically added to and removed from grid over lifetime
+    private void OnEnable() => Grid.AddTile(this);
+    private void OnDisable() => Grid.RemoveTile(this);
+
+    private void Awake()
+    {
+        m_globalSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings"); ;
+    }
 
     // Returns null if chunk failed to raise
     public Chunk TryRaiseChunk()
@@ -16,13 +26,13 @@ public class Tile : MonoBehaviour
         Chunk newChunk = null;
 
         // Cannot raise a type of none
-        if (m_type == eType.none) { return newChunk; }
+        if (m_chunkType == eChunkType.none) { return newChunk; }
 
         // Cannot raise an occupied tile
         if (IsOccupied()) { return newChunk; }
 
         // Spawn new chunk and raise it
-        GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_type];
+        GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_chunkType];
         newChunk = Instantiate(chunkPrefab, transform.position, transform.rotation, null).GetComponent<Chunk>();
         newChunk.RaiseChunk();
 
@@ -36,8 +46,8 @@ public class Tile : MonoBehaviour
     }
 
     // Returns the tile's type
-    public eType GetTileType()
+    public eChunkType GetTileType()
     {
-        return m_type;
+        return m_chunkType;
     }
 }

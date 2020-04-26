@@ -9,62 +9,37 @@ public class Grid : MonoBehaviour
 
     // Private variables
     private Grid m_instance;
-    private Tile[] m_tiles;
-    [SerializeField] private GlobalPlayerSettings m_settings;
+    static List<Tile> m_tiles = new List<Tile>();
+    static GlobalPlayerSettings m_playerSettings;
+
+    public static void AddTile(Tile _newTile) => m_tiles.Add(_newTile);
+    public static void RemoveTile(Tile _removeTile) => m_tiles.Remove(_removeTile);
 
     private void Awake()
     {
         // Only one instance of this
-        if (m_instance != null && m_instance != this)
-        {
-            Debug.LogError("A second instance of Grid.cs was instantiated");
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            m_instance = this;
-        }
+        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
+        else { m_instance = this; }
 
-        m_tiles = FindObjectsOfType<Tile>();
-        Debug.Assert(m_tiles.Length > 0, "No objects of type Tile.cs could be found");
+        m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
-    // Finds the tile closest to a given location, EXCLUDING tiles of none
-    public Tile FindClosestTile(Vector3 _queryPosition)
+    // Finds the closest tile to a query position, either including or excluding tiles of type 'none', that can't be raised
+    public static Tile FindClosestTile(Vector3 _queryPosition, bool _includeUnraisable)
     {
-        float closestDist = 1000.0f;
+        float closestDist = float.MaxValue;
         Tile closestTile = null;
 
-        for (int i = 0; i < m_tiles.Length; i++)
+        // Check every tile
+        foreach (Tile tile in m_tiles)
         {
-            Tile tile = m_tiles[i];
-            if (tile.GetTileType() == eType.none) { continue; }
+            // If not including tiles of type 'none', and this is one, skip it
+            if (!_includeUnraisable && tile.GetTileType() == eChunkType.none) { continue; }
 
             float dist = (tile.transform.position - _queryPosition).magnitude;
-            if (dist < m_settings.m_minTileRange) { continue; }
+            if (dist < m_playerSettings.m_minTileRange) { continue; }
 
-            if (dist < closestDist)
-            {
-                closestTile = tile;
-                closestDist = dist;
-            }
-        }
-
-        return closestTile;
-    }
-
-    // Finds the tile closest to a given location, INCLDUING tiles of none
-    public Tile FindClosestTileAny(Vector3 _queryPosition)
-    {
-        float closestDist = 1000.0f;
-        Tile closestTile = null;
-
-        for (int i = 0; i < m_tiles.Length; i++)
-        {
-            Tile tile = m_tiles[i];
-
-            float dist = (tile.transform.position - _queryPosition).magnitude;
-
+            // If this tile is closer than current closest, update current closest
             if (dist < closestDist)
             {
                 closestTile = tile;

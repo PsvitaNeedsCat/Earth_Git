@@ -7,13 +7,14 @@ public class PlayerController : MonoBehaviour
     // Public variables
     public Tile m_confirmedTile = null;
 
+    // Serialized Variables
+    [SerializeField] private GameObject m_hurtboxPrefab;
+
     // Private variables
     private PlayerController m_instance;
     private GameObject m_tileTargeter;
     private Rigidbody m_rigidBody;
-    [SerializeField] private GlobalPlayerSettings m_settings;
-    [SerializeField] private GameObject m_hurtboxPrefab;
-    private List<Chunk> m_activeChunks;
+    GlobalPlayerSettings m_settings;
 
     private void Awake()
     {
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
         {
             m_instance = this;
         }
+
+        m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
         // Set tile targeter
         TileTargeter targeter = FindObjectOfType<TileTargeter>();
@@ -54,6 +57,8 @@ public class PlayerController : MonoBehaviour
         transform.forward = moveDir;
         // Add force
         m_rigidBody.AddForce(moveDir.normalized * m_settings.m_moveForce, ForceMode.Impulse);
+
+        ApplyDrag();
     }
 
     // Applies drag and gravity to the player
@@ -103,32 +108,12 @@ public class PlayerController : MonoBehaviour
 
         if (newChunk)
         {
-            // Add chunk to list
-            if (m_activeChunks.Count >= m_settings.m_maxChunks)
+            if (ChunkManager.NumChunks() >= m_settings.m_maxChunks)
             {
-                RemoveChunk(m_activeChunks[0]);
+                ChunkManager.RemoveOldest();
             }
-
-            // Create new chunk
-            m_activeChunks.Add(newChunk);
         }
 
         m_confirmedTile = null;
-    }
-
-    // Removes a given chunk from the world
-    public void RemoveChunk(Chunk _chunk)
-    {
-        for (int i = 0; i < m_activeChunks.Count; i++)
-        {
-            if (m_activeChunks[i].GetInstanceID() == _chunk.GetInstanceID())
-            {
-                Destroy(m_activeChunks[i].gameObject);
-                m_activeChunks.RemoveAt(i);
-                return;
-            }
-        }
-
-        Debug.LogError("Couldn't find chunk to be removed");
     }
 }

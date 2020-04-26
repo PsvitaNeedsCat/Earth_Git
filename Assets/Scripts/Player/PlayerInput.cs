@@ -41,7 +41,7 @@ public class PlayerInput : MonoBehaviour
         // Punch
         m_controls.PlayerCombat.Punch.performed += _ => m_player.AttemptPunch();
         // Raise Chunk
-        m_controls.PlayerCombat.Raise.performed += _ => m_player.AttemptActivateTileTargeter();
+        m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.AttemptRaiseChunk();
     }
 

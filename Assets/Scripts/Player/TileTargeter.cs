@@ -9,7 +9,6 @@ public class TileTargeter : MonoBehaviour
 
     // Private variables
     private TileTargeter m_instance;
-    private Grid m_grid;
     private Tile m_closestTile;
     [SerializeField] private GlobalPlayerSettings m_settings;
     [SerializeField] GameObject m_indicator;
@@ -28,20 +27,10 @@ public class TileTargeter : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        // Get a reference to the grid
-        if (!m_grid)
-        {
-            m_grid = FindObjectOfType<Grid>();
-            Debug.Assert(m_grid, "No object of type Grid.cs could be found");
-        }
-    }
-
     // Update is only called when tile targeter is active
     private void Update()
     {
-        m_closestTile = m_grid.FindClosestTile(transform.position);
+        m_closestTile = Grid.FindClosestTile(transform.position, false);
 
         Vector3 diff = m_closestTile.transform.position - transform.position;
         diff.y = 0.0f;

@@ -7,7 +7,7 @@ public class ChunkSettings : ScriptableObject
 {
     [Header("Chunk abilities")]
     [Tooltip("What is the base element of this chunk")]
-    public eType m_type = eType.rock;
+    public eChunkType m_type = eChunkType.rock;
 
     [Tooltip("How much damage the chunk does to enemies")]
     public float m_damage = 1;

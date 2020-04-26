@@ -10,20 +10,22 @@ public enum eChunkEffect
     waterTrail
 }
 
+[ExecuteAlways]
 [RequireComponent(typeof(Rigidbody))]
 public class Chunk : MonoBehaviour
 {
     // Public variables
     [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
-    [HideInInspector] public bool m_quietDestroy = false;
+
+    // Serialized variables
+    [SerializeField] private ChunkSettings m_settings;
 
     // Private variables
     private Rigidbody m_rigidBody;
     private Vector3 m_spawnPos;
-    [SerializeField] private GlobalChunkSettings m_globalSettings;
-    [SerializeField] private ChunkSettings m_Settings;
     private bool m_isRaised = false;
-    private bool m_silentDestroy = false;
+    GlobalChunkSettings m_globalSettings;
+    private HealthComponent m_healthComp;
 
     // Hitboxes
     [SerializeField] private Collider m_posXCollider;
@@ -32,50 +34,35 @@ public class Chunk : MonoBehaviour
     [SerializeField] private Collider m_negZCollider;
     [SerializeField] private Collider m_mainCollider;
 
-    // Health
-    private int m_curHealth;
-    public int Health
-    {
-        get { return m_curHealth; }
-        set
-        {
-            m_curHealth = value;
-            if (Health <= 0)
-            {
-                Death();
-            }
-        }
-    }
+    // Chunks automatically added and removed to chunk manager over lifetime
+    [ExecuteAlways] private void OnEnable() => ChunkManager.AddChunk(this);
+    [ExecuteAlways] private void OnDisable() => ChunkManager.RemoveChunk(this);
 
     private void Awake()
     {
         // Set values
         m_rigidBody = GetComponent<Rigidbody>();
         m_rigidBody.isKinematic = true;
-        m_curHealth = m_Settings.m_maxHealth;
+
+        // Setup health component
+        m_healthComp = GetComponent<HealthComponent>();
+        m_healthComp.Init(m_settings.m_maxHealth, m_settings.m_maxHealth);
+        m_healthComp.OnHurt = this.OnHurt;
+        m_healthComp.OnDeath = this.OnDeath;
+
         m_spawnPos = transform.position;
 
-        // Call event handler
+        m_globalSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
     }
 
     private void OnApplicationQuit()
     {
         m_globalSettings.m_isQuitting = true;
     }
-
+    
     private void OnDestroy()
     {
-        if (m_globalSettings.m_isQuitting) { return; }
-
         transform.DOKill();
-        // Remove chunk
-
-        // Create particles
-
-        if (!m_silentDestroy)
-        {
-            // Play audio clip
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -114,7 +101,12 @@ public class Chunk : MonoBehaviour
         m_isRaised = true;
     }
 
-    private void Death()
+    private void OnHurt()
+    {
+
+    }
+
+    private void OnDeath()
     {
         Destroy(this.gameObject);
     }
@@ -127,7 +119,7 @@ public class Chunk : MonoBehaviour
         if (IsAgainstWall(_hitVec))
         {
             // Play sound
-            Health -= 1;
+            m_healthComp.Health -= 1;
             return;
         }
 
@@ -135,9 +127,9 @@ public class Chunk : MonoBehaviour
 
         // Enable the correct directional collider
         Vector3 cardinal = _hitVec.normalized;
-        if (cardinal.x >= 1.0f) { m_posXCollider.enabled = true; }
-        else if (cardinal.x <= -1.0f) { m_negXCollider.enabled = true; }
-        else if (cardinal.z >= 1.0f) { m_posZCollider.enabled = true; }
+        if (cardinal.x >= 0.9f) { m_posXCollider.enabled = true; }
+        else if (cardinal.x <= 0.9f) { m_negXCollider.enabled = true; }
+        else if (cardinal.z >= 0.9f) { m_posZCollider.enabled = true; }
         else { m_negZCollider.enabled = true; } // else if (cardinal.z <= -1.0f)
 
         m_rigidBody.AddForce(_hitVec, ForceMode.Impulse);
@@ -156,9 +148,6 @@ public class Chunk : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
         {
-            // If collided with itself
-            if (hit.collider.gameObject.name == this.gameObject.name) { return false; }
-
             // Hit something
             return true;
         }
@@ -173,6 +162,7 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = false;
     }
 
+    // Snaps a chunk to the nearest grid tile
     private void SnapChunk()
     {
         // Play sound
