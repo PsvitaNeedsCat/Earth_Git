@@ -11,9 +11,22 @@ public class ChunkManager : MonoBehaviour
     static List<Chunk> m_chunks = new List<Chunk>();
 
     public static void AddChunk(Chunk _newChunk) => m_chunks.Add(_newChunk);
-    public static void RemoveChunk(Chunk _removeChunk) => m_chunks.Remove(_removeChunk);
     public static int NumChunks() => m_chunks.Count;
-    public static void RemoveOldest() { if (m_chunks.Count > 0) m_chunks.RemoveAt(0); }
+
+    public static void RemoveChunk(Chunk _removeChunk)
+    {
+        Destroy(_removeChunk.gameObject);
+        m_chunks.Remove(_removeChunk);
+    }
+
+    public static void RemoveOldest()
+    {
+        if (m_chunks.Count > 0)
+        {
+            Destroy(m_chunks[0].gameObject);
+            m_chunks.RemoveAt(0);
+        }
+    }
 
     private ChunkManager m_instance;
 
