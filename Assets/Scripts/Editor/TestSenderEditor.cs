@@ -15,6 +15,11 @@ public class TestSenderEditor : Editor
             testSender.TestMessage();
         }
 
+        if (GUILayout.Button("Send Message 2"))
+        {
+            testSender.TestMessage2();
+        }
+
         base.OnInspectorGUI();
     }
 }
