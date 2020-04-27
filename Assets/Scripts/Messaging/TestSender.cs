@@ -6,6 +6,11 @@ public class TestSender : MonoBehaviour
 {
     public void TestMessage()
     {
-        MessageBus.TriggerEvent(EMessageType.PlayAudio);
+        MessageBus.TriggerEvent(EMessageType.PlayerPunch, "Test 1");
+    }
+
+    public void TestMessage2()
+    {
+        MessageBus.TriggerEvent(EMessageType.PlayerPunch, "Test 2");
     }
 }

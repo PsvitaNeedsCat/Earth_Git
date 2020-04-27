@@ -5,51 +5,49 @@ using UnityEngine.Events;
 
 public enum EMessageType
 {
-    PlayAudio,
-
+    PlayerPunch,
 }
 
 public static class MessageBus
 {
-    private static Dictionary<EMessageType, UnityEvent> eventDict = new Dictionary<EMessageType, UnityEvent>();
+    private static Dictionary<EMessageType, System.Action<string>> eventDict = new Dictionary<EMessageType, System.Action<string>>();
 
     // Subscribes a listener to a type of message
-    public static void AddListener(EMessageType _type, UnityAction _listener)
+    public static void AddListener(EMessageType _type, System.Action<string> _listener)
     {
-        UnityEvent checkEvent = null;
+        System.Action<string> checkEvent = null;
 
         // Event already exists
         if (eventDict.TryGetValue(_type, out checkEvent))
         {
-            checkEvent.AddListener(_listener);
+            checkEvent += _listener;
         }
         // Event doesn't exist, create
         else
         {
-            checkEvent = new UnityEvent();
-            checkEvent.AddListener(_listener);
+            checkEvent = new System.Action<string>(_listener);
             eventDict.Add(_type, checkEvent);
         }
     }
 
-    public static void RemoveListener(EMessageType _type, UnityAction _listener)
+    public static void RemoveListener(EMessageType _type, System.Action<string> _listener)
     {
-        UnityEvent checkEvent = null;
+        System.Action<string> checkEvent = null;
 
         // Only try to remove listener if event exists
         if (eventDict.TryGetValue(_type, out checkEvent))
         {
-            checkEvent.RemoveListener(_listener);
+            checkEvent -= _listener;
         }
     }
 
-    public static void TriggerEvent(EMessageType _type)
+    public static void TriggerEvent(EMessageType _type, string _data)
     {
-        UnityEvent triggerEvent = null;
+        System.Action<string> triggerEvent = null;
 
         if (eventDict.TryGetValue(_type, out triggerEvent))
         {
-            triggerEvent.Invoke();
+            triggerEvent.Invoke(_data);
         }
     }
 }
