@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
     PlayerPunch,
@@ -10,7 +11,7 @@ public enum EMessageType
 
 public static class MessageBus
 {
-    private static Dictionary<EMessageType, System.Action<string>> eventDict = new Dictionary<EMessageType, System.Action<string>>();
+    private static Dictionary<EMessageType, System.Action<string>> m_eventDict = new Dictionary<EMessageType, System.Action<string>>();
 
     // Subscribes a listener to a type of message
     public static void AddListener(EMessageType _type, System.Action<string> _listener)
@@ -18,7 +19,7 @@ public static class MessageBus
         System.Action<string> checkEvent = null;
 
         // Event already exists
-        if (eventDict.TryGetValue(_type, out checkEvent))
+        if (m_eventDict.TryGetValue(_type, out checkEvent))
         {
             checkEvent += _listener;
         }
@@ -26,7 +27,7 @@ public static class MessageBus
         else
         {
             checkEvent = new System.Action<string>(_listener);
-            eventDict.Add(_type, checkEvent);
+            m_eventDict.Add(_type, checkEvent);
         }
     }
 
@@ -35,31 +36,19 @@ public static class MessageBus
         System.Action<string> checkEvent = null;
 
         // Only try to remove listener if event exists
-        if (eventDict.TryGetValue(_type, out checkEvent))
+        if (m_eventDict.TryGetValue(_type, out checkEvent))
         {
             checkEvent -= _listener;
         }
     }
 
-    public static void TriggerEvent(EMessageType _type, string _data)
+    public static void TriggerEvent(EMessageType _type)
     {
         System.Action<string> triggerEvent = null;
 
-        if (eventDict.TryGetValue(_type, out triggerEvent))
+        if (m_eventDict.TryGetValue(_type, out triggerEvent))
         {
-            triggerEvent.Invoke(_data);
+            triggerEvent.Invoke(_type.ToString());
         }
-    }
-}
-
-public struct MessageInfo<T>
-{
-    public EMessageType type;
-    public T data;
-
-    public MessageInfo(EMessageType _type, T _data)
-    {
-        this.type = _type;
-        this.data = _data;
     }
 }

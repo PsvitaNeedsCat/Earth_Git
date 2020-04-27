@@ -6,11 +6,11 @@ public class TestSender : MonoBehaviour
 {
     public void TestMessage()
     {
-        MessageBus.TriggerEvent(EMessageType.PlayerPunch, "Test 1");
+        MessageBus.TriggerEvent(EMessageType.PlayerPunch);
     }
 
     public void TestMessage2()
     {
-        MessageBus.TriggerEvent(EMessageType.PlayerPunch, "Test 2");
+        MessageBus.TriggerEvent(EMessageType.PlayerPunch);
     }
 }
