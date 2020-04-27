@@ -6,8 +6,9 @@ using UnityEngine.Events;
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
-    PlayerPunch,
-    test
+    playerHurt,
+    chunkDamaged,
+    chunkDestroyed
 }
 
 public static class MessageBus

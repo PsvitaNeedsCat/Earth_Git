@@ -31,4 +31,13 @@ public class GlobalPlayerSettings : ScriptableObject
 
     [Tooltip("Maximum number of chunks allowed at once")]
     public int m_maxChunks = 3;
+
+    [Tooltip("Maximum health player is allowed without upgrades")]
+    public int m_defaultMaxHealth = 3;
+
+    [Header("Hurtbox Settings")]
+    [Tooltip("The amount of frames the hurtbox will exist before being destroyed")]
+    public int m_framesBeforeDestroy = 10;
+    [Tooltip("The amount of force chunks are hit with")]
+    public float m_chunkHitForce = 10000.0f;
 }
