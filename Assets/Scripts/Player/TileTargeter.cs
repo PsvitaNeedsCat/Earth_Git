@@ -30,6 +30,10 @@ public class TileTargeter : MonoBehaviour
     // Update is only called when tile targeter is active
     private void Update()
     {
+        //TEST
+        Grid grid = FindObjectOfType<Grid>();
+        if (!grid) { return; }
+
         m_closestTile = Grid.FindClosestTile(transform.position, false);
 
         Vector3 diff = m_closestTile.transform.position - transform.position;

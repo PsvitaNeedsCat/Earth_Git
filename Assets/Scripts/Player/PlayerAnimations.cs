@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
-    private Player player;
+    private Player m_player;
+    private PlayerInput m_playerInput;
+    private PlayerController m_playerController;
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        m_playerInput = GetComponentInParent<PlayerInput>();
+        m_player = GetComponentInParent<Player>();
+        m_playerController = GetComponentInParent<PlayerController>();
     }
 
     public void AEPunch()
     {
-        // player.Punch();
+
     }
 
     public void AEEnableMovement()
     {
-        // player.EnableMovement();
+
     }
 
     public void AEDisableMovement()
     {
-        // player.DisableMovement();
+
     }
 }

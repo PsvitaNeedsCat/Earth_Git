@@ -30,21 +30,26 @@ public class Player : MonoBehaviour
 
         m_tileTargeter = FindObjectOfType<TileTargeter>();
         Debug.Assert(m_tileTargeter, "Object of type TileTargeter.cs could not be found");
+
+        m_playerController = GetComponent<PlayerController>();
+        Debug.Assert(m_playerController, "PlayerController.cs is not a component of player object");
     }
 
     private void FixedUpdate()
     {
         // Move player
         if (m_moveDirection != Vector2.zero)
+        //if (Mathf.Abs(m_moveDirection.x) > 0.5f || Mathf.Abs(m_moveDirection.y) > 0.5f)
         {
             // Set animation
-
             m_playerController.Move(m_moveDirection);
         }
         else
         {
             // Set animation
         }
+
+        m_playerController.ApplyDrag();
 
         // Punch cooldown
         if (m_punchTimer > 0.0f)

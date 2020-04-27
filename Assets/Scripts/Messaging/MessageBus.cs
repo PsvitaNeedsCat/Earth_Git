@@ -6,9 +6,34 @@ using UnityEngine.Events;
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
-    playerHurt,
+    test,
+
+    // Chunk
     chunkDamaged,
-    chunkDestroyed
+    chunkDestroyed,
+    chunkHit,
+    chunkHitWall,
+    chunkRaise,
+
+    // Enemies
+    enemySwallowed,
+    projectileSplash,
+    tongueStuck,
+    enemySwallow,
+
+    // Player
+    playerHurt,
+    ting,
+
+    // Toad boss
+    smallToadJumpInWater,
+    swampWave,
+    toadDamaged,
+    toadJumpInWater,
+    toadLand,
+    toadRoar,
+    toadSpit,
+    toadTongue,
 }
 
 public static class MessageBus

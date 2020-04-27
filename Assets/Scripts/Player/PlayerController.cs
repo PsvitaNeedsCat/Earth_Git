@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
         // Set health
+        m_health = GetComponent<HealthComponent>();
         m_health.Init(m_settings.m_defaultMaxHealth);
         m_health.OnHurt = OnHurt;
         m_health.OnDeath = OnDeath;
@@ -73,8 +74,6 @@ public class PlayerController : MonoBehaviour
         transform.forward = moveDir;
         // Add force
         m_rigidBody.AddForce(moveDir.normalized * m_settings.m_moveForce, ForceMode.Impulse);
-
-        ApplyDrag();
     }
 
     // Applies drag and gravity to the player
