@@ -48,22 +48,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void PlaySound(string soundName)
-    {
-        AudioClip clip = m_soundDictionary[soundName];
-
-        Debug.Assert(clip, "Couldn't find audio clip");
-
-        GameObject soundEffectPlayer = new GameObject("SoundEffectPlayer");
-        if (soundEffectPlayer)
-        {
-            soundEffectPlayer.transform.parent = this.transform;
-            AudioSource audioSource = soundEffectPlayer.AddComponent<AudioSource>();
-            audioSource.PlayOneShot(clip);
-            Destroy(soundEffectPlayer, clip.length);
-        }
-    }
-
     private void PlaySoundVaried(string soundName)
     {
         AudioClip clip = m_soundDictionary[soundName];

@@ -103,11 +103,12 @@ public class Chunk : MonoBehaviour
 
     private void OnHurt()
     {
-
+        MessageBus.TriggerEvent(EMessageType.chunkDamaged);
     }
 
     private void OnDeath()
     {
+        MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
         Destroy(this.gameObject);
     }
 

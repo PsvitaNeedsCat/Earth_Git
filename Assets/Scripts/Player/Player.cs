@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
         if (m_punchTimer <= 0.0f)
         {
             m_punchTimer = m_settings.m_punchCooldown;
-
-            // Punch
+            
+            m_playerController.Punch();
         }
     }
 

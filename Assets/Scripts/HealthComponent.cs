@@ -42,4 +42,13 @@ public class HealthComponent : MonoBehaviour
         m_curHealth = Mathf.Clamp(_current, 0, _max);
         m_maxHealth = _max;
     }
+
+    // Initialise health - assume current is max
+    public void Init(int _max)
+    {
+        Debug.Assert(_max >= 0, "Health cannot be negative during initialisation");
+
+        m_curHealth = _max;
+        m_maxHealth = _max;
+    }
 }

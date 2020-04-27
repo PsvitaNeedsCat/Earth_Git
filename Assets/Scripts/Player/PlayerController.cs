@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     private PlayerController m_instance;
     private GameObject m_tileTargeter;
     private Rigidbody m_rigidBody;
-    GlobalPlayerSettings m_settings;
+    private GlobalPlayerSettings m_settings;
+    private HealthComponent m_health;
 
     private void Awake()
     {
@@ -31,6 +32,11 @@ public class PlayerController : MonoBehaviour
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
+        // Set health
+        m_health.Init(m_settings.m_defaultMaxHealth);
+        m_health.OnHurt = OnHurt;
+        m_health.OnDeath = OnDeath;
+
         // Set tile targeter
         TileTargeter targeter = FindObjectOfType<TileTargeter>();
         Debug.Assert(targeter, "Object of type TileTargeter.cs could not be found");
@@ -39,6 +45,16 @@ public class PlayerController : MonoBehaviour
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
         Debug.Assert(m_rigidBody, "No rigidbody found on player");
+    }
+
+    private void OnHurt()
+    {
+        MessageBus.TriggerEvent(EMessageType.playerHurt);
+    }
+
+    private void OnDeath()
+    {
+
     }
 
     // Moves the player in a given direction
@@ -85,7 +101,8 @@ public class PlayerController : MonoBehaviour
         spawnPos.y += GetComponent<Collider>().bounds.size.y * 0.5f;
 
         // Spawn in
-        Instantiate(m_hurtboxPrefab, spawnPos, transform.rotation);
+        Hurtbox hurtbox = Instantiate(m_hurtboxPrefab, spawnPos, transform.rotation).GetComponent<Hurtbox>();
+        hurtbox.SetPlayerPos(transform.position);
     }
 
     public void ActivateTileTargeter()
