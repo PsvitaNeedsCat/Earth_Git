@@ -11,6 +11,6 @@ public class TestSender : MonoBehaviour
 
     public void TestMessage2()
     {
-        MessageBus.TriggerEvent(EMessageType.PlayerPunch);
+        MessageBus.TriggerEvent(EMessageType.test);
     }
 }

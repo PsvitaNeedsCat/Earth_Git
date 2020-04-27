@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public enum EMessageType
 {
     PlayerPunch,
+    test
 }
 
 public static class MessageBus
