@@ -75,8 +75,8 @@ public class AudioManager : MonoBehaviour
         {
             soundEffectPlayer.transform.parent = this.transform;
             AudioSource audioSource = soundEffectPlayer.AddComponent<AudioSource>();
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.volume = Random.Range(0.8f, 1.0f);
+            audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSource.volume = UnityEngine.Random.Range(0.8f, 1.0f);
             audioSource.PlayOneShot(clip);
             Destroy(soundEffectPlayer, clip.length);
         }
