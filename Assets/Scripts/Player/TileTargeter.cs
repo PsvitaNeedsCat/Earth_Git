@@ -34,6 +34,8 @@ public class TileTargeter : MonoBehaviour
     {
         m_closestTile = Grid.FindClosestTile(transform.position, false);
 
+        if (!m_closestTile) { return; }
+
         Vector3 diff = m_closestTile.transform.position - transform.position;
         diff.y = 0.0f;
 
