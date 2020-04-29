@@ -9,11 +9,16 @@ public class Hurtbox : MonoBehaviour
 
     // Private variables
     private int m_framesSkipped = 0;
-    [SerializeField] private GlobalPlayerSettings m_settings;
+    private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
 
     // Called when hurtbox is instantiated
     public void SetPlayerPos(Vector3 _pos) => m_playerPos = _pos;
+
+    private void Awake()
+    {
+        m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+    }
 
     private void Update()
     {

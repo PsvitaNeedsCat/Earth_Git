@@ -10,7 +10,6 @@ public enum eChunkEffect
     waterTrail
 }
 
-[ExecuteAlways]
 [RequireComponent(typeof(Rigidbody))]
 public class Chunk : MonoBehaviour
 {

@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 
     // Private variables
     GlobalTileSettings m_globalSettings;
-    eChunkType m_chunkType;
+    [SerializeField] eChunkType m_chunkType;
 
     // Tiles automatically added to and removed from grid over lifetime
     private void OnEnable() => Grid.AddTile(this);

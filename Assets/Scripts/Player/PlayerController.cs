@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
+    [SerializeField] private GameObject m_tileTargeter;
 
     // Private variables
     private PlayerController m_instance;
-    private GameObject m_tileTargeter;
     private Rigidbody m_rigidBody;
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
@@ -37,11 +37,6 @@ public class PlayerController : MonoBehaviour
         m_health.Init(m_settings.m_defaultMaxHealth);
         m_health.OnHurt = OnHurt;
         m_health.OnDeath = OnDeath;
-
-        // Set tile targeter
-        TileTargeter targeter = FindObjectOfType<TileTargeter>();
-        Debug.Assert(targeter, "Object of type TileTargeter.cs could not be found");
-        m_tileTargeter = targeter.gameObject;
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
