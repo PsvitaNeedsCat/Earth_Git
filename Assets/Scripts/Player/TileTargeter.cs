@@ -10,7 +10,7 @@ public class TileTargeter : MonoBehaviour
     // Private variables
     private TileTargeter m_instance;
     private Tile m_closestTile;
-    [SerializeField] private GlobalPlayerSettings m_settings;
+    private GlobalPlayerSettings m_settings;
     [SerializeField] GameObject m_indicator;
 
     private void Awake()
@@ -25,16 +25,16 @@ public class TileTargeter : MonoBehaviour
         {
             m_instance = this;
         }
+
+        m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
     // Update is only called when tile targeter is active
     private void Update()
     {
-        //TEST
-        Grid grid = FindObjectOfType<Grid>();
-        if (!grid) { return; }
-
         m_closestTile = Grid.FindClosestTile(transform.position, false);
+
+        if (!m_closestTile) { return; }
 
         Vector3 diff = m_closestTile.transform.position - transform.position;
         diff.y = 0.0f;

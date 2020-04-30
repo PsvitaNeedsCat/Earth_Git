@@ -37,7 +37,7 @@ public class Grid : MonoBehaviour
             if (!_includeUnraisable && tile.GetTileType() == eChunkType.none) { continue; }
 
             float dist = (tile.transform.position - _queryPosition).magnitude;
-            if (dist < m_playerSettings.m_minTileRange) { continue; }
+            if (!_includeUnraisable && dist < m_playerSettings.m_minTileRange) { continue; }
 
             // If this tile is closer than current closest, update current closest
             if (dist < closestDist)

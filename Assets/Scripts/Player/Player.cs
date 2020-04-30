@@ -5,15 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Public variables
-    public Vector2 m_moveDirection = Vector2.zero;
+    [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
 
     // Private variables
-    [SerializeField] private GlobalPlayerSettings m_settings;
+    private GlobalPlayerSettings m_settings;
     private Player m_instance;
     private PlayerController m_playerController;
     private float m_punchTimer = 0.0f; // For punch cooldown (0.0f can punch)
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
-    private TileTargeter m_tileTargeter;
+    [SerializeField] private TileTargeter m_tileTargeter;
 
     private void Awake()
     {
@@ -28,11 +28,10 @@ public class Player : MonoBehaviour
             m_instance = this;
         }
 
-        m_tileTargeter = FindObjectOfType<TileTargeter>();
-        Debug.Assert(m_tileTargeter, "Object of type TileTargeter.cs could not be found");
-
         m_playerController = GetComponent<PlayerController>();
         Debug.Assert(m_playerController, "PlayerController.cs is not a component of player object");
+
+        m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
     private void FixedUpdate()
@@ -55,6 +54,12 @@ public class Player : MonoBehaviour
         if (m_punchTimer > 0.0f)
         {
             m_punchTimer -= Time.fixedDeltaTime;
+        }
+
+        // Raise cooldown
+        if (m_raiseTimer > 0.0f)
+        {
+            m_raiseTimer -= Time.fixedDeltaTime;
         }
     }
 
@@ -86,6 +91,9 @@ public class Player : MonoBehaviour
                 m_raiseTimer = m_settings.m_raiseCooldown;
 
                 m_playerController.m_confirmedTile = closestTile;
+
+                // Remove this when animator is set
+                m_playerController.RaiseChunk();
 
                 // Set animation trigger
             }

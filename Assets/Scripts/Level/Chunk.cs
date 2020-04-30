@@ -10,12 +10,12 @@ public enum eChunkEffect
     waterTrail
 }
 
-[ExecuteAlways]
 [RequireComponent(typeof(Rigidbody))]
 public class Chunk : MonoBehaviour
 {
     // Public variables
     [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
+    [HideInInspector] public eChunkType m_chunkType = eChunkType.none;
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
@@ -65,20 +65,20 @@ public class Chunk : MonoBehaviour
         transform.DOKill();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        // If colliding with KillBox, ignore
+        // If colliding with hurtbox, ignore
+        Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
+        if (hurtboxCheck) { return; }
 
         // Did not hit ground or player
-        if (collision.collider.tag != "Ground" && collision.collider.tag != "Player")
+        if (other.tag != "Ground" && other.tag != "Player")
         {
             if (IsAgainstWall(m_rigidBody.velocity.normalized))
             {
                 SnapChunk();
             }
         }
-
-        // Boss stuff
     }
 
     // Called when chunk is to be raised
@@ -129,7 +129,7 @@ public class Chunk : MonoBehaviour
         // Enable the correct directional collider
         Vector3 cardinal = _hitVec.normalized;
         if (cardinal.x >= 0.9f) { m_posXCollider.enabled = true; }
-        else if (cardinal.x <= 0.9f) { m_negXCollider.enabled = true; }
+        else if (cardinal.x <= -0.9f) { m_negXCollider.enabled = true; }
         else if (cardinal.z >= 0.9f) { m_posZCollider.enabled = true; }
         else { m_negZCollider.enabled = true; } // else if (cardinal.z <= -1.0f)
 
@@ -161,6 +161,7 @@ public class Chunk : MonoBehaviour
     {
         m_rigidBody.isKinematic = false;
         m_mainCollider.enabled = false;
+        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     // Snaps a chunk to the nearest grid tile
@@ -170,6 +171,7 @@ public class Chunk : MonoBehaviour
 
         m_rigidBody.velocity = Vector3.zero;
         m_rigidBody.isKinematic = true;
+        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
         // Change colliders
         m_posXCollider.enabled = false;
@@ -179,7 +181,15 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = true;
 
         // Find nearest grid tile
+        Tile nearest = Grid.FindClosestTile(transform.position, true);
 
         // Snap to the nearest grid tile
+        if (nearest)
+        {
+            Vector3 newPos = nearest.transform.position;
+            newPos.y = transform.position.y;
+            transform.position = newPos;
+        }
+        else { Debug.LogError("Unable to find nearest tile to snap to"); }
     }
 }

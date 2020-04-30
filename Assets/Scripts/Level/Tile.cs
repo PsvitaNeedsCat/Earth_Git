@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 
     // Private variables
     GlobalTileSettings m_globalSettings;
-    eChunkType m_chunkType;
+    [SerializeField] eChunkType m_chunkType;
 
     // Tiles automatically added to and removed from grid over lifetime
     private void OnEnable() => Grid.AddTile(this);
@@ -34,6 +34,7 @@ public class Tile : MonoBehaviour
         // Spawn new chunk and raise it
         GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_chunkType];
         newChunk = Instantiate(chunkPrefab, transform.position, transform.rotation, null).GetComponent<Chunk>();
+        newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
 
         return newChunk;
