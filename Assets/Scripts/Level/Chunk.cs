@@ -65,24 +65,6 @@ public class Chunk : MonoBehaviour
         transform.DOKill();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // If colliding with KillBox, ignore
-        Hurtbox hurtboxCheck = collision.collider.GetComponent<Hurtbox>();
-        if (hurtboxCheck) { return; }
-
-        // Did not hit ground or player
-        if (collision.collider.tag != "Ground" && collision.collider.tag != "Player")
-        {
-            if (IsAgainstWall(m_rigidBody.velocity.normalized))
-            {
-                SnapChunk();
-            }
-        }
-
-        // Boss stuff
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         // If colliding with hurtbox, ignore
@@ -199,7 +181,15 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = true;
 
         // Find nearest grid tile
+        Tile nearest = Grid.FindClosestTile(transform.position, true);
 
         // Snap to the nearest grid tile
+        if (nearest)
+        {
+            Vector3 newPos = nearest.transform.position;
+            newPos.y = transform.position.y;
+            transform.position = newPos;
+        }
+        else { Debug.LogError("Unable to find nearest tile to snap to"); }
     }
 }
