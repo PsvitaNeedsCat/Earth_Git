@@ -15,6 +15,7 @@ public class Chunk : MonoBehaviour
 {
     // Public variables
     [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
+    [HideInInspector] public eChunkType m_chunkType = eChunkType.none;
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
