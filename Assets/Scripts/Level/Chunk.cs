@@ -67,6 +67,8 @@ public class Chunk : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // If colliding with KillBox, ignore
+        Hurtbox hurtboxCheck = collision.collider.GetComponent<Hurtbox>();
+        if (hurtboxCheck) { return; }
 
         // Did not hit ground or player
         if (collision.collider.tag != "Ground" && collision.collider.tag != "Player")
@@ -78,6 +80,22 @@ public class Chunk : MonoBehaviour
         }
 
         // Boss stuff
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // If colliding with hurtbox, ignore
+        Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
+        if (hurtboxCheck) { return; }
+
+        // Did not hit ground or player
+        if (other.tag != "Ground" && other.tag != "Player")
+        {
+            if (IsAgainstWall(m_rigidBody.velocity.normalized))
+            {
+                SnapChunk();
+            }
+        }
     }
 
     // Called when chunk is to be raised
@@ -128,7 +146,7 @@ public class Chunk : MonoBehaviour
         // Enable the correct directional collider
         Vector3 cardinal = _hitVec.normalized;
         if (cardinal.x >= 0.9f) { m_posXCollider.enabled = true; }
-        else if (cardinal.x <= 0.9f) { m_negXCollider.enabled = true; }
+        else if (cardinal.x <= -0.9f) { m_negXCollider.enabled = true; }
         else if (cardinal.z >= 0.9f) { m_posZCollider.enabled = true; }
         else { m_negZCollider.enabled = true; } // else if (cardinal.z <= -1.0f)
 
@@ -160,6 +178,7 @@ public class Chunk : MonoBehaviour
     {
         m_rigidBody.isKinematic = false;
         m_mainCollider.enabled = false;
+        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     // Snaps a chunk to the nearest grid tile
@@ -169,6 +188,7 @@ public class Chunk : MonoBehaviour
 
         m_rigidBody.velocity = Vector3.zero;
         m_rigidBody.isKinematic = true;
+        m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
         // Change colliders
         m_posXCollider.enabled = false;
