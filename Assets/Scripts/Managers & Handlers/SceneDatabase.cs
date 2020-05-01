@@ -12,6 +12,7 @@ public class SceneDatabase : MonoBehaviour
         public Vector3 m_position;
         public Quaternion m_rotation;
         public bool m_active;
+        public eChunkType m_chunkType = eChunkType.none;
     }
 
     private static SceneDatabase m_instance;
@@ -39,6 +40,8 @@ public class SceneDatabase : MonoBehaviour
     // Will be called when a new scene is successfully loaded
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
     {
+        ChunkManager.m_changingScene = false;
+
         // If level isn't in database; add it to the database
         if (!m_database.ContainsKey(_scene.name))
         {
@@ -55,6 +58,8 @@ public class SceneDatabase : MonoBehaviour
     {
         // Save this scene's data
         SaveSceneData(SceneManager.GetActiveScene().name);
+
+        ChunkManager.m_changingScene = true;
 
         // Load new scene
         SceneManager.LoadScene(_name);
@@ -74,13 +79,20 @@ public class SceneDatabase : MonoBehaviour
             {
                 current.m_position = currentObject.transform.position;
                 current.m_rotation = currentObject.transform.rotation;
+
+                // If object is a chunk and it is not fully raised, remove it
+                Chunk chunk = currentObject.GetComponent<Chunk>();
+                if (chunk && !chunk.m_isRaised)
+                {
+                    m_database[_name].RemoveAt(i);
+                }
             }
 
             current.m_active = currentObject;
         }
     }
 
-    public void AddToDatabse(string _name)
+    private void AddToDatabse(string _name)
     {
         List<ObjectData> data = new List<ObjectData>();
 
@@ -114,16 +126,13 @@ public class SceneDatabase : MonoBehaviour
                 // Object exists and is not meant to
                 Destroy(currentObject);
             }
-            else if (!currentObject)
+            else if (!currentObject && currentCheck.m_active)
             {
-                // Check if object is a chunk
-                Chunk chunkCheck = currentObject.GetComponent<Chunk>();
-                if (chunkCheck)
-                {
-                    // If chunk, then it should exist, but it wont
-                    GameObject prefab = m_tileSettings.m_chunkPrefabs[(int)chunkCheck.m_chunkType];
-                    Instantiate(prefab, currentCheck.m_position, currentCheck.m_rotation);
-                }
+                // Object does not exist but it is supposed to
+                GameObject prefab = m_tileSettings.m_chunkPrefabs[(int)currentCheck.m_chunkType];
+                GameObject newChunk = Instantiate(prefab, currentCheck.m_position, currentCheck.m_rotation);
+                newChunk.name = currentCheck.m_name;
+                newChunk.GetComponent<Chunk>().m_isRaised = true;
             }
             else
             {
@@ -133,5 +142,48 @@ public class SceneDatabase : MonoBehaviour
                 currentObject.transform.rotation = currentCheck.m_rotation;
             }
         }
+    }
+
+    public void AddChunk(Chunk _chunk)
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        // Check that it doesn't already exist
+        for (int i = 0; i < m_database[currentScene].Count; i++)
+        {
+            // It has a chunk type of not none (it is a chunk)
+            // & the position matches
+            if (m_database[currentScene][i].m_chunkType != eChunkType.none && 
+                m_database[currentScene][i].m_position == _chunk.transform.position)
+            {
+                // Chunk exists
+                return;
+            }
+        }
+
+        ObjectData newData = new ObjectData();
+        newData.m_name = _chunk.name;
+        newData.m_active = true;
+        newData.m_position = _chunk.transform.position;
+        newData.m_rotation = _chunk.transform.rotation;
+        newData.m_chunkType = _chunk.m_chunkType;
+
+        m_database[SceneManager.GetActiveScene().name].Add(newData);
+    }
+
+    public void RemoveChunk(Chunk _chunk)
+    {
+        // Check all object data in current scene
+        for (int i = 0; i < m_database[SceneManager.GetActiveScene().name].Count; i++)
+        {
+            // If the names match
+            if (m_database[SceneManager.GetActiveScene().name][i].m_name == _chunk.name)
+            {
+                m_database[SceneManager.GetActiveScene().name].RemoveAt(i);
+                return;
+            }
+        }
+
+        Debug.LogError("Unable to remove chunk from scene database");
     }
 }

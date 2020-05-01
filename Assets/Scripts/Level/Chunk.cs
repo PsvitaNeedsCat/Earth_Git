@@ -16,6 +16,7 @@ public class Chunk : MonoBehaviour
     // Public variables
     [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
     [HideInInspector] public eChunkType m_chunkType = eChunkType.none;
+    [HideInInspector] public bool m_isRaised = false;
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
@@ -23,7 +24,6 @@ public class Chunk : MonoBehaviour
     // Private variables
     private Rigidbody m_rigidBody;
     private Vector3 m_spawnPos;
-    private bool m_isRaised = false;
     GlobalChunkSettings m_globalSettings;
     private HealthComponent m_healthComp;
 
