@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    public System.Action OnHurt;
-    public System.Action OnHealed;
-    public System.Action OnDeath;
+    private System.Action OnHurt;
+    private System.Action OnHealed;
+    private System.Action OnDeath;
 
     private int m_maxHealth = int.MaxValue;
 
@@ -37,10 +37,14 @@ public class HealthComponent : MonoBehaviour
     }
 
     // Initialise health component with current and max health
-    public void Init(int _current, int _max)
+    public void Init(int _current, int _max, System.Action _onHurt, System.Action _onHealed, System.Action _onDeath)
     {
         m_curHealth = Mathf.Clamp(_current, 0, _max);
         m_maxHealth = _max;
+
+        OnHurt = _onHurt;
+        OnHealed = _onHealed;
+        OnDeath = _onDeath;
     }
 
     // Initialise health - assume current is max

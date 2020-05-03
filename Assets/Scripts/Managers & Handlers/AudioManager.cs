@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public class AudioManager : MonoBehaviour
 {
@@ -32,7 +31,7 @@ public class AudioManager : MonoBehaviour
         foreach (KeyValuePair<string, AudioClip> i in m_soundDictionary)
         {
             EMessageType listenerEnum;
-            Debug.Assert(Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
+            Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
             MessageBus.AddListener(listenerEnum, PlaySoundVaried);
         }
     }
@@ -43,7 +42,7 @@ public class AudioManager : MonoBehaviour
         foreach (KeyValuePair<string, AudioClip> i in m_soundDictionary)
         {
             EMessageType listenerEnum;
-            Debug.Assert(Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
+            Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
             MessageBus.RemoveListener(listenerEnum, PlaySoundVaried);
         }
     }
@@ -59,8 +58,8 @@ public class AudioManager : MonoBehaviour
         {
             soundEffectPlayer.transform.parent = this.transform;
             AudioSource audioSource = soundEffectPlayer.AddComponent<AudioSource>();
-            audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-            audioSource.volume = UnityEngine.Random.Range(0.8f, 1.0f);
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+            audioSource.volume = Random.Range(0.8f, 1.0f);
             audioSource.PlayOneShot(clip);
             Destroy(soundEffectPlayer, clip.length);
         }

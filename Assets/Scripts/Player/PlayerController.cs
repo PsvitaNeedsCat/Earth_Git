@@ -34,9 +34,7 @@ public class PlayerController : MonoBehaviour
 
         // Set health
         m_health = GetComponent<HealthComponent>();
-        m_health.Init(m_settings.m_defaultMaxHealth);
-        m_health.OnHurt = OnHurt;
-        m_health.OnDeath = OnDeath;
+        m_health.Init(m_settings.m_defaultMaxHealth, m_settings.m_defaultMaxHealth, OnHurt, null, OnDeath);
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
@@ -56,23 +54,30 @@ public class PlayerController : MonoBehaviour
     // Moves the player in a given direction
     public void Move(Vector2 _direction)
     {
-        // Get yaw
-        float yaw = Camera.main.transform.rotation.eulerAngles.y;
+        // Only rotate and move character if there is directional input
+        if (_direction.magnitude > 0.1f)
+        {
+            // Get yaw
+            float yaw = Camera.main.transform.rotation.eulerAngles.y;
 
-        // Convert to 3D
-        Vector3 moveDir = new Vector3(_direction.x, 0.0f, _direction.y);
+            // Convert to 3D
+            Vector3 moveDir = new Vector3(_direction.x, 0.0f, _direction.y);
 
-        // Rotate direction vector by yaw
-        moveDir = Quaternion.Euler(new Vector3(0.0f, yaw, 0.0f)) * moveDir;
+            // Rotate direction vector by yaw
+            moveDir = Quaternion.Euler(new Vector3(0.0f, yaw, 0.0f)) * moveDir;
 
-        // Set look direction
-        transform.forward = moveDir;
-        // Add force
-        m_rigidBody.AddForce(moveDir.normalized * m_settings.m_moveForce, ForceMode.Impulse);
+            // Set look direction
+            transform.forward = moveDir;
+
+            // Add force
+            m_rigidBody.AddForce(moveDir.normalized * m_settings.m_moveForce, ForceMode.Impulse);
+        }
+
+        ApplyDrag();
     }
 
     // Applies drag and gravity to the player
-    public void ApplyDrag()
+    private void ApplyDrag()
     {
         // Drag
         Vector3 vel = m_rigidBody.velocity;

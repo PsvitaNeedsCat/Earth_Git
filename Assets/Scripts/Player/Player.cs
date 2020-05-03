@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Public variables
+    public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
 
     // Private variables
@@ -36,19 +37,23 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Move player
-        if (m_moveDirection != Vector2.zero)
-        //if (Mathf.Abs(m_moveDirection.x) > 0.5f || Mathf.Abs(m_moveDirection.y) > 0.5f)
-        {
-            // Set animation
-            m_playerController.Move(m_moveDirection);
-        }
-        else
-        {
-            // Set animation
-        }
+        //// Move player
+        //if (m_moveDirection != Vector2.zero)
+        //{
+        //    // Set animation
+        //    m_playerController.Move(m_moveDirection);
+        //    m_animator.SetBool("Running", true);
+        //}
+        //else
+        //{
+        //    // Set animation
+        //}
 
-        m_playerController.ApplyDrag();
+        // Move player with provided input
+        m_playerController.Move(m_moveDirection);
+
+        // Update animator
+        m_animator.SetBool("Running", (m_moveDirection.magnitude > 0.1f));
 
         // Punch cooldown
         if (m_punchTimer > 0.0f)

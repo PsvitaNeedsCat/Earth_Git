@@ -8,7 +8,6 @@ public class PlayerInput : MonoBehaviour
 {
     // Public variables
 
-
     // Private variables
     private InputMaster m_controls;
     private Player m_player;
@@ -44,6 +43,10 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.AttemptRaiseChunk();
+
+        // Enable by default for now
+        SetMovement(true);
+        SetCombat(true);
     }
 
     private void OnDestroy()
