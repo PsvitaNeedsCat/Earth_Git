@@ -39,10 +39,11 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerMovement.Movement.performed += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
         m_controls.PlayerMovement.Movement.canceled += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
         // Punch
-        m_controls.PlayerCombat.Punch.performed += _ => m_player.AttemptPunch();
+        m_controls.PlayerCombat.Punch.performed += _ => m_player.StartPunchAnim();
         // Raise Chunk
         m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
-        m_controls.PlayerCombat.Raise.canceled += _ => m_player.AttemptRaiseChunk();
+        m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
+        m_controls.PlayerCombat.Raise.canceled += _ => m_player.DeactivateTileTargeter();
 
         // Enable by default for now
         SetMovement(true);

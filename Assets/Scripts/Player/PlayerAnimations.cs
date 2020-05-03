@@ -17,16 +17,21 @@ public class PlayerAnimations : MonoBehaviour
 
     public void AEPunch()
     {
+        m_player.AEPunch();
+    }
 
+    public void AERaiseChunk()
+    {
+        m_player.AERaiseChunk();
     }
 
     public void AEEnableMovement()
     {
-
+        m_playerInput.SetMovement(true);
     }
 
     public void AEDisableMovement()
     {
-
+        m_playerInput.SetMovement(false);
     }
 }

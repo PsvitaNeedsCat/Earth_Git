@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
-    [SerializeField] private GameObject m_tileTargeter;
+    [SerializeField] private TileTargeter m_tileTargeter;
 
     // Private variables
     private PlayerController m_instance;
@@ -106,17 +106,35 @@ public class PlayerController : MonoBehaviour
 
     public void ActivateTileTargeter()
     {
-        m_tileTargeter.SetActive(true);
+        m_tileTargeter.gameObject.SetActive(true);
     }
 
     public void DeactivateTileTargeter()
     {
-        m_tileTargeter.SetActive(false);
+        m_tileTargeter.gameObject.SetActive(false);
     }
 
-    // Called by animator
+    public bool TryConfirmChunk()
+    {
+        Tile tile = m_tileTargeter.GetClosest();
+
+        if (tile)
+        {
+            bool tileFree = !tile.IsOccupied();
+
+            if (tileFree) { m_confirmedTile = tile; }
+            else { m_confirmedTile = null; }
+
+            return tileFree;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // Raises a given chunk
-    public void RaiseChunk()
+    public void TryRaiseChunk()
     {
         Debug.Assert(m_confirmedTile, "Confirmed tile was null");
 

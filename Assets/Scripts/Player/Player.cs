@@ -37,18 +37,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //// Move player
-        //if (m_moveDirection != Vector2.zero)
-        //{
-        //    // Set animation
-        //    m_playerController.Move(m_moveDirection);
-        //    m_animator.SetBool("Running", true);
-        //}
-        //else
-        //{
-        //    // Set animation
-        //}
-
         // Move player with provided input
         m_playerController.Move(m_moveDirection);
 
@@ -69,7 +57,7 @@ public class Player : MonoBehaviour
     }
 
     // Attempts to punch
-    public void AttemptPunch()
+    public void TryPunch()
     {
         if (m_punchTimer <= 0.0f)
         {
@@ -80,40 +68,71 @@ public class Player : MonoBehaviour
     }
 
     // Attempts to raise a chunk
-    public void AttemptRaiseChunk()
-    {
-        if (m_raiseTimer <= 0.0f)
-        {
-            // Try confirm chunk
-            Tile closestTile = m_tileTargeter.GetClosest();
+    //public void TryRaiseChunk()
+    //{
+    //    if (m_raiseTimer <= 0.0f)
+    //    {
+    //        // Try confirm chunk
+    //        Tile closestTile = m_tileTargeter.GetClosest();
 
-            // Closest tile exists
-            // And is free
-            if (closestTile && !closestTile.IsOccupied())
-            {
-                // CHUNK IS GOOD TO RAISE
+    //        // Closest tile exists
+    //        // And is free
+    //        if (closestTile && !closestTile.IsOccupied())
+    //        {
+    //            // CHUNK IS GOOD TO RAISE
 
-                m_raiseTimer = m_settings.m_raiseCooldown;
+    //            m_raiseTimer = m_settings.m_raiseCooldown;
 
-                m_playerController.m_confirmedTile = closestTile;
+    //            m_playerController.m_confirmedTile = closestTile;
 
-                // Remove this when animator is set
-                m_playerController.RaiseChunk();
+    //            // Remove this when animator is set
+    //            m_playerController.RaiseChunk();
 
-                // Set animation trigger
-            }
-        }
+    //            // Set animation trigger
+    //        }
+    //    }
 
-        DeactivateTileTargeter();
-    }
+    //    DeactivateTileTargeter();
+    //}
 
     public void ActivateTileTargeter()
     {
         m_playerController.ActivateTileTargeter();
     }
 
-    private void DeactivateTileTargeter()
+    public void DeactivateTileTargeter()
     {
         m_playerController.DeactivateTileTargeter();
+    }
+
+    // Starts the punch animation, if possible
+    public void StartPunchAnim()
+    {
+        if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch")) { return; }
+
+        m_animator.SetTrigger("Punch");
+    }
+
+    // Starts the chunk raise animation, if possible
+    public void StartRaiseChunkAnim()
+    {
+        if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Summon")) { return; }
+
+        if (m_playerController.TryConfirmChunk())
+        {
+            m_animator.SetTrigger("Summon");
+        }
+    }
+
+    // Called by animation event, triggers punch
+    public void AEPunch()
+    {
+        TryPunch();
+    }
+
+    // Called by animation event, triggers raise chunk
+    public void AERaiseChunk()
+    {
+        m_playerController.TryRaiseChunk();
     }
 }
