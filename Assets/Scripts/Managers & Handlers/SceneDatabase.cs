@@ -30,11 +30,20 @@ public class SceneDatabase : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         m_tileSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
+
+        SceneManager.sceneLoaded += SceneLoaded;
     }
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += SceneLoaded;
+        // Add listeners
+        MessageBus.AddListener(EMessageType.spittingEnemyDestroyed, EnemyDestroyed);
+    }
+
+    private void OnDisable()
+    {
+        // Remove listeners
+        MessageBus.RemoveListener(EMessageType.spittingEnemyDestroyed, EnemyDestroyed);
     }
 
     // Will be called when a new scene is successfully loaded
@@ -96,14 +105,16 @@ public class SceneDatabase : MonoBehaviour
     {
         List<ObjectData> data = new List<ObjectData>();
 
-        // Save all cubes - test
-        CheckCube[] cubes = FindObjectsOfType<CheckCube>();
-        for (int i = 0; i < cubes.Length; i++)
+        // Save all object data
+        // To be added
+        // for (int i = 0; i < FindObjectsOfType<SpittingEnemy>().Length; i++)
+        // Create ObjectData and add to data
+        foreach (SpittingEnemy i in FindObjectsOfType<SpittingEnemy>())
         {
             ObjectData newData = new ObjectData();
-            newData.m_name = cubes[i].name;
-            newData.m_position = cubes[i].transform.position;
-            newData.m_rotation = cubes[i].transform.rotation;
+            newData.m_name = i.name;
+            newData.m_position = i.transform.position;
+            newData.m_rotation = i.transform.rotation;
             newData.m_active = true;
 
             data.Add(newData);
@@ -185,5 +196,20 @@ public class SceneDatabase : MonoBehaviour
         }
 
         Debug.LogError("Unable to remove chunk from scene database");
+    }
+
+    private void EnemyDestroyed(string _name)
+    {
+        // For every object in current scene
+        foreach (ObjectData i in m_database[SceneManager.GetActiveScene().name])
+        {
+            if (i.m_name == _name)
+            {
+                i.m_active = false;
+                return;
+            }
+        }
+
+        Debug.LogError("Could not find enemy with name: " + _name);
     }
 }

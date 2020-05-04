@@ -50,8 +50,12 @@ public class AudioManager : MonoBehaviour
     private void PlaySoundVaried(string soundName)
     {
         AudioClip clip = m_soundDictionary[soundName];
-
-        Debug.Assert(clip, "Couldn't find audio clip");
+        
+        if (!clip)
+        {
+            Debug.Log("Sound effect could not be found with name: " + soundName);
+            return;
+        }
 
         GameObject soundEffectPlayer = new GameObject("SoundEffectPlayer");
         if (soundEffectPlayer)
