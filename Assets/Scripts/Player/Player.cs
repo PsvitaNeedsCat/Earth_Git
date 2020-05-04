@@ -68,32 +68,32 @@ public class Player : MonoBehaviour
     }
 
     // Attempts to raise a chunk
-    //public void TryRaiseChunk()
-    //{
-    //    if (m_raiseTimer <= 0.0f)
-    //    {
-    //        // Try confirm chunk
-    //        Tile closestTile = m_tileTargeter.GetClosest();
+    public void TryRaiseChunk()
+    {
+        if (m_raiseTimer <= 0.0f)
+        {
+            // Try confirm chunk
+            Tile closestTile = m_tileTargeter.GetClosest();
 
-    //        // Closest tile exists
-    //        // And is free
-    //        if (closestTile && !closestTile.IsOccupied())
-    //        {
-    //            // CHUNK IS GOOD TO RAISE
+            // Closest tile exists
+            // And is free
+            if (closestTile && !closestTile.IsOccupied())
+            {
+                // CHUNK IS GOOD TO RAISE
 
-    //            m_raiseTimer = m_settings.m_raiseCooldown;
+                m_raiseTimer = m_settings.m_raiseCooldown;
 
-    //            m_playerController.m_confirmedTile = closestTile;
+                m_playerController.m_confirmedTile = closestTile;
 
-    //            // Remove this when animator is set
-    //            m_playerController.RaiseChunk();
+                // Remove this when animator is set
+                m_playerController.RaiseChunk();
 
-    //            // Set animation trigger
-    //        }
-    //    }
+                // Set animation trigger
+            }
+        }
 
-    //    DeactivateTileTargeter();
-    //}
+        DeactivateTileTargeter();
+    }
 
     public void ActivateTileTargeter()
     {
@@ -122,17 +122,5 @@ public class Player : MonoBehaviour
         {
             m_animator.SetTrigger("Summon");
         }
-    }
-
-    // Called by animation event, triggers punch
-    public void AEPunch()
-    {
-        TryPunch();
-    }
-
-    // Called by animation event, triggers raise chunk
-    public void AERaiseChunk()
-    {
-        m_playerController.TryRaiseChunk();
     }
 }

@@ -35,8 +35,9 @@ public class SpittingEnemy : MonoBehaviour
     {
         if (other.GetComponent<Chunk>())
         {
+            // Destroy chunk
             Destroy(other.gameObject);
-            MessageBus.TriggerEvent(EMessageType.spittingEnemyDestroyed, gameObject.name);
+            // Destroy itself
             Destroy(this.gameObject);
         }
     }

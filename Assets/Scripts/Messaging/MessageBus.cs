@@ -20,7 +20,6 @@ public enum EMessageType
     projectileSplash,
     tongueStuck,
     enemySwallow,
-    spittingEnemyDestroyed,
     enemySpit,
 
     // Player

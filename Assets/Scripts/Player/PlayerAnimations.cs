@@ -17,12 +17,12 @@ public class PlayerAnimations : MonoBehaviour
 
     public void AEPunch()
     {
-        m_player.AEPunch();
+        m_player.TryPunch();
     }
 
     public void AERaiseChunk()
     {
-        m_player.AERaiseChunk();
+        m_player.TryRaiseChunk();
     }
 
     public void AEEnableMovement()

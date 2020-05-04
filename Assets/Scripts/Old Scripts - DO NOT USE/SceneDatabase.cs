@@ -34,23 +34,9 @@ public class SceneDatabase : MonoBehaviour
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
-    private void OnEnable()
-    {
-        // Add listeners
-        MessageBus.AddListener(EMessageType.spittingEnemyDestroyed, EnemyDestroyed);
-    }
-
-    private void OnDisable()
-    {
-        // Remove listeners
-        MessageBus.RemoveListener(EMessageType.spittingEnemyDestroyed, EnemyDestroyed);
-    }
-
     // Will be called when a new scene is successfully loaded
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
     {
-        ChunkManager.m_changingScene = false;
-
         // If level isn't in database; add it to the database
         if (!m_database.ContainsKey(_scene.name))
         {
@@ -66,9 +52,6 @@ public class SceneDatabase : MonoBehaviour
     public void LoadScene(string _name)
     {
         // Save this scene's data
-        SaveSceneData(SceneManager.GetActiveScene().name);
-
-        ChunkManager.m_changingScene = true;
 
         // Load new scene
         SceneManager.LoadScene(_name);
