@@ -37,8 +37,6 @@ public class Tile : MonoBehaviour
         newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
 
-        SceneDatabase.Instance.AddChunk(newChunk);
-
         return newChunk;
     }
 

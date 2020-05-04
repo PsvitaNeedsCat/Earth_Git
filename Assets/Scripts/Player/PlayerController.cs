@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Raises a given chunk
-    public void TryRaiseChunk()
+    public void RaiseChunk()
     {
         Debug.Assert(m_confirmedTile, "Confirmed tile was null");
 

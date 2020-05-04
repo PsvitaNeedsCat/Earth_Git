@@ -30,18 +30,13 @@ public class SceneDatabase : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         m_tileSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
-    }
 
-    private void OnEnable()
-    {
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
     // Will be called when a new scene is successfully loaded
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
     {
-        ChunkManager.m_changingScene = false;
-
         // If level isn't in database; add it to the database
         if (!m_database.ContainsKey(_scene.name))
         {
@@ -57,9 +52,6 @@ public class SceneDatabase : MonoBehaviour
     public void LoadScene(string _name)
     {
         // Save this scene's data
-        SaveSceneData(SceneManager.GetActiveScene().name);
-
-        ChunkManager.m_changingScene = true;
 
         // Load new scene
         SceneManager.LoadScene(_name);
@@ -96,14 +88,16 @@ public class SceneDatabase : MonoBehaviour
     {
         List<ObjectData> data = new List<ObjectData>();
 
-        // Save all cubes - test
-        CheckCube[] cubes = FindObjectsOfType<CheckCube>();
-        for (int i = 0; i < cubes.Length; i++)
+        // Save all object data
+        // To be added
+        // for (int i = 0; i < FindObjectsOfType<SpittingEnemy>().Length; i++)
+        // Create ObjectData and add to data
+        foreach (SpittingEnemy i in FindObjectsOfType<SpittingEnemy>())
         {
             ObjectData newData = new ObjectData();
-            newData.m_name = cubes[i].name;
-            newData.m_position = cubes[i].transform.position;
-            newData.m_rotation = cubes[i].transform.rotation;
+            newData.m_name = i.name;
+            newData.m_position = i.transform.position;
+            newData.m_rotation = i.transform.rotation;
             newData.m_active = true;
 
             data.Add(newData);
@@ -185,5 +179,20 @@ public class SceneDatabase : MonoBehaviour
         }
 
         Debug.LogError("Unable to remove chunk from scene database");
+    }
+
+    private void EnemyDestroyed(string _name)
+    {
+        // For every object in current scene
+        foreach (ObjectData i in m_database[SceneManager.GetActiveScene().name])
+        {
+            if (i.m_name == _name)
+            {
+                i.m_active = false;
+                return;
+            }
+        }
+
+        Debug.LogError("Could not find enemy with name: " + _name);
     }
 }

@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour
 {
-    public static bool m_changingScene = false;
-
     static List<Chunk> m_chunks = new List<Chunk>();
 
-    public static void AddChunk(Chunk _newChunk)
-    {
-        m_chunks.Add(_newChunk);
-    }
+    public static void AddChunk(Chunk _newChunk) => m_chunks.Add(_newChunk);
     public static int NumChunks() => m_chunks.Count;
 
     public static void RemoveChunk(Chunk _removeChunk)
     {
-        if (!m_changingScene) { SceneDatabase.Instance.RemoveChunk(_removeChunk); }
         Destroy(_removeChunk.gameObject);
         m_chunks.Remove(_removeChunk);
     }

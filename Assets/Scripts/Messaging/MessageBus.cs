@@ -20,6 +20,7 @@ public enum EMessageType
     projectileSplash,
     tongueStuck,
     enemySwallow,
+    enemySpit,
 
     // Player
     playerHurt,
@@ -66,6 +67,16 @@ public static class MessageBus
         if (m_eventDict.TryGetValue(_type, out checkEvent))
         {
             checkEvent -= _listener;
+        }
+    }
+
+    public static void TriggerEvent(EMessageType _type, string _param)
+    {
+        System.Action<string> triggerEvent = null;
+
+        if (m_eventDict.TryGetValue(_type, out triggerEvent))
+        {
+            triggerEvent.Invoke(_param);
         }
     }
 
