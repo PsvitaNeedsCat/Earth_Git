@@ -32,6 +32,7 @@ public class Chunk : MonoBehaviour
     [SerializeField] private Collider m_negXCollider;
     [SerializeField] private Collider m_posZCollider;
     [SerializeField] private Collider m_negZCollider;
+
     [SerializeField] private Collider m_mainCollider;
 
     // Chunks automatically added and removed to chunk manager over lifetime
@@ -158,7 +159,6 @@ public class Chunk : MonoBehaviour
     public void Detach()
     {
         m_rigidBody.isKinematic = false;
-        m_mainCollider.enabled = false;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
@@ -172,11 +172,7 @@ public class Chunk : MonoBehaviour
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
         // Change colliders
-        m_posXCollider.enabled = false;
-        m_negXCollider.enabled = false;
-        m_posZCollider.enabled = false;
-        m_negZCollider.enabled = false;
-        m_mainCollider.enabled = true;
+        DisableAllColliders();
 
         // Find nearest grid tile
         Tile nearest = Grid.FindClosestTileAny(transform.position);
@@ -189,5 +185,24 @@ public class Chunk : MonoBehaviour
             transform.position = newPos;
         }
         else { Debug.LogError("Unable to find nearest tile to snap to"); }
+    }
+
+    private void DisableAllColliders()
+    {
+        m_posXCollider.enabled = false;
+        m_negXCollider.enabled = false;
+        m_posZCollider.enabled = false;
+        m_negZCollider.enabled = false;
+    }
+
+    // Snaps the chunk to a given position
+    public void SnapToTongue(Vector3 _tonguePos)
+    {
+        m_rigidBody.velocity = Vector3.zero;
+
+        DisableAllColliders();
+        m_mainCollider.enabled = false;
+
+        transform.DOMove(_tonguePos, 0.2f);
     }
 }
