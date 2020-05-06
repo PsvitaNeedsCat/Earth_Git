@@ -24,8 +24,8 @@ public class Grid : MonoBehaviour
         m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
-    // Finds the closest tile to a query position, either including or excluding tiles of type 'none', that can't be raised
-    public static Tile FindClosestTile(Vector3 _queryPosition, bool _includeUnraisable)
+    // Finds the closest tile to a query position - excluding tiles that are too close, or tiles that cannot be raised
+    public static Tile FindClosestTile(Vector3 _queryPosition, Vector3 _playerPos)
     {
         float closestDist = float.MaxValue;
         Tile closestTile = null;
@@ -34,16 +34,40 @@ public class Grid : MonoBehaviour
         foreach (Tile tile in m_tiles)
         {
             // If not including tiles of type 'none', and this is one, skip it
-            if (!_includeUnraisable && tile.GetTileType() == eChunkType.none) { continue; }
+            if (tile.GetTileType() == eChunkType.none) { continue; }
+
+            Vector3 toPlayer = tile.transform.position - _playerPos;
+            toPlayer.y = 0.0f;
+
+            if (toPlayer.magnitude < m_playerSettings.m_minTileRange) { continue; }
 
             float dist = (tile.transform.position - _queryPosition).magnitude;
-            if (!_includeUnraisable && dist < m_playerSettings.m_minTileRange) { continue; }
 
             // If this tile is closer than current closest, update current closest
             if (dist < closestDist)
             {
                 closestTile = tile;
                 closestDist = dist;
+            }
+        }
+
+        return closestTile;
+    }
+
+    // Finds the closest tile with no restrictions
+    public static Tile FindClosestTileAny(Vector3 _queryPosition)
+    {
+        float closestDist = float.MaxValue;
+        Tile closestTile = null;
+
+        foreach (Tile tile in m_tiles)
+        {
+            float dist = (tile.transform.position - _queryPosition).magnitude;
+
+            if (dist < closestDist)
+            {
+                closestDist = dist;
+                closestTile = tile;
             }
         }
 

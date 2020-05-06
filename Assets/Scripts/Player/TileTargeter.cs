@@ -32,7 +32,7 @@ public class TileTargeter : MonoBehaviour
     // Update is only called when tile targeter is active
     private void Update()
     {
-        m_closestTile = Grid.FindClosestTile(transform.position, false);
+        m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 
         if (!m_closestTile) { return; }
 

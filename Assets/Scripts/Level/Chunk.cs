@@ -179,7 +179,7 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = true;
 
         // Find nearest grid tile
-        Tile nearest = Grid.FindClosestTile(transform.position, true);
+        Tile nearest = Grid.FindClosestTileAny(transform.position);
 
         // Snap to the nearest grid tile
         if (nearest)
