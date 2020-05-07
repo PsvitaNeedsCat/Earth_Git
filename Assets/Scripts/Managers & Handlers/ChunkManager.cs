@@ -9,6 +9,17 @@ public class ChunkManager : MonoBehaviour
     public static void AddChunk(Chunk _newChunk) => m_chunks.Add(_newChunk);
     public static int NumChunks() => m_chunks.Count;
 
+    int oldCount = 0;
+
+    private void Update()
+    {
+        if (oldCount != m_chunks.Count)
+        {
+            oldCount = m_chunks.Count;
+            Debug.Log("New count: " + oldCount);
+        }
+    }
+
     public static void RemoveChunk(Chunk _removeChunk)
     {
         Destroy(_removeChunk.gameObject);

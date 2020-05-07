@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.InputSystem;
-
 public class TongueEnemy : MonoBehaviour
 {
     public enum State
@@ -33,9 +31,10 @@ public class TongueEnemy : MonoBehaviour
             m_tongueTimer -= Time.deltaTime;
             if (m_tongueTimer <= 0.0f)
             {
-                m_tongueTimer = m_settings.m_TongueCooldown;
-
                 m_state = State.extending;
+
+                m_tongueTimer = m_settings.m_TongueCooldown;
+                
                 m_tongue.gameObject.SetActive(true);
                 m_tongue.Extend();
             }

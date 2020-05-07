@@ -26,6 +26,7 @@ public class Chunk : MonoBehaviour
     private Vector3 m_spawnPos;
     GlobalChunkSettings m_globalSettings;
     private HealthComponent m_healthComp;
+    private Vector3 m_prevVelocity = Vector3.zero;
 
     // Hitboxes
     [SerializeField] private Collider m_posXCollider;
@@ -73,11 +74,16 @@ public class Chunk : MonoBehaviour
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player")
         {
-            if (IsAgainstWall(m_rigidBody.velocity.normalized))
+            if (IsAgainstWall(m_prevVelocity.normalized))
             {
                 SnapChunk();
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        m_prevVelocity = m_rigidBody.velocity;
     }
 
     // Called when chunk is to be raised
@@ -142,7 +148,7 @@ public class Chunk : MonoBehaviour
     {
         // Start position - almost the bottom of the chunk
         Vector3 checkPosition = transform.position;
-        checkPosition.y -= m_globalSettings.m_chunkHeight * 0.5f - 0.5f;
+        checkPosition.y -= m_globalSettings.m_chunkHeight * 0.4f;
 
         // Raycast in the direction of the hit vector for half a chunk's length
         RaycastHit hit;
@@ -165,6 +171,8 @@ public class Chunk : MonoBehaviour
     // Snaps a chunk to the nearest grid tile
     private void SnapChunk()
     {
+        Debug.Log("Snapped");
+
         // Play sound
 
         m_rigidBody.velocity = Vector3.zero;

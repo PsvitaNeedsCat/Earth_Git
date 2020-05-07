@@ -21,24 +21,27 @@ public class Tongue : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Chunk chunk = other.GetComponent<Chunk>();
-
-        // If tongue hit a chunk
+        // Hits a chunk
+        Chunk chunk = other.transform.parent.GetComponent<Chunk>();
         if (chunk)
         {
             chunk.SnapToTongue(transform.position);
             chunk.transform.parent = transform;
             m_attachedChunk = chunk;
-        }
-        else
-        {
-            Player player = other.GetComponent<Player>();
 
-            if (player)
-            {
-                // Hit player object
-                player.GetComponent<HealthComponent>().Health -= m_settings.m_tongueDamage;
-            }
+            Retract();
+            return;
+        }
+
+        // Hits player
+        Player player = other.GetComponent<Player>();
+        if (player)
+        {
+            // Hit player object
+            player.GetComponent<HealthComponent>().Health -= m_settings.m_tongueDamage;
+
+            Retract();
+            return;
         }
     }
 

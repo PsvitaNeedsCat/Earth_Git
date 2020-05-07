@@ -29,7 +29,7 @@ public class Hurtbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Chunk chunk = other.GetComponent<Chunk>();
+        Chunk chunk = other.transform.parent.GetComponent<Chunk>();
 
         // Check collision is a chunk
         if (chunk)

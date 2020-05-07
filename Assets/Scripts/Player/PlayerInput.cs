@@ -43,7 +43,6 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
-        m_controls.PlayerCombat.Raise.canceled += _ => m_player.DeactivateTileTargeter();
 
         // Enable by default for now
         SetMovement(true);
