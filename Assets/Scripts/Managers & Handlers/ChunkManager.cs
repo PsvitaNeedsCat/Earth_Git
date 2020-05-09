@@ -7,6 +7,7 @@ public class ChunkManager : MonoBehaviour
     static List<Chunk> m_chunks = new List<Chunk>();
 
     public static void AddChunk(Chunk _newChunk) => m_chunks.Add(_newChunk);
+    public static void RemoveChunk(Chunk _removeChunk) => m_chunks.Remove(_removeChunk);
     public static int NumChunks() => m_chunks.Count;
 
     int oldCount = 0;
@@ -18,12 +19,6 @@ public class ChunkManager : MonoBehaviour
             oldCount = m_chunks.Count;
             Debug.Log("New count: " + oldCount);
         }
-    }
-
-    public static void RemoveChunk(Chunk _removeChunk)
-    {
-        Destroy(_removeChunk.gameObject);
-        m_chunks.Remove(_removeChunk);
     }
 
     public static void RemoveOldest()

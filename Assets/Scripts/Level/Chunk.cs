@@ -53,6 +53,8 @@ public class Chunk : MonoBehaviour
         m_spawnPos = transform.position;
 
         m_globalSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
+
+        transform.parent = RoomManager.Instance.GetActiveRoom().transform;
     }
 
     private void OnApplicationQuit()

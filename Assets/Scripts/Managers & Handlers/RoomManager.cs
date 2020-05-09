@@ -9,6 +9,7 @@ public class RoomManager : MonoBehaviour
     private int m_currentRoom = 0;
 
     private static RoomManager m_instance;
+    public static RoomManager Instance { get { return m_instance; } }
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    // Changes which room is active
     public void ChangeRooms(string _roomName)
     {
         // Find room index
@@ -43,5 +45,11 @@ public class RoomManager : MonoBehaviour
         }
 
         Debug.LogError("Cannot find room with name: " + _roomName);
+    }
+
+    // Returns the active room
+    public GameObject GetActiveRoom()
+    {
+        return m_rooms[m_currentRoom];
     }
 }
