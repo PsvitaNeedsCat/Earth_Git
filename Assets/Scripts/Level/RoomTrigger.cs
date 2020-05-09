@@ -11,7 +11,8 @@ public class RoomTrigger : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player)
         {
-            RoomManager.Instance.ChangeRooms(m_roomName);
+            // Set room manager
+            RoomManager.Instance.PrepareToChangeRoom(m_roomName);
         }
     }
 }
