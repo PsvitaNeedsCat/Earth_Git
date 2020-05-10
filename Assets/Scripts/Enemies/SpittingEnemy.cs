@@ -57,5 +57,6 @@ public class SpittingEnemy : MonoBehaviour
         Vector3 projScale = projectile.transform.localScale;
         projectile.transform.localScale = projScale * 0.1f;
         projectile.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic);
+        projectile.transform.parent = RoomManager.Instance.GetActiveRoom().transform;
     }
 }

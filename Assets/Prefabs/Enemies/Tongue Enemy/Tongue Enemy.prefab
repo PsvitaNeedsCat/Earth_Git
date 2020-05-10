@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6700608545754612934}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Max Tongue Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1531495243231871202}
   - component: {fileID: 6446082385760486579}
   - component: {fileID: 3943237838495173877}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tongue Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 6860268552343727988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2.1159, z: 1}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_Children:
   - {fileID: 1166584129625477113}
   - {fileID: 6700608545754612934}
@@ -155,6 +155,11 @@ PrefabInstance:
     - target: {fileID: 2652000566719500406, guid: bfbb2cb7bb769794ca5a8544ed1fdd8d,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652000566719500406, guid: bfbb2cb7bb769794ca5a8544ed1fdd8d,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5492564689836268643, guid: bfbb2cb7bb769794ca5a8544ed1fdd8d,

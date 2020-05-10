@@ -73,6 +73,10 @@ public class Chunk : MonoBehaviour
         Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
         if (hurtboxCheck) { return; }
 
+        // If hit projectile, ignore
+        SpitProjectile projectile = other.GetComponent<SpitProjectile>();
+        if (projectile) { return; }
+
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player")
         {

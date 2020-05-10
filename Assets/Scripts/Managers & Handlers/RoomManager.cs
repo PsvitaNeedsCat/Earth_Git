@@ -9,6 +9,7 @@ public class RoomManager : MonoBehaviour
     private int m_currentRoom = 0;
     private int m_newRoom;
     private Animator m_blackWall;
+    private PlayerInput m_playerInput;
 
     private static RoomManager m_instance;
     public static RoomManager Instance { get { return m_instance; } }
@@ -20,6 +21,8 @@ public class RoomManager : MonoBehaviour
 
         m_blackWall = FindObjectOfType<BlackWallAnimator>().GetComponent<Animator>();
         Debug.Assert(m_blackWall, "Cannot find black wall animator");
+        m_playerInput = FindObjectOfType<PlayerInput>();
+        Debug.Assert(m_playerInput, "Cannot find player input");
 
         for (int i = 0; i < m_rooms.Length; i++)
         {
@@ -38,6 +41,7 @@ public class RoomManager : MonoBehaviour
         m_rooms[m_currentRoom].SetActive(true);
 
         m_blackWall.SetTrigger("FadeToGame");
+        m_playerInput.SetMovement(true);
     }
 
     // Sets the room ready to change to
@@ -52,6 +56,7 @@ public class RoomManager : MonoBehaviour
                 if (i == m_currentRoom) { return; }
 
                 // Room is valid
+                m_playerInput.SetMovement(false);
                 m_newRoom = i;
                 m_blackWall.SetTrigger("FadeToBlack");
                 return;

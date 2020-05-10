@@ -21,6 +21,8 @@ public class Tongue : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Tongue hit");
+
         // Hits a chunk
         Chunk chunk = other.transform.parent.GetComponent<Chunk>();
         if (chunk)
