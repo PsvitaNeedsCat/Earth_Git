@@ -35,8 +35,8 @@ public class Chunk : MonoBehaviour
     [SerializeField] private Collider m_mainCollider;
 
     // Chunks automatically added and removed to chunk manager over lifetime
-    [ExecuteAlways] private void OnEnable() => ChunkManager.AddChunk(this);
-    [ExecuteAlways] private void OnDisable() => ChunkManager.RemoveChunk(this);
+    private void OnEnable() => ChunkManager.AddChunk(this);
+    private void OnDisable() => ChunkManager.RemoveChunk(this);
 
     private void Awake()
     {
@@ -189,5 +189,17 @@ public class Chunk : MonoBehaviour
             transform.position = newPos;
         }
         else { Debug.LogError("Unable to find nearest tile to snap to"); }
+    }
+
+    public void OnStuckToTongue()
+    {
+        // Change colliders
+        m_posXCollider.enabled = false;
+        m_negXCollider.enabled = false;
+        m_posZCollider.enabled = false;
+        m_negZCollider.enabled = false;
+        m_mainCollider.enabled = false;
+
+        m_rigidBody.velocity = Vector3.zero;
     }
 }

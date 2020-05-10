@@ -8,9 +8,13 @@ public class HealthComponent : MonoBehaviour
     private System.Action OnHealed;
     private System.Action OnDeath;
 
+    public enum EHealthType { player, enemy, boss }
+    public EHealthType m_type;
+
     private int m_maxHealth = int.MaxValue;
 
-    private bool isDead = false;
+    private bool m_isDead = false;
+    public bool IsInvincible { get; set; } = false;
 
     private int m_curHealth = 1;
     public int Health
@@ -19,10 +23,13 @@ public class HealthComponent : MonoBehaviour
         set
         {
             // Disable set behaviour once dead
-            if (isDead) return;
+            if (m_isDead) return;
 
             // Check if health changed, and call appropriate callbacks
             int delta = Mathf.Clamp(m_curHealth - value, 0, m_maxHealth);
+
+            // If invincible, cannot be damaged, but can still be healed
+            if (IsInvincible && delta < 0) { delta = 0; }
             if (delta > 0) OnHealed?.Invoke();
             if (delta < 0) OnHurt?.Invoke();
 
@@ -30,7 +37,7 @@ public class HealthComponent : MonoBehaviour
             m_curHealth += delta;
             if (m_curHealth == 0)
             {
-                isDead = true;
+                m_isDead = true;
                 OnDeath?.Invoke();
             }
         }

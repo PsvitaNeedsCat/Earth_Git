@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     // Public variables
-
+    public static readonly float m_tileSize = 1.0f;
 
     // Private variables
     private Grid m_instance;
@@ -14,6 +14,7 @@ public class Grid : MonoBehaviour
 
     public static void AddTile(Tile _newTile) => m_tiles.Add(_newTile);
     public static void RemoveTile(Tile _removeTile) => m_tiles.Remove(_removeTile);
+    public static List<Tile> GetTiles() { return m_tiles; }
 
     private void Awake()
     {
