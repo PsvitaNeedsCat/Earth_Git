@@ -26,7 +26,7 @@ public class ToadTongueCollider : MonoBehaviour
         // If a chunk isn't attached, see if we have hit one
         if (!m_attachedChunk)
         {
-            Chunk chunk = _other.GetComponent<Chunk>();
+            Chunk chunk = _other.GetComponentInParent<Chunk>();
 
             if (chunk)
             {

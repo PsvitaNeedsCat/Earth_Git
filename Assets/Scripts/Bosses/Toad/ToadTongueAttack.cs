@@ -68,7 +68,7 @@ public class ToadTongueAttack : ToadBehaviour
             return;
         }
 
-        m_tongueAnimator.SetFloat("TongueExtendDirection", -1.0f);
+        m_tongueAnimator.SetFloat("ExtendDirection", -1.0f);
 
         m_isRetracting = true;
     }
