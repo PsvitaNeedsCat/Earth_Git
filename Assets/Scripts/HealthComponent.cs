@@ -26,7 +26,7 @@ public class HealthComponent : MonoBehaviour
             if (m_isDead) return;
 
             // Check if health changed, and call appropriate callbacks
-            int delta = Mathf.Clamp(m_curHealth - value, 0, m_maxHealth);
+            int delta = value - m_curHealth;
 
             // If invincible, cannot be damaged, but can still be healed
             if (IsInvincible && delta < 0) { delta = 0; }
@@ -35,6 +35,7 @@ public class HealthComponent : MonoBehaviour
 
             // Update health, and check for death
             m_curHealth += delta;
+            m_curHealth = Mathf.Clamp(m_curHealth, 0, m_maxHealth);
             if (m_curHealth == 0)
             {
                 m_isDead = true;
