@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // Public variables
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
+    [HideInInspector] public bool m_hasKey = false;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
