@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
         if (newChunk)
         {
-            if (ChunkManager.NumChunks() >= m_settings.m_maxChunks)
+            if (ChunkManager.NumChunks() > m_settings.m_maxChunks)
             {
                 ChunkManager.RemoveOldest();
             }
