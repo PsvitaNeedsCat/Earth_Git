@@ -204,6 +204,7 @@ public class Chunk : MonoBehaviour
     public void OnStuckToTongue()
     {
         DisableAllColliders();
+        m_mainCollider.enabled = false;
         m_rigidBody.velocity = Vector3.zero;
     }
         
@@ -214,7 +215,6 @@ public class Chunk : MonoBehaviour
         m_negXCollider.enabled = false;
         m_posZCollider.enabled = false;
         m_negZCollider.enabled = false;
-        m_mainCollider.enabled = false;
     }
 
     // Snaps the chunk to a given position
