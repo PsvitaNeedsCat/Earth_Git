@@ -77,6 +77,13 @@ public class Chunk : MonoBehaviour
         SpitProjectile projectile = other.GetComponent<SpitProjectile>();
         if (projectile) { return; }
 
+        HealthComponent healthComp = other.GetComponent<HealthComponent>();
+        if (healthComp && healthComp.m_type == HealthComponent.EHealthType.boss)
+        {
+            healthComp.Health -= 1;
+            Destroy(this.gameObject);
+        }
+
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player")
         {
