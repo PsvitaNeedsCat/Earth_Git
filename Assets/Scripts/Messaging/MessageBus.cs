@@ -16,7 +16,6 @@ public enum EMessageType
     chunkRaise,
 
     // Enemies
-    enemySwallowed,
     projectileSplash,
     tongueStuck,
     enemySwallow,

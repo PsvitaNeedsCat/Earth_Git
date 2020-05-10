@@ -26,12 +26,14 @@ public class Chunk : MonoBehaviour
     private Vector3 m_spawnPos;
     GlobalChunkSettings m_globalSettings;
     private HealthComponent m_healthComp;
+    private Vector3 m_prevVelocity = Vector3.zero;
 
     // Hitboxes
     [SerializeField] private Collider m_posXCollider;
     [SerializeField] private Collider m_negXCollider;
     [SerializeField] private Collider m_posZCollider;
     [SerializeField] private Collider m_negZCollider;
+
     [SerializeField] private Collider m_mainCollider;
 
     // Chunks automatically added and removed to chunk manager over lifetime
@@ -51,6 +53,8 @@ public class Chunk : MonoBehaviour
         m_spawnPos = transform.position;
 
         m_globalSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
+
+        transform.parent = RoomManager.Instance.GetActiveRoom().transform;
     }
 
     private void OnApplicationQuit()
@@ -69,14 +73,23 @@ public class Chunk : MonoBehaviour
         Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
         if (hurtboxCheck) { return; }
 
+        // If hit projectile, ignore
+        SpitProjectile projectile = other.GetComponent<SpitProjectile>();
+        if (projectile) { return; }
+
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player")
         {
-            if (IsAgainstWall(m_rigidBody.velocity.normalized))
+            if (IsAgainstWall(m_prevVelocity.normalized))
             {
                 SnapChunk();
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        m_prevVelocity = m_rigidBody.velocity;
     }
 
     // Called when chunk is to be raised
@@ -141,7 +154,7 @@ public class Chunk : MonoBehaviour
     {
         // Start position - almost the bottom of the chunk
         Vector3 checkPosition = transform.position;
-        checkPosition.y -= m_globalSettings.m_chunkHeight * 0.5f - 0.5f;
+        checkPosition.y -= m_globalSettings.m_chunkHeight * 0.4f;
 
         // Raycast in the direction of the hit vector for half a chunk's length
         RaycastHit hit;
@@ -158,13 +171,14 @@ public class Chunk : MonoBehaviour
     public void Detach()
     {
         m_rigidBody.isKinematic = false;
-        m_mainCollider.enabled = false;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     // Snaps a chunk to the nearest grid tile
     private void SnapChunk()
     {
+        Debug.Log("Snapped");
+
         // Play sound
 
         m_rigidBody.velocity = Vector3.zero;
@@ -172,11 +186,7 @@ public class Chunk : MonoBehaviour
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
         // Change colliders
-        m_posXCollider.enabled = false;
-        m_negXCollider.enabled = false;
-        m_posZCollider.enabled = false;
-        m_negZCollider.enabled = false;
-        m_mainCollider.enabled = true;
+        DisableAllColliders();
 
         // Find nearest grid tile
         Tile nearest = Grid.FindClosestTileAny(transform.position);
@@ -189,5 +199,24 @@ public class Chunk : MonoBehaviour
             transform.position = newPos;
         }
         else { Debug.LogError("Unable to find nearest tile to snap to"); }
+    }
+
+    private void DisableAllColliders()
+    {
+        m_posXCollider.enabled = false;
+        m_negXCollider.enabled = false;
+        m_posZCollider.enabled = false;
+        m_negZCollider.enabled = false;
+    }
+
+    // Snaps the chunk to a given position
+    public void SnapToTongue(Vector3 _tonguePos)
+    {
+        m_rigidBody.velocity = Vector3.zero;
+
+        DisableAllColliders();
+        m_mainCollider.enabled = false;
+
+        transform.DOMove(_tonguePos, 0.2f);
     }
 }

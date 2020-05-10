@@ -7,13 +7,22 @@ public class RoomManager : MonoBehaviour
     [Tooltip("Room parent objects. First room in list is the first room in scene")]
     [SerializeField] private GameObject[] m_rooms;
     private int m_currentRoom = 0;
+    private int m_newRoom;
+    private Animator m_blackWall;
+    private PlayerInput m_playerInput;
 
     private static RoomManager m_instance;
+    public static RoomManager Instance { get { return m_instance; } }
 
     private void Awake()
     {
         if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
         else { m_instance = this; }
+
+        m_blackWall = FindObjectOfType<BlackWallAnimator>().GetComponent<Animator>();
+        Debug.Assert(m_blackWall, "Cannot find black wall animator");
+        m_playerInput = FindObjectOfType<PlayerInput>();
+        Debug.Assert(m_playerInput, "Cannot find player input");
 
         for (int i = 0; i < m_rooms.Length; i++)
         {
@@ -21,27 +30,45 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    public void ChangeRooms(string _roomName)
+    // Changes which room is active
+    public void ChangeRooms()
     {
-        // Find room index
+        // Deacivate old room
+        m_rooms[m_currentRoom].SetActive(false);
+
+        // Activate new room
+        m_currentRoom = m_newRoom;
+        m_rooms[m_currentRoom].SetActive(true);
+
+        m_blackWall.SetTrigger("FadeToGame");
+        m_playerInput.SetMovement(true);
+    }
+
+    // Sets the room ready to change to
+    public void PrepareToChangeRoom(string _roomName)
+    {
+        // Check the room is valid
         for (int i = 0; i < m_rooms.Length; i++)
         {
             if (m_rooms[i].name == _roomName)
             {
-                // Do not change room is _roomName is the current room
-                if (m_currentRoom == i) { return; }
+                // Cannot load the same room
+                if (i == m_currentRoom) { return; }
 
-                // Deacivate old room
-                m_rooms[m_currentRoom].SetActive(false);
-
-                // Activate new room
-                m_currentRoom = i;
-                m_rooms[m_currentRoom].SetActive(true);
-
+                // Room is valid
+                m_playerInput.SetMovement(false);
+                m_newRoom = i;
+                m_blackWall.SetTrigger("FadeToBlack");
                 return;
             }
         }
 
-        Debug.LogError("Cannot find room with name: " + _roomName);
+        Debug.LogError("Room does not exist");
+    }
+
+    // Returns the active room
+    public GameObject GetActiveRoom()
+    {
+        return m_rooms[m_currentRoom];
     }
 }
