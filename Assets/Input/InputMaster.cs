@@ -430,6 +430,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""No Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""964ef8e0-1d6f-4de1-af36-1aa425d1fd97"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Water Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""29de6a34-4843-4e4b-9179-f8e1abcd5825"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -474,6 +490,50 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Raise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9918f710-bd8b-4f7c-9b51-e58973575e3a"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""No Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac5e9507-3cc3-4a36-b22c-6bf86b0c162e"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""No Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5cd684a-30d7-41a7-9174-ac727a26e169"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Water Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67ef5946-2a83-491a-9c41-c0efd18ff155"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Water Power"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -523,6 +583,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
         m_PlayerCombat_Punch = m_PlayerCombat.FindAction("Punch", throwIfNotFound: true);
         m_PlayerCombat_Raise = m_PlayerCombat.FindAction("Raise", throwIfNotFound: true);
+        m_PlayerCombat_NoPower = m_PlayerCombat.FindAction("No Power", throwIfNotFound: true);
+        m_PlayerCombat_WaterPower = m_PlayerCombat.FindAction("Water Power", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -664,12 +726,16 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private IPlayerCombatActions m_PlayerCombatActionsCallbackInterface;
     private readonly InputAction m_PlayerCombat_Punch;
     private readonly InputAction m_PlayerCombat_Raise;
+    private readonly InputAction m_PlayerCombat_NoPower;
+    private readonly InputAction m_PlayerCombat_WaterPower;
     public struct PlayerCombatActions
     {
         private @InputMaster m_Wrapper;
         public PlayerCombatActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Punch => m_Wrapper.m_PlayerCombat_Punch;
         public InputAction @Raise => m_Wrapper.m_PlayerCombat_Raise;
+        public InputAction @NoPower => m_Wrapper.m_PlayerCombat_NoPower;
+        public InputAction @WaterPower => m_Wrapper.m_PlayerCombat_WaterPower;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -685,6 +751,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Raise.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
                 @Raise.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
                 @Raise.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
+                @NoPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
+                @NoPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
+                @NoPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
+                @WaterPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
+                @WaterPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
+                @WaterPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
             }
             m_Wrapper.m_PlayerCombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -695,6 +767,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Raise.started += instance.OnRaise;
                 @Raise.performed += instance.OnRaise;
                 @Raise.canceled += instance.OnRaise;
+                @NoPower.started += instance.OnNoPower;
+                @NoPower.performed += instance.OnNoPower;
+                @NoPower.canceled += instance.OnNoPower;
+                @WaterPower.started += instance.OnWaterPower;
+                @WaterPower.performed += instance.OnWaterPower;
+                @WaterPower.canceled += instance.OnWaterPower;
             }
         }
     }
@@ -732,5 +810,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     {
         void OnPunch(InputAction.CallbackContext context);
         void OnRaise(InputAction.CallbackContext context);
+        void OnNoPower(InputAction.CallbackContext context);
+        void OnWaterPower(InputAction.CallbackContext context);
     }
 }

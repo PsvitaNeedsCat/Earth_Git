@@ -78,11 +78,11 @@ public class Chunk : MonoBehaviour
         if (projectile) { return; }
 
         // Did not hit ground or player
-        if (other.tag != "Ground" && other.tag != "Player")
+        if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
         {
             if (IsAgainstWall(m_prevVelocity.normalized))
             {
-                SnapChunk();
+                HitWall();
             }
         }
     }
@@ -124,15 +124,15 @@ public class Chunk : MonoBehaviour
     }
 
     // Pushes the chunk in a specific direction when hit by the player
-    public void Hit(Vector3 _hitVec)
+    public bool Hit(Vector3 _hitVec)
     {
-        if (!m_isRaised) { return; }
+        if (!m_isRaised) { return false; }
 
         if (IsAgainstWall(_hitVec))
         {
             // Play sound
             m_healthComp.Health -= 1;
-            return;
+            return false;
         }
 
         Detach();
@@ -146,7 +146,7 @@ public class Chunk : MonoBehaviour
 
         m_rigidBody.AddForce(_hitVec, ForceMode.Impulse);
 
-        // Play sound
+        return true;
     }
 
     // Checks if the chunk is against a wall using a raycast
@@ -174,11 +174,28 @@ public class Chunk : MonoBehaviour
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
+    // Decides what to do when the chunk hits a wall
+    private void HitWall()
+    {
+        switch (m_currentEffect)
+        {
+            case eChunkEffect.waterTrail:
+                {
+                    Destroy(this.gameObject);
+                    break;
+                }
+
+            default:
+                {
+                    SnapChunk();
+                    break;
+                }
+        }
+    }
+
     // Snaps a chunk to the nearest grid tile
     private void SnapChunk()
     {
-        Debug.Log("Snapped");
-
         // Play sound
 
         m_rigidBody.velocity = Vector3.zero;

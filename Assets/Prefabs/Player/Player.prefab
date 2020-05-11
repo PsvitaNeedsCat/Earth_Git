@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 5095025455117279629}
   m_moveDirection: {x: 0, y: 0}
+  m_hasKey: 0
   m_tileTargeter: {fileID: 5443203778191829931}
 --- !u!114 &2702329369494989128
 MonoBehaviour:
@@ -111,6 +112,7 @@ MonoBehaviour:
   m_hurtboxPrefab: {fileID: 559978336584420042, guid: 1e02c927d90ccea44ab7661457c4d57c,
     type: 3}
   m_tileTargeter: {fileID: 5443203778191829931}
+  m_meshRenderer: {fileID: 7263896209678543807}
 --- !u!114 &2702329369494989129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c9636aac22d354baa1cef1b36f2231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_type: 0
 --- !u!114 &2702329368273996929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +237,12 @@ Transform:
 --- !u!95 &5095025455117279629 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7148814142009601393, guid: f489300adca3e884e93fd98db13714e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2702329368273997052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7263896209678543807 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4705717505910499139, guid: f489300adca3e884e93fd98db13714e2,
     type: 3}
   m_PrefabInstance: {fileID: 2702329368273997052}
   m_PrefabAsset: {fileID: 0}

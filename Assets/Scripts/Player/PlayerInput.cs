@@ -43,6 +43,9 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
+        // Change powers
+        m_controls.PlayerCombat.NoPower.performed += _ => m_player.ChangeEffect(eChunkEffect.none);
+        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.ChangeEffect(eChunkEffect.waterTrail);
 
         // Enable by default for now
         SetMovement(true);

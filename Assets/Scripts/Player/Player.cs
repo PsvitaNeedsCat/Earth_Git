@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     private float m_punchTimer = 0.0f; // For punch cooldown (0.0f can punch)
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
+    private eChunkEffect m_currentEffect = eChunkEffect.none;
+
+    public void ChangeEffect(eChunkEffect _effect) => m_currentEffect = _effect;
 
     private void Awake()
     {
@@ -64,7 +67,7 @@ public class Player : MonoBehaviour
         {
             m_punchTimer = m_settings.m_punchCooldown;
             
-            m_playerController.Punch();
+            m_playerController.Punch(m_currentEffect);
         }
     }
 

@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
         Chunk newChunk = null;
 
         // Cannot raise a type of none
-        if (m_chunkType == eChunkType.none) { return newChunk; }
+        if (m_chunkType == eChunkType.none || m_chunkType == eChunkType.lava) { return newChunk; }
 
         // Cannot raise an occupied tile
         if (IsOccupied()) { return newChunk; }
