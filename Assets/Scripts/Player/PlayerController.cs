@@ -159,4 +159,9 @@ public class PlayerController : MonoBehaviour
 
         m_confirmedTile = null;
     }
+
+    public void KnockBack(Vector3 _dir)
+    {
+        m_rigidBody.AddForce(_dir * m_settings.m_knockbackForce, ForceMode.Impulse);
+    }
 }

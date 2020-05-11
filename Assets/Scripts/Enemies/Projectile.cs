@@ -10,8 +10,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit: " + other.gameObject.name);
-
         HealthComponent playerHealth = other.GetComponent<HealthComponent>();
 
         if (playerHealth)

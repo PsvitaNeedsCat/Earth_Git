@@ -20,14 +20,12 @@ public class Lava : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        PlayerController player = other.GetComponent<PlayerController>();
         if (player)
         {
             // Push player back
-            Vector3 dir = player.transform.position - transform.position;
-
-            player.GetComponent<Rigidbody>().AddForce(dir * m_settings.m_lavaPushForce, ForceMode.Impulse);
-
+            Vector3 dir = (player.transform.position - transform.position).normalized;
+            player.KnockBack(dir);
             player.GetComponent<HealthComponent>().Health -= 1;
 
             return;
