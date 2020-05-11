@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpitProjectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     private int m_damage;
 
@@ -10,6 +10,8 @@ public class SpitProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Hit: " + other.gameObject.name);
+
         HealthComponent playerHealth = other.GetComponent<HealthComponent>();
 
         if (playerHealth)

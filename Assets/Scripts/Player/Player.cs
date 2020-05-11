@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // Public variables
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
+    [HideInInspector] public bool m_hasKey = false;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
@@ -15,6 +16,9 @@ public class Player : MonoBehaviour
     private float m_punchTimer = 0.0f; // For punch cooldown (0.0f can punch)
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
+    private eChunkEffect m_currentEffect = eChunkEffect.none;
+
+    public void ChangeEffect(eChunkEffect _effect) => m_currentEffect = _effect;
 
     private void Awake()
     {
@@ -63,7 +67,7 @@ public class Player : MonoBehaviour
         {
             m_punchTimer = m_settings.m_punchCooldown;
             
-            m_playerController.Punch();
+            m_playerController.Punch(m_currentEffect);
         }
     }
 

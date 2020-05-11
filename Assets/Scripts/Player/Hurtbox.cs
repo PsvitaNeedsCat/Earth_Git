@@ -11,9 +11,14 @@ public class Hurtbox : MonoBehaviour
     private int m_framesSkipped = 0;
     private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
+    private eChunkEffect m_effect = eChunkEffect.none;
 
     // Called when hurtbox is instantiated
-    public void SetPlayerPos(Vector3 _pos) => m_playerPos = _pos;
+    public void Init(Vector3 _pos, eChunkEffect _effect)
+    {
+        m_playerPos = _pos;
+        m_effect = _effect;
+    }
 
     private void Awake()
     {
@@ -39,7 +44,10 @@ public class Hurtbox : MonoBehaviour
             hitDir.Normalize();
 
             Vector3 cardinal = GetCardinalDir(hitDir);
-            chunk.Hit(cardinal * m_settings.m_chunkHitForce);
+            if (chunk.Hit(cardinal * m_settings.m_chunkHitForce))
+            {
+                chunk.m_currentEffect = m_effect;
+            }
 
             Destroy(this.gameObject);
         }

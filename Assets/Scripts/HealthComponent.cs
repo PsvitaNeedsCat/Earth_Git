@@ -15,6 +15,8 @@ public class HealthComponent : MonoBehaviour
 
     private bool m_isDead = false;
     public bool IsInvincible { get; set; } = false;
+    private bool m_timerActive = false;
+    private float m_invincibleTimer = 0.0f;
 
     private int m_curHealth = 1;
     public int Health
@@ -26,7 +28,7 @@ public class HealthComponent : MonoBehaviour
             if (m_isDead) return;
 
             // Check if health changed, and call appropriate callbacks
-            int delta = Mathf.Clamp(m_curHealth - value, 0, m_maxHealth);
+            int delta = value - m_curHealth;
 
             // If invincible, cannot be damaged, but can still be healed
             if (IsInvincible && delta < 0) { delta = 0; }
@@ -35,11 +37,26 @@ public class HealthComponent : MonoBehaviour
 
             // Update health, and check for death
             m_curHealth += delta;
+            m_curHealth = Mathf.Clamp(m_curHealth, 0, m_maxHealth);
             if (m_curHealth == 0)
             {
                 m_isDead = true;
                 OnDeath?.Invoke();
             }
+        }
+    }
+
+    private void Update()
+    {
+        // Invincibiity timer
+        if (m_timerActive)
+        {
+            if (m_invincibleTimer <= 0.0f)
+            {
+                m_timerActive = false;
+                IsInvincible = false;
+            }
+            else { m_invincibleTimer -= Time.deltaTime; }
         }
     }
 
@@ -61,5 +78,13 @@ public class HealthComponent : MonoBehaviour
 
         m_curHealth = _max;
         m_maxHealth = _max;
+    }
+
+    // Sets the component as invincible for a set time
+    public void SetInvincibleTimer(float _time)
+    {
+        m_invincibleTimer = _time;
+        IsInvincible = true;
+        m_timerActive = true;
     }
 }

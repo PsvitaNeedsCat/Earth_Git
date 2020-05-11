@@ -13,6 +13,7 @@ public class SpittingEnemy : MonoBehaviour
     private float m_attackTimer = 0.0f;
     [SerializeField] private Transform m_projectileSpawn;
     private GlobalEnemySettings m_settings;
+    [SerializeField] private GameObject m_spitProjectile;
 
     private void Awake()
     {
@@ -49,7 +50,7 @@ public class SpittingEnemy : MonoBehaviour
         m_attackTimer = m_settings.m_spitCooldown;
 
         // Instantiate projectile
-        SpitProjectile projectile = Instantiate(m_settings.m_spitPrefab, m_projectileSpawn.position, m_projectileSpawn.rotation).GetComponent<SpitProjectile>();
+        Projectile projectile = Instantiate(m_spitProjectile, m_projectileSpawn.position, m_projectileSpawn.rotation).GetComponent<Projectile>();
         projectile.Init(m_settings.m_spitDamage);
         projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * m_settings.m_spitProjectileSpeed;
 

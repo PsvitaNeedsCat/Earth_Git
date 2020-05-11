@@ -32,8 +32,13 @@ public class GlobalPlayerSettings : ScriptableObject
     [Tooltip("Maximum number of chunks allowed at once")]
     public int m_maxChunks = 3;
 
+    [Header("Health")]
     [Tooltip("Maximum health player is allowed without upgrades")]
     public int m_defaultMaxHealth = 3;
+    [Tooltip("Colour the player flashes when hurt")]
+    public Color m_hurtColour = Color.red;
+    [Tooltip("How long the player is invincible for when hurt")]
+    public float m_hurtTime = 2.0f;
 
     [Header("Hurtbox Settings")]
     [Tooltip("The amount of frames the hurtbox will exist before being destroyed")]

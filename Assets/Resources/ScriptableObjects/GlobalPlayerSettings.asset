@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb852f35e9e7df4ead8e4e2cb9a5f59, type: 3}
   m_Name: GlobalPlayerSettings
   m_EditorClassIdentifier: 
-  m_punchCooldown: 1
+  m_punchCooldown: 0.5
   m_raiseCooldown: 1
   m_gravity: -50
   m_drag: 2
@@ -22,5 +22,7 @@ MonoBehaviour:
   m_hurtboxMoveBy: 1
   m_maxChunks: 3
   m_defaultMaxHealth: 3
+  m_hurtColour: {r: 1, g: 0, b: 0, a: 1}
+  m_hurtTime: 1
   m_framesBeforeDestroy: 10
   m_chunkHitForce: 1000

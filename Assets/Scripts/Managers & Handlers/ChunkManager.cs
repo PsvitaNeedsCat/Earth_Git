@@ -10,17 +10,6 @@ public class ChunkManager : MonoBehaviour
     public static void RemoveChunk(Chunk _removeChunk) => m_chunks.Remove(_removeChunk);
     public static int NumChunks() => m_chunks.Count;
 
-    int oldCount = 0;
-
-    private void Update()
-    {
-        if (oldCount != m_chunks.Count)
-        {
-            oldCount = m_chunks.Count;
-            Debug.Log("New count: " + oldCount);
-        }
-    }
-
     public static void RemoveOldest()
     {
         if (m_chunks.Count > 0)
