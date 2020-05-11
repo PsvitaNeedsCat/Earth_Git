@@ -74,7 +74,7 @@ public class Chunk : MonoBehaviour
         if (hurtboxCheck) { return; }
 
         // If hit projectile, ignore
-        SpitProjectile projectile = other.GetComponent<SpitProjectile>();
+        Projectile projectile = other.GetComponent<Projectile>();
         if (projectile) { return; }
 
         // Did not hit ground or player
