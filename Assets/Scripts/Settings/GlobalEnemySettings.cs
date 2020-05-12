@@ -20,10 +20,10 @@ public class GlobalEnemySettings : ScriptableObject
     public int m_tongueDamage = 1;
 
     [Header("Grub")]
-    [Tooltip("How often the grub will move a bit")]
+    [Tooltip("How long the grub will pause for before moving tile")]
     public float m_grubMaxMoveTime = 2.0f;
-    [Tooltip("How much force the grub puts into moving")]
-    public float m_grubMoveForce = 10.0f;
+    [Tooltip("Howlong it takes the grub to move 1 tile")]
+    public float m_grubSpeed = 1.0f;
     [Tooltip("How much damage the projectile does")]
     public int m_grubProjDamage = 1;
     [Tooltip("Speed of grub's projectile")]

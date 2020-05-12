@@ -5,7 +5,8 @@ using UnityEngine;
 public class Lava : MonoBehaviour
 {
     private GlobalTileSettings m_settings;
-    private Collider m_lavaCollider;
+    private Collider m_lavaTrigger;
+    [SerializeField] private Collider m_lavaCollider;
 
     // Temp
     [SerializeField] private MeshRenderer m_meshRenderer;
@@ -15,7 +16,7 @@ public class Lava : MonoBehaviour
         m_settings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
         Debug.Assert(m_settings, "GlobalTileSettings could not be found");
 
-        m_lavaCollider = GetComponent<BoxCollider>();
+        m_lavaTrigger = GetComponent<BoxCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,7 +25,9 @@ public class Lava : MonoBehaviour
         if (player)
         {
             // Push player back
-            Vector3 dir = (player.transform.position - transform.position).normalized;
+            Vector3 dir = (player.transform.position - transform.position);
+            dir.y = 0.0f;
+            dir.Normalize();
             player.KnockBack(dir);
             player.GetComponent<HealthComponent>().Health -= 1;
 
@@ -51,6 +54,7 @@ public class Lava : MonoBehaviour
 
     private void TurnToStone()
     {
+        m_lavaTrigger.enabled = false;
         m_lavaCollider.enabled = false;
         m_meshRenderer.material.color = Color.grey;
     }
