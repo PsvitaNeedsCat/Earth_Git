@@ -20,6 +20,7 @@ public enum EMessageType
     tongueStuck,
     enemySwallow,
     enemySpit,
+    grubKilled,
 
     // Player
     playerHurt,
