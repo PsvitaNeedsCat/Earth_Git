@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class FireRoom2 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int m_grubTotal = 3;
+    private int m_currentGrubs = 3;
+
+    [SerializeField] GameObject m_keyPrefab;
+
+    private void Awake()
     {
-        
+        MessageBus.AddListener(EMessageType.grubKilled, GrubKilled);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GrubKilled(string _null)
     {
-        
+        m_currentGrubs -= 1;
+        if (m_currentGrubs == 0)
+        {
+            // Spawn key
+            Instantiate(m_keyPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
     }
 }
