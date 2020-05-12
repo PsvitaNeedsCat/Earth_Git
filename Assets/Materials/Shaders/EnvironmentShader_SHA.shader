@@ -26,7 +26,7 @@
             half4 LightingSoftLight(SurfaceOutput s, half3 lightDir, half atten)
             {
                 half d = pow(dot(s.Normal, lightDir) * 0.5, _ShadowThresh);
-                half shadow = smoothstep(_ShadowSmooth, 1, d);
+                half shadow = smoothstep(0.5, 0.5, d);
                 half3 shadowCol = lerp(_ShadowColor, half3(1, 1, 1), shadow);
                 half4 c;
 
