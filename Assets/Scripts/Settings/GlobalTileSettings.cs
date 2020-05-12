@@ -21,7 +21,4 @@ public class GlobalTileSettings : ScriptableObject
     [Tooltip("Chunk prefabs in the order of eType" +
         "null, rock, posion")]
     public GameObject[] m_chunkPrefabs;
-
-    [Tooltip("How much force the lava will use to push the player back")]
-    public float m_lavaPushForce = 10.0f;
 }

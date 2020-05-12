@@ -14,6 +14,9 @@ public class Grub : MonoBehaviour
     private Vector3 m_currentTarget;
     [SerializeField] private Transform m_projSpawn;
     [SerializeField] private GameObject m_projPrefab;
+    private Vector3 m_prevPos;
+
+    private bool m_dead = false;
 
     private void Awake()
     {
@@ -25,6 +28,10 @@ public class Grub : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (m_dead) { return; }
+
+        m_prevPos = transform.position;
+
         if (m_moveTimer <= 0.0f)
         {
             m_moveTimer = m_settings.m_grubMaxMoveTime;
@@ -43,6 +50,32 @@ public class Grub : MonoBehaviour
             m_projSpawn.RotateAround(transform.position, Vector3.up, 180.0f);
             m_currentTarget = (m_currentTarget == m_startPos) ? m_endTransform.position : m_startPos;
             m_moveTimer = m_settings.m_grubMaxMoveTime;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Chunk chunk = other.GetComponent<Chunk>();
+        if (chunk)
+        {
+            // Kill grub
+            if (chunk.m_currentEffect == eChunkEffect.waterTrail)
+            {
+                m_dead = true;
+                m_rigidbody.isKinematic = true;
+            }
+
+            transform.position = m_prevPos;
+            Destroy(other.gameObject);
+
+            return;
+        }
+
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player)
+        {
+            player.KnockBack((player.transform.position - transform.position).normalized);
+            player.GetComponent<HealthComponent>().Health -= 1;
         }
     }
 

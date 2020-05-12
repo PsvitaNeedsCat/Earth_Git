@@ -25,10 +25,6 @@ public class GlobalPlayerSettings : ScriptableObject
     [Tooltip("Minimum range between query position and tile")]
     public float m_minTileRange = 7.0f;
 
-    [Header("Hurtbox")]
-    [Tooltip("How much horiztonally to move the hurt box by when spawning")]
-    public float m_hurtboxMoveBy = 5.0f;
-
     [Tooltip("Maximum number of chunks allowed at once")]
     public int m_maxChunks = 3;
 
@@ -45,4 +41,11 @@ public class GlobalPlayerSettings : ScriptableObject
     public int m_framesBeforeDestroy = 10;
     [Tooltip("The amount of force chunks are hit with")]
     public float m_chunkHitForce = 10000.0f;
+    [Tooltip("How much horiztonally to move the hurt box by when spawning")]
+    public float m_hurtboxMoveBy = 5.0f;
+
+    [Space(10.0f)]
+
+    [Tooltip("How much knockback is applied to player when the function is called")]
+    public float m_knockbackForce = 35.0f;
 }
