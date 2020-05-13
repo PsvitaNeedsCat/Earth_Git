@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
-
-    public void ChangeEffect(eChunkEffect _effect) => m_currentEffect = _effect;
-
+    
     private void Awake()
     {
         // Only ever one instance of this
@@ -125,6 +123,26 @@ public class Player : MonoBehaviour
         if (m_playerController.TryConfirmChunk())
         {
             m_animator.SetTrigger("Summon");
+        }
+    }
+
+    public void ChangeEffect(eChunkEffect _effect)
+    {
+        m_currentEffect = _effect;
+
+        switch (_effect)
+        {
+            case eChunkEffect.waterTrail:
+                {
+                    MessageBus.TriggerEvent(EMessageType.powerWater);
+                    break;
+                }
+
+            default:
+                {
+                    MessageBus.TriggerEvent(EMessageType.powerRock);
+                    break;
+                }
         }
     }
 }

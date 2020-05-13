@@ -45,7 +45,7 @@ public class Lava : MonoBehaviour
             else
             {
                 // Block cannot handle the heat
-                Destroy(chunk.gameObject);
+                chunk.GetComponent<HealthComponent>().Health = 0;
             }
 
             return;
@@ -54,6 +54,8 @@ public class Lava : MonoBehaviour
 
     private void TurnToStone()
     {
+        MessageBus.TriggerEvent(EMessageType.lavaToStone);
+
         m_lavaTrigger.enabled = false;
         m_lavaCollider.enabled = false;
         m_meshRenderer.material.color = Color.grey;

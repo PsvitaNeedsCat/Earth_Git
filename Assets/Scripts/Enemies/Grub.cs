@@ -77,6 +77,8 @@ public class Grub : MonoBehaviour
 
     private void FireProjectile()
     {
+        MessageBus.TriggerEvent(EMessageType.enemySpit);
+
         // Init
         Projectile proj = Instantiate(m_projPrefab, m_projSpawn.position, m_projSpawn.rotation).GetComponent<Projectile>();
         proj.Init(m_settings.m_grubProjDamage);

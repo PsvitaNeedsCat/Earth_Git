@@ -20,6 +20,7 @@ public class FireRoom2 : MonoBehaviour
         if (m_currentGrubs == 0)
         {
             // Spawn key
+            MessageBus.TriggerEvent(EMessageType.keySpawned);
             Instantiate(m_keyPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }

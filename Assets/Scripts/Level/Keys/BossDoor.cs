@@ -7,11 +7,20 @@ public class BossDoor : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Player player = collision.collider.GetComponent<Player>();
-        if (player && player.m_hasKey)
+        if (player)
         {
-            // Unlock
-            player.m_hasKey = false;
-            Destroy(this.gameObject);
+            if (player.m_hasKey)
+            {
+                // Unlock
+                MessageBus.TriggerEvent(EMessageType.doorUnlocked);
+                player.m_hasKey = false;
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                // Door is locked
+                MessageBus.TriggerEvent(EMessageType.doorLocked);
+            }
         }
     }
 }

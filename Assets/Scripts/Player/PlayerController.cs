@@ -151,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
         if (newChunk)
         {
+            MessageBus.TriggerEvent(EMessageType.chunkRaise);
+
             if (ChunkManager.NumChunks() > m_settings.m_maxChunks)
             {
                 ChunkManager.RemoveOldest();

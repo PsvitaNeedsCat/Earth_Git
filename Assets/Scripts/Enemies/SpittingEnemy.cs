@@ -37,7 +37,7 @@ public class SpittingEnemy : MonoBehaviour
         if (other.GetComponent<Chunk>())
         {
             // Destroy chunk
-            Destroy(other.gameObject);
+            other.GetComponent<HealthComponent>().Health = 0;
             // Destroy itself
             Destroy(this.gameObject);
         }

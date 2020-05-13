@@ -15,6 +15,7 @@ public enum EMessageType
     chunkHit,
     chunkHitWall,
     chunkRaise,
+    waterChunkDestroyed,
 
     // Enemies
     projectileSplash,
@@ -22,10 +23,21 @@ public enum EMessageType
     enemySwallow,
     enemySpit,
     grubKilled,
+    enemyTongueExtend,
+    tongueEnemyKilled,
 
     // Player
     playerHurt,
     ting,
+    powerRock,
+    powerWater,
+
+    // Level
+    doorUnlocked,
+    doorLocked,
+    lavaToStone,
+    keyCollected,
+    keySpawned,
 
     // Toad boss
     smallToadJumpInWater,

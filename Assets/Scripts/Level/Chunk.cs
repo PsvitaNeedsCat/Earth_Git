@@ -119,7 +119,22 @@ public class Chunk : MonoBehaviour
 
     private void OnDeath()
     {
-        MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
+        switch (m_currentEffect)
+        {
+            case eChunkEffect.waterTrail:
+                {
+                    MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
+                    break;
+                }
+
+            default:
+                {
+                    MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
+                    break;
+                }
+        }
+
+
         Destroy(this.gameObject);
     }
 
@@ -145,6 +160,8 @@ public class Chunk : MonoBehaviour
         else { m_negZCollider.enabled = true; } // else if (cardinal.z <= -1.0f)
 
         m_rigidBody.AddForce(_hitVec, ForceMode.Impulse);
+
+        MessageBus.TriggerEvent(EMessageType.chunkHit);
 
         return true;
     }
@@ -181,12 +198,13 @@ public class Chunk : MonoBehaviour
         {
             case eChunkEffect.waterTrail:
                 {
-                    Destroy(this.gameObject);
+                    OnDeath();
                     break;
                 }
 
             default:
                 {
+                    MessageBus.TriggerEvent(EMessageType.chunkHitWall);
                     SnapChunk();
                     break;
                 }
