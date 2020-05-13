@@ -6,6 +6,7 @@ using UnityEngine.Events;
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
+    none,
     test,
 
     // Chunk
@@ -44,6 +45,8 @@ public static class MessageBus
     // Subscribes a listener to a type of message
     public static void AddListener(EMessageType _type, System.Action<string> _listener)
     {
+        if (_type == EMessageType.none) { return; }
+
         System.Action<string> checkEvent = null;
 
         // Event already exists
@@ -61,6 +64,8 @@ public static class MessageBus
 
     public static void RemoveListener(EMessageType _type, System.Action<string> _listener)
     {
+        if (_type == EMessageType.none) { return; }
+
         System.Action<string> checkEvent = null;
 
         // Only try to remove listener if event exists
@@ -72,6 +77,8 @@ public static class MessageBus
 
     public static void TriggerEvent(EMessageType _type, string _param)
     {
+        if (_type == EMessageType.none) { return; }
+
         System.Action<string> triggerEvent = null;
 
         if (m_eventDict.TryGetValue(_type, out triggerEvent))
@@ -82,6 +89,8 @@ public static class MessageBus
 
     public static void TriggerEvent(EMessageType _type)
     {
+        if (_type == EMessageType.none) { return; }
+
         System.Action<string> triggerEvent = null;
 
         if (m_eventDict.TryGetValue(_type, out triggerEvent))
