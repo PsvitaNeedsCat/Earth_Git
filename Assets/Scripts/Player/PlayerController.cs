@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody m_rigidBody;
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
+    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
 
     private void Awake()
     {
@@ -44,6 +46,13 @@ public class PlayerController : MonoBehaviour
     private void OnHurt()
     {
         MessageBus.TriggerEvent(EMessageType.playerHurt);
+
+        m_health.SetInvincibleTimer(m_settings.m_hurtTime);
+
+        // Tween colour change
+        Sequence seq = DOTween.Sequence();
+        seq.Append(m_meshRenderer.material.DOColor(m_settings.m_hurtColour, m_settings.m_hurtTime * 0.5f));
+        seq.Append(m_meshRenderer.material.DOColor(Color.white, m_settings.m_hurtTime * 0.5f));
     }
 
     private void OnDeath()
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Makes the player punch
-    public void Punch()
+    public void Punch(eChunkEffect _effect)
     {
         Vector3 spawnPos = transform.position;
 
@@ -101,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         // Spawn in
         Hurtbox hurtbox = Instantiate(m_hurtboxPrefab, spawnPos, transform.rotation).GetComponent<Hurtbox>();
-        hurtbox.SetPlayerPos(transform.position);
+        hurtbox.Init(transform.position, _effect);
     }
 
     public void ActivateTileTargeter()
@@ -142,6 +151,8 @@ public class PlayerController : MonoBehaviour
 
         if (newChunk)
         {
+            MessageBus.TriggerEvent(EMessageType.chunkRaise);
+
             if (ChunkManager.NumChunks() > m_settings.m_maxChunks)
             {
                 ChunkManager.RemoveOldest();
@@ -149,5 +160,10 @@ public class PlayerController : MonoBehaviour
         }
 
         m_confirmedTile = null;
+    }
+
+    public void KnockBack(Vector3 _dir)
+    {
+        m_rigidBody.AddForce(_dir * m_settings.m_knockbackForce, ForceMode.Impulse);
     }
 }

@@ -21,8 +21,6 @@ public class Tongue : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Tongue hit");
-
         // Hits a chunk
         Chunk chunk = other.transform.parent.GetComponent<Chunk>();
         if (chunk)
@@ -30,6 +28,8 @@ public class Tongue : MonoBehaviour
             chunk.SnapToTongue(transform.position);
             chunk.transform.parent = transform;
             m_attachedChunk = chunk;
+
+            MessageBus.TriggerEvent(EMessageType.tongueStuck);
 
             Retract();
             return;
@@ -50,6 +50,8 @@ public class Tongue : MonoBehaviour
     // Extends the tongue
     public void Extend()
     {
+        MessageBus.TriggerEvent(EMessageType.enemyTongueExtend);
+
         // Tween to position
         transform.DOKill(false);
         transform.DOMove(m_tongueMaxPosition.position, 1.0f).OnComplete(() => Retract());

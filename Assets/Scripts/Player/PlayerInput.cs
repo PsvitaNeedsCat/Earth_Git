@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -43,6 +43,13 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
+        // Change powers
+        m_controls.PlayerCombat.NoPower.performed += _ => m_player.ChangeEffect(eChunkEffect.none);
+        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.ChangeEffect(eChunkEffect.waterTrail);
+
+        // Temp
+        m_controls.PlayerCombat.NoPower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Rock";
+        m_controls.PlayerCombat.WaterPower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Water";
 
         // Enable by default for now
         SetMovement(true);

@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
         // Add sounds to message bus
         foreach (KeyValuePair<string, AudioClip> i in m_soundDictionary)
         {
-            EMessageType listenerEnum;
+            EMessageType listenerEnum = EMessageType.none;
             Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
             MessageBus.AddListener(listenerEnum, PlaySoundVaried);
         }
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         // Remove all sounds in the message bus
         foreach (KeyValuePair<string, AudioClip> i in m_soundDictionary)
         {
-            EMessageType listenerEnum;
+            EMessageType listenerEnum = EMessageType.none;
             Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
             MessageBus.RemoveListener(listenerEnum, PlaySoundVaried);
         }

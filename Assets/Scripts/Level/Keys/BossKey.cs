@@ -8,6 +8,7 @@ public class BossKey : MonoBehaviour
         if (player)
         {
             // Collect key
+            MessageBus.TriggerEvent(EMessageType.keyCollected);
             player.m_hasKey = true;
             Destroy(this.gameObject);
         }

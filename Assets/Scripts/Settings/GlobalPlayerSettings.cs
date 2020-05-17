@@ -25,19 +25,27 @@ public class GlobalPlayerSettings : ScriptableObject
     [Tooltip("Minimum range between query position and tile")]
     public float m_minTileRange = 7.0f;
 
-    [Header("Hurtbox")]
-    [Tooltip("How much horiztonally to move the hurt box by when spawning")]
-    public float m_hurtboxMoveBy = 5.0f;
-
     [Tooltip("Maximum number of chunks allowed at once")]
     public int m_maxChunks = 3;
 
+    [Header("Health")]
     [Tooltip("Maximum health player is allowed without upgrades")]
     public int m_defaultMaxHealth = 3;
+    [Tooltip("Colour the player flashes when hurt")]
+    public Color m_hurtColour = Color.red;
+    [Tooltip("How long the player is invincible for when hurt")]
+    public float m_hurtTime = 2.0f;
 
     [Header("Hurtbox Settings")]
     [Tooltip("The amount of frames the hurtbox will exist before being destroyed")]
     public int m_framesBeforeDestroy = 10;
     [Tooltip("The amount of force chunks are hit with")]
     public float m_chunkHitForce = 10000.0f;
+    [Tooltip("How much horiztonally to move the hurt box by when spawning")]
+    public float m_hurtboxMoveBy = 5.0f;
+
+    [Space(10.0f)]
+
+    [Tooltip("How much knockback is applied to player when the function is called")]
+    public float m_knockbackForce = 35.0f;
 }
