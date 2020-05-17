@@ -82,6 +82,18 @@ public class Chunk : MonoBehaviour
         {
             healthComp.Health -= 1;
             Destroy(this.gameObject);
+            return;
+        }
+
+        CentipedeSegment centipedeSegment = other.GetComponent<CentipedeSegment>();
+        if (centipedeSegment)
+        {
+            if (m_currentEffect == eChunkEffect.waterTrail)
+            {
+                centipedeSegment.CoolDown();
+            }
+            Destroy(this.gameObject);
+            return;
         }
 
         // Did not hit ground or player

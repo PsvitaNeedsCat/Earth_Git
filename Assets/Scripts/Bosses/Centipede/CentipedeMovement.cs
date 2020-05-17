@@ -41,7 +41,7 @@ public class CentipedeMovement : MonoBehaviour
 
     private void Forward(float _input)
     {
-        t += Time.smoothDeltaTime * 2.0f; // * _input;
+        // t += Time.smoothDeltaTime * 2.0f; // * _input;
 
         if (t >= 1.0f)
         {
