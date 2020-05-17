@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CentipedeMovement : MonoBehaviour
 {
-    public List<CentipedeSegment> m_segments = new List<CentipedeSegment>();
+    public List<CentipedeSegmentMover> m_segments = new List<CentipedeSegmentMover>();
 
     private float t = 0.0f;
     private Quaternion headTargetRotation;

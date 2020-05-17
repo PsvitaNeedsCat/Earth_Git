@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CentipedeSegment : MonoBehaviour
+public class CentipedeSegmentMover : MonoBehaviour
 {
     public bool m_isHead = false;
-    [HideInInspector] public CentipedeSegment m_segmentBehind;
-    public Color m_damagedColor;
+    [HideInInspector] public CentipedeSegmentMover m_segmentBehind;
+    
 
     private Vector3 m_lastPosition;
     private Quaternion m_lastRotation;
     private Vector3 m_targetPosition;
     private Quaternion m_targetRotation;
-    private MeshRenderer m_meshRenderer;
-    private MaterialPropertyBlock m_damagedMPB;
-    private bool m_cooledDown = false;
-
-    static readonly int shPropColor = Shader.PropertyToID("_Color");
+    
 
     private void Awake()
     {
         m_lastPosition = transform.position;
         m_lastRotation = transform.rotation;
-        m_meshRenderer = GetComponent<MeshRenderer>();
-        m_damagedMPB = new MaterialPropertyBlock();
-        m_damagedMPB.SetColor(shPropColor, m_damagedColor);
+
     }
 
     // Moves this segment on to the next target position and rotation
@@ -50,11 +44,5 @@ public class CentipedeSegment : MonoBehaviour
 
         // Move child
         m_segmentBehind?.Move(_t);
-    }
-
-    public void CoolDown()
-    {
-        m_meshRenderer.SetPropertyBlock(m_damagedMPB);
-        m_cooledDown = true;
     }
 }

@@ -85,7 +85,7 @@ public class Chunk : MonoBehaviour
             return;
         }
 
-        CentipedeSegment centipedeSegment = other.GetComponent<CentipedeSegment>();
+        CentipedeBodySegment centipedeSegment = other.GetComponent<CentipedeBodySegment>();
         if (centipedeSegment)
         {
             if (m_currentEffect == eChunkEffect.waterTrail)
