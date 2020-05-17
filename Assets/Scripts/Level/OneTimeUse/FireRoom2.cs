@@ -8,10 +8,14 @@ public class FireRoom2 : MonoBehaviour
     private int m_currentGrubs = 3;
 
     [SerializeField] GameObject m_keyPrefab;
-
-    private void Awake()
+    private void OnEnable()
     {
         MessageBus.AddListener(EMessageType.grubKilled, GrubKilled);
+    }
+
+    private void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.grubKilled, GrubKilled);
     }
 
     private void GrubKilled(string _null)
