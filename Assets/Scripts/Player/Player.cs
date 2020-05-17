@@ -93,8 +93,6 @@ public class Player : MonoBehaviour
                 // Set animation trigger
             }
         }
-
-        DeactivateTileTargeter();
     }
 
     public void ActivateTileTargeter()
