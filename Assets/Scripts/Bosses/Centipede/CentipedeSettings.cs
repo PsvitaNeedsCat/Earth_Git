@@ -14,6 +14,8 @@ public class CentipedeStateInfo
 [CreateAssetMenu(fileName = "New Centipede Settings", menuName = "Settings/CentipedeSettings")]
 public class CentipedeSettings : ScriptableObject
 {
+    public LayerMask m_blocksLasers;
+
     public CentipedeStateInfo m_fiveAlive;
     public CentipedeStateInfo m_fourAlive;
     public CentipedeStateInfo m_threeAlive;

@@ -5,9 +5,10 @@ using UnityEngine;
 public class CentipedeBoss : MonoBehaviour
 {
     public List<CentipedeBodySegment> m_bodySegments;
+    public float m_laserDuration = 5.0f;
 
     private static int m_segmentsAlive;
-    private CentipedeSettings m_settings;
+    public static CentipedeSettings m_settings;
     private static List<CentipedeStateInfo> m_stateInfo;
 
     private void Awake()
@@ -26,14 +27,19 @@ public class CentipedeBoss : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            FireRandomLaser();
+            // FireRandomLaser();
+            m_bodySegments[0].FireLaserFor(m_laserDuration);
+            m_bodySegments[1].FireLaserFor(m_laserDuration);
+            m_bodySegments[2].FireLaserFor(m_laserDuration);
+            m_bodySegments[3].FireLaserFor(m_laserDuration);
+            m_bodySegments[4].FireLaserFor(m_laserDuration);
         }
     }
 
     private void FireRandomLaser()
     {
         int laserIndex = Random.Range(0, 5);
-        m_bodySegments[laserIndex].FireLaser();
+        m_bodySegments[laserIndex].FireLaserFor(m_laserDuration);
     }
 
     public static CentipedeStateInfo GetCurrentStateInfo()

@@ -27,8 +27,8 @@ public class CentipedeBodySegment : MonoBehaviour
         CentipedeBoss.SegmentDied();
     }
 
-    public void FireLaser()
+    public void FireLaserFor(float _duration)
     {
-        m_laser.FireLaserFor(3.0f);
+        m_laser.FireLaserFor(_duration);
     }
 }
