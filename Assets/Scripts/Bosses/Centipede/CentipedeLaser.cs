@@ -48,7 +48,7 @@ public class CentipedeLaser : MonoBehaviour
         Vector3 laserWorldPos = transform.position + (transform.rotation * _direction * 0.5f);
         CentipedeStateInfo currentStateInfo = CentipedeBoss.GetCurrentStateInfo();
         RaycastHit hitInfo;
-        Ray ray = new Ray(laserWorldPos, _direction);
+        Ray ray = new Ray(laserWorldPos, (transform.rotation * _direction));
 
         float endDist;
         Vector3 endSize;
