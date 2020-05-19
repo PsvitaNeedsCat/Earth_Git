@@ -446,6 +446,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fire Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""82681fc2-aeef-4cb9-b648-d94725926196"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Mirage Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""031d9282-e427-450d-88fc-84f8cfe3f06e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -496,7 +512,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9918f710-bd8b-4f7c-9b51-e58973575e3a"",
-                    ""path"": ""<Keyboard>/u"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -507,7 +523,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ac5e9507-3cc3-4a36-b22c-6bf86b0c162e"",
-                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -518,7 +534,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b5cd684a-30d7-41a7-9174-ac727a26e169"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -529,11 +545,55 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""67ef5946-2a83-491a-9c41-c0efd18ff155"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Water Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3c709ab-4f29-43c3-af67-e2f68a323eed"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fire Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26605d48-dee7-47ad-b4ba-13f5d328aa9f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Fire Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b14bb4e-ccf4-41a0-93fb-a89c644414f5"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Mirage Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f8f9997-c112-47b3-898c-f7a7d4510f0e"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Mirage Power"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -585,6 +645,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerCombat_Raise = m_PlayerCombat.FindAction("Raise", throwIfNotFound: true);
         m_PlayerCombat_NoPower = m_PlayerCombat.FindAction("No Power", throwIfNotFound: true);
         m_PlayerCombat_WaterPower = m_PlayerCombat.FindAction("Water Power", throwIfNotFound: true);
+        m_PlayerCombat_FirePower = m_PlayerCombat.FindAction("Fire Power", throwIfNotFound: true);
+        m_PlayerCombat_MiragePower = m_PlayerCombat.FindAction("Mirage Power", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -728,6 +790,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerCombat_Raise;
     private readonly InputAction m_PlayerCombat_NoPower;
     private readonly InputAction m_PlayerCombat_WaterPower;
+    private readonly InputAction m_PlayerCombat_FirePower;
+    private readonly InputAction m_PlayerCombat_MiragePower;
     public struct PlayerCombatActions
     {
         private @InputMaster m_Wrapper;
@@ -736,6 +800,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Raise => m_Wrapper.m_PlayerCombat_Raise;
         public InputAction @NoPower => m_Wrapper.m_PlayerCombat_NoPower;
         public InputAction @WaterPower => m_Wrapper.m_PlayerCombat_WaterPower;
+        public InputAction @FirePower => m_Wrapper.m_PlayerCombat_FirePower;
+        public InputAction @MiragePower => m_Wrapper.m_PlayerCombat_MiragePower;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -757,6 +823,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @WaterPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
                 @WaterPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
                 @WaterPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
+                @FirePower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
+                @FirePower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
+                @FirePower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
+                @MiragePower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
+                @MiragePower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
+                @MiragePower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
             }
             m_Wrapper.m_PlayerCombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -773,6 +845,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @WaterPower.started += instance.OnWaterPower;
                 @WaterPower.performed += instance.OnWaterPower;
                 @WaterPower.canceled += instance.OnWaterPower;
+                @FirePower.started += instance.OnFirePower;
+                @FirePower.performed += instance.OnFirePower;
+                @FirePower.canceled += instance.OnFirePower;
+                @MiragePower.started += instance.OnMiragePower;
+                @MiragePower.performed += instance.OnMiragePower;
+                @MiragePower.canceled += instance.OnMiragePower;
             }
         }
     }
@@ -812,5 +890,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRaise(InputAction.CallbackContext context);
         void OnNoPower(InputAction.CallbackContext context);
         void OnWaterPower(InputAction.CallbackContext context);
+        void OnFirePower(InputAction.CallbackContext context);
+        void OnMiragePower(InputAction.CallbackContext context);
     }
 }
