@@ -433,6 +433,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Fire Power",
+                    "type": "Button",
+                    "id": "82681fc2-aeef-4cb9-b648-d94725926196",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Mirage Power",
+                    "type": "Button",
+                    "id": "031d9282-e427-450d-88fc-84f8cfe3f06e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -483,7 +499,7 @@
                 {
                     "name": "",
                     "id": "9918f710-bd8b-4f7c-9b51-e58973575e3a",
-                    "path": "<Keyboard>/u",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -494,7 +510,7 @@
                 {
                     "name": "",
                     "id": "ac5e9507-3cc3-4a36-b22c-6bf86b0c162e",
-                    "path": "<Gamepad>/dpad/left",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -505,7 +521,7 @@
                 {
                     "name": "",
                     "id": "b5cd684a-30d7-41a7-9174-ac727a26e169",
-                    "path": "<Keyboard>/i",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -516,11 +532,55 @@
                 {
                     "name": "",
                     "id": "67ef5946-2a83-491a-9c41-c0efd18ff155",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Water Power",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3c709ab-4f29-43c3-af67-e2f68a323eed",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Fire Power",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26605d48-dee7-47ad-b4ba-13f5d328aa9f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Fire Power",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0b14bb4e-ccf4-41a0-93fb-a89c644414f5",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Mirage Power",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f8f9997-c112-47b3-898c-f7a7d4510f0e",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Mirage Power",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
