@@ -50,40 +50,46 @@ public enum EMessageType
     toadTongue,
 }
 
+[System.Serializable]
+public class MessageBusEvent : UnityEvent<string>
+{
+
+}
+
 public static class MessageBus
 {
-    private static Dictionary<EMessageType, System.Action<string>> m_eventDict = new Dictionary<EMessageType, System.Action<string>>();
+    private static Dictionary<EMessageType, UnityEvent<string>> m_eventDict = new Dictionary<EMessageType, UnityEvent<string>>();
 
     // Subscribes a listener to a type of message
-    public static void AddListener(EMessageType _type, System.Action<string> _listener)
+    public static void AddListener(EMessageType _type, UnityAction<string> _listener)
     {
         if (_type == EMessageType.none) { return; }
-
-        System.Action<string> checkEvent = null;
-
+        
         // Event already exists
-        if (m_eventDict.TryGetValue(_type, out checkEvent))
+        if (m_eventDict.TryGetValue(_type, out UnityEvent<string> checkEvent))
         {
-            checkEvent += _listener;
+            checkEvent.AddListener(_listener);
         }
         // Event doesn't exist, create
         else
         {
-            checkEvent = new System.Action<string>(_listener);
-            m_eventDict.Add(_type, checkEvent);
+            UnityEvent<string> newEvent = new MessageBusEvent();
+
+            newEvent.AddListener(_listener);
+            m_eventDict.Add(_type, newEvent);
         }
     }
 
-    public static void RemoveListener(EMessageType _type, System.Action<string> _listener)
+    public static void RemoveListener(EMessageType _type, UnityAction<string> _listener)
     {
         if (_type == EMessageType.none) { return; }
 
-        System.Action<string> checkEvent = null;
+        UnityEvent<string> checkEvent = null;
 
         // Only try to remove listener if event exists
         if (m_eventDict.TryGetValue(_type, out checkEvent))
         {
-            checkEvent -= _listener;
+            checkEvent.RemoveListener(_listener);
         }
     }
 
@@ -91,7 +97,7 @@ public static class MessageBus
     {
         if (_type == EMessageType.none) { return; }
 
-        System.Action<string> triggerEvent = null;
+        UnityEvent<string> triggerEvent = null;
 
         if (m_eventDict.TryGetValue(_type, out triggerEvent))
         {
@@ -103,7 +109,7 @@ public static class MessageBus
     {
         if (_type == EMessageType.none) { return; }
 
-        System.Action<string> triggerEvent = null;
+        UnityEvent<string> triggerEvent = null;
 
         if (m_eventDict.TryGetValue(_type, out triggerEvent))
         {

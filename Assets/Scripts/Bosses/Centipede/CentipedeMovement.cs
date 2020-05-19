@@ -28,20 +28,19 @@ public class CentipedeMovement : MonoBehaviour
     private void TestInput()
     {
         int horInput = 0;
-        if (Input.GetKeyDown(KeyCode.J)) horInput -= 1;
-        if (Input.GetKeyDown(KeyCode.L)) horInput += 1;
+        if (Input.GetKeyDown(KeyCode.F)) horInput -= 1;
+        if (Input.GetKeyDown(KeyCode.H)) horInput += 1;
 
         // horInput = Random.Range(0, 3) - 1;
-        
 
-        float forwardInput = (Input.GetKey(KeyCode.I)) ? 1.0f : 0.0f;
+        float forwardInput = (Input.GetKey(KeyCode.T)) ? 1.0f : 0.0f;
         Forward(forwardInput);
-        Turn();
+        Turn(horInput);
     }
 
     private void Forward(float _input)
     {
-        // t += Time.smoothDeltaTime * 2.0f; // * _input;
+        t += Time.smoothDeltaTime * 2.0f * _input * CentipedeBoss.GetCurrentStateInfo().m_moveSpeed;
 
         if (t >= 1.0f)
         {
@@ -52,10 +51,11 @@ public class CentipedeMovement : MonoBehaviour
         m_segments[0].Move(t);
     }
 
-    private void Turn()
+    private void Turn(float _horInput)
     {
-        //m_segments[0].gameObject.transform.Rotate(Vector3.up * _horInput * 90.0f);
-        // headTargetRotation = Quaternion.Euler(Vector3.up * 90.0f) * headTargetRotation;
+        // m_segments[0].gameObject.transform.Rotate(Vector3.up * _horInput * 90.0f);
+
+        headTargetRotation = Quaternion.Euler(Vector3.up * 90.0f * _horInput) * headTargetRotation;
 
         //if (Random.Range(0, 200) == 0)
         //{
