@@ -69,4 +69,16 @@ public class MoveableBlock : MonoBehaviour
             }
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GoToEnd();
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GoToStart();
+        }
+    }
 }

@@ -78,6 +78,10 @@ public class Chunk : MonoBehaviour
         Projectile projectile = other.GetComponent<Projectile>();
         if (projectile) { return; }
 
+        // If hit preassure plate, ignore
+        PressurePlate pp = other.GetComponent<PressurePlate>();
+        if (pp) { return; }
+
         HealthComponent healthComp = other.GetComponent<HealthComponent>();
         if (healthComp && healthComp.m_type == HealthComponent.EHealthType.boss)
         {
@@ -100,8 +104,6 @@ public class Chunk : MonoBehaviour
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
         {
-            Debug.Log("Hit: " + other.gameObject.name);
-
             if (IsAgainstWall(m_prevVelocity.normalized))
             {
                 HitWall();
