@@ -63,7 +63,7 @@ public class Grub : MonoBehaviour
         if (chunk)
         {
             // Kill grub
-            if (chunk.m_currentEffect == eChunkEffect.waterTrail)
+            if (chunk.m_currentEffect == eChunkEffect.water)
             {
                 m_dead = true;
                 MessageBus.TriggerEvent(EMessageType.grubKilled);

@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
         switch (_effect)
         {
-            case eChunkEffect.waterTrail:
+            case eChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerWater);
                     break;

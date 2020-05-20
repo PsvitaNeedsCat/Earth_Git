@@ -7,7 +7,8 @@ using DG.Tweening;
 public enum eChunkEffect
 {
     none,
-    waterTrail
+    water,
+    fire
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -88,7 +89,7 @@ public class Chunk : MonoBehaviour
         CentipedeBodySegment centipedeSegment = other.GetComponent<CentipedeBodySegment>();
         if (centipedeSegment)
         {
-            if (m_currentEffect == eChunkEffect.waterTrail)
+            if (m_currentEffect == eChunkEffect.water)
             {
                 centipedeSegment.CoolDown();
             }
@@ -99,6 +100,8 @@ public class Chunk : MonoBehaviour
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
         {
+            Debug.Log("Hit: " + other.gameObject.name);
+
             if (IsAgainstWall(m_prevVelocity.normalized))
             {
                 HitWall();
@@ -140,7 +143,7 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.waterTrail:
+            case eChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
                     break;
@@ -215,7 +218,7 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.waterTrail:
+            case eChunkEffect.water:
                 {
                     OnDeath();
                     break;
