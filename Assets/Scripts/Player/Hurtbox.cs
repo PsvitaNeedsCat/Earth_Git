@@ -5,13 +5,12 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     // Public variables
-
+    [HideInInspector] public eChunkEffect m_effect = eChunkEffect.none;
 
     // Private variables
     private int m_framesSkipped = 0;
     private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
-    private eChunkEffect m_effect = eChunkEffect.none;
 
     // Called when hurtbox is instantiated
     public void Init(Vector3 _pos, eChunkEffect _effect)
@@ -34,7 +33,7 @@ public class Hurtbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Chunk chunk = other.transform.parent.GetComponent<Chunk>();
+        Chunk chunk = other.GetComponentInParent<Chunk>();
 
         // Check collision is a chunk
         if (chunk)

@@ -82,6 +82,9 @@ public class Chunk : MonoBehaviour
         PressurePlate pp = other.GetComponent<PressurePlate>();
         if (pp) { return; }
 
+        SandBlock sand = other.GetComponent<SandBlock>();
+        if (sand && !sand.m_isGlass) { return; }
+
         HealthComponent healthComp = other.GetComponent<HealthComponent>();
         if (healthComp && healthComp.m_type == HealthComponent.EHealthType.boss)
         {
@@ -241,8 +244,8 @@ public class Chunk : MonoBehaviour
         // Play sound
 
         m_rigidBody.velocity = Vector3.zero;
-        m_rigidBody.isKinematic = true;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        m_rigidBody.isKinematic = true;
 
         // Change colliders
         DisableAllColliders();
