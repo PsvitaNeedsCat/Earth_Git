@@ -31,6 +31,7 @@ public enum EMessageType
     ting,
     powerRock,
     powerWater,
+    powerFire,
 
     // Level
     doorUnlocked,

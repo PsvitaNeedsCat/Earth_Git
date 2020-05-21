@@ -131,16 +131,13 @@ public class Player : MonoBehaviour
         switch (_effect)
         {
             case eChunkEffect.water:
-                {
-                    MessageBus.TriggerEvent(EMessageType.powerWater);
-                    break;
-                }
+                { MessageBus.TriggerEvent(EMessageType.powerWater); break; }
+
+            case eChunkEffect.fire:
+                { MessageBus.TriggerEvent(EMessageType.powerFire); break; }
 
             default:
-                {
-                    MessageBus.TriggerEvent(EMessageType.powerRock);
-                    break;
-                }
+                { MessageBus.TriggerEvent(EMessageType.powerRock); break; }
         }
     }
 }

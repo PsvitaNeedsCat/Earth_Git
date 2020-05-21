@@ -71,7 +71,7 @@ public class SandBlock : MonoBehaviour
     // Called when sand is hit by fire
     private void TurnToGlass()
     {
-        // Call message bus
+        MessageBus.TriggerEvent(EMessageType.lavaToStone);
 
         m_isGlass = true;
         GetComponent<Collider>().isTrigger = false;
