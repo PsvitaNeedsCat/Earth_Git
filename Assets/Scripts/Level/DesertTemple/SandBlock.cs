@@ -18,6 +18,25 @@ public class SandBlock : MonoBehaviour
         m_chunkSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
     }
 
+    private void OnEnable()
+    {
+        SandManager manager = FindObjectOfType<SandManager>();
+        if (manager)
+        {
+            manager.m_sandBlocks.Add(this.gameObject);
+        }
+        else { Debug.Log("Could not find Sand Manager"); }
+    }
+    private void OnDisable()
+    {
+        SandManager manager = FindObjectOfType<SandManager>();
+        if (manager)
+        {
+            manager.m_sandBlocks.Remove(this.gameObject);
+        }
+        else { Debug.Log("Could not find Sand Manager"); }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // If player punched block
