@@ -39,6 +39,9 @@ public class SandBlock : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player) { player.m_inSand = true; }
+
         // If player punched block
         Hurtbox hurtbox = other.GetComponent<Hurtbox>();
         if (hurtbox)
@@ -49,6 +52,12 @@ public class SandBlock : MonoBehaviour
 
         // Block is falling and hits the ground
         if (m_isFalling && other.tag == "Ground") { StopFalling(); }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player) { player.m_inSand = false; }
     }
 
     // Called when glass is to break
