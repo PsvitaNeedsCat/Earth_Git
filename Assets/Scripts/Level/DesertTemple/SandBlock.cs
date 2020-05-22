@@ -11,6 +11,7 @@ public class SandBlock : MonoBehaviour
     private bool m_isFalling = false;
     private GlobalChunkSettings m_chunkSettings;
     private Vector3 m_fallingBounds = new Vector3(0.8f, 1.0f, 0.8f);
+    private GameObject m_chunkInside = null;
 
     private void Awake()
     {
@@ -50,6 +51,9 @@ public class SandBlock : MonoBehaviour
             else if (hurtbox.m_effect == eChunkEffect.fire) { TurnToGlass(); } // Turn to glass if currently sand and has fire equipped
         }
 
+        Chunk chunk = other.GetComponentInParent<Chunk>();
+        if (chunk && !m_chunkInside) { m_chunkInside = other.gameObject; }
+
         // Block is falling and hits the ground
         if (m_isFalling && other.tag == "Ground") { StopFalling(); }
     }
@@ -58,6 +62,9 @@ public class SandBlock : MonoBehaviour
     {
         PlayerController player = other.GetComponent<PlayerController>();
         if (player) { player.m_inSand = false; }
+
+        Chunk chunk = other.GetComponentInParent<Chunk>();
+        if (chunk && m_chunkInside == chunk) { m_chunkInside = null; }
     }
 
     // Called when glass is to break
@@ -76,6 +83,9 @@ public class SandBlock : MonoBehaviour
         m_isGlass = true;
         GetComponent<Collider>().isTrigger = false;
         GetComponent<MeshRenderer>().material = m_glassMat;
+
+        // Break chunk inside
+        if (m_chunkInside) { Destroy(m_chunkInside); }
     }
 
     // Makes the sand block fall - called from external source

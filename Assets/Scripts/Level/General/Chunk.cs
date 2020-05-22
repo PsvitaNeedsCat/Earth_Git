@@ -205,6 +205,11 @@ public class Chunk : MonoBehaviour
         if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
         {
             // Hit something
+
+            // Ignore sand
+            SandBlock sand = hit.transform.GetComponent<SandBlock>();
+            if (sand && !sand.m_isGlass) { return false; }
+
             return true;
         }
 
