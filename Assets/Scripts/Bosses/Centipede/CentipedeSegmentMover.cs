@@ -4,31 +4,39 @@ using UnityEngine;
 
 public class CentipedeSegmentMover : MonoBehaviour
 {
-    public bool m_isHead = false;
+    public int m_positionInBody;
     [HideInInspector] public CentipedeSegmentMover m_segmentBehind;
-    
 
     private Vector3 m_lastPosition;
     private Quaternion m_lastRotation;
     private Vector3 m_targetPosition;
     private Quaternion m_targetRotation;
-    
+
+    private PathNode m_currentNode;
 
     private void Awake()
     {
         m_lastPosition = transform.position;
         m_lastRotation = transform.rotation;
-
+        m_currentNode = CentipedeGrid.NodeFromWorldPoint(transform.position);
+        m_currentNode.m_occupiedFor = 7 - m_positionInBody;
     }
 
     // Moves this segment on to the next target position and rotation
-    public void NextPos(Vector3  _newPos, Quaternion _newRot)
+    public void NextPos(Vector3 _newPos, Quaternion _newRot)
     {
+        m_currentNode.m_occupied = false;
+        m_currentNode.m_occupiedFor = 0;
+
         m_lastPosition = transform.position;
         m_lastRotation = transform.rotation;
         
         m_targetPosition = _newPos;
         m_targetRotation = _newRot;
+
+        m_currentNode = CentipedeGrid.NodeFromWorldPoint(m_targetPosition);
+        m_currentNode.m_occupied = true;
+        m_currentNode.m_occupiedFor = 7 - m_positionInBody;
 
         m_segmentBehind?.NextPos(m_lastPosition, m_lastRotation);
     }
@@ -39,7 +47,6 @@ public class CentipedeSegmentMover : MonoBehaviour
         transform.position = Vector3.Lerp(m_lastPosition, m_targetPosition, _t);
 
         // Head tracks its own rotation, target rotation not used
-        // if (!m_isHead)
         transform.rotation = Quaternion.Lerp(m_lastRotation, m_targetRotation, _t);
 
         // Move child

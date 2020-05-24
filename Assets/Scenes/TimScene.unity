@@ -961,6 +961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 234845447}
   - component: {fileID: 234845448}
+  - component: {fileID: 234845449}
   m_Layer: 0
   m_Name: CentipedeGrid
   m_TagString: Untagged
@@ -994,11 +995,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9438a45579c3dae44818f33b2d41d64f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_unwalkableMask:
-    serializedVersion: 2
-    m_Bits: 2097152
-  m_gridWorldSize: {x: 9, y: 9}
   m_nodeRadius: 0.5
+--- !u!114 &234845449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234845446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a631e9fbcab9654fb918b83f3615193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_seeker: {fileID: 0}
+  m_target: {fileID: 0}
 --- !u!1001 &249985621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1387,7 +1398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 1
   m_segmentBehind: {fileID: 0}
 --- !u!135 &349249393
 SphereCollider:
@@ -3415,7 +3426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 5
   m_segmentBehind: {fileID: 0}
 --- !u!135 &1090090361
 SphereCollider:
@@ -3730,7 +3741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 1
+  m_positionInBody: 0
   m_segmentBehind: {fileID: 0}
 --- !u!1001 &1214103842
 PrefabInstance:
@@ -5210,7 +5221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564724427}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 279988876}
@@ -5243,6 +5254,9 @@ MonoBehaviour:
   - {fileID: 1727290106}
   - {fileID: 1090090360}
   - {fileID: 1947517335}
+  m_grid: {fileID: 234845448}
+  m_pathfinder: {fileID: 234845449}
+  m_target: {fileID: 1733018560}
 --- !u!114 &1564724430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5387,7 +5401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 3
   m_segmentBehind: {fileID: 0}
 --- !u!135 &1680255338
 SphereCollider:
@@ -5742,7 +5756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 2
   m_segmentBehind: {fileID: 0}
 --- !u!135 &1725821956
 SphereCollider:
@@ -5868,7 +5882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 4
   m_segmentBehind: {fileID: 0}
 --- !u!135 &1727290107
 SphereCollider:
@@ -6019,6 +6033,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1729729368}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1733018559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1733018560}
+  m_Layer: 0
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1733018560
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733018559}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1766853527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6599,7 +6643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bd54792852b114cbb59766b1c0b3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isHead: 0
+  m_positionInBody: 6
   m_segmentBehind: {fileID: 0}
 --- !u!135 &1947517336
 SphereCollider:
