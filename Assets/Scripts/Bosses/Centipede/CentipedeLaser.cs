@@ -134,13 +134,11 @@ public class CentipedeLaser : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 leftLaserWorldPos = transform.position + (transform.rotation * Vector3.left);
-        Vector3 rightLaserWorldPos = transform.position + (transform.rotation * Vector3.right);
+        Vector3 leftLaserWorldPos = transform.position + 0.5f * (transform.rotation * Vector3.left);
+        Vector3 rightLaserWorldPos = transform.position + 0.5f * (transform.rotation * Vector3.right);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(leftLaserWorldPos, 0.2f);
-
-        Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(rightLaserWorldPos, 0.2f);
     }
 }

@@ -14,6 +14,7 @@
     {
         Tags {"Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout"}
         LOD 300
+        Cull Off
 
         CGPROGRAM
         #pragma surface surf SoftLight alphatest:_Cutoff
