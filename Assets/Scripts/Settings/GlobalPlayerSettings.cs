@@ -18,6 +18,8 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_drag = 2.0f;
     [Tooltip("How much force is applied to the player when moving")]
     public float m_moveForce = 10.0f;
+    [Tooltip("How much force is applied while walking through sand")]
+    public float m_sandMoveForce = 5.0f;
 
     [Header("Tile Targeter")]
     [Tooltip("Maximum range between tile targeter position and closest tile")]

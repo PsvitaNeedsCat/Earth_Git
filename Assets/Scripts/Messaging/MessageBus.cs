@@ -31,6 +31,7 @@ public enum EMessageType
     ting,
     powerRock,
     powerWater,
+    powerFire,
 
     // Level
     doorUnlocked,
@@ -38,6 +39,9 @@ public enum EMessageType
     lavaToStone,
     keyCollected,
     keySpawned,
+
+    // Blocks
+    glassDestroyed,
 
     // Toad boss
     smallToadJumpInWater,
