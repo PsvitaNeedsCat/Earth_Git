@@ -19,25 +19,6 @@ public class SandBlock : MonoBehaviour
         m_chunkSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
     }
 
-    private void OnEnable()
-    {
-        SandManager manager = FindObjectOfType<SandManager>();
-        if (manager)
-        {
-            manager.m_sandBlocks.Add(this.gameObject);
-        }
-        else { Debug.Log("Could not find Sand Manager"); }
-    }
-    private void OnDisable()
-    {
-        SandManager manager = FindObjectOfType<SandManager>();
-        if (manager)
-        {
-            manager.m_sandBlocks.Remove(this.gameObject);
-        }
-        else { Debug.Log("Could not find Sand Manager"); }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
@@ -67,11 +48,14 @@ public class SandBlock : MonoBehaviour
         if (chunk && m_chunkInside == chunk) { m_chunkInside = null; }
     }
 
+    private void OnDestroy()
+    {
+        MessageBus.TriggerEvent(EMessageType.glassDestroyed);
+    }
+
     // Called when glass is to break
     private void Break()
     {
-        // Call message bus
-
         Destroy(this.gameObject);
     }
 

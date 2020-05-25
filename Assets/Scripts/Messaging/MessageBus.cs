@@ -40,6 +40,9 @@ public enum EMessageType
     keyCollected,
     keySpawned,
 
+    // Blocks
+    glassDestroyed,
+
     // Toad boss
     smallToadJumpInWater,
     swampWave,

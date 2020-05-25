@@ -11,25 +11,39 @@ public class PressurePlate : MonoBehaviour
     // Holds all objects currently on the preasure plate
     private List<GameObject> m_objects = new List<GameObject>();
 
-    private void OnEnable() => MessageBus.AddListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
-    private void OnDisable() => MessageBus.RemoveListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+    private void OnEnable()
+    {
+        MessageBus.AddListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.AddListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+    }
+    private void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.GetComponent<Player>();
-        if (player) { AddObject(other.gameObject); }
+        if (player) { AddObject(other.gameObject); return; }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk) { AddObject(other.gameObject); }
+        if (chunk) { AddObject(other.gameObject); return; }
+
+        SandBlock sand = other.GetComponent<SandBlock>();
+        if (sand) { AddObject(other.gameObject); return; }
     }
 
     private void OnTriggerExit(Collider other)
     {
         Player player = other.GetComponent<Player>();
-        if (player) { RemoveObject(other.gameObject); }
+        if (player) { RemoveObject(other.gameObject); return; }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk) { RemoveObject(other.gameObject); }
+        if (chunk) { RemoveObject(other.gameObject); return; }
+
+        SandBlock sand = other.GetComponent<SandBlock>();
+        if (sand) { RemoveObject(other.gameObject); return; }
     }
 
     // Called when a chunk/player goes on the preasure plate
@@ -58,6 +72,20 @@ public class PressurePlate : MonoBehaviour
         foreach (GameObject go in m_objects)
         {
             if (go.GetComponentInParent<Chunk>())
+            {
+                RemoveObject(go);
+                return;
+            }
+        }
+    }
+
+    // Same as ChunkWasDestroyed but for glass
+    private void GlassWasDestroyed(string _null)
+    {
+        // Check that all the sand is still valid
+        foreach (GameObject go in m_objects)
+        {
+            if (go.GetComponent<SandBlock>())
             {
                 RemoveObject(go);
                 return;
