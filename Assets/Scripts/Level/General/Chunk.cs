@@ -7,7 +7,8 @@ using DG.Tweening;
 public enum eChunkEffect
 {
     none,
-    waterTrail
+    water,
+    fire
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -77,6 +78,13 @@ public class Chunk : MonoBehaviour
         Projectile projectile = other.GetComponent<Projectile>();
         if (projectile) { return; }
 
+        // If hit preassure plate, ignore
+        PressurePlate pp = other.GetComponent<PressurePlate>();
+        if (pp) { return; }
+
+        SandBlock sand = other.GetComponent<SandBlock>();
+        if (sand && !sand.m_isGlass) { return; }
+
         HealthComponent healthComp = other.GetComponent<HealthComponent>();
         if (healthComp && healthComp.m_type == HealthComponent.EHealthType.boss)
         {
@@ -88,7 +96,7 @@ public class Chunk : MonoBehaviour
         CentipedeSegmentMover centipedeSegment = other.GetComponent<CentipedeSegmentMover>();
         if (centipedeSegment)
         {
-            if (m_currentEffect == eChunkEffect.waterTrail)
+            if (m_currentEffect == eChunkEffect.water)
             {
                 centipedeSegment.Damaged();
             }
@@ -140,7 +148,7 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.waterTrail:
+            case eChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
                     break;
@@ -197,6 +205,11 @@ public class Chunk : MonoBehaviour
         if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
         {
             // Hit something
+
+            // Ignore sand
+            SandBlock sand = hit.transform.GetComponent<SandBlock>();
+            if (sand && !sand.m_isGlass) { return false; }
+
             return true;
         }
 
@@ -215,7 +228,7 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.waterTrail:
+            case eChunkEffect.water:
                 {
                     OnDeath();
                     break;
@@ -236,8 +249,8 @@ public class Chunk : MonoBehaviour
         // Play sound
 
         m_rigidBody.velocity = Vector3.zero;
-        m_rigidBody.isKinematic = true;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        m_rigidBody.isKinematic = true;
 
         // Change colliders
         DisableAllColliders();

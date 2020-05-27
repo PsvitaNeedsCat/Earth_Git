@@ -5,13 +5,12 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     // Public variables
-
+    [HideInInspector] public eChunkEffect m_effect = eChunkEffect.none;
 
     // Private variables
     private int m_framesSkipped = 0;
     private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
-    private eChunkEffect m_effect = eChunkEffect.none;
 
     // Called when hurtbox is instantiated
     public void Init(Vector3 _pos, eChunkEffect _effect)
@@ -34,7 +33,7 @@ public class Hurtbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Chunk chunk = other.transform.parent.GetComponent<Chunk>();
+        Chunk chunk = other.GetComponentInParent<Chunk>();
 
         // Check collision is a chunk
         if (chunk)
@@ -43,7 +42,7 @@ public class Hurtbox : MonoBehaviour
             hitDir.y = 0.0f;
             hitDir.Normalize();
 
-            Vector3 cardinal = GetCardinalDir(hitDir);
+            Vector3 cardinal = hitDir.Cardinal();
             if (chunk.Hit(cardinal * m_settings.m_chunkHitForce))
             {
                 chunk.m_currentEffect = m_effect;
@@ -51,24 +50,5 @@ public class Hurtbox : MonoBehaviour
 
             Destroy(this.gameObject);
         }
-    }
-
-    // Get the closest cardinal direction of a given vector
-    private Vector3 GetCardinalDir(Vector3 _dir)
-    {
-        Vector3 cardinalDir;
-
-        if (Mathf.Abs(_dir.z) > Mathf.Abs(_dir.x))
-        {
-            if (_dir.z > 0.0f) { cardinalDir = Vector3.forward; }
-            else { cardinalDir = Vector3.back; }
-        }
-        else
-        {
-            if (_dir.x > 0.0f) { cardinalDir = Vector3.right; }
-            else { cardinalDir = Vector3.left; }
-        }
-
-        return cardinalDir;
     }
 }

@@ -6,7 +6,8 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     // Public variables
-    public Tile m_confirmedTile = null;
+    [HideInInspector] public Tile m_confirmedTile = null;
+    [HideInInspector] public bool m_inSand = false;
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
@@ -78,8 +79,11 @@ public class PlayerController : MonoBehaviour
             // Set look direction
             transform.forward = moveDir;
 
+            // Set move force
+            float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+
             // Add force
-            m_rigidBody.AddForce(moveDir.normalized * m_settings.m_moveForce, ForceMode.Impulse);
+            m_rigidBody.AddForce(moveDir.normalized * force, ForceMode.Impulse);
         }
 
         ApplyDrag();
