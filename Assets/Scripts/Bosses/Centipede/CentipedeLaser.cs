@@ -6,6 +6,8 @@ public class CentipedeLaser : MonoBehaviour
 {
     public BoxCollider m_leftLaser;
     public BoxCollider m_rightLaser;
+    public LineRenderer m_leftLine;
+    public LineRenderer m_rightLine;
 
     private bool m_isFiring = false;
 
@@ -13,9 +15,14 @@ public class CentipedeLaser : MonoBehaviour
     {
         if (m_isFiring) return;
 
-        // UpdateSettings();
-        UpdateLaser(m_leftLaser, Vector3.left);
-        UpdateLaser(m_rightLaser, Vector3.right);
+        float lineWidth = CentipedeBoss.m_settings.m_laserWidth;
+        m_leftLine.startWidth = lineWidth;
+        m_leftLine.endWidth = lineWidth;
+        m_rightLine.startWidth = lineWidth;
+        m_rightLine.endWidth = lineWidth;
+
+        UpdateLaser(m_leftLaser, m_leftLine, Vector3.left);
+        UpdateLaser(m_rightLaser, m_rightLine, Vector3.right);
 
         StartFiring();
 
@@ -24,29 +31,17 @@ public class CentipedeLaser : MonoBehaviour
 
     private void Update()
     {
-        // if (m_isFiring) UpdateLasers();
         if (m_isFiring)
         {
-            UpdateLaser(m_leftLaser, Vector3.left);
-            UpdateLaser(m_rightLaser, Vector3.right);
+            UpdateLaser(m_leftLaser, m_leftLine, Vector3.left);
+            UpdateLaser(m_rightLaser, m_rightLine, Vector3.right);
         }
     }
 
-    //public void UpdateSettings()
-    //{
-    //    CentipedeStateInfo currentStateInfo = CentipedeBoss.GetCurrentStateInfo();
-    //    Vector3 newSize = new Vector3(currentStateInfo.m_laserDistance, 1.0f, currentStateInfo.m_laserWidth);
-    //    m_leftLaser.center = Vector3.left * (0.5f + currentStateInfo.m_laserDistance * 0.5f);
-    //    m_rightLaser.center = Vector3.right * (0.5f + currentStateInfo.m_laserDistance * 0.5f);
-
-    //    m_leftLaser.size = newSize;
-    //    m_rightLaser.size = newSize;
-    //}
-
-    private void UpdateLaser(BoxCollider _laser, Vector3 _direction)
+    private void UpdateLaser(BoxCollider _laser, LineRenderer _line, Vector3 _direction)
     {
         Vector3 laserWorldPos = transform.position + (transform.rotation * _direction * 0.5f);
-        CentipedeStateInfo currentStateInfo = CentipedeBoss.GetCurrentStateInfo();
+        
         RaycastHit hitInfo;
         Ray ray = new Ray(laserWorldPos, (transform.rotation * _direction));
 
@@ -54,7 +49,7 @@ public class CentipedeLaser : MonoBehaviour
         Vector3 endSize;
 
         // If hit, scale collider
-        if (Physics.Raycast(ray, out hitInfo, currentStateInfo.m_laserDistance, CentipedeBoss.m_settings.m_blocksLasers))
+        if (Physics.Raycast(ray, out hitInfo, CentipedeBoss.m_settings.m_laserDistance, CentipedeBoss.m_settings.m_blocksLasers))
         {
             float dist = (hitInfo.point - laserWorldPos).magnitude;
             endSize = new Vector3(dist, _laser.size.y, _laser.size.z);
@@ -63,41 +58,17 @@ public class CentipedeLaser : MonoBehaviour
         // Otherwise, go to default distance
         else
         {
-            endSize = new Vector3(currentStateInfo.m_laserDistance, 1.0f, currentStateInfo.m_laserWidth);
-            endDist = currentStateInfo.m_laserDistance;
+            endSize = new Vector3(CentipedeBoss.m_settings.m_laserDistance, 1.0f, CentipedeBoss.m_settings.m_laserWidth);
+            endDist = CentipedeBoss.m_settings.m_laserDistance;
         }
+
+        Vector3 endPos = _direction * (endDist + 0.5f);
+        _line.SetPosition(1, endPos);
 
         // Move and scale collider
         _laser.size = endSize;
         _laser.center = _direction * (0.5f + endDist * 0.5f);
     }
-
-    //private void UpdateLasers()
-    //{
-    //    CentipedeStateInfo currentStateInfo = CentipedeBoss.GetCurrentStateInfo();
-
-    //    RaycastHit hitInfo;
-    //    Ray ray = new Ray(m_leftLaser.transform.position, Vector3.left);
-
-    //    if (Physics.Raycast(ray, out hitInfo, currentStateInfo.m_laserDistance, CentipedeBoss.m_settings.m_blocksLasers))
-    //    {
-    //        float dist = (hitInfo.point - m_leftLaser.transform.position).magnitude;
-    //        Vector3 newSize = new Vector3(dist, m_leftLaser.size.y, m_leftLaser.size.z);
-    //        m_leftLaser.size = newSize;
-    //        m_leftLaser.center = Vector3.left * (0.5f + dist * 0.5f);
-    //    }
-
-    //    ray.origin = m_rightLaser.transform.position;
-    //    ray.direction = Vector3.right;
-
-    //    if (Physics.Raycast(ray, out hitInfo, currentStateInfo.m_laserDistance, CentipedeBoss.m_settings.m_blocksLasers))
-    //    {
-    //        float dist = (hitInfo.point - m_rightLaser.transform.position).magnitude;
-    //        Vector3 newSize = new Vector3(dist, m_rightLaser.size.y, m_rightLaser.size.z);
-    //        m_rightLaser.size = newSize;
-    //        m_rightLaser.center = Vector3.right * (0.5f + dist * 0.5f);
-    //    }
-    //}
 
     private IEnumerator StopFiringAfter(float _seconds)
     {
@@ -112,6 +83,8 @@ public class CentipedeLaser : MonoBehaviour
 
         m_leftLaser.enabled = true;
         m_rightLaser.enabled = true;
+        m_leftLine.enabled = true;
+        m_rightLine.enabled = true;
     }
 
     private void StopFiring()
@@ -120,6 +93,8 @@ public class CentipedeLaser : MonoBehaviour
 
         m_leftLaser.enabled = false;
         m_rightLaser.enabled = false;
+        m_leftLine.enabled = false;
+        m_rightLine.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)

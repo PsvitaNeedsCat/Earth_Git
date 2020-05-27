@@ -93,12 +93,12 @@ public class Chunk : MonoBehaviour
             return;
         }
 
-        CentipedeBodySegment centipedeSegment = other.GetComponent<CentipedeBodySegment>();
+        CentipedeSegmentMover centipedeSegment = other.GetComponent<CentipedeSegmentMover>();
         if (centipedeSegment)
         {
             if (m_currentEffect == eChunkEffect.water)
             {
-                centipedeSegment.CoolDown();
+                centipedeSegment.Damaged();
             }
             Destroy(this.gameObject);
             return;

@@ -20,12 +20,12 @@ public class CentipedeBodySegment : MonoBehaviour
         m_damagedMPB.SetColor(m_shPropColor, m_damagedColor);
     }
 
-    public void CoolDown()
-    {
-        m_meshRenderer.SetPropertyBlock(m_damagedMPB);
-        m_cooledDown = true;
-        CentipedeBoss.SegmentDied();
-    }
+    //public void CoolDown()
+    //{
+    //    m_meshRenderer.SetPropertyBlock(m_damagedMPB);
+    //    m_cooledDown = true;
+    //    CentipedeBoss.SegmentDied();
+    //}
 
     public void FireLaserFor(float _duration)
     {
