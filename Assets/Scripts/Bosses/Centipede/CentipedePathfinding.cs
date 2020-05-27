@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CentipedePathfinding : MonoBehaviour
 {
-    public Transform m_seeker;
-    public Transform m_target;
+    private Transform m_seeker;
+    private Transform m_target;
 
     private CentipedeGrid m_grid;
     private List<PathNode> m_path;

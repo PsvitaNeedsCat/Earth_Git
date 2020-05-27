@@ -11,15 +11,17 @@ public class CentipedeSegmentMover : MonoBehaviour
     private Quaternion m_lastRotation;
     private Vector3 m_targetPosition;
     private Quaternion m_targetRotation;
+    private CentipedeHealth m_centipedeHealth;
 
     private PathNode m_currentNode;
 
-    private void Awake()
+    private void Start()
     {
         m_lastPosition = transform.position;
         m_lastRotation = transform.rotation;
         m_currentNode = CentipedeGrid.NodeFromWorldPoint(transform.position);
         m_currentNode.m_occupiedFor = 7 - m_positionInBody;
+        m_centipedeHealth = GetComponentInParent<CentipedeHealth>();
     }
 
     // Moves this segment on to the next target position and rotation
@@ -51,5 +53,15 @@ public class CentipedeSegmentMover : MonoBehaviour
 
         // Move child
         m_segmentBehind?.Move(_t);
+    }
+
+    public void Damaged()
+    {
+        CentipedeHealth.ESegmentType typeHit = CentipedeHealth.ESegmentType.body;
+
+        if (m_positionInBody == 0) typeHit = CentipedeHealth.ESegmentType.head;
+        if (m_positionInBody == 6) typeHit = CentipedeHealth.ESegmentType.tail;
+
+        m_centipedeHealth.SectionDamaged(typeHit);
     }
 }

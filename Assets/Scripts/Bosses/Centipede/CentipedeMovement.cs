@@ -7,12 +7,15 @@ public class CentipedeMovement : MonoBehaviour
     public List<CentipedeSegmentMover> m_segments = new List<CentipedeSegmentMover>();
     public CentipedeGrid m_grid;
     public CentipedePathfinding m_pathfinder;
-    public Transform m_target;
+    public Transform[] m_targets;
+    public static bool m_seekingTarget = false;
 
     private float t = 0.0f;
-    private Quaternion headTargetRotation;
     private List<PathNode> m_path;
     private int m_positionInPath = 0;
+    private Transform m_currentTarget;
+    private int m_currentTargetIndex = 0;
+    
 
     private void Awake()
     {
@@ -20,44 +23,44 @@ public class CentipedeMovement : MonoBehaviour
         {
             m_segments[i].m_segmentBehind = m_segments[i + 1];
         }
+
+        m_seekingTarget = false;
+        m_currentTarget = m_targets[0];
     }
 
     private void Start()
     {
-        headTargetRotation = m_segments[0].transform.rotation;
         m_segments[0].NextPos(m_segments[0].transform.position + m_segments[0].transform.forward, m_segments[0].transform.rotation);
         GetPath();
     }
 
     private void Update()
     {
-        t += Time.smoothDeltaTime;
+        if (!m_seekingTarget) return;
+
+        t += Time.smoothDeltaTime * CentipedeBoss.m_settings.m_moveSpeed;
         Step(t);
     }
 
     private void Step(float _t)
     {
         PathNode head = CentipedeGrid.NodeFromWorldPoint(m_segments[0].transform.position);
-        PathNode target = CentipedeGrid.NodeFromWorldPoint(m_target.position);
+        PathNode target = CentipedeGrid.NodeFromWorldPoint(m_currentTarget.position);
 
         if (t >= 1.0f)
         {
             GetPath();
 
-            // If we're at the end of the current path, wait
-            if (head.m_gridX == target.m_gridX && head.m_gridY == target.m_gridY) return;
-            //// If not at the target, but at the end of the current path, we need a new path
-            //else if (m_positionInPath == m_path.Count - 1)
-            //{
-            //    GetPath();
-            //    NextPathPoint(true);
-            //}
-            //else NextPathPoint(false);
+            // If we're at the end of the current path, switch to next target
+            if (head.m_gridX == target.m_gridX && head.m_gridY == target.m_gridY)
+            {
+                NextTarget();
+                return;
+            }
 
             NextPathPoint(true);
 
             t -= 1.0f;
-            // Debug.Log("Next path point");
             return;
         }
 
@@ -75,31 +78,21 @@ public class CentipedeMovement : MonoBehaviour
         if (!_first) m_positionInPath++;
 
         PathNode nextPoint = m_path[m_positionInPath];
-        m_segments[0].NextPos(nextPoint.m_worldPosition, headTargetRotation);
+        Quaternion newHeadRot = Quaternion.LookRotation(nextPoint.m_worldPosition - m_segments[0].transform.position);
+        m_segments[0].NextPos(nextPoint.m_worldPosition, newHeadRot);
+    }
+
+    private void NextTarget()
+    {
+        m_currentTargetIndex = (m_currentTargetIndex + 1) % m_targets.Length;
+        m_currentTarget = m_targets[m_currentTargetIndex];
+        GetPath();
     }
 
     private void GetPath()
     {
         // Will be incremented before use
         m_positionInPath = 0;
-        m_path = m_pathfinder.GetPath(m_segments[0].transform, m_target);
+        m_path = m_pathfinder.GetPath(m_segments[0].transform, m_currentTarget);
     }
-
-    //private void Forward(float _input)
-    //{
-    //    t += Time.smoothDeltaTime * 2.0f * _input * CentipedeBoss.GetCurrentStateInfo().m_moveSpeed;
-
-    //    if (t >= 1.0f)
-    //    {
-    //        m_segments[0].NextPos(m_segments[0].transform.position + m_segments[0].transform.forward, headTargetRotation);
-    //        t = 0.0f;
-    //    }
-
-    //    m_segments[0].Move(t);
-    //}
-
-    //private void Turn(float _horInput)
-    //{
-    //    headTargetRotation = Quaternion.Euler(Vector3.up * 90.0f * _horInput) * headTargetRotation;
-    //}
 }
