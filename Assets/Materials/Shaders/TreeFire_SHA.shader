@@ -20,7 +20,7 @@
 
         SubShader
         {
-            Tags {"Queue" = "Opaque" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout"}
+            Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout"}
         LOD 300
         Cull Off
 
