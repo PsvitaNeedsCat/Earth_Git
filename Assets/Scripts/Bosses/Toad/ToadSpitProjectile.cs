@@ -43,6 +43,8 @@ public class ToadSpitProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Collided");
+
         // If allowed, split
         if (m_shouldSplit && !m_isFragment) Split();
 

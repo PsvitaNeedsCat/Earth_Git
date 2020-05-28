@@ -46,6 +46,8 @@ public class ToadTongueCollider : MonoBehaviour
 
     public void OnRetracted()
     {
+        Debug.Log("OnRetracted called");
+
         m_tongueAttack.OnRetracted();
     }
 
@@ -55,7 +57,7 @@ public class ToadTongueCollider : MonoBehaviour
 
         eChunkType type = m_attachedChunk.m_chunkType;
 
-        Destroy(m_attachedChunk);
+        Destroy(m_attachedChunk.gameObject);
 
         return type;
     }

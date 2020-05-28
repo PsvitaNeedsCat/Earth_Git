@@ -85,10 +85,10 @@ public class Chunk : MonoBehaviour
         SandBlock sand = other.GetComponent<SandBlock>();
         if (sand && !sand.m_isGlass) { return; }
 
-        HealthComponent healthComp = other.GetComponent<HealthComponent>();
-        if (healthComp && healthComp.m_type == HealthComponent.EHealthType.boss)
+        ToadBoss boss = other.GetComponent<ToadBoss>();
+        if (boss)
         {
-            healthComp.Health -= 1;
+            boss.OnHit();
             Destroy(this.gameObject);
             return;
         }
@@ -111,6 +111,17 @@ public class Chunk : MonoBehaviour
             {
                 HitWall();
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        ToadBoss boss = collision.gameObject.GetComponent<ToadBoss>();
+        if (boss)
+        {
+            boss.OnHit();
+            Destroy(this.gameObject);
+            return;
         }
     }
 

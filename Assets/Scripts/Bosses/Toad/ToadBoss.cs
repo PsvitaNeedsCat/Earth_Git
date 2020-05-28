@@ -94,4 +94,13 @@ public class ToadBoss : MonoBehaviour
     {
         m_currentBehaviour.StartBehaviour();
     }
+
+    public void OnHit()
+    {
+        if (m_healthComp.IsInvincible) return;
+
+        m_tookDamage = true;
+
+        m_healthComp.Health -= 1;
+    }
 }
