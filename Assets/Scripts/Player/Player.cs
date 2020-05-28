@@ -140,4 +140,21 @@ public class Player : MonoBehaviour
                 { MessageBus.TriggerEvent(EMessageType.powerRock); break; }
         }
     }
+
+    // Will try to interact with whatever is closest
+    public void TryInteract()
+    {
+        // Check for the closest interactable
+        Interactable.m_closest = null;
+        MessageBus.TriggerEvent(EMessageType.interact);
+
+        // There are no interactables
+        if (!Interactable.m_closest) { return; }
+
+        // Closest interactable is outside the maximum distance
+        if (Interactable.m_closest.m_distToPlayer > m_settings.m_maxInteractableDist) { return; }
+
+        // If everything is good, invoke
+        m_playerController.Interact();
+    }
 }

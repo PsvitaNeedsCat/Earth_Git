@@ -48,6 +48,9 @@ public class GlobalPlayerSettings : ScriptableObject
 
     [Space(10.0f)]
 
+    [Header("Misc")]
     [Tooltip("How much knockback is applied to player when the function is called")]
     public float m_knockbackForce = 35.0f;
+    [Tooltip("Maximum distance an interactable can be before it is not interactable")]
+    public float m_maxInteractableDist = 0.6f;
 }

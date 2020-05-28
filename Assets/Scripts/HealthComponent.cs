@@ -46,6 +46,9 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
+    // Heals to maximum health
+    public void HealToMax() => Health = m_maxHealth;
+
     private void Update()
     {
         // Invincibiity timer
