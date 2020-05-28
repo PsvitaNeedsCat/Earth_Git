@@ -38,6 +38,8 @@ public class PlayerInput : MonoBehaviour
         // Movement
         m_controls.PlayerMovement.Movement.performed += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
         m_controls.PlayerMovement.Movement.canceled += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
+        // Interact
+        m_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
         m_controls.PlayerCombat.Punch.performed += _ => m_player.StartPunchAnim();
         // Raise Chunk

@@ -170,4 +170,9 @@ public class PlayerController : MonoBehaviour
     {
         m_rigidBody.AddForce(_dir * m_settings.m_knockbackForce, ForceMode.Impulse);
     }
+
+    public void Interact()
+    {
+        Interactable.m_closest.Invoke();
+    }
 }
