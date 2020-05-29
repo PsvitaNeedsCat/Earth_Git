@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 public class RoomManager : MonoBehaviour
 {
     [Tooltip("Room parent objects. First room in list is the first room in scene")]
@@ -10,6 +12,9 @@ public class RoomManager : MonoBehaviour
     private int m_newRoom;
     private Animator m_blackWall;
     private PlayerInput m_playerInput;
+
+    private bool m_loadScene = false;
+    private string m_newScene = "";
 
     private static RoomManager m_instance;
     public static RoomManager Instance { get { return m_instance; } }
@@ -33,15 +38,24 @@ public class RoomManager : MonoBehaviour
     // Changes which room is active
     public void ChangeRooms()
     {
-        // Deacivate old room
-        m_rooms[m_currentRoom].SetActive(false);
+        // Change scene
+        if (m_loadScene)
+        {
+            SceneManager.LoadScene(m_newScene);
+        }
+        // Change room
+        else
+        {
+            // Deacivate old room
+            m_rooms[m_currentRoom].SetActive(false);
 
-        // Activate new room
-        m_currentRoom = m_newRoom;
-        m_rooms[m_currentRoom].SetActive(true);
+            // Activate new room
+            m_currentRoom = m_newRoom;
+            m_rooms[m_currentRoom].SetActive(true);
 
-        m_blackWall.SetTrigger("FadeToGame");
-        m_playerInput.SetMovement(true);
+            m_blackWall.SetTrigger("FadeToGame");
+            m_playerInput.SetMovement(true);
+        }
     }
 
     // Sets the room ready to change to
@@ -70,5 +84,13 @@ public class RoomManager : MonoBehaviour
     public GameObject GetActiveRoom()
     {
         return m_rooms[m_currentRoom];
+    }
+
+    public void LoadScene(string _sceneName)
+    {
+        m_loadScene = true;
+        m_newScene = _sceneName;
+
+        m_blackWall.SetTrigger("FadeToBlack");
     }
 }

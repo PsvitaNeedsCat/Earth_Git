@@ -23,6 +23,6 @@ public class ToadAnimations : MonoBehaviour
     public void AEPlayRoarSound() => MessageBus.TriggerEvent(EMessageType.toadRoar);
     public void AEBigSplash() => MessageBus.TriggerEvent(EMessageType.toadJumpInWater);
     public void AESmallSplash() => MessageBus.TriggerEvent(EMessageType.smallToadJumpInWater);
-    public void AETingSound() => MessageBus.TriggerEvent(EMessageType.ting);
+    public void AEOnDeath() => m_toadBoss.ActivateCrystal();
 
 }

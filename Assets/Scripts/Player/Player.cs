@@ -17,7 +17,16 @@ public class Player : MonoBehaviour
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
-    
+    private static Dictionary<eChunkEffect, bool> m_activePowers = new Dictionary<eChunkEffect, bool>()
+    {
+        { eChunkEffect.none, true },
+        { eChunkEffect.water, false },
+        { eChunkEffect.fire, false }
+    };
+
+    // Unlocks a power for use
+    public void PowerUnlocked(eChunkEffect _power) => m_activePowers[_power] = true;
+
     private void Awake()
     {
         // Only ever one instance of this
@@ -124,8 +133,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeEffect(eChunkEffect _effect)
+    public void TryChangeEffect(eChunkEffect _effect)
     {
+        // Do not let the player change if the power is not unlocked
+        if (!m_activePowers[_effect]) { return; }
+
+        // Change the player's power
         m_currentEffect = _effect;
 
         switch (_effect)

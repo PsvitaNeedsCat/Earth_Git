@@ -19,12 +19,15 @@ public class ToadBoss : MonoBehaviour
     
     ToadBossSettings m_toadSettings;
 
+    [SerializeField] private GameObject m_crystal;
+    public void ActivateCrystal() => m_crystal.SetActive(true);
+
     private void Awake()
     {
         m_totalBehaviours = m_behaviourLoop.Count;
         m_toadSettings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
         m_healthComp = GetComponent<HealthComponent>();
-        m_healthComp.Init(m_toadSettings.m_maxHealth);
+        m_healthComp.Init(m_toadSettings.m_maxHealth, m_toadSettings.m_maxHealth, DamageTaken, null, Died);
     }
 
     private void Start()
@@ -102,5 +105,25 @@ public class ToadBoss : MonoBehaviour
         m_tookDamage = true;
 
         m_healthComp.Health -= 1;
+    }
+
+    private void DamageTaken()
+    {
+        m_healthComp.SetInvincibleTimer(0.01f);
+
+        // Update canvas
+
+        // Play sound
+        MessageBus.TriggerEvent(EMessageType.toadDamaged);
+    }
+
+    private void Died()
+    {
+        // Turn canvas off
+
+        m_toadAnimator.SetTrigger("Dead");
+
+        // Remove script
+        Destroy(this);
     }
 }

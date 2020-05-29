@@ -47,9 +47,9 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
         m_controls.PlayerCombat.Raise.canceled += _ => m_player.DeactivateTileTargeter();
         // Change powers
-        m_controls.PlayerCombat.NoPower.performed += _ => m_player.ChangeEffect(eChunkEffect.none);
-        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.ChangeEffect(eChunkEffect.water);
-        m_controls.PlayerCombat.FirePower.performed += _ => m_player.ChangeEffect(eChunkEffect.fire);
+        m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
+        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
+        m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(eChunkEffect.fire);
 
         // Temp
         m_controls.PlayerCombat.NoPower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Rock";
