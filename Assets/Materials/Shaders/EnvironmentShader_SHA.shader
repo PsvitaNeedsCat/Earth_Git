@@ -20,6 +20,8 @@
         #pragma surface surf SoftLight alphatest:_Cutoff
         #pragma target 2.0
 
+            
+
         half _ShadowThresh;
         half3 _ShadowColor;
         half _ShadowSmooth;
