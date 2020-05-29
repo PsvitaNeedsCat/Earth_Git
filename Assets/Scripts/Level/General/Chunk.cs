@@ -109,6 +109,7 @@ public class Chunk : MonoBehaviour
         {
             if (IsAgainstWall(m_prevVelocity.normalized))
             {
+                Debug.Log("Snapped. Hit: " + other.gameObject.name);
                 HitWall();
             }
         }

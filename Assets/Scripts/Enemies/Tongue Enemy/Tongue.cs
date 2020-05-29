@@ -22,7 +22,7 @@ public class Tongue : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Hits a chunk
-        Chunk chunk = other.transform.parent.GetComponent<Chunk>();
+        Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
             chunk.SnapToTongue(transform.position);
