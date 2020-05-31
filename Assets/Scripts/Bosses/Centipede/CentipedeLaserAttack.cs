@@ -5,6 +5,7 @@ using UnityEngine;
 public class CentipedeLaserAttack : CentipedeBehaviour
 {
     public List<CentipedeBodySegment> m_bodySegments;
+    public List<Transform> m_movePoints;
 
     public override void StartBehaviour()
     {
@@ -12,6 +13,8 @@ public class CentipedeLaserAttack : CentipedeBehaviour
         Debug.Log("Laser attack started");
 
         CentipedeMovement.m_seekingTarget = true;
+        CentipedeMovement.m_loopTargets = true;
+        CentipedeMovement.SetTargets(m_movePoints);
         StartCoroutine(FireLaserGroups());
     }
 
@@ -21,6 +24,7 @@ public class CentipedeLaserAttack : CentipedeBehaviour
         Debug.Log("Laser attack finished");
 
         CentipedeMovement.m_seekingTarget = false;
+        CentipedeMovement.m_loopTargets = false;
     }
 
     private IEnumerator FireLaserGroups()

@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Centipede Settings", menuName = "Settings/CentipedeSettings")]
 public class CentipedeSettings : ScriptableObject
 {
+    [Header("General")]
+    public float m_moveSpeed;
+
+    [Header("Laser Settings")]
     public LayerMask m_blocksLasers;
     public float m_laserWidth;
     public float m_laserDistance;
@@ -12,5 +16,15 @@ public class CentipedeSettings : ScriptableObject
     public float m_timeBetweenLasers;
     public int m_lasersAtOnce;
     public int m_timesLasersFired;
-    public float m_moveSpeed;
+
+    [Header("Train Settings")]
+    public float m_trainMoveSpeed;
+
+    [Header("Tail Settings")]
+    public float m_fireDelay;
+    public float m_firingDuration;
+    public float m_projectileSpeed;
+    public float m_rotationSpeed;
+    public float m_burrowDuration;
+    public float m_projectileLifetime;
 }

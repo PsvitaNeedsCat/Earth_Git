@@ -24,6 +24,13 @@ public class CentipedeSegmentMover : MonoBehaviour
         m_centipedeHealth = GetComponentInParent<CentipedeHealth>();
     }
 
+    public void ReachedPosition()
+    {
+        m_lastPosition = transform.position;
+        m_lastRotation = transform.rotation;
+        m_segmentBehind?.ReachedPosition();
+    }
+
     // Moves this segment on to the next target position and rotation
     public void NextPos(Vector3 _newPos, Quaternion _newRot)
     {

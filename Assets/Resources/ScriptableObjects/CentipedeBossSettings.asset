@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e75169eb643a5843a8caecab3ba8455, type: 3}
   m_Name: CentipedeBossSettings
   m_EditorClassIdentifier: 
+  m_moveSpeed: 2.5
   m_blocksLasers:
     serializedVersion: 2
     m_Bits: 1025
@@ -21,4 +22,10 @@ MonoBehaviour:
   m_timeBetweenLasers: 5
   m_lasersAtOnce: 3
   m_timesLasersFired: 3
-  m_moveSpeed: 2.5
+  m_trainMoveSpeed: 15
+  m_fireDelay: 0.5
+  m_firingDuration: 6
+  m_projectileSpeed: 5
+  m_rotationSpeed: 30
+  m_burrowDuration: 1
+  m_projectileLifetime: 5

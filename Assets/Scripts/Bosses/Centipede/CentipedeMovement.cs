@@ -1,66 +1,127 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CentipedeMovement : MonoBehaviour
 {
     public List<CentipedeSegmentMover> m_segments = new List<CentipedeSegmentMover>();
     public CentipedeGrid m_grid;
     public CentipedePathfinding m_pathfinder;
-    public Transform[] m_targets;
+    public static List<Transform> m_targets;
     public static bool m_seekingTarget = false;
+    public static bool m_atTarget = false;
+    public static bool m_loopTargets = false;
+    public static bool m_useTrainSpeed = false;
+    public static bool m_burrowed = false;
+    public static bool m_burrowing = false;
 
-    private float t = 0.0f;
-    private List<PathNode> m_path;
-    private int m_positionInPath = 0;
-    private Transform m_currentTarget;
-    private int m_currentTargetIndex = 0;
-    
+    private float m_t = 0.0f;
+    private static List<PathNode> m_path;
+    private static int m_positionInPath = 0;
+    private static Transform m_currentTarget;
+    private static int m_currentTargetIndex = 0;
+
+    private static CentipedeMovement m_instance;
+
+    public static void SetTargets(List<Transform> _newTargets)
+    {
+        m_atTarget = false;
+        m_targets = _newTargets;
+        m_currentTargetIndex = 0;
+        m_currentTarget = m_targets[0];
+        GetPath();
+    }
 
     private void Awake()
     {
+        m_instance = this;
+
         for (int i = 0; i < m_segments.Count - 1; i++)
         {
             m_segments[i].m_segmentBehind = m_segments[i + 1];
         }
 
-        m_seekingTarget = false;
-        m_currentTarget = m_targets[0];
+        // m_currentTarget = m_targets[0];
     }
 
     private void Start()
     {
         m_segments[0].NextPos(m_segments[0].transform.position + m_segments[0].transform.forward, m_segments[0].transform.rotation);
-        GetPath();
+        // GetPath();
     }
 
     private void Update()
     {
-        if (!m_seekingTarget) return;
+        if (m_seekingTarget)
+        {
+            m_t += Time.smoothDeltaTime * ((m_useTrainSpeed) ? CentipedeBoss.m_settings.m_trainMoveSpeed : CentipedeBoss.m_settings.m_moveSpeed);
+            AStarStep(m_t);
+        }
+        else if (m_burrowing)
+        {
+            m_t += (Time.smoothDeltaTime / CentipedeBoss.m_settings.m_burrowDuration);
 
-        t += Time.smoothDeltaTime * CentipedeBoss.m_settings.m_moveSpeed;
-        Step(t);
+            if (m_t > CentipedeBoss.m_settings.m_burrowDuration)
+            {
+                // If we're not at the end
+                if (m_currentTargetIndex < m_targets.Count - 1)
+                {
+                    m_currentTargetIndex++;
+                    m_currentTarget = m_targets[m_currentTargetIndex];
+                    m_t = 0.0f;
+                    m_segments[0].NextPos(m_currentTarget.position, m_currentTarget.rotation);
+                    
+                }
+                else
+                {
+                    m_burrowing = false;
+                    return;
+                }
+            }
+
+            m_segments[0].Move(Mathf.Clamp01(m_t));
+        }
     }
 
-    private void Step(float _t)
+    public static void BurrowDown(List<Transform> _points)
+    {
+        m_instance.m_segments[0].ReachedPosition();
+        m_instance.m_t = 0.0f;
+        m_burrowing = true;
+        m_targets = _points;
+        m_currentTargetIndex = 0;
+        // m_instance.m_segments[0].NextPos(m_instance.m_burrowBottom.position, m_instance.m_burrowBottom.rotation);
+    }
+
+    public static void BurrowUp(List<Transform> _points)
+    {
+        m_instance.m_t = 0.0f;
+        m_burrowing = true;
+        m_targets = _points;
+        m_currentTargetIndex = 0;
+        // m_instance.m_segments[0].NextPos(m_instance.m_burrowTop.position, m_instance.m_burrowTop.rotation);
+    }
+
+    private void AStarStep(float _t)
     {
         PathNode head = CentipedeGrid.NodeFromWorldPoint(m_segments[0].transform.position);
         PathNode target = CentipedeGrid.NodeFromWorldPoint(m_currentTarget.position);
 
-        if (t >= 1.0f)
+        if (m_t >= 1.0f)
         {
             GetPath();
 
             // If we're at the end of the current path, switch to next target
             if (head.m_gridX == target.m_gridX && head.m_gridY == target.m_gridY)
             {
-                NextTarget();
+                m_atTarget = NextTarget();
                 return;
             }
 
             NextPathPoint(true);
 
-            t -= 1.0f;
+            m_t -= 1.0f;
             return;
         }
 
@@ -82,17 +143,30 @@ public class CentipedeMovement : MonoBehaviour
         m_segments[0].NextPos(nextPoint.m_worldPosition, newHeadRot);
     }
 
-    private void NextTarget()
+    // Returns true if we have reached the final target, 
+    private bool NextTarget()
     {
-        m_currentTargetIndex = (m_currentTargetIndex + 1) % m_targets.Length;
+        if (!m_loopTargets && m_currentTargetIndex >= m_targets.Count - 1) return true;
+
+        if (m_loopTargets)
+        {
+            m_currentTargetIndex = (m_currentTargetIndex + 1) % m_targets.Count;
+        }
+        else
+        {
+            m_currentTargetIndex++;
+        }
+        
         m_currentTarget = m_targets[m_currentTargetIndex];
         GetPath();
+
+        return false;
     }
 
-    private void GetPath()
+    private static void GetPath()
     {
         // Will be incremented before use
         m_positionInPath = 0;
-        m_path = m_pathfinder.GetPath(m_segments[0].transform, m_currentTarget);
+        m_path = m_instance.m_pathfinder.GetPath(m_instance.m_segments[0].transform, m_currentTarget);
     }
 }
