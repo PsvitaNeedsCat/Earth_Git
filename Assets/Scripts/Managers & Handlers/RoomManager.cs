@@ -35,7 +35,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    // Changes which room is active
+    // Changes which room is active - called by blackwall animator
     public void ChangeRooms()
     {
         // Change scene
@@ -86,11 +86,18 @@ public class RoomManager : MonoBehaviour
         return m_rooms[m_currentRoom];
     }
 
+    // Loads a new scene
     public void LoadScene(string _sceneName)
     {
         m_loadScene = true;
         m_newScene = _sceneName;
 
         m_blackWall.SetTrigger("FadeToBlack");
+    }
+
+    // Resets the current room - used when player dies
+    public void ReloadCurrentRoom()
+    {
+
     }
 }
