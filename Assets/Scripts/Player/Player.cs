@@ -170,4 +170,23 @@ public class Player : MonoBehaviour
         // If everything is good, invoke
         m_playerController.Interact();
     }
+
+    // Debug - remove on build
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            m_activePowers[eChunkEffect.water] = !m_activePowers[eChunkEffect.water];
+            if (m_activePowers[eChunkEffect.water]) { TryChangeEffect(eChunkEffect.water); }
+            else { TryChangeEffect(eChunkEffect.none); }
+            Debug.Log("Water power: " + m_activePowers[eChunkEffect.fire]);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            m_activePowers[eChunkEffect.fire] = !m_activePowers[eChunkEffect.fire];
+            if (m_activePowers[eChunkEffect.fire]) { TryChangeEffect(eChunkEffect.fire); }
+            else { TryChangeEffect(eChunkEffect.none); }
+            Debug.Log("Fire power: " + m_activePowers[eChunkEffect.fire]);
+        }
+    }
 }
