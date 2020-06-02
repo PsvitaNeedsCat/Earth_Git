@@ -209,4 +209,15 @@ public class PlayerController : MonoBehaviour
     {
         Interactable.m_closest.Invoke();
     }
+
+    // Debug - remove on build
+    private void Update()
+    {
+        // Toggles invincibility
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            m_health.IsInvincible = !m_health.IsInvincible;
+            Debug.Log("Invincibility set to: " + m_health.IsInvincible);
+        }
+    }
 }
