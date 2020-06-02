@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "Lava") { return; }
+
         HealthComponent playerHealth = other.GetComponent<HealthComponent>();
 
         if (playerHealth)
