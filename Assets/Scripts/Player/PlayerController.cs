@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,13 +13,16 @@ public class PlayerController : MonoBehaviour
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
+    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
+    [SerializeField] private Sprite[] m_glassSprites;
 
     // Private variables
     private PlayerController m_instance;
     private Rigidbody m_rigidBody;
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
-    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
+    private PlayerInput m_input;
+    private Image m_glassUI;
 
     private void Awake()
     {
@@ -37,15 +41,30 @@ public class PlayerController : MonoBehaviour
 
         // Set health
         m_health = GetComponent<HealthComponent>();
-        m_health.Init(m_settings.m_defaultMaxHealth, m_settings.m_defaultMaxHealth, OnHurt, null, OnDeath);
+        m_health.Init(m_settings.m_defaultMaxHealth, m_settings.m_defaultMaxHealth, OnHurt, OnHealed, OnDeath);
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
         Debug.Assert(m_rigidBody, "No rigidbody found on player");
+
+        m_input = GetComponent<PlayerInput>();
+        Debug.Assert(m_input, "Player has no PlayerInput.cs");
+
+        // Set init spawn location
+        RoomManager.Instance.m_respawnLocation = transform.position;
+
+        // Get glass UI
+        m_glassUI = GameObject.Find("glassEffect").GetComponent<Image>();
+        Debug.Assert(m_glassUI, "Unable to find glass effect object");
     }
+
+    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);
+    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlackQuiet, AfterDeath);
 
     private void OnHurt()
     {
+        UpdateGlassSprite(m_health.Health - 1);
+
         MessageBus.TriggerEvent(EMessageType.playerHurt);
 
         m_health.SetInvincibleTimer(m_settings.m_hurtTime);
@@ -58,7 +77,66 @@ public class PlayerController : MonoBehaviour
 
     private void OnDeath()
     {
+        // Freeze player
+        m_input.SetCombat(false);
+        m_input.SetMovement(false);
 
+        // Fade to black
+        RoomManager.Instance.FadeToBlack();
+    }
+
+    // Called by message bus after the screen has faded to black
+    private void AfterDeath(string _null)
+    {
+        // Reload the room
+        RoomManager.Instance.ReloadCurrentRoom();
+
+        // Reset the player's position
+        transform.position = RoomManager.Instance.m_respawnLocation;
+
+        // Reset player's health
+        m_health.HealToMax();
+
+        // Fade to game
+        RoomManager.Instance.FadeToGame();
+
+        // Unfreeze player
+        m_input.SetCombat(true);
+        m_input.SetMovement(true);
+    }
+
+    private void OnHealed()
+    {
+        // Update glasss
+        UpdateGlassSprite(3);
+    }
+
+    private void UpdateGlassSprite(int _health)
+    {
+        switch (_health)
+        {
+            case 3:
+                {
+                    m_glassUI.sprite = m_glassSprites[0];
+                    break;
+                }
+
+            case 2:
+                {
+                    m_glassUI.sprite = m_glassSprites[1];
+                    break;
+                }
+
+            case 1:
+                {
+                    m_glassUI.sprite = m_glassSprites[2];
+                    break;
+                }
+
+            // 0
+            default:
+                break;
+        }
     }
 
     // Moves the player in a given direction
@@ -174,5 +252,16 @@ public class PlayerController : MonoBehaviour
     public void Interact()
     {
         Interactable.m_closest.Invoke();
+    }
+
+    // Debug - remove on build
+    private void Update()
+    {
+        // Toggles invincibility
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            m_health.IsInvincible = !m_health.IsInvincible;
+            Debug.Log("Invincibility set to: " + m_health.IsInvincible);
+        }
     }
 }

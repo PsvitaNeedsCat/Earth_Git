@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class RoomManager : MonoBehaviour
 {
+    [HideInInspector] public Vector3 m_respawnLocation;
+
     [Tooltip("Room parent objects. First room in list is the first room in scene")]
-    [SerializeField] private GameObject[] m_rooms;
+    [SerializeField] private List<GameObject> m_rooms = new List<GameObject>();
     private int m_currentRoom = 0;
     private int m_newRoom;
     private Animator m_blackWall;
     private PlayerInput m_playerInput;
+    private GameObject[] m_roomPrefabs = null;
+    private GameObject m_camTarget;
 
     private bool m_loadScene = false;
     private string m_newScene = "";
@@ -29,14 +34,20 @@ public class RoomManager : MonoBehaviour
         m_playerInput = FindObjectOfType<PlayerInput>();
         Debug.Assert(m_playerInput, "Cannot find player input");
 
-        for (int i = 0; i < m_rooms.Length; i++)
+        for (int i = 0; i < m_rooms.Count; i++)
         {
             m_rooms[i].SetActive(i == m_currentRoom);
         }
+
+        // Find cam look target
+        m_camTarget = GameObject.Find("CamTarget");
     }
 
-    // Changes which room is active
-    public void ChangeRooms()
+    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
+    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
+
+    // Changes which room is active - called by blackwall animator
+    public void ChangeRooms(string _null)
     {
         // Change scene
         if (m_loadScene)
@@ -62,7 +73,7 @@ public class RoomManager : MonoBehaviour
     public void PrepareToChangeRoom(string _roomName)
     {
         // Check the room is valid
-        for (int i = 0; i < m_rooms.Length; i++)
+        for (int i = 0; i < m_rooms.Count; i++)
         {
             if (m_rooms[i].name == _roomName)
             {
@@ -86,6 +97,7 @@ public class RoomManager : MonoBehaviour
         return m_rooms[m_currentRoom];
     }
 
+    // Loads a new scene
     public void LoadScene(string _sceneName)
     {
         m_loadScene = true;
@@ -93,4 +105,43 @@ public class RoomManager : MonoBehaviour
 
         m_blackWall.SetTrigger("FadeToBlack");
     }
+
+    // Resets the current room - used when player dies
+    public void ReloadCurrentRoom()
+    {
+        // If prefabs array is empty, populate it
+        if (m_roomPrefabs == null)
+        { m_roomPrefabs = Resources.LoadAll<GameObject>("Prefabs/Rooms/" + SceneManager.GetActiveScene().name); }
+
+        string roomName = m_rooms[m_currentRoom].name;
+
+        // Destroy current room
+        Destroy(m_rooms[m_currentRoom]);
+        m_rooms.RemoveAt(m_currentRoom);
+
+        // Find the prefab with the same name 
+        // (so that they don't have to be in the same order)
+        GameObject prefab = null;
+        for (int i = 0; i < m_roomPrefabs.Length; i++)
+        {
+            if (m_roomPrefabs[i].name == roomName)
+            {
+                prefab = m_roomPrefabs[i];
+                break;
+            }
+        }
+
+        // Spawn room
+        GameObject newRoom = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        newRoom.name = roomName; // Set name so it isn't name(Clone)
+        m_rooms.Insert(m_currentRoom, newRoom);
+
+        // Set camera to look at player
+        CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();
+        cam.Follow = m_camTarget.transform;
+    }
+
+    // Fades to black without the animation calls
+    public void FadeToBlack() => m_blackWall.SetTrigger("QuietFadeToBlack");
+    public void FadeToGame() => m_blackWall.SetTrigger("FadeToGame");
 }
