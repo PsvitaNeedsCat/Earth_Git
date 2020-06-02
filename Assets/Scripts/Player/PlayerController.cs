@@ -12,13 +12,14 @@ public class PlayerController : MonoBehaviour
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
+    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
 
     // Private variables
     private PlayerController m_instance;
     private Rigidbody m_rigidBody;
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
-    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
+    private PlayerInput m_input;
 
     private void Awake()
     {
@@ -42,7 +43,15 @@ public class PlayerController : MonoBehaviour
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
         Debug.Assert(m_rigidBody, "No rigidbody found on player");
+
+        m_input = GetComponent<PlayerInput>();
+        Debug.Assert(m_input, "Player has no PlayerInput.cs");
+
+        RoomManager.Instance.m_respawnLocation = transform.position;
     }
+
+    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);
+    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlackQuiet, AfterDeath);
 
     private void OnHurt()
     {
@@ -58,7 +67,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnDeath()
     {
+        // Freeze player
+        m_input.SetCombat(false);
+        m_input.SetMovement(false);
 
+        // Fade to black
+        RoomManager.Instance.FadeToBlack();
+    }
+
+    // Called by message bus after the screen has faded to black
+    private void AfterDeath(string _null)
+    {
+        // Reload the room
+        RoomManager.Instance.ReloadCurrentRoom();
+
+        // Reset the player's position
+        transform.position = RoomManager.Instance.m_respawnLocation;
+
+        // Reset player's health
+        m_health.HealToMax();
+
+        // Fade to game
+        RoomManager.Instance.FadeToGame();
+
+        // Unfreeze player
+        m_input.SetCombat(true);
+        m_input.SetMovement(true);
     }
 
     // Moves the player in a given direction

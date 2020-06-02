@@ -13,6 +13,7 @@ public class RoomTrigger : MonoBehaviour
         {
             // Set room manager
             RoomManager.Instance.PrepareToChangeRoom(m_roomName);
+            RoomManager.Instance.m_respawnLocation = transform.position;
         }
     }
 }

@@ -8,6 +8,8 @@ public enum EMessageType
 {
     none,
     test,
+    fadedToBlack,
+    fadedToBlackQuiet,
 
     // Chunk
     chunkDamaged,
