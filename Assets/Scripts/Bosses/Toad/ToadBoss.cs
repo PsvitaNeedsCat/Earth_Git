@@ -100,7 +100,7 @@ public class ToadBoss : MonoBehaviour
 
     public void OnHit()
     {
-        if (m_healthComp.IsInvincible) return;
+        if (m_tookDamage || !(m_currentBehaviour is ToadSwell)) return;
 
         m_tookDamage = true;
 
@@ -109,8 +109,6 @@ public class ToadBoss : MonoBehaviour
 
     private void DamageTaken()
     {
-        m_healthComp.SetInvincibleTimer(0.01f);
-
         // Update canvas
 
         // Play sound

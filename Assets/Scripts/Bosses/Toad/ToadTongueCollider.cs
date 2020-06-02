@@ -46,8 +46,6 @@ public class ToadTongueCollider : MonoBehaviour
 
     public void OnRetracted()
     {
-        Debug.Log("OnRetracted called");
-
         m_tongueAttack.OnRetracted();
     }
 

@@ -58,6 +58,6 @@ public class Lava : MonoBehaviour
 
         m_lavaTrigger.enabled = false;
         m_lavaCollider.enabled = false;
-        m_meshRenderer.material.color = Color.grey;
+        m_meshRenderer.material.color = Color.black;
     }
 }

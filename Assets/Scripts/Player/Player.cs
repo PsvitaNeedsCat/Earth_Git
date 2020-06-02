@@ -26,6 +26,14 @@ public class Player : MonoBehaviour
 
     // Unlocks a power for use
     public void PowerUnlocked(eChunkEffect _power) => m_activePowers[_power] = true;
+    public void ResetPowers()
+    {
+        // Reset all the powers except the first (rock)
+        for(int i = 1; i < m_activePowers.Count; i++)
+        {
+            m_activePowers[(eChunkEffect)i] = false;
+        }
+    }
 
     private void Awake()
     {

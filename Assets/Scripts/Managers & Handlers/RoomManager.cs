@@ -29,8 +29,9 @@ public class RoomManager : MonoBehaviour
         if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
         else { m_instance = this; }
 
-        m_blackWall = FindObjectOfType<BlackWallAnimator>().GetComponent<Animator>();
-        Debug.Assert(m_blackWall, "Cannot find black wall animator");
+        BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
+        Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
+        m_blackWall = blackWall.GetComponent<Animator>();
         m_playerInput = FindObjectOfType<PlayerInput>();
         Debug.Assert(m_playerInput, "Cannot find player input");
 
