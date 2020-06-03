@@ -5,8 +5,6 @@ using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
-    // Public variables
-    
     // Private variables
     private static AudioManager m_instance;
     private string m_soundEffectsPath = "Audio";

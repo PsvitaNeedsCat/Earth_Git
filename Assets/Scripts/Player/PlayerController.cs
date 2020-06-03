@@ -50,12 +50,15 @@ public class PlayerController : MonoBehaviour
         m_input = GetComponent<PlayerInput>();
         Debug.Assert(m_input, "Player has no PlayerInput.cs");
 
-        // Set init spawn location
-        RoomManager.Instance.m_respawnLocation = transform.position;
-
         // Get glass UI
         m_glassUI = GameObject.Find("glassEffect").GetComponent<Image>();
         Debug.Assert(m_glassUI, "Unable to find glass effect object");
+    }
+
+    private void Start()
+    {
+        // Set init spawn location
+        RoomManager.Instance.m_respawnLocation = transform.position;
     }
 
     private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);
