@@ -50,6 +50,8 @@ public class Grub : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (m_dead) { return; }
+
         PlayerController player = other.GetComponent<PlayerController>();
         if (player)
         {
@@ -57,14 +59,14 @@ public class Grub : MonoBehaviour
             player.GetComponent<HealthComponent>().Health -= 1;
         }
 
-        if (m_dead) { return; }
-
         Chunk chunk = other.GetComponent<Chunk>();
         if (chunk)
         {
             // Kill grub
             if (chunk.m_currentEffect == eChunkEffect.water)
             {
+                transform.DOKill();
+                transform.Rotate(transform.forward, 180.0f);
                 m_dead = true;
                 MessageBus.TriggerEvent(EMessageType.grubKilled);
             }
