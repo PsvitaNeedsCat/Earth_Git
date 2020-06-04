@@ -210,5 +210,10 @@ public class Player : MonoBehaviour
         //    else { TryChangeEffect(eChunkEffect.none); }
         //    Debug.Log("Fire power: " + m_activePowers[eChunkEffect.fire]);
         //}
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            MessageBus.TriggerEvent(EMessageType.ting);
+        }
     }
 }

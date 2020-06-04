@@ -6,7 +6,8 @@ using System.Linq;
 public class AudioManager : MonoBehaviour
 {
     // Private variables
-    private static AudioManager m_instance;
+    private static AudioManager m_instance = null;
+    public static AudioManager Instance { get { return m_instance; } }
     private string m_soundEffectsPath = "Audio";
     private Dictionary<string, AudioClip> m_soundDictionary = new Dictionary<string, AudioClip>();
 
@@ -45,13 +46,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void PlaySoundVaried(string soundName)
+    public void PlaySoundVaried(string soundName)
     {
         AudioClip clip = m_soundDictionary[soundName];
         
         if (!clip)
         {
-            Debug.Log("Sound effect could not be found with name: " + soundName);
+            Debug.LogError("Sound effect could not be found with name: " + soundName);
             return;
         }
 

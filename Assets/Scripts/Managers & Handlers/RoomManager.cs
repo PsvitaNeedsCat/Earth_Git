@@ -44,8 +44,8 @@ public class RoomManager : MonoBehaviour
         m_camTarget = GameObject.Find("CamTarget");
     }
 
-    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
-    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
+    private void Start() => MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
+    private void OnDestroy() => MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
 
     // Changes which room is active - called by blackwall animator
     public void ChangeRooms(string _null)
