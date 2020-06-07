@@ -8,6 +8,7 @@
 		_Dist("Distortion", Float) = 0.1
 		_Blend ("Blend Factor", Range(0, 1)) = 0.0
 		_BlendTex ("Blend Texture", 2D) = "white"{}
+		[HDR] _EmissionColor("Emissive Color", Color) = (0, 0, 0, 1)
     }
     SubShader
     {
@@ -52,6 +53,8 @@
 			float _Blend;
 			sampler2D _BlendTex;
 
+			fixed4 _EmissionColor;
+
 			float2 UVDistort(float2 uv, float time)
 			{
 				return uv + time;
@@ -68,6 +71,7 @@
 
 				//o.Albedo = lerp(c1, c2, (b * bf));
 				o.Albedo = lerp(c1, c2, _Blend).rgb;
+				o.Emission = _EmissionColor;
 			}
             ENDCG
         }
