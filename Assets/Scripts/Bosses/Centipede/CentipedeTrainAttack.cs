@@ -24,7 +24,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     public override void StartBehaviour()
     {
         base.StartBehaviour();
-        Debug.Log("Train started");
 
         // StartCoroutine(CompleteAfterSeconds(3.0f));
         StartCoroutine(ExitArena());
@@ -33,7 +32,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     // Exit arena to begin tunnel attacks
     private IEnumerator ExitArena()
     {
-        Debug.Log("Exiting arena");
         // Make centipede move to tunnel end, via tunnel start
         CentipedeMovement.SetTargets(new List<Transform>{ m_tunnels[0].m_tunnelStart, m_tunnels[0].m_tunnelEnd});
         CentipedeMovement.m_seekingTarget = true;
@@ -74,8 +72,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     private IEnumerator ReenterArena()
     {
-        Debug.Log("Re-entering arena");
-
         CentipedeMovement.SetTargets(new List<Transform> { m_tunnels[0].m_tunnelStart});
 
         while (!CentipedeMovement.m_atTarget)
@@ -90,7 +86,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     {
         base.CompleteBehaviour();
         CentipedeMovement.m_seekingTarget = false;
-        Debug.Log("Train finished");
     }
 
     public override void Reset()

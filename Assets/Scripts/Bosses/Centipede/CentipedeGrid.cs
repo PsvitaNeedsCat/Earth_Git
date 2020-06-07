@@ -34,6 +34,14 @@ public class CentipedeGrid : MonoBehaviour
                 m_grid[x, y] = new PathNode(true, worldPoint, x, y);
             }
         }
+
+        CentipedeObstacle[] obstacles = FindObjectsOfType<CentipedeObstacle>();
+
+        foreach (CentipedeObstacle obstacle in obstacles)
+        {
+            PathNode node = NodeFromWorldPoint(obstacle.transform.position);
+            node.m_isWalkable = false;
+        }
     }
 
     public void ResetNodes()

@@ -69,6 +69,6 @@ public class CentipedeSegmentMover : MonoBehaviour
         if (m_positionInBody == 0) typeHit = CentipedeHealth.ESegmentType.head;
         if (m_positionInBody == 6) typeHit = CentipedeHealth.ESegmentType.tail;
 
-        m_centipedeHealth.SectionDamaged(typeHit);
+        m_centipedeHealth.DamageSection(typeHit);
     }
 }

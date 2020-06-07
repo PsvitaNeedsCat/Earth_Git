@@ -22,6 +22,7 @@ public class CentipedeMovement : MonoBehaviour
     private static Transform m_currentTarget;
     private static int m_currentTargetIndex = 0;
     private GameObject m_lavaTrailPrefab;
+    private CentipedeHealth m_centipedeHealth;
 
     private static CentipedeMovement m_instance;
 
@@ -44,6 +45,7 @@ public class CentipedeMovement : MonoBehaviour
         }
 
         m_lavaTrailPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Centipede/CentipedeLavaTrail");
+        m_centipedeHealth = GetComponent<CentipedeHealth>();
         // m_currentTarget = m_targets[0];
     }
 
@@ -57,7 +59,13 @@ public class CentipedeMovement : MonoBehaviour
     {
         if (m_seekingTarget)
         {
-            m_t += Time.smoothDeltaTime * ((m_useTrainSpeed) ? CentipedeBoss.m_settings.m_trainMoveSpeed : CentipedeBoss.m_settings.m_moveSpeed);
+            float moveSpeed = CentipedeBoss.m_settings.m_moveSpeed;
+            if (m_useTrainSpeed)
+            {
+                moveSpeed = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head) ? CentipedeBoss.m_settings.m_trainDamagedMoveSpeed : CentipedeBoss.m_settings.m_trainMoveSpeed);
+            }
+            
+            m_t += Time.smoothDeltaTime * moveSpeed;
             AStarStep(m_t);
         }
         else if (m_burrowing)
@@ -133,6 +141,8 @@ public class CentipedeMovement : MonoBehaviour
     private void DropLavaTrail()
     {
         if (!CentipedeBoss.m_dropLava) return;
+        if (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head)) return;
+
         Vector3 spawnPos = m_segments[0].transform.position - 0.99f * Vector3.up;
         spawnPos.x = Mathf.Floor(spawnPos.x + 0.5f);
         spawnPos.z = Mathf.Floor(spawnPos.z + 0.5f);

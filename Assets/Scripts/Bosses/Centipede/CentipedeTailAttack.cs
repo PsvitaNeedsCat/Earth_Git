@@ -10,8 +10,14 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public List<Transform> m_burrowDownPoints;
     public List<Transform> m_burrowUpPoints;
 
+    private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
     private float m_timeSinceLastFire = 0.0f;
+
+    private void Awake()
+    {
+        m_centipedeHealth = GetComponent<CentipedeHealth>();
+    }
 
     public override void StartBehaviour()
     {
@@ -57,17 +63,18 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator FireProjectiles()
     {
-        Debug.Log("Starting firing projectiles");
-
         while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
         {
             m_timeFiredFor += Time.deltaTime;
             m_timeSinceLastFire += Time.deltaTime;
 
-            if (m_timeSinceLastFire >= CentipedeBoss.m_settings.m_fireDelay)
+            bool tailDamaged = m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.tail);
+            float fireDelay = (tailDamaged) ? CentipedeBoss.m_settings.m_fireDelayDamaged : CentipedeBoss.m_settings.m_fireDelay;
+
+            if (m_timeSinceLastFire >= fireDelay)
             {
-                m_firer.FireAll();
-                m_timeSinceLastFire -= CentipedeBoss.m_settings.m_fireDelay;
+                m_firer.FireAll(tailDamaged);
+                m_timeSinceLastFire -= fireDelay;
             }
 
             yield return null;
