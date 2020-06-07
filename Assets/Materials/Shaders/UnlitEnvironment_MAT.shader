@@ -21,7 +21,7 @@
         {
             return half4(o.Albedo, 1);
         }
-
+        s
             sampler2D _MainTex;
             sampler2D _AlphaTex;
             fixed4 _Color;
