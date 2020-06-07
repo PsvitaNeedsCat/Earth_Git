@@ -104,6 +104,8 @@ public class Chunk : MonoBehaviour
             return;
         }
 
+        if (other.isTrigger) { Debug.Log("Hit trigger"); return; }
+
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
         {

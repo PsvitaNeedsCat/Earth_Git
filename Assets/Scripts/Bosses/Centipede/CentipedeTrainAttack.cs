@@ -44,13 +44,12 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         }
 
         CentipedeMovement.m_useTrainSpeed = true;
+        CentipedeBoss.m_dropLava = true;
         StartCoroutine(TunnelAttack());
     }
 
     private IEnumerator TunnelAttack()
     {
-        Debug.Log("Doinga tunnel attack");
-
         TunnelDef currentTunnel = m_tunnels[m_currentTunnelIndex];
         CentipedeMovement.SetTargets(new List<Transform> { currentTunnel.m_tunnelEnd, currentTunnel.m_tunnelStart, currentTunnel.m_tunnelTarget, currentTunnel.m_nextCorner });
 
@@ -63,6 +62,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         if (m_currentTunnelIndex >= m_tunnels.Count - 1)
         {
             CentipedeMovement.m_useTrainSpeed = false;
+            CentipedeBoss.m_dropLava = false;
             StartCoroutine(ReenterArena());
         }
         else

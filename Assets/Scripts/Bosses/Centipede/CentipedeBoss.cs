@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class CentipedeBoss : MonoBehaviour
 {
-    
-
     public static CentipedeSettings m_settings;
+    public static bool m_dropLava = false;
     public List<CentipedeBehaviour> m_behaviourLoop;
-    
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
     private CentipedeBehaviour m_currentBehaviour;
 
-
-
     private void Awake()
     {
         m_settings = Resources.Load<CentipedeSettings>("ScriptableObjects/CentipedeBossSettings");
         m_totalBehaviours = m_behaviourLoop.Count;
-
+        m_dropLava = false;
     }
 
     private void Start()
@@ -53,6 +49,4 @@ public class CentipedeBoss : MonoBehaviour
         m_currentBehaviour = m_behaviourLoop[m_currentBehaviourIndex];
         m_currentBehaviour.StartBehaviour();
     }
-
-    
 }

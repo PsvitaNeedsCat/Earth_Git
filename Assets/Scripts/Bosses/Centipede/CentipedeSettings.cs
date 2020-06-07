@@ -19,6 +19,7 @@ public class CentipedeSettings : ScriptableObject
 
     [Header("Train Settings")]
     public float m_trainMoveSpeed;
+    public float m_lavaLifetime;
 
     [Header("Tail Settings")]
     public float m_fireDelay;

@@ -21,6 +21,7 @@ public class CentipedeMovement : MonoBehaviour
     private static int m_positionInPath = 0;
     private static Transform m_currentTarget;
     private static int m_currentTargetIndex = 0;
+    private GameObject m_lavaTrailPrefab;
 
     private static CentipedeMovement m_instance;
 
@@ -42,6 +43,7 @@ public class CentipedeMovement : MonoBehaviour
             m_segments[i].m_segmentBehind = m_segments[i + 1];
         }
 
+        m_lavaTrailPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Centipede/CentipedeLavaTrail");
         // m_currentTarget = m_targets[0];
     }
 
@@ -71,7 +73,6 @@ public class CentipedeMovement : MonoBehaviour
                     m_currentTarget = m_targets[m_currentTargetIndex];
                     m_t = 0.0f;
                     m_segments[0].NextPos(m_currentTarget.position, m_currentTarget.rotation);
-                    
                 }
                 else
                 {
@@ -120,12 +121,22 @@ public class CentipedeMovement : MonoBehaviour
             }
 
             NextPathPoint(true);
+            DropLavaTrail();
 
             m_t -= 1.0f;
             return;
         }
 
         m_segments[0].Move(_t);
+    }
+
+    private void DropLavaTrail()
+    {
+        if (!CentipedeBoss.m_dropLava) return;
+        Vector3 spawnPos = m_segments[0].transform.position - 0.99f * Vector3.up;
+        spawnPos.x = Mathf.Floor(spawnPos.x + 0.5f);
+        spawnPos.z = Mathf.Floor(spawnPos.z + 0.5f);
+        GameObject lava = Instantiate(m_lavaTrailPrefab, spawnPos, Quaternion.identity, null);
     }
 
     private void NextPathPoint(bool _first)

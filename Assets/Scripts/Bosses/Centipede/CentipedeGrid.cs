@@ -8,10 +8,10 @@ public class CentipedeGrid : MonoBehaviour
     public float m_nodeRadius;
 
     static PathNode[,] m_grid;
-    readonly static int m_gridSize = 18;
+    readonly static int m_gridSize = 21;
     private float m_nodeDiameter;
 
-    private static Vector2 m_gridWorldSize = Vector2.one * 18.0f;
+    private static Vector2 m_gridWorldSize = Vector2.one * 21.0f;
     private readonly Vector2Int[] m_neighbourDirs = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
 
     private void Awake()
