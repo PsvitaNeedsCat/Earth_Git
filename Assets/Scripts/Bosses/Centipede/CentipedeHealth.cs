@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CentipedeHealth : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CentipedeHealth : MonoBehaviour
     
     public Color m_damagedColor;
     public List<MeshRenderer> m_segmentRenderers;
+    public GameObject m_bossObject;
 
     private MaterialPropertyBlock m_damagedMPB;
     static readonly int m_shPropColor = Shader.PropertyToID("_Color");
@@ -19,7 +21,12 @@ public class CentipedeHealth : MonoBehaviour
         m_damagedMPB.SetColor(m_shPropColor, m_damagedColor);
     }
 
-    public void SectionDamaged(ESegmentType _type)
+    public bool IsSectionDamaged(ESegmentType _type)
+    {
+        return m_sectionsDamaged[(int)_type];
+    }
+
+    public void DamageSection(ESegmentType _type)
     {
         if (m_sectionsDamaged[(int)_type]) return;
 
@@ -39,5 +46,20 @@ public class CentipedeHealth : MonoBehaviour
         }
 
         m_sectionsDamaged[(int)_type] = true;
+
+        bool anyAlive = false;
+
+        foreach (bool section in m_sectionsDamaged)
+        {
+            if (!section)
+            {
+                anyAlive = true;
+            }
+        }
+
+        if (!anyAlive)
+        {
+            m_bossObject.transform.DOScale(0.0f, 1.0f).SetEase(Ease.InElastic).OnComplete(() => Destroy(m_bossObject));
+        }
     }
 }

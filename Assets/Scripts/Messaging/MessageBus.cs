@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using TMPro;
+
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
@@ -67,11 +69,16 @@ public static class MessageBus
 {
     private static Dictionary<EMessageType, UnityEvent<string>> m_eventDict = new Dictionary<EMessageType, UnityEvent<string>>();
 
+    private static int check = 0;
+
     // Subscribes a listener to a type of message
     public static void AddListener(EMessageType _type, UnityAction<string> _listener)
     {
         if (_type == EMessageType.none) { return; }
-        
+
+        check += 1;
+        // GameObject.Find("DebugTxt").GetComponent<TextMeshProUGUI>().text = check.ToString();
+
         // Event already exists
         if (m_eventDict.TryGetValue(_type, out UnityEvent<string> checkEvent))
         {
@@ -81,7 +88,7 @@ public static class MessageBus
         else
         {
             UnityEvent<string> newEvent = new MessageBusEvent();
-
+            
             newEvent.AddListener(_listener);
             m_eventDict.Add(_type, newEvent);
         }
@@ -122,5 +129,12 @@ public static class MessageBus
         {
             triggerEvent.Invoke(_type.ToString());
         }
+        string text = "";
+        foreach (KeyValuePair<EMessageType, UnityEvent<string>> i in m_eventDict)
+        {
+            text += i.Key.ToString();
+            text += "\n";
+        }
+        // GameObject.Find("DebugTxt").GetComponent<TextMeshProUGUI>().text = text;
     }
 }

@@ -8,21 +8,16 @@ public class CentipedeGrid : MonoBehaviour
     public float m_nodeRadius;
 
     static PathNode[,] m_grid;
-    readonly static int m_gridSize = 9;
+    readonly static int m_gridSize = 21;
     private float m_nodeDiameter;
 
-    private static Vector2 m_gridWorldSize = Vector2.one * 9.0f;
+    private static Vector2 m_gridWorldSize = Vector2.one * 21.0f;
     private readonly Vector2Int[] m_neighbourDirs = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
 
     private void Awake()
     {
         m_nodeDiameter = m_nodeRadius * 2.0f;
         CreateGrid();
-    }
-
-    private void Start()
-    {
-        
     }
 
     private void CreateGrid()
@@ -38,6 +33,14 @@ public class CentipedeGrid : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * m_nodeDiameter + m_nodeRadius) + Vector3.forward * (y * m_nodeDiameter + m_nodeRadius);
                 m_grid[x, y] = new PathNode(true, worldPoint, x, y);
             }
+        }
+
+        CentipedeObstacle[] obstacles = FindObjectsOfType<CentipedeObstacle>();
+
+        foreach (CentipedeObstacle obstacle in obstacles)
+        {
+            PathNode node = NodeFromWorldPoint(obstacle.transform.position);
+            node.m_isWalkable = false;
         }
     }
 
