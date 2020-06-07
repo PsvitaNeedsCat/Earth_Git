@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
         foreach (KeyValuePair<string, AudioClip> i in m_soundDictionary)
         {
             EMessageType listenerEnum = EMessageType.none;
-            Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
+            System.Enum.TryParse(i.Key, out listenerEnum);
             MessageBus.AddListener(listenerEnum, PlaySoundVaried);
         }
     }
