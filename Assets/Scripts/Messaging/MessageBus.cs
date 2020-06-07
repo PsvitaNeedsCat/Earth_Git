@@ -76,9 +76,6 @@ public static class MessageBus
     {
         if (_type == EMessageType.none) { return; }
 
-        check += 1;
-        // GameObject.Find("DebugTxt").GetComponent<TextMeshProUGUI>().text = check.ToString();
-
         // Event already exists
         if (m_eventDict.TryGetValue(_type, out UnityEvent<string> checkEvent))
         {
@@ -129,12 +126,5 @@ public static class MessageBus
         {
             triggerEvent.Invoke(_type.ToString());
         }
-        string text = "";
-        foreach (KeyValuePair<EMessageType, UnityEvent<string>> i in m_eventDict)
-        {
-            text += i.Key.ToString();
-            text += "\n";
-        }
-        // GameObject.Find("DebugTxt").GetComponent<TextMeshProUGUI>().text = text;
     }
 }
