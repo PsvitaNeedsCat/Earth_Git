@@ -22,6 +22,7 @@ public class ToadSwell : ToadBehaviour
         m_startingScale = m_meshTransform.localScale.x;
         m_normalMaterial = m_toadRenderer.material;
         m_toadHealth = GetComponent<HealthComponent>();
+        m_toadHealth.IsInvincible = true;
     }
 
     public override void StartBehaviour()

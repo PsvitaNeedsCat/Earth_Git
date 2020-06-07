@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using TMPro;
+
 public class Player : MonoBehaviour
 {
     // Public variables
@@ -26,6 +28,14 @@ public class Player : MonoBehaviour
 
     // Unlocks a power for use
     public void PowerUnlocked(eChunkEffect _power) => m_activePowers[_power] = true;
+    public void ResetPowers()
+    {
+        // Reset all the powers except the first (rock)
+        for(int i = 1; i < m_activePowers.Count; i++)
+        {
+            m_activePowers[(eChunkEffect)i] = false;
+        }
+    }
 
     private void Awake()
     {
@@ -144,13 +154,25 @@ public class Player : MonoBehaviour
         switch (_effect)
         {
             case eChunkEffect.water:
-                { MessageBus.TriggerEvent(EMessageType.powerWater); break; }
+                {
+                    MessageBus.TriggerEvent(EMessageType.powerWater);
+                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Water";
+                    break;
+                }
 
             case eChunkEffect.fire:
-                { MessageBus.TriggerEvent(EMessageType.powerFire); break; }
+                {
+                    MessageBus.TriggerEvent(EMessageType.powerFire);
+                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Fire";
+                    break;
+                }
 
             default:
-                { MessageBus.TriggerEvent(EMessageType.powerRock); break; }
+                {
+                    MessageBus.TriggerEvent(EMessageType.powerRock);
+                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Rock";
+                    break;
+                }
         }
     }
 
@@ -169,5 +191,29 @@ public class Player : MonoBehaviour
 
         // If everything is good, invoke
         m_playerController.Interact();
+    }
+
+    // Debug - remove on build
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    m_activePowers[eChunkEffect.water] = !m_activePowers[eChunkEffect.water];
+        //    if (m_activePowers[eChunkEffect.water]) { TryChangeEffect(eChunkEffect.water); }
+        //    else { TryChangeEffect(eChunkEffect.none); }
+        //    Debug.Log("Water power: " + m_activePowers[eChunkEffect.fire]);
+        //}
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    m_activePowers[eChunkEffect.fire] = !m_activePowers[eChunkEffect.fire];
+        //    if (m_activePowers[eChunkEffect.fire]) { TryChangeEffect(eChunkEffect.fire); }
+        //    else { TryChangeEffect(eChunkEffect.none); }
+        //    Debug.Log("Fire power: " + m_activePowers[eChunkEffect.fire]);
+        //}
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            MessageBus.TriggerEvent(EMessageType.ting);
+        }
     }
 }

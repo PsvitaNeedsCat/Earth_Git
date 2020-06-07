@@ -21,6 +21,7 @@ public class Chunk : MonoBehaviour
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
+    [SerializeField] private bool m_startOverride = false;
 
     // Private variables
     private Rigidbody m_rigidBody;
@@ -55,8 +56,14 @@ public class Chunk : MonoBehaviour
 
         m_globalSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
 
-        transform.parent = RoomManager.Instance.GetActiveRoom().transform;
+        if (m_startOverride)
+        {
+            m_isRaised = true;
+        }
     }
+
+    // For the initial chunk
+    private void Start() => transform.parent = RoomManager.Instance.GetActiveRoom().transform;
 
     private void OnApplicationQuit()
     {

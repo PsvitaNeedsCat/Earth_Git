@@ -75,7 +75,6 @@ public class ToadTongueAttack : ToadBehaviour
 
     public void OnRetracted()
     {
-        Debug.Log("OnRetracted called");
         m_toadAnimator.SetTrigger("TongueRetracted");
     }
 

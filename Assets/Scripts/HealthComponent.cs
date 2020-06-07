@@ -47,7 +47,11 @@ public class HealthComponent : MonoBehaviour
     }
 
     // Heals to maximum health
-    public void HealToMax() => Health = m_maxHealth;
+    public void HealToMax()
+    {
+        m_isDead = false;
+        Health = m_maxHealth;
+    }
 
     private void Update()
     {

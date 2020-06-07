@@ -10,7 +10,6 @@ public class SandBlock : MonoBehaviour
     private Rigidbody m_rigidbody;
     private bool m_isFalling = false;
     private GlobalChunkSettings m_chunkSettings;
-    private Vector3 m_fallingBounds = new Vector3(0.8f, 1.0f, 0.8f);
     private GameObject m_chunkInside = null;
 
     private void Awake()
@@ -45,7 +44,13 @@ public class SandBlock : MonoBehaviour
         if (player) { player.m_inSand = false; }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk && m_chunkInside == chunk) { m_chunkInside = null; }
+        if (chunk)
+        {
+            if (m_chunkInside.GetInstanceID() == chunk.gameObject.GetInstanceID())
+            {
+                m_chunkInside = null;
+            }
+        }
     }
 
     private void OnDestroy()
@@ -80,9 +85,6 @@ public class SandBlock : MonoBehaviour
         m_rigidbody.isKinematic = false;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         m_rigidbody.useGravity = true;
-
-        // Collider
-        GetComponent<BoxCollider>().size = m_fallingBounds;
     }
 
     // Called when sand hits the ground
@@ -93,9 +95,6 @@ public class SandBlock : MonoBehaviour
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         m_rigidbody.isKinematic = true;
         m_rigidbody.useGravity = false;
-
-        // Collider
-        GetComponent<BoxCollider>().size = Vector3.one;
 
         // Snap to tile
         Tile tile = Grid.FindClosestTileAny(transform.position);

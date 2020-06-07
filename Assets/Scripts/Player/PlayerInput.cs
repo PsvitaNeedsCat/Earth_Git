@@ -51,11 +51,6 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
         m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(eChunkEffect.fire);
 
-        // Temp
-        m_controls.PlayerCombat.NoPower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Rock";
-        m_controls.PlayerCombat.WaterPower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Water";
-        m_controls.PlayerCombat.FirePower.performed += _ => GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Fire";
-
         // Enable by default for now
         SetMovement(true);
         SetCombat(true);
