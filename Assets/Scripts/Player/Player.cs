@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
 
     public void Pause() => m_playerController.Pause();
     public void UnPause() => m_playerController.UnPause();
+    public void ContinueDialogue() => m_playerController.ContinueDialogue();
 
     private void Awake()
     {

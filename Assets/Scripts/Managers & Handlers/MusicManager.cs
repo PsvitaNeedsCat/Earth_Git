@@ -1,0 +1,87 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class MusicManager : MonoBehaviour
+{
+    [SerializeField] private EMessageType m_startingMusic = EMessageType.none;
+
+    private static MusicManager m_instace = null;
+
+    private string m_musicPath = "Music";
+    private Dictionary<string, AudioClip> m_musicDictionary = new Dictionary<string, AudioClip>();
+    private AudioSource m_audioSource;
+
+    private void Awake()
+    {
+        if (m_instace != null && m_instace != this) { Destroy(this.gameObject); }
+        else { m_instace = this; }
+
+        // Get music
+        AudioClip[] audioClips = Resources.LoadAll<AudioClip>(m_musicPath);
+
+        for (int i = 0; i < audioClips.Length; i++)
+        {
+            m_musicDictionary.Add(audioClips[i].name, audioClips[i]);
+        }
+
+        m_audioSource = GetComponent<AudioSource>();
+        m_audioSource.loop = true;
+    }
+
+    private void OnEnable()
+    {
+        // Add sounds to message bus
+        foreach (KeyValuePair<string, AudioClip> i in m_musicDictionary)
+        {
+            EMessageType listenerEnum = EMessageType.none;
+            System.Enum.TryParse(i.Key, out listenerEnum);
+            MessageBus.AddListener(listenerEnum, PlayMusic);
+        }
+
+        MessageBus.AddListener(EMessageType.stopMusic, StopMusic);
+    }
+
+    private void OnDisable()
+    {
+        // Remove all sounds in the message bus
+        foreach (KeyValuePair<string, AudioClip> i in m_musicDictionary)
+        {
+            EMessageType listenerEnum = EMessageType.none;
+            Debug.Assert(System.Enum.TryParse(i.Key, out listenerEnum), "Audio clip called " + i.Key + " is not a valid EMessageType");
+            MessageBus.RemoveListener(listenerEnum, PlayMusic);
+        }
+
+        MessageBus.RemoveListener(EMessageType.stopMusic, StopMusic);
+    }
+
+    private void Start()
+    {
+        if (m_startingMusic != EMessageType.none)
+        {
+            PlayMusic(m_startingMusic.ToString());
+        }
+    }
+
+    private void PlayMusic(string _name)
+    {
+        if (m_audioSource.isPlaying)
+        {
+            // If the clip playing is the one wanted to be played, return
+            if (m_audioSource.clip.name == _name) { return; }
+
+            // If the clip playing is not the one wanted, stop it playing
+            m_audioSource.Stop();
+        }
+
+        m_audioSource.clip = m_musicDictionary[_name];
+
+        m_audioSource.Play();
+    }
+
+    private void StopMusic(string _nul)
+    {
+        m_audioSource.Stop();
+    }
+}
