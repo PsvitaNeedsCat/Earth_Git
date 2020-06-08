@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
+        SetOutlineColour();
+
         // Set health
         m_health = GetComponent<HealthComponent>();
         m_health.Init(m_settings.m_defaultMaxHealth, m_settings.m_defaultMaxHealth, OnHurt, OnHealed, OnDeath);
@@ -304,5 +306,25 @@ public class PlayerController : MonoBehaviour
     public void ContinueDialogue()
     {
         MessageBus.TriggerEvent(EMessageType.continueDialogue);
+    }
+
+    private void SetOutlineColour()
+    {
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        int outlineColourID = Shader.PropertyToID("_SilhouetteColor");
+
+        SceneOutlineColour outline;
+        outline = m_settings.m_outlineColours.Find(t => t.sceneName == UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+
+        if (outline != null)
+        {
+            Debug.Log("Setting mpb");
+            mpb.SetColor(outlineColourID, outline.outlineColor);
+            m_meshRenderer.SetPropertyBlock(mpb);
+        }
+        else
+        {
+            Debug.Log("Couldn't set mpb");
+        }
     }
 }
