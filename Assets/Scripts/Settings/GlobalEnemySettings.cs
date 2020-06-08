@@ -28,4 +28,8 @@ public class GlobalEnemySettings : ScriptableObject
     public int m_grubProjDamage = 1;
     [Tooltip("Speed of grub's projectile")]
     public float m_grubProjSpeed = 0.5f;
+    [Tooltip("How big the grub gets when growing")]
+    public float m_grubGrowSize = 0.8f;
+    [Tooltip("How long the grub is vulnerable for")]
+    public float m_grubVulnerableTime = 4.0f;
 }
