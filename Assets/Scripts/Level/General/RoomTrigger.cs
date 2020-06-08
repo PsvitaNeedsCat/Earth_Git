@@ -4,6 +4,7 @@ public class RoomTrigger : MonoBehaviour
 {
     [Tooltip("The name of the game object that holds all the room objects")]
     [SerializeField] private string m_roomName;
+    [SerializeField] private EMessageType m_musicTrigger = EMessageType.none;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,6 +15,12 @@ public class RoomTrigger : MonoBehaviour
             // Set room manager
             RoomManager.Instance.PrepareToChangeRoom(m_roomName);
             RoomManager.Instance.m_respawnLocation = transform.position;
+
+            // Set music if applicable
+            if (m_musicTrigger != EMessageType.none)
+            {
+                MessageBus.TriggerEvent(m_musicTrigger);
+            }
         }
     }
 }
