@@ -104,8 +104,7 @@ public class CentipedeGrid : MonoBehaviour
                 if (m_path != null)
                 {
                     // if (n.m_occupied) Gizmos.color = Color.cyan;
-                    if (m_path.Contains(n)) Gizmos.color = Color.green;
-                    Gizmos.DrawWireCube(n.m_worldPosition, Vector3.one * 0.9f);
+                    // if (m_path.Contains(n)) Gizmos.color = Color.green;
                     //Gizmos.color = Color.blue;
                     //if (n.FCost < 20) Gizmos.color = Color.green;
                     //if (n.FCost > 1000) Gizmos.color = Color.cyan;

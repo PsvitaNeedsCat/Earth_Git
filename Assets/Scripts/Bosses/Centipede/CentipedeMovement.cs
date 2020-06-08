@@ -189,6 +189,5 @@ public class CentipedeMovement : MonoBehaviour
         // Will be incremented before use
         m_positionInPath = 0;
         m_path = m_instance.m_pathfinder.GetPath(m_instance.m_segments[0].transform, m_currentTarget);
-        Debug.Log("Got path");
     }
 }
