@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SceneOutlineColour
+{
+    public string sceneName;
+    public Color outlineColor;
+}
+
 [CreateAssetMenu(fileName = "NewGlobalPlayerSettings", menuName = "Settings/GlobalPlayerSettings")]
 public class GlobalPlayerSettings : ScriptableObject
 {
@@ -53,4 +60,8 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_knockbackForce = 35.0f;
     [Tooltip("Maximum distance an interactable can be before it is not interactable")]
     public float m_maxInteractableDist = 0.6f;
+
+    [Header("Material")]
+    public List<SceneOutlineColour> m_outlineColours;
+
 }
