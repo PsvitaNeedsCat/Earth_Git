@@ -67,4 +67,22 @@ public class AudioManager : MonoBehaviour
             Destroy(soundEffectPlayer, clip.length);
         }
     }
+
+    // Pauses all audio clips
+    public void PauseAll()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<AudioSource>().Pause();
+        }
+    }
+
+    // Unpauses all audio clips
+    public void ContinuePlay()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<AudioSource>().UnPause();
+        }
+    }
 }

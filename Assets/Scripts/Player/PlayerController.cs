@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private HealthComponent m_health;
     private PlayerInput m_input;
     private Image m_glassUI;
+    private GameObject m_pauseMenu = null;
+    private GameObject m_pauseMenuPrefab;
 
     private void Awake()
     {
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour
         // Get glass UI
         m_glassUI = GameObject.Find("glassEffect").GetComponent<Image>();
         Debug.Assert(m_glassUI, "Unable to find glass effect object");
+
+        m_pauseMenuPrefab = Resources.Load<GameObject>("Prefabs/Pause Menu Parent");
     }
 
     private void Start()
@@ -266,5 +270,23 @@ public class PlayerController : MonoBehaviour
             m_health.IsInvincible = !m_health.IsInvincible;
             Debug.Log("Invincibility set to: " + m_health.IsInvincible);
         }
+    }
+
+    // Pauses the game
+    public void Pause()
+    {
+        Time.timeScale = 0.0f;
+        AudioManager.Instance.PauseAll();
+        m_input.SetPause(true);
+        m_pauseMenu = Instantiate(m_pauseMenuPrefab, Vector3.zero, Quaternion.identity);
+    }
+
+    // UnPauses the game
+    public void UnPause()
+    {
+        Time.timeScale = 1.0f;
+        m_input.SetPause(false);
+        AudioManager.Instance.ContinuePlay();
+        Destroy(m_pauseMenu);
     }
 }

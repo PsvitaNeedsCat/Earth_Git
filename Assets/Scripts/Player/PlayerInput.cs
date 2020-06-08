@@ -12,6 +12,9 @@ public class PlayerInput : MonoBehaviour
     private InputMaster m_controls;
     private Player m_player;
 
+    private bool m_prevMovement;
+    private bool m_prevCombat;
+
     // Only one instance
     private static PlayerInput m_instance;
 
@@ -50,10 +53,14 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
         m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
         m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(eChunkEffect.fire);
+        // Pause
+        m_controls.PlayerMovement.Pause.performed += _ => m_player.Pause();
+        m_controls.Pause.UnPause.performed += _ => m_player.UnPause();
 
         // Enable by default for now
         SetMovement(true);
         SetCombat(true);
+        m_controls.Pause.Disable();
     }
 
     private void OnDestroy()
@@ -71,5 +78,23 @@ public class PlayerInput : MonoBehaviour
     {
         if (_active) { m_controls.PlayerCombat.Enable(); }
         else { m_controls.PlayerCombat.Disable(); }
+    }
+
+    public void SetPause(bool _active)
+    {
+        if (_active)
+        {
+            m_prevMovement = m_controls.PlayerMovement.enabled;
+            m_prevCombat = m_controls.PlayerCombat.enabled;
+            SetMovement(false);
+            SetCombat(false);
+            m_controls.Pause.Enable();
+        }
+        else
+        {
+            m_controls.Pause.Disable();
+            SetMovement(m_prevMovement);
+            SetCombat(m_prevCombat);
+        }
     }
 }
