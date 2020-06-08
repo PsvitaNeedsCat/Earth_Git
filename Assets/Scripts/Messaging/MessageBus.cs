@@ -12,6 +12,7 @@ public enum EMessageType
     test,
     fadedToBlack,
     fadedToBlackQuiet,
+    continueDialogue,
 
     // Chunk
     chunkDamaged,

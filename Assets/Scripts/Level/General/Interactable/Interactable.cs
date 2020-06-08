@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour
 
     private static Player m_playerRef;
 
-    private void Awake()
+    public virtual void Awake()
     {
         // The first one gets the player reference
         if (!m_playerRef)
@@ -20,8 +20,8 @@ public class Interactable : MonoBehaviour
     }
 
     // Message bus listener
-    private void OnEnable() => MessageBus.AddListener(EMessageType.interact, CheckForClosest);
-    private void OnDisable() => MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
+    public virtual void OnEnable() => MessageBus.AddListener(EMessageType.interact, CheckForClosest);
+    public virtual void OnDisable() => MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
 
     virtual public void Invoke()
     {

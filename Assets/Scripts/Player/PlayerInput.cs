@@ -56,11 +56,14 @@ public class PlayerInput : MonoBehaviour
         // Pause
         m_controls.PlayerMovement.Pause.performed += _ => m_player.Pause();
         m_controls.Pause.UnPause.performed += _ => m_player.UnPause();
+        // Dialogue
+        m_controls.Dialogue.Continue.performed += _ => m_player.ContinueDialogue();
 
         // Enable by default for now
         SetMovement(true);
         SetCombat(true);
         m_controls.Pause.Disable();
+        m_controls.Dialogue.Disable();
     }
 
     private void OnDestroy()
@@ -95,6 +98,25 @@ public class PlayerInput : MonoBehaviour
             m_controls.Pause.Disable();
             SetMovement(m_prevMovement);
             SetCombat(m_prevCombat);
+        }
+    }
+
+    public void SetDialogue(bool _active)
+    {
+        if (_active)
+        {
+            m_prevCombat = m_controls.PlayerCombat.enabled;
+            m_prevMovement = m_controls.PlayerMovement.enabled;
+            SetMovement(false);
+            SetCombat(false);
+            m_controls.Pause.Disable();
+            m_controls.Dialogue.Enable();
+        }
+        else
+        {
+            SetMovement(m_prevMovement);
+            SetCombat(m_prevCombat);
+            m_controls.Dialogue.Disable();
         }
     }
 }
