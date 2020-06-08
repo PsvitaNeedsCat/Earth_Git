@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Image m_glassUI;
     private GameObject m_pauseMenu = null;
     private GameObject m_pauseMenuPrefab;
+    private EventSystem[] m_eventSystems;
 
     private void Awake()
     {
@@ -278,6 +280,11 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0.0f;
         AudioManager.Instance.PauseAll();
         m_input.SetPause(true);
+
+        // Remove event systems
+        m_eventSystems = FindObjectsOfType<EventSystem>();
+        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = false; }
+
         m_pauseMenu = Instantiate(m_pauseMenuPrefab, Vector3.zero, Quaternion.identity);
     }
 
@@ -288,5 +295,8 @@ public class PlayerController : MonoBehaviour
         m_input.SetPause(false);
         AudioManager.Instance.ContinuePlay();
         Destroy(m_pauseMenu);
+
+        // Reenable event systems
+        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = true; }
     }
 }
