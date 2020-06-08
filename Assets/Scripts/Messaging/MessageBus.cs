@@ -12,6 +12,7 @@ public enum EMessageType
     test,
     fadedToBlack,
     fadedToBlackQuiet,
+    continueDialogue,
 
     // Chunk
     chunkDamaged,
@@ -57,6 +58,15 @@ public enum EMessageType
     toadRoar,
     toadSpit,
     toadTongue,
+
+    // Music
+    menuMusic,
+    wMusic,
+    stopMusic,
+    wToadMusic,
+    fMusic,
+    fCentipedeMusic,
+    dMusic,
 }
 
 [System.Serializable]
