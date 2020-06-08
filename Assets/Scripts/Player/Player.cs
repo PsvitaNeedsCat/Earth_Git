@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Pause() => m_playerController.Pause();
+    public void UnPause() => m_playerController.UnPause();
+
     private void Awake()
     {
         // Only ever one instance of this

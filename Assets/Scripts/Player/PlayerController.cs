@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class PlayerController : MonoBehaviour
     private HealthComponent m_health;
     private PlayerInput m_input;
     private Image m_glassUI;
+    private GameObject m_pauseMenu = null;
+    private GameObject m_pauseMenuPrefab;
+    private EventSystem[] m_eventSystems;
 
     private void Awake()
     {
@@ -53,6 +57,8 @@ public class PlayerController : MonoBehaviour
         // Get glass UI
         m_glassUI = GameObject.Find("glassEffect").GetComponent<Image>();
         Debug.Assert(m_glassUI, "Unable to find glass effect object");
+
+        m_pauseMenuPrefab = Resources.Load<GameObject>("Prefabs/Pause Menu Parent");
     }
 
     private void Start()
@@ -266,5 +272,31 @@ public class PlayerController : MonoBehaviour
             m_health.IsInvincible = !m_health.IsInvincible;
             Debug.Log("Invincibility set to: " + m_health.IsInvincible);
         }
+    }
+
+    // Pauses the game
+    public void Pause()
+    {
+        Time.timeScale = 0.0f;
+        AudioManager.Instance.PauseAll();
+        m_input.SetPause(true);
+
+        // Remove event systems
+        m_eventSystems = FindObjectsOfType<EventSystem>();
+        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = false; }
+
+        m_pauseMenu = Instantiate(m_pauseMenuPrefab, Vector3.zero, Quaternion.identity);
+    }
+
+    // UnPauses the game
+    public void UnPause()
+    {
+        Time.timeScale = 1.0f;
+        m_input.SetPause(false);
+        AudioManager.Instance.ContinuePlay();
+        Destroy(m_pauseMenu);
+
+        // Reenable event systems
+        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = true; }
     }
 }
