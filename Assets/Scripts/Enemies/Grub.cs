@@ -15,6 +15,10 @@ public class Grub : MonoBehaviour
     private bool m_moving = false;
     [SerializeField] private Transform m_projSpawn;
     [SerializeField] private GameObject m_projPrefab;
+    private bool m_invincible = true;
+
+    [SerializeField] private MeshRenderer m_renderer;
+    [SerializeField] private Material[] m_defaultMats;
 
     // Position data
     private Vector3 m_startPos;
@@ -39,7 +43,7 @@ public class Grub : MonoBehaviour
     {
         if (m_dead) { return; }
 
-        if (m_moveTimer <= 0.0f)
+        if (m_moveTimer <= 0.0f && m_invincible)
         {
             m_moveTimer = m_settings.m_grubMaxMoveTime;
             // Move
@@ -50,7 +54,7 @@ public class Grub : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (m_dead) { return; }
+        if (m_dead || m_invincible) { return; }
 
         PlayerController player = other.GetComponent<PlayerController>();
         if (player)
@@ -65,10 +69,7 @@ public class Grub : MonoBehaviour
             // Kill grub
             if (chunk.m_currentEffect == eChunkEffect.water)
             {
-                transform.DOKill();
-                transform.Rotate(transform.forward, 180.0f);
-                m_dead = true;
-                MessageBus.TriggerEvent(EMessageType.grubKilled);
+                Dead();
             }
             
             Destroy(other.gameObject);
@@ -77,9 +78,36 @@ public class Grub : MonoBehaviour
         }
     }
 
+    private void Dead()
+    {
+        transform.DOKill();
+        transform.DOScale(0.5f, 0.1f);
+        transform.Rotate(transform.forward, 180.0f);
+        for (int i = 0; i < m_renderer.materials.Length; i++) { m_renderer.materials[i].color = new Color(0.5f, 0.5f, 0.5f); }
+        m_dead = true;
+        MessageBus.TriggerEvent(EMessageType.grubKilled);
+    }
+
+    private void ChargeUp()
+    {
+        m_invincible = false;
+
+        transform.DOScale(m_settings.m_grubGrowSize, m_settings.m_grubVulnerableTime).OnComplete(() => FireProjectile());
+        for (int i = 0; i < m_renderer.materials.Length; i++)
+        {
+            m_renderer.materials[i].DOColor(new Color(1.0f, 0.5f, 0.0f), 0.1f);
+        }
+    }
+
     private void FireProjectile()
     {
         MessageBus.TriggerEvent(EMessageType.enemySpit);
+
+        transform.DOScale(0.5f, 0.5f).SetEase(Ease.OutBounce);
+        for (int i = 0; i < m_renderer.materials.Length; i++)
+        {
+            m_renderer.materials[i].DOColor(m_defaultMats[i].color, 0.1f);
+        }
 
         // Init
         Projectile proj = Instantiate(m_projPrefab, m_projSpawn.position, m_projSpawn.rotation).GetComponent<Projectile>();
@@ -92,6 +120,10 @@ public class Grub : MonoBehaviour
         proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic);
 
         proj.transform.parent = RoomManager.Instance.GetActiveRoom().transform;
+
+        m_invincible = true;
+        m_moving = false;
+        TurnAround();
     }
 
     private void Move()
@@ -101,17 +133,18 @@ public class Grub : MonoBehaviour
         // Reached end point
         if (m_moveCount >= m_endDistance)
         {
-            FireProjectile();
-            TurnAround();
+            ChargeUp();
             m_moveCount = 0;
         }
+        else
+        {
+            // Move forward one tile
+            Vector3 movePos = transform.position;
+            movePos += transform.forward;
+            transform.DOMove(movePos, m_settings.m_grubSpeed).OnComplete(() => m_moving = false);
 
-        // Move forward one tile
-        Vector3 movePos = transform.position;
-        movePos += transform.forward;
-        transform.DOMove(movePos, m_settings.m_grubSpeed).OnComplete(() => m_moving = false);
-
-        m_moveCount += 1;
+            m_moveCount += 1;
+        }
     }
 
     private void TurnAround()
