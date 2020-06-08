@@ -24,6 +24,13 @@ public class CentipedeSegmentMover : MonoBehaviour
         m_centipedeHealth = GetComponentInParent<CentipedeHealth>();
     }
 
+    public void ReachedPosition()
+    {
+        m_lastPosition = transform.position;
+        m_lastRotation = transform.rotation;
+        m_segmentBehind?.ReachedPosition();
+    }
+
     // Moves this segment on to the next target position and rotation
     public void NextPos(Vector3 _newPos, Quaternion _newRot)
     {
@@ -62,6 +69,6 @@ public class CentipedeSegmentMover : MonoBehaviour
         if (m_positionInBody == 0) typeHit = CentipedeHealth.ESegmentType.head;
         if (m_positionInBody == 6) typeHit = CentipedeHealth.ESegmentType.tail;
 
-        m_centipedeHealth.SectionDamaged(typeHit);
+        m_centipedeHealth.DamageSection(typeHit);
     }
 }
