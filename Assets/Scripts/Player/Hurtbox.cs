@@ -45,7 +45,7 @@ public class Hurtbox : MonoBehaviour
             Vector3 cardinal = hitDir.Cardinal();
             if (chunk.Hit(cardinal * m_settings.m_chunkHitForce))
             {
-                chunk.m_currentEffect = m_effect;
+                chunk.CurrentEffect = m_effect;
             }
 
             Destroy(this.gameObject);

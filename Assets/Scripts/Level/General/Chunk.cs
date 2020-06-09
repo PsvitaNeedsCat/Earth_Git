@@ -16,12 +16,28 @@ public class Chunk : MonoBehaviour
 {
     // Public variables
     [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
+    [HideInInspector] public eChunkEffect CurrentEffect
+    {
+        get { return m_currentEffect; }
+        set
+        {
+            m_waterParticles.SetActive(false);
+            m_fireParticles.SetActive(false);
+
+            if (value == eChunkEffect.water) { m_waterParticles.SetActive(true); }
+            if (value == eChunkEffect.fire) { m_fireParticles.SetActive(true); }
+
+            m_currentEffect = value;
+        }
+    }
     [HideInInspector] public eChunkType m_chunkType = eChunkType.none;
     [HideInInspector] public bool m_isRaised = false;
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
     [SerializeField] private bool m_startOverride = false;
+    [SerializeField] private GameObject m_waterParticles;
+    [SerializeField] private GameObject m_fireParticles;
 
     // Private variables
     private Rigidbody m_rigidBody;
@@ -255,6 +271,14 @@ public class Chunk : MonoBehaviour
                     break;
                 }
 
+            case eChunkEffect.fire:
+                {
+                    CurrentEffect = eChunkEffect.none;
+                    MessageBus.TriggerEvent(EMessageType.chunkHitWall);
+                    SnapChunk();
+                    break;
+                }
+
             default:
                 {
                     MessageBus.TriggerEvent(EMessageType.chunkHitWall);
@@ -267,8 +291,6 @@ public class Chunk : MonoBehaviour
     // Snaps a chunk to the nearest grid tile
     private void SnapChunk()
     {
-        // Play sound
-
         m_rigidBody.velocity = Vector3.zero;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         m_rigidBody.isKinematic = true;
