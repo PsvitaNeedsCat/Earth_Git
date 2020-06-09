@@ -19,14 +19,9 @@ public class CentipedeSegmentMover : MonoBehaviour
     {
         m_lastPosition = transform.position;
         m_lastRotation = transform.rotation;
-        m_centipedeHealth = GetComponentInParent<CentipedeHealth>();
         m_currentNode = CentipedeGrid.NodeFromWorldPoint(transform.position);
         m_currentNode.m_occupiedFor = 7 - m_positionInBody;
-    }
-
-    private void InitCurrentNode()
-    {
-        
+        m_centipedeHealth = GetComponentInParent<CentipedeHealth>();
     }
 
     public void ReachedPosition()
@@ -39,8 +34,6 @@ public class CentipedeSegmentMover : MonoBehaviour
     // Moves this segment on to the next target position and rotation
     public void NextPos(Vector3 _newPos, Quaternion _newRot)
     {
-        if (m_currentNode == null) InitCurrentNode();
-
         m_currentNode.m_occupied = false;
         m_currentNode.m_occupiedFor = 0;
 

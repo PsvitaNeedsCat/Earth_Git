@@ -22,13 +22,12 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public override void StartBehaviour()
     {
         base.StartBehaviour();
-        Debug.Log("Tail started");
         StartCoroutine(BurrowDown());
     }
 
     private IEnumerator BurrowDown()
     {
-        Debug.Log("Starting burrow down");
+        
 
         CentipedeMovement.SetTargets(new List<Transform> { m_preBurrowPoint });
         CentipedeMovement.m_seekingTarget = true;
@@ -63,6 +62,8 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator FireProjectiles()
     {
+        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.tail);
+
         while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
         {
             m_timeFiredFor += Time.deltaTime;
@@ -79,6 +80,8 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
             yield return null;
         }
+
+        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.body);
 
         StartCoroutine(BurrowUp());
     }

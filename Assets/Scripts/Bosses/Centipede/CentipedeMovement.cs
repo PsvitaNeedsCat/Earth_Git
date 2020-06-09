@@ -65,7 +65,7 @@ public class CentipedeMovement : MonoBehaviour
                 moveSpeed = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head) ? CentipedeBoss.m_settings.m_trainDamagedMoveSpeed : CentipedeBoss.m_settings.m_trainMoveSpeed);
             }
             
-            m_t += Time.smoothDeltaTime * moveSpeed;
+            m_t += Time.deltaTime * moveSpeed;
             AStarStep(m_t);
         }
         else if (m_burrowing)
@@ -117,16 +117,24 @@ public class CentipedeMovement : MonoBehaviour
         PathNode head = CentipedeGrid.NodeFromWorldPoint(m_segments[0].transform.position);
         PathNode target = CentipedeGrid.NodeFromWorldPoint(m_currentTarget.position);
 
-        if (m_t >= 1.0f)
+        if (m_t >= 0.99f)
         {
-            GetPath();
+            
 
             // If we're at the end of the current path, switch to next target
             if (head.m_gridX == target.m_gridX && head.m_gridY == target.m_gridY)
             {
+                // Debug.Log("Going to next target");
                 m_atTarget = NextTarget();
-                return;
+                
+                // return;
             }
+            else
+            {
+                // GetPath();
+            }
+            if (m_atTarget) return;
+            else GetPath();
 
             NextPathPoint(true);
             DropLavaTrail();
