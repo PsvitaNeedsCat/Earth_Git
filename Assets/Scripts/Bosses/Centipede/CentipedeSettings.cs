@@ -12,6 +12,7 @@ public class CentipedeSettings : ScriptableObject
     public LayerMask m_blocksLasers;
     public float m_laserWidth;
     public float m_laserDistance;
+    public float m_laserAnticipation;
     public float m_laserDuration;
     public float m_laserDurationDamaged;
     public float m_timeBetweenLasers;

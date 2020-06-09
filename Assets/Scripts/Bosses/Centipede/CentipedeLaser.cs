@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CentipedeLaser : MonoBehaviour
 {
+    public GameObject m_mesh;
     public BoxCollider m_leftLaser;
     public BoxCollider m_rightLaser;
     public LineRenderer m_leftLine;
     public LineRenderer m_rightLine;
 
     private bool m_isFiring = false;
+
+    public void FireWarning(float _duration)
+    {
+        m_mesh.transform.DOPunchScale(Vector3.one * 0.3f, _duration * 2.0f, vibrato: 1).SetEase(Ease.InSine);
+    }
 
     public void FireLaserFor(float _duration)
     {

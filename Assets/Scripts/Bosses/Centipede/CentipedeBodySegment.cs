@@ -10,4 +10,9 @@ public class CentipedeBodySegment : MonoBehaviour
     {
         m_laser.FireLaserFor(_duration);
     }
+
+    public void FireWarning(float _duration)
+    {
+        m_laser.FireWarning(_duration);
+    }
 }
