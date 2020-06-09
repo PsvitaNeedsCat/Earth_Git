@@ -51,6 +51,11 @@ public class CentipedeMovement : MonoBehaviour
 
     private void Start()
     {
+        foreach (CentipedeSegmentMover segment in m_segments)
+        {
+            segment.Init();
+        }
+
         m_segments[0].NextPos(m_segments[0].transform.position + m_segments[0].transform.forward, m_segments[0].transform.rotation);
         // GetPath();
     }
