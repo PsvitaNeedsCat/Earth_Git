@@ -40,9 +40,10 @@ public class CentipedeLaserAttack : CentipedeBehaviour
             float laserDuration = (bodyDamaged) ? CentipedeBoss.m_settings.m_laserDurationDamaged : CentipedeBoss.m_settings.m_laserDuration;
             float timeBetween = (bodyDamaged) ? CentipedeBoss.m_settings.m_timeBetweenLasersDamaged : CentipedeBoss.m_settings.m_timeBetweenLasers;
 
-            FireLasers(laserDuration);
+            Debug.Log("Firing laser group");
+            StartCoroutine(FireLasers(laserDuration));
 
-            yield return new WaitForSeconds(laserDuration + timeBetween);
+            yield return new WaitForSeconds(laserDuration + timeBetween + CentipedeBoss.m_settings.m_laserAnticipation);
         }
 
         m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.body);
@@ -50,25 +51,43 @@ public class CentipedeLaserAttack : CentipedeBehaviour
         CompleteBehaviour();
     }
 
-    private void FireLasers(float _laserDuration)
+    private IEnumerator FireLasers(float _laserDuration)
     {
         // Keep list of segments to avoid firing one twice
         List<int> segments = new List<int> { 0, 1, 2, 3, 4 };
 
         int lasersAtOnce = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.m_settings.m_lasersAtOnceDamaged : CentipedeBoss.m_settings.m_lasersAtOnce;
 
-        // Repeat firing lasers until number is reached
+        List<CentipedeBodySegment> segmentsToFire = new List<CentipedeBodySegment>();
+
+        // Find body segments to fire
         for (int i = 0; i < lasersAtOnce; i++)
         {
             // Get random index of indexes
             int randomSegment = Random.Range(0, segments.Count);
             
-            // Find the body segment and fire laser
+            // Find the body segment
             CentipedeBodySegment segmentToFire = m_bodySegments[segments[randomSegment]];
-            segmentToFire.FireLaserFor(_laserDuration);
+            segmentsToFire.Add(segmentToFire);
 
             // Remove this one from the list, so we don't fire it twice
             segments.RemoveAt(randomSegment);
+        }
+
+        Debug.Log("Chose " + segmentsToFire.Count + " lasers");
+
+        for (int i = 0; i < segmentsToFire.Count; i++)
+        {
+            Debug.Log("Executing fire warning");
+            segmentsToFire[i].FireWarning(CentipedeBoss.m_settings.m_laserAnticipation);
+        }
+
+        yield return new WaitForSeconds(CentipedeBoss.m_settings.m_laserAnticipation);
+
+        for (int i = 0; i < segmentsToFire.Count; i++)
+        {
+            Debug.Log("Firing laser");
+            segmentsToFire[i].FireLaserFor(_laserDuration);
         }
     }
 
