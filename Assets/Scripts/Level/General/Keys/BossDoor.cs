@@ -5,22 +5,24 @@ using UnityEngine;
 public class BossDoor : MonoBehaviour
 {
     [Tooltip("Won't load a scene if left blank")]
-    public string m_sceneToLoadUponUnlock = "";
+    [SerializeField] private string m_sceneToLoadUponUnlock = "";
 
     private void OnCollisionEnter(Collision collision)
     {
-        Player player = collision.collider.GetComponent<Player>();
+        PlayerInput player = collision.collider.GetComponent<PlayerInput>();
         if (player)
         {
-            if (player.m_hasKey)
+            if (player.GetComponent<Player>().m_hasKey)
             {
                 // Unlock
                 MessageBus.TriggerEvent(EMessageType.doorUnlocked);
-                player.m_hasKey = false;
                 Destroy(this.gameObject);
 
                 // Temp
-                if (m_sceneToLoadUponUnlock != "") UnityEngine.SceneManagement.SceneManager.LoadScene(m_sceneToLoadUponUnlock);
+                if (m_sceneToLoadUponUnlock != "")
+                {
+                    RoomManager.Instance.LoadScene(m_sceneToLoadUponUnlock);
+                }
             }
             else
             {
