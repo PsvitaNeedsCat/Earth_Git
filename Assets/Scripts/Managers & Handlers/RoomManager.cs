@@ -139,7 +139,10 @@ public class RoomManager : MonoBehaviour
 
         // Set camera to look at player
         CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();
-        cam.Follow = m_camTarget.transform;
+        if (cam)
+        {
+            cam.Follow = m_camTarget.transform;
+        }
     }
 
     // Fades to black without the animation calls
