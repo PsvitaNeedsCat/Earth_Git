@@ -20,6 +20,7 @@ public class CentipedeLaserAttack : CentipedeBehaviour
         CentipedeMovement.m_seekingTarget = true;
         CentipedeMovement.m_loopTargets = true;
         CentipedeMovement.SetTargets(m_movePoints);
+        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.body);
         StartCoroutine(FireLaserGroups());
     }
 
@@ -43,6 +44,8 @@ public class CentipedeLaserAttack : CentipedeBehaviour
 
             yield return new WaitForSeconds(laserDuration + timeBetween);
         }
+
+        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.body);
 
         CompleteBehaviour();
     }
