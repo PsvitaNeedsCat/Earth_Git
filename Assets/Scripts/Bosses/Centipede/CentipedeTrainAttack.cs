@@ -20,6 +20,12 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     public List<TunnelDef> m_tunnels;
 
     private int m_currentTunnelIndex = 0;
+    private CentipedeHealth m_centipedeHealth;
+
+    private void Awake()
+    {
+        m_centipedeHealth = GetComponent<CentipedeHealth>();
+    }
 
     public override void StartBehaviour()
     {
@@ -48,6 +54,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     private IEnumerator TunnelAttack()
     {
+        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.head);
         TunnelDef currentTunnel = m_tunnels[m_currentTunnelIndex];
         CentipedeMovement.SetTargets(new List<Transform> { currentTunnel.m_tunnelEnd, currentTunnel.m_tunnelStart, currentTunnel.m_tunnelTarget, currentTunnel.m_nextCorner });
 
@@ -72,6 +79,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     private IEnumerator ReenterArena()
     {
+        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.head);
         CentipedeMovement.SetTargets(new List<Transform> { m_tunnels[0].m_tunnelStart});
 
         while (!CentipedeMovement.m_atTarget)
