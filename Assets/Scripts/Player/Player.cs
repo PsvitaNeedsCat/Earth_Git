@@ -25,9 +25,14 @@ public class Player : MonoBehaviour
         { eChunkEffect.water, false },
         { eChunkEffect.fire, false }
     };
+    private CrystalSelection m_crystalUI;
 
     // Unlocks a power for use
-    public void PowerUnlocked(eChunkEffect _power) => m_activePowers[_power] = true;
+    public void PowerUnlocked(eChunkEffect _power)
+    {
+        m_activePowers[_power] = true;
+        UpdateUI();
+    }
     public void ResetPowers()
     {
         // Reset all the powers except the first (rock)
@@ -35,6 +40,8 @@ public class Player : MonoBehaviour
         {
             m_activePowers[(eChunkEffect)i] = false;
         }
+
+        UpdateUI();
     }
 
     public void Pause() => m_playerController.Pause();
@@ -58,6 +65,9 @@ public class Player : MonoBehaviour
         Debug.Assert(m_playerController, "PlayerController.cs is not a component of player object");
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+
+        m_crystalUI = FindObjectOfType<CrystalSelection>();
+        UpdateUI();
     }
 
     private void FixedUpdate()
@@ -155,29 +165,46 @@ public class Player : MonoBehaviour
         // Change the player's power
         m_currentEffect = _effect;
 
+        // Update display sprite
+        UpdateUI();
+
         switch (_effect)
         {
             case eChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerWater);
-                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Water";
                     break;
                 }
 
             case eChunkEffect.fire:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerFire);
-                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Fire";
                     break;
                 }
 
             default:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerRock);
-                    GameObject.Find("TempTxt").GetComponent<TextMeshProUGUI>().text = "Rock";
                     break;
                 }
         }
+    }
+
+    private void UpdateUI()
+    {
+        int num = -1;
+        for (int i = 0; i < m_activePowers.Count; i++)
+        {
+            if (m_activePowers[(eChunkEffect)i])
+            {
+                ++num;
+            }
+        }
+
+        bool[] active = new bool[3];
+        for (int i = 0; i < m_activePowers.Count; i++) { active[i] = m_activePowers[(eChunkEffect)i]; }
+        m_crystalUI.UpdateUnlocked(active);
+        m_crystalUI.UpdateSelected((int)m_currentEffect);
     }
 
     // Will try to interact with whatever is closest
@@ -205,7 +232,7 @@ public class Player : MonoBehaviour
             m_activePowers[eChunkEffect.water] = !m_activePowers[eChunkEffect.water];
             if (m_activePowers[eChunkEffect.water]) { TryChangeEffect(eChunkEffect.water); }
             else { TryChangeEffect(eChunkEffect.none); }
-            Debug.Log("Water power: " + m_activePowers[eChunkEffect.fire]);
+            Debug.Log("Water power: " + m_activePowers[eChunkEffect.water]);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
