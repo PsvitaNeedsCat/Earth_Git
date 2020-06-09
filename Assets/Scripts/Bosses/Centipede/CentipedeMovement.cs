@@ -37,6 +37,10 @@ public class CentipedeMovement : MonoBehaviour
 
     private void Awake()
     {
+        if (m_instance)
+        {
+            Destroy(m_instance);
+        }
         m_instance = this;
 
         for (int i = 0; i < m_segments.Count - 1; i++)
@@ -44,9 +48,20 @@ public class CentipedeMovement : MonoBehaviour
             m_segments[i].m_segmentBehind = m_segments[i + 1];
         }
 
+        m_positionInPath = 0;
+        m_currentTargetIndex = 0;
+        m_path?.Clear();
+        m_currentTarget = null;
+        m_targets?.Clear();
+        m_seekingTarget = false;
+        m_atTarget = false;
+        m_loopTargets = false;
+        m_useTrainSpeed = false;
+        m_burrowed = false;
+        m_burrowing = false;
+
         m_lavaTrailPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Centipede/CentipedeLavaTrail");
         m_centipedeHealth = GetComponent<CentipedeHealth>();
-        // m_currentTarget = m_targets[0];
     }
 
     private void Start()
