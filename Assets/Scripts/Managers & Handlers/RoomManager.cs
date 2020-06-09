@@ -116,6 +116,8 @@ public class RoomManager : MonoBehaviour
 
         string roomName = m_rooms[m_currentRoom].name;
 
+        Vector3 oldPos = m_rooms[m_currentRoom].transform.position;
+
         // Destroy current room
         Destroy(m_rooms[m_currentRoom]);
         m_rooms.RemoveAt(m_currentRoom);
@@ -133,13 +135,16 @@ public class RoomManager : MonoBehaviour
         }
 
         // Spawn room
-        GameObject newRoom = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        GameObject newRoom = Instantiate(prefab, oldPos, Quaternion.identity);
         newRoom.name = roomName; // Set name so it isn't name(Clone)
         m_rooms.Insert(m_currentRoom, newRoom);
 
         // Set camera to look at player
         CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();
-        cam.Follow = m_camTarget.transform;
+        if (cam)
+        {
+            cam.Follow = m_camTarget.transform;
+        }
     }
 
     // Fades to black without the animation calls
