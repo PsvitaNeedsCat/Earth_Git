@@ -7,9 +7,9 @@ public class Lava : MonoBehaviour
     private GlobalTileSettings m_settings;
     private Collider m_lavaTrigger;
     [SerializeField] private Collider m_lavaCollider;
-
-    // Temp
     [SerializeField] private MeshRenderer m_meshRenderer;
+    [SerializeField] private Material m_stoneMat;
+    [SerializeField] private ParticleSystem m_particles;
 
     private void Awake()
     {
@@ -58,6 +58,7 @@ public class Lava : MonoBehaviour
 
         m_lavaTrigger.enabled = false;
         m_lavaCollider.enabled = false;
-        m_meshRenderer.material.color = Color.black;
+        m_meshRenderer.material = m_stoneMat;
+        m_particles.Stop();
     }
 }
