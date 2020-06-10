@@ -12,8 +12,19 @@ public class Grid : MonoBehaviour
     static List<Tile> m_tiles = new List<Tile>();
     static GlobalPlayerSettings m_playerSettings;
 
-    public static void AddTile(Tile _newTile) => m_tiles.Add(_newTile);
-    public static void RemoveTile(Tile _removeTile) => m_tiles.Remove(_removeTile);
+    public static void AddTile(Tile _newTile)
+    {
+        if (!m_tiles.Contains(_newTile)) m_tiles.Add(_newTile);
+
+        // Debug.Log("Tile added. Count: " + m_tiles.Count);
+    }
+
+    public static void RemoveTile(Tile _removeTile)
+    {
+        m_tiles.Remove(_removeTile);
+        // Debug.Log("Tile removed. Count: " + m_tiles.Count);
+    }
+
     public static List<Tile> GetTiles() { return m_tiles; }
 
     private void Awake()

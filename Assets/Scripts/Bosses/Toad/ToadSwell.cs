@@ -8,7 +8,6 @@ public class ToadSwell : ToadBehaviour
     public SkinnedMeshRenderer m_toadRenderer;
     public Material m_swollenMaterial;
     public Transform m_meshTransform;
-    
 
     ToadBossSettings m_toadSettings;
     float m_swelledTimer = 0.0f;

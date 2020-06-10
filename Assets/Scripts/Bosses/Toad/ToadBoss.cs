@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ToadBoss : MonoBehaviour
 {
     public Animator m_toadAnimator;
     public List<ToadBehaviour> m_behaviourLoop;
+
+    public List<GameObject> m_healthIcons;
 
     // Move to BT context eventually
     public static eChunkType m_eaten = eChunkType.none;
@@ -28,6 +31,8 @@ public class ToadBoss : MonoBehaviour
         m_toadSettings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
         m_healthComp = GetComponent<HealthComponent>();
         m_healthComp.Init(m_toadSettings.m_maxHealth, m_toadSettings.m_maxHealth, DamageTaken, null, Died);
+        m_tookDamage = false;
+        m_eaten = eChunkType.none;
     }
 
     private void Start()
@@ -109,10 +114,12 @@ public class ToadBoss : MonoBehaviour
 
     private void DamageTaken()
     {
-        // Update canvas
-
         // Play sound
         MessageBus.TriggerEvent(EMessageType.toadDamaged);
+
+        // Update canvas
+        m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
+        m_healthIcons[m_healthComp.Health - 1].SetActive(false);
     }
 
     private void Died()

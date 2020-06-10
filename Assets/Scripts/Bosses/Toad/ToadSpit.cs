@@ -12,9 +12,7 @@ public class ToadSpit : ToadBehaviour
     public static Dictionary<int, Tile> m_levelTiles = new Dictionary<int, Tile>();
 
     GameObject m_projectilePrefab;
-    readonly int m_numProjectiles;
     ToadBoss m_toadBoss;
-    
 
     private void Awake()
     {
@@ -25,7 +23,9 @@ public class ToadSpit : ToadBehaviour
     private void Start()
     {
         // Store all level tiles in a dictionary
+        m_levelTiles.Clear();
         List<Tile> tiles = Grid.GetTiles();
+        Debug.Log("Spit attack found " + tiles.Count + " tiles");
         for (int i = 0; i < tiles.Count; i++)
         {
             m_levelTiles.Add(tiles[i].GetInstanceID(), tiles[i]);
@@ -34,8 +34,8 @@ public class ToadSpit : ToadBehaviour
 
     public override void StartBehaviour()
     {
+        Start();
         base.StartBehaviour();
-
         m_toadAnimator.SetTrigger("Spit");
     }
 
