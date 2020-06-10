@@ -18,6 +18,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     }
 
     public List<TunnelDef> m_tunnels;
+    public GameObject m_trainAudio;
 
     private int m_currentTunnelIndex = 0;
     private CentipedeHealth m_centipedeHealth;
@@ -49,6 +50,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
         CentipedeMovement.m_useTrainSpeed = true;
         CentipedeBoss.m_dropLava = true;
+        m_trainAudio.SetActive(true);
         StartCoroutine(TunnelAttack());
     }
 
@@ -79,6 +81,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     private IEnumerator ReenterArena()
     {
+        m_trainAudio.SetActive(false);
         m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.head);
         CentipedeMovement.SetTargets(new List<Transform> { m_tunnels[0].m_tunnelStart});
 

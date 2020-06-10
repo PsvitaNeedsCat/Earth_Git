@@ -84,5 +84,6 @@ public class CentipedeHealth : MonoBehaviour
         }
 
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
+        MessageBus.TriggerEvent(EMessageType.centipedeDamaged);
     }
 }

@@ -282,6 +282,7 @@ public class Chunk : MonoBehaviour
             default:
                 {
                     MessageBus.TriggerEvent(EMessageType.chunkHitWall);
+                    ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
                     SnapChunk();
                     break;
                 }

@@ -12,7 +12,8 @@ public class CentipedeTailFirer : MonoBehaviour
 
     public void FireAll(bool _tailDamaged)
     {
-        m_tailObject.transform.DOPunchScale(Vector3.one * 1.5f, 0.1f);
+        m_tailObject.transform.DOPunchScale(Vector3.one * 0.2f, 0.1f);
+        MessageBus.TriggerEvent(EMessageType.centipedeTailFire);
 
         Fire(transform.localRotation * Vector3.right, _tailDamaged);
         Fire(transform.localRotation * Vector3.left, _tailDamaged);

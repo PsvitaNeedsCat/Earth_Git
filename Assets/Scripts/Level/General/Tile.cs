@@ -38,6 +38,7 @@ public class Tile : MonoBehaviour
         newChunk.RaiseChunk();
 
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
 
         return newChunk;
     }

@@ -22,6 +22,7 @@ public class CentipedeHead : MonoBehaviour
         if (chunk)
         {
             chunk.GetComponent<HealthComponent>().Health = 0;
+            MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
         }
     }
 }

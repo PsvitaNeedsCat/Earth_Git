@@ -17,13 +17,14 @@ public class CentipedeBoss : MonoBehaviour
         m_settings = Resources.Load<CentipedeSettings>("ScriptableObjects/CentipedeBossSettings");
         m_totalBehaviours = m_behaviourLoop.Count;
         m_dropLava = false;
+        
     }
 
     private void Start()
     {
         m_currentBehaviour = m_behaviourLoop[0];
-
         m_currentBehaviour.StartBehaviour();
+        MessageBus.TriggerEvent(EMessageType.centipedeSpawn);
     }
 
     private void Update()

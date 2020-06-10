@@ -13,7 +13,7 @@ public class CentipedeProjectile : MonoBehaviour
     {
         if (other.isTrigger) return;
 
-        Debug.Log("Collided with " + other.name);
+        // Debug.Log("Collided with " + other.name);
 
         HealthComponent healthComp = other.GetComponent<HealthComponent>();
 

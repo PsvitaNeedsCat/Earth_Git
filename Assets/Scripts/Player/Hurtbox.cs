@@ -48,6 +48,8 @@ public class Hurtbox : MonoBehaviour
                 chunk.CurrentEffect = m_effect;
             }
 
+            ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
+
             Destroy(this.gameObject);
         }
     }

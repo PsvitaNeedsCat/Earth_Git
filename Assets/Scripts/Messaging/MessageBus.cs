@@ -30,6 +30,9 @@ public enum EMessageType
     grubKilled,
     enemyTongueExtend,
     tongueEnemyKilled,
+    centipedeDamaged,
+    centipedeSpawn,
+    centipedeTailFire,
 
     // Player
     playerHurt,
@@ -123,6 +126,11 @@ public static class MessageBus
         if (m_eventDict.TryGetValue(_type, out triggerEvent))
         {
             triggerEvent.Invoke(_param);
+            Debug.Log("Successfully triggering event " + _type.ToString());
+        }
+        else
+        {
+            Debug.Log("Triggering event " + _type.ToString() + " failed");
         }
     }
 
