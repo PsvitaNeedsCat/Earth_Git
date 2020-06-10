@@ -79,7 +79,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
             yield return null;
         }
 
-        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.body);
+        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.tail);
 
         StartCoroutine(BurrowUp());
     }
