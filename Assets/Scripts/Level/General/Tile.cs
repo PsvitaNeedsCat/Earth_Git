@@ -37,6 +37,8 @@ public class Tile : MonoBehaviour
         newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
 
+        MessageBus.TriggerEvent(EMessageType.chunkRaise);
+
         return newChunk;
     }
 

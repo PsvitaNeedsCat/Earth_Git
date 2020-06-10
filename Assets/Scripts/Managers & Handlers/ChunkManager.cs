@@ -5,9 +5,20 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour
 {
     static List<Chunk> m_chunks = new List<Chunk>();
+    private const int m_maxChunks = 3;
 
-    public static void AddChunk(Chunk _newChunk) => m_chunks.Add(_newChunk);
-    public static void RemoveChunk(Chunk _removeChunk) => m_chunks.Remove(_removeChunk);
+    public static void AddChunk(Chunk _newChunk)
+    {
+        m_chunks.Add(_newChunk);
+        if (m_chunks.Count > m_maxChunks)
+        {
+            RemoveOldest();
+        }
+    }
+    public static void RemoveChunk(Chunk _removeChunk)
+    {
+        m_chunks.Remove(_removeChunk);
+    }
     public static int NumChunks() => m_chunks.Count;
 
     public static void RemoveOldest()
@@ -15,7 +26,6 @@ public class ChunkManager : MonoBehaviour
         if (m_chunks.Count > 0)
         {
             Destroy(m_chunks[0].gameObject);
-            m_chunks.RemoveAt(0);
         }
     }
 

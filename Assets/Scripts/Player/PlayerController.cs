@@ -242,16 +242,6 @@ public class PlayerController : MonoBehaviour
 
         Chunk newChunk = m_confirmedTile.TryRaiseChunk();
 
-        if (newChunk)
-        {
-            MessageBus.TriggerEvent(EMessageType.chunkRaise);
-
-            if (ChunkManager.NumChunks() > m_settings.m_maxChunks)
-            {
-                ChunkManager.RemoveOldest();
-            }
-        }
-
         m_confirmedTile = null;
     }
 
