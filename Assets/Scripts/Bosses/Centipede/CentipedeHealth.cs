@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-
-
 public class CentipedeHealth : MonoBehaviour
 {
     public enum ESegmentType { head, body, tail }
@@ -63,6 +61,7 @@ public class CentipedeHealth : MonoBehaviour
         foreach (int segment in segments)
         {
             m_segmentRenderers[segment].material = m_segmentMaterials[(int)_type].m_cooled;
+            m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
         }
 
         m_sectionsDamaged[(int)_type] = true;
@@ -83,5 +82,7 @@ public class CentipedeHealth : MonoBehaviour
             m_crystal.SetActive(true);
             Destroy(m_bossObject);
         }
+
+        MessageBus.TriggerEvent(EMessageType.lavaToStone);
     }
 }

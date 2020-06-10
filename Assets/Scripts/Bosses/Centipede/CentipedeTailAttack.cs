@@ -27,8 +27,6 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator BurrowDown()
     {
-        
-
         CentipedeMovement.SetTargets(new List<Transform> { m_preBurrowPoint });
         CentipedeMovement.m_seekingTarget = true;
         while (!CentipedeMovement.m_atTarget) yield return null;
