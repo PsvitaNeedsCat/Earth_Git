@@ -127,6 +127,13 @@ public class Chunk : MonoBehaviour
             return;
         }
 
+        CentipedeLavaTrail trail = other.GetComponent<CentipedeLavaTrail>();
+        if (trail)
+        {
+            Destroy(trail.gameObject);
+            return;
+        }
+
         if (other.isTrigger) { Debug.Log("Hit trigger"); return; }
 
         // Did not hit ground or player

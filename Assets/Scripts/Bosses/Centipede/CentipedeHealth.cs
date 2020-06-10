@@ -61,7 +61,7 @@ public class CentipedeHealth : MonoBehaviour
         foreach (int segment in segments)
         {
             m_segmentRenderers[segment].material = m_segmentMaterials[(int)_type].m_cooled;
-            m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
+            m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
         }
 
         m_sectionsDamaged[(int)_type] = true;
@@ -85,5 +85,6 @@ public class CentipedeHealth : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
         MessageBus.TriggerEvent(EMessageType.centipedeDamaged);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
     }
 }

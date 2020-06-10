@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class CentipedeLaser : MonoBehaviour
 {
+    public GameObject m_laserAudio;
     public GameObject m_mesh;
     public BoxCollider m_leftLaser;
     public BoxCollider m_rightLaser;
@@ -92,6 +93,8 @@ public class CentipedeLaser : MonoBehaviour
         m_rightLaser.enabled = true;
         m_leftLine.enabled = true;
         m_rightLine.enabled = true;
+
+        m_laserAudio.SetActive(true);
     }
 
     private void StopFiring()
@@ -102,6 +105,8 @@ public class CentipedeLaser : MonoBehaviour
         m_rightLaser.enabled = false;
         m_leftLine.enabled = false;
         m_rightLine.enabled = false;
+
+        m_laserAudio.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
