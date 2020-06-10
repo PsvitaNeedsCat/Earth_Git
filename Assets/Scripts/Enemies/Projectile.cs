@@ -12,11 +12,11 @@ public class Projectile : MonoBehaviour
     {
         if (other.tag == "Lava") { return; }
 
-        HealthComponent playerHealth = other.GetComponent<HealthComponent>();
+        Player playerHealth = other.GetComponent<Player>();
 
         if (playerHealth)
         {
-            playerHealth.Health -= m_damage;
+            playerHealth.GetComponent<HealthComponent>().Health -= m_damage;
         }
 
         MessageBus.TriggerEvent(EMessageType.projectileSplash);
