@@ -6,14 +6,14 @@ using TMPro;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Public variables
-
     // Private variables
     private InputMaster m_controls;
     private Player m_player;
 
     private bool m_prevMovement;
     private bool m_prevCombat;
+
+    private bool m_isTargeting = false;
 
     // Only one instance
     private static PlayerInput m_instance;
@@ -39,16 +39,15 @@ public class PlayerInput : MonoBehaviour
         // Controls //
 
         // Movement
-        m_controls.PlayerMovement.Movement.performed += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
-        m_controls.PlayerMovement.Movement.canceled += ctx => m_player.m_moveDirection = ctx.ReadValue<Vector2>();
+        m_controls.PlayerMovement.Movement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
+        m_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
         // Interact
         m_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
         m_controls.PlayerCombat.Punch.performed += _ => m_player.StartPunchAnim();
         // Raise Chunk
-        m_controls.PlayerCombat.Raise.performed += _ => m_player.ActivateTileTargeter();
-        m_controls.PlayerCombat.Raise.canceled += _ => m_player.StartRaiseChunkAnim();
-        m_controls.PlayerCombat.Raise.canceled += _ => m_player.DeactivateTileTargeter();
+        m_controls.PlayerCombat.Raise.performed += _ => BeginTileTarget();
+        m_controls.PlayerCombat.Raise.canceled += _ => EndTileTarget();
         // Change powers
         m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
         m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
@@ -118,5 +117,22 @@ public class PlayerInput : MonoBehaviour
             SetCombat(m_prevCombat);
             m_controls.Dialogue.Disable();
         }
+    }
+
+    // Called when the player holds down A
+    private void BeginTileTarget()
+    {
+        SetMovement(false);
+        m_isTargeting = true;
+        m_player.ActivateTileTargeter();
+    }
+
+    // Called when the player releases A
+    private void EndTileTarget()
+    {
+        m_player.StartRaiseChunkAnim();
+        m_player.DeactivateTileTargeter();
+        SetMovement(true);
+        m_isTargeting = false;
     }
 }

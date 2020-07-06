@@ -22,4 +22,18 @@ public static class Extensions
 
         return cardinalDir;
     }
+
+    public static Vector3 RelativeDirection2(this Camera _camera, Vector2 _direction)
+    {
+        // Get yaw
+        float yaw = _camera.transform.rotation.eulerAngles.y;
+
+        // Convert direction to 3D
+        Vector3 dir = new Vector3(_direction.x, 0.0f, _direction.y);
+
+        // Rotate direction vector by yaw
+        dir = Quaternion.Euler(new Vector3(0.0f, yaw, 0.0f)) * dir;
+
+        return dir;
+    }
 }
