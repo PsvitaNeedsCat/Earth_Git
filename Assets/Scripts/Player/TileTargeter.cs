@@ -81,4 +81,9 @@ public class TileTargeter : MonoBehaviour
         // Move tile targeter accordingly
         transform.position = _playerPos + direction;
     }
+
+    public void ResetDirection()
+    {
+        m_direction = Vector2.zero;
+    }
 }

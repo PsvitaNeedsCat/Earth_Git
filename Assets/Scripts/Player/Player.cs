@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
     public void Pause() => m_playerController.Pause();
     public void UnPause() => m_playerController.UnPause();
     public void ContinueDialogue() => m_playerController.ContinueDialogue();
+    public void ResetTileTargeter() => m_tileTargeter.ResetDirection();
 
     private void Awake()
     {

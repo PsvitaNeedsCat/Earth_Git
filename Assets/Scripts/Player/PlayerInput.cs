@@ -124,6 +124,7 @@ public class PlayerInput : MonoBehaviour
     {
         m_isTargeting = true;
         m_player.ActivateTileTargeter();
+        m_player.ResetTileTargeter();
     }
 
     // Called when the player releases A
