@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
     public void Move(Vector2 _direction)
     {
         // Only rotate and move character if there is directional input
-        if (_direction.magnitude > 0.1f)
+        if (_direction.magnitude != 0.0f)
         {
             // Get yaw
             float yaw = Camera.main.transform.rotation.eulerAngles.y;

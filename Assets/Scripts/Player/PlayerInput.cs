@@ -6,8 +6,6 @@ using TMPro;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Public variables
-
     // Private variables
     private InputMaster m_controls;
     private Player m_player;
