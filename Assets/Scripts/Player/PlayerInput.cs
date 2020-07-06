@@ -122,7 +122,6 @@ public class PlayerInput : MonoBehaviour
     // Called when the player holds down A
     private void BeginTileTarget()
     {
-        SetMovement(false);
         m_isTargeting = true;
         m_player.ActivateTileTargeter();
     }
@@ -132,7 +131,6 @@ public class PlayerInput : MonoBehaviour
     {
         m_player.StartRaiseChunkAnim();
         m_player.DeactivateTileTargeter();
-        SetMovement(true);
         m_isTargeting = false;
     }
 }

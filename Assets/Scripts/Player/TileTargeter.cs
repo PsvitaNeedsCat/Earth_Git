@@ -34,7 +34,12 @@ public class TileTargeter : MonoBehaviour
     private void Update()
     {
         // Don't target anything if the player is not moving the LAnalogStick
-        if (m_direction == Vector2.zero) { m_closestTile = null; return; }
+        if (m_direction == Vector2.zero)
+        {
+            m_indicator.SetActive(false);
+            m_closestTile = null; 
+            return; 
+        }
 
         m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 

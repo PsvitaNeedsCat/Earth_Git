@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
         ApplyDrag();
 
-        Debug.Log("Player speed: " + m_rigidBody.velocity.magnitude);
+        //Debug.Log("Player speed: " + m_rigidBody.velocity.magnitude);
     }
 
     // Applies drag and gravity to the player
