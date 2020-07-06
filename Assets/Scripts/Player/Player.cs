@@ -91,6 +91,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Depending on whether the player is trying to raise a chunk or not,
+    // It will either move the player or move the tile targeter
+    public void SetLAnalogDirection(Vector2 _dir, bool _isTargeting)
+    {
+        // Player is trying to target a tile
+        if (_isTargeting)
+        {
+            // Set the tile targeter direction
+            m_tileTargeter.SetTargetDirection(_dir, transform.position);
+
+            // Reset move direction
+            m_moveDirection = Vector2.zero;
+
+            return;
+        }
+
+        // Player is trying to move
+        m_moveDirection = _dir;
+    }
+
     // Attempts to punch
     public void TryPunch()
     {

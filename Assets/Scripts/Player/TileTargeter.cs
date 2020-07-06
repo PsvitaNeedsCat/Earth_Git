@@ -12,6 +12,7 @@ public class TileTargeter : MonoBehaviour
     private Tile m_closestTile;
     private GlobalPlayerSettings m_settings;
     [SerializeField] GameObject m_indicator;
+    private Vector2 m_direction = Vector2.zero;
 
     private void Awake()
     {
@@ -32,6 +33,9 @@ public class TileTargeter : MonoBehaviour
     // Update is only called when tile targeter is active
     private void Update()
     {
+        // Don't target anything if the player is not moving the LAnalogStick
+        if (m_direction == Vector2.zero) { m_closestTile = null; return; }
+
         m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 
         if (!m_closestTile) { return; }
@@ -57,5 +61,19 @@ public class TileTargeter : MonoBehaviour
     public Tile GetClosest()
     {
         return m_closestTile;
+    }
+
+    // Changes the direction from the player that the tile should try and target
+    public void SetTargetDirection(Vector2 _dir, Vector3 _playerPos)
+    {
+        m_direction = _dir;
+
+        // Move direction by camera
+        Vector3 direction = Camera.main.RelativeDirection2(_dir);
+
+        direction = direction.normalized * m_settings.m_TargeterMoveDist;
+
+        // Move tile targeter accordingly
+        transform.position = _playerPos + direction;
     }
 }
