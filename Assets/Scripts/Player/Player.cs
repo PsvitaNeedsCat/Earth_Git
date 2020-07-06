@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     };
     private CrystalSelection m_crystalUI;
 
+    // Max speed that the player will reach with their current drag
+    private readonly float m_maxSpeed = 1.6f;
+
     // Unlocks a power for use
     public void PowerUnlocked(eChunkEffect _power)
     {
@@ -75,8 +78,14 @@ public class Player : MonoBehaviour
         // Move player with provided input
         m_playerController.Move(m_moveDirection);
 
-        // Update animator
-        m_animator.SetBool("Running", (m_moveDirection.magnitude > 0.1f));
+        // Update the animator's 'MoveInput' boolean based on player input
+        m_animator.SetBool("MoveInput", m_moveDirection.magnitude > 0.01f);
+
+        // Set blend tree value with player's speed
+        Vector3 playerVelocity = m_playerController.m_rigidBody.velocity;
+        playerVelocity.y = 0.0f;
+        float playerSpeed = playerVelocity.magnitude;
+        m_animator.SetFloat("Blend", Mathf.Clamp01(playerSpeed / m_maxSpeed));
 
         // Punch cooldown
         if (m_punchTimer > 0.0f)

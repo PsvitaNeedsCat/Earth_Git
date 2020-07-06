@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // Public variables
     [HideInInspector] public Tile m_confirmedTile = null;
     [HideInInspector] public bool m_inSand = false;
+    [HideInInspector] public Rigidbody m_rigidBody;
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
@@ -19,7 +20,6 @@ public class PlayerController : MonoBehaviour
 
     // Private variables
     private PlayerController m_instance;
-    private Rigidbody m_rigidBody;
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
     private PlayerInput m_input;
@@ -176,6 +176,8 @@ public class PlayerController : MonoBehaviour
         }
 
         ApplyDrag();
+
+        Debug.Log("Player speed: " + m_rigidBody.velocity.magnitude);
     }
 
     // Applies drag and gravity to the player
