@@ -85,6 +85,7 @@ public class SandBlock : MonoBehaviour
         m_rigidbody.isKinematic = false;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         m_rigidbody.useGravity = true;
+        
     }
 
     // Called when sand hits the ground
@@ -104,5 +105,7 @@ public class SandBlock : MonoBehaviour
             newPos.y += m_chunkSettings.m_raiseAmount;
             transform.position = newPos;
         }
+
+        MessageBus.TriggerEvent(EMessageType.sandLand);
     }
 }

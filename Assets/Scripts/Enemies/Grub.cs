@@ -86,6 +86,7 @@ public class Grub : MonoBehaviour
         for (int i = 0; i < m_renderer.materials.Length; i++) { m_renderer.materials[i].color = new Color(0.5f, 0.5f, 0.5f); }
         m_dead = true;
         MessageBus.TriggerEvent(EMessageType.grubKilled);
+        MessageBus.TriggerEvent(EMessageType.lavaToStone);
     }
 
     private void ChargeUp()
@@ -101,7 +102,8 @@ public class Grub : MonoBehaviour
 
     private void FireProjectile()
     {
-        MessageBus.TriggerEvent(EMessageType.enemySpit);
+        // MessageBus.TriggerEvent(EMessageType.enemySpit);
+        MessageBus.TriggerEvent(EMessageType.grubFire);
 
         transform.DOScale(0.5f, 0.5f).SetEase(Ease.OutBounce);
         for (int i = 0; i < m_renderer.materials.Length; i++)

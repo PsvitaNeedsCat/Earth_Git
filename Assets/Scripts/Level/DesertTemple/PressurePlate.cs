@@ -15,11 +15,15 @@ public class PressurePlate : MonoBehaviour
     {
         MessageBus.AddListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
         MessageBus.AddListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+        m_activatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
+        m_deactivatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
     }
     private void OnDisable()
     {
         MessageBus.RemoveListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
         MessageBus.RemoveListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+        m_activatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
+        m_deactivatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
     }
 
     private void OnTriggerEnter(Collider other)

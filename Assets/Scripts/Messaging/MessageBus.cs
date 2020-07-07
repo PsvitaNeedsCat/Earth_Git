@@ -21,6 +21,8 @@ public enum EMessageType
     chunkHitWall,
     chunkRaise,
     waterChunkDestroyed,
+    sandLand,
+    sandDestroyed,
 
     // Enemies
     projectileSplash,
@@ -28,6 +30,7 @@ public enum EMessageType
     enemySwallow,
     enemySpit,
     grubKilled,
+    grubFire,
     enemyTongueExtend,
     tongueEnemyKilled,
     centipedeDamaged,
@@ -48,6 +51,8 @@ public enum EMessageType
     lavaToStone,
     keyCollected,
     keySpawned,
+    pressurePlateOn,
+    pressurePlateOff,
 
     // Blocks
     glassDestroyed,

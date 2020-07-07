@@ -13,6 +13,7 @@ public class SandManager : MonoBehaviour
     {
         SandBlock[] m_sandBlocks = FindObjectsOfType<SandBlock>();
 
+        if (m_sandBlocks.Length > 0) MessageBus.TriggerEvent(EMessageType.sandDestroyed);
         // Destroy all sand
         for (int i = m_sandBlocks.Length - 1; i >= 0; i--)
         {
