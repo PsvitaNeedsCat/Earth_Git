@@ -54,6 +54,26 @@ public class Grub : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Chunk chunk = other.GetComponentInParent<Chunk>();
+        if (chunk)
+        {
+            // Kill grub
+            if (chunk.m_currentEffect == eChunkEffect.water)
+            {
+                MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
+
+                if (m_dead) { Dead(); }
+            }
+            else
+            {
+                MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
+            }
+
+            Destroy(chunk.gameObject);
+
+            return;
+        }
+
         if (m_dead || m_invincible) { return; }
 
         PlayerController player = other.GetComponent<PlayerController>();
@@ -61,20 +81,6 @@ public class Grub : MonoBehaviour
         {
             player.KnockBack((player.transform.position - transform.position).normalized);
             player.GetComponent<HealthComponent>().Health -= 1;
-        }
-
-        Chunk chunk = other.GetComponent<Chunk>();
-        if (chunk)
-        {
-            // Kill grub
-            if (chunk.m_currentEffect == eChunkEffect.water)
-            {
-                Dead();
-            }
-            
-            Destroy(other.gameObject);
-
-            return;
         }
     }
 
