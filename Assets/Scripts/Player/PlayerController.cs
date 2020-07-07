@@ -66,7 +66,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // Set init spawn location
-        RoomManager.Instance.m_respawnLocation = transform.position;
+        if (RoomManager.Instance)
+        {
+            RoomManager.Instance.m_respawnLocation = transform.position;
+        }
     }
 
     private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);

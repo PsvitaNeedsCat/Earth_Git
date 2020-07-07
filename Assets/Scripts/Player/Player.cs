@@ -10,6 +10,12 @@ public class Player : MonoBehaviour
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
     [HideInInspector] public bool m_hasKey = false;
+    public static Dictionary<eChunkEffect, bool> m_activePowers = new Dictionary<eChunkEffect, bool>()
+    {
+        { eChunkEffect.none, true },
+        { eChunkEffect.water, false },
+        { eChunkEffect.fire, false }
+    };
 
     // Private variables
     private GlobalPlayerSettings m_settings;
@@ -19,12 +25,6 @@ public class Player : MonoBehaviour
     private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
-    private static Dictionary<eChunkEffect, bool> m_activePowers = new Dictionary<eChunkEffect, bool>()
-    {
-        { eChunkEffect.none, true },
-        { eChunkEffect.water, false },
-        { eChunkEffect.fire, false }
-    };
     private CrystalSelection m_crystalUI;
 
     // Max speed that the player will reach with their current drag

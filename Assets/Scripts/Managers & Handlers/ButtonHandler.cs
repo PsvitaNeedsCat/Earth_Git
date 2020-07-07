@@ -8,7 +8,7 @@ public class ButtonHandler : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("WaterTemple");
+        SceneManager.LoadScene("Overworld");
     }
 
     public void QuitGame()

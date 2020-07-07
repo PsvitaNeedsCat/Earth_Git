@@ -15,6 +15,10 @@ public class PlayerInput : MonoBehaviour
 
     private bool m_isTargeting = false;
 
+    // Initial values
+    [SerializeField] private bool m_defaultMovement = true;
+    [SerializeField] private bool m_defaultCombat = true;
+
     // Only one instance
     private static PlayerInput m_instance;
 
@@ -57,10 +61,10 @@ public class PlayerInput : MonoBehaviour
         m_controls.Pause.UnPause.performed += _ => m_player.UnPause();
         // Dialogue
         m_controls.Dialogue.Continue.performed += _ => m_player.ContinueDialogue();
-
-        // Enable by default for now
-        SetMovement(true);
-        SetCombat(true);
+           
+        // Set init values
+        SetMovement(m_defaultMovement);
+        SetCombat(m_defaultCombat);
         m_controls.Pause.Disable();
         m_controls.Dialogue.Disable();
     }
