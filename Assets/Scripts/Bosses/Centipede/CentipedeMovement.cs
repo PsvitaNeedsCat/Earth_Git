@@ -174,7 +174,7 @@ public class CentipedeMovement : MonoBehaviour
         Vector3 spawnPos = m_segments[0].transform.position - 0.99f * Vector3.up;
         spawnPos.x = Mathf.Floor(spawnPos.x + 0.5f);
         spawnPos.z = Mathf.Floor(spawnPos.z + 0.5f);
-        GameObject lava = Instantiate(m_lavaTrailPrefab, spawnPos, Quaternion.identity, null);
+        GameObject lava = Instantiate(m_lavaTrailPrefab, spawnPos, Quaternion.identity, transform.parent);
     }
 
     private void NextPathPoint(bool _first)
