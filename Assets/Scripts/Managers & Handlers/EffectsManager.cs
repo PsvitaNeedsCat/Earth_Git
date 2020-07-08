@@ -30,7 +30,7 @@ public class EffectsManager : MonoBehaviour
     private void OnDisable() => m_transform = null;
 
     // Create an instance of the specified type of effect, and returns a reference to the object created
-    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale)
+    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter)
     {
         if (m_transform = null)
         {
@@ -50,6 +50,7 @@ public class EffectsManager : MonoBehaviour
 
         // Create effect, and modify transform
         GameObject newEffect = Instantiate(effectPrefab, m_transform);
+        Destroy(newEffect, _destroyAfter);
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;
         newEffect.transform.localScale = _scale;

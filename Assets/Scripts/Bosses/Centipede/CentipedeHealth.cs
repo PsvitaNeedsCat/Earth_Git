@@ -21,7 +21,7 @@ public class CentipedeHealth : MonoBehaviour
     public CentipedeSegmentMaterials[] m_segmentMaterials;
     public GameObject m_crystal;
 
-    public List<MeshRenderer> m_segmentRenderers;
+    public List<SkinnedMeshRenderer> m_segmentRenderers;
     public GameObject m_bossObject;
 
     private bool[] m_sectionsActive = { false, false, false };

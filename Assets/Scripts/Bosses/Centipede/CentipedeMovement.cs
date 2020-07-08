@@ -8,6 +8,7 @@ public class CentipedeMovement : MonoBehaviour
     public List<CentipedeSegmentMover> m_segments = new List<CentipedeSegmentMover>();
     public CentipedeGrid m_grid;
     public CentipedePathfinding m_pathfinder;
+    public CentipedeAnimations m_animations;
     public static List<Transform> m_targets;
     public static bool m_seekingTarget = false;
     public static bool m_atTarget = false;
@@ -84,7 +85,9 @@ public class CentipedeMovement : MonoBehaviour
             {
                 moveSpeed = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head) ? CentipedeBoss.m_settings.m_trainDamagedMoveSpeed : CentipedeBoss.m_settings.m_trainMoveSpeed);
             }
-            
+
+            m_animations.SetAnimSpeed(moveSpeed);
+
             m_t += Time.deltaTime * moveSpeed;
             AStarStep(m_t);
         }

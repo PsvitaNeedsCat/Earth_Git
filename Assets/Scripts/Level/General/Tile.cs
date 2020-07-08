@@ -38,7 +38,7 @@ public class Tile : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.testThree, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.testThree, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f);
 
         return newChunk;
     }
