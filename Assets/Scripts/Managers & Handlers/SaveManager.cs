@@ -132,4 +132,18 @@ public class SaveManager : MonoBehaviour
 
         return m_saves[_saveId];
     }
+
+    // Deletes a save file at a given ID
+    public void DeleteSave(int _saveId)
+    {
+        string filePath = Application.dataPath + "/" + m_settings.m_saveFileName + _saveId.ToString() + ".txt";
+
+        // Check that there is a save file
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            UpdateSaves();
+        }
+        else { Debug.LogError("Cannot delete save file " + _saveId); }
+    }
 }
