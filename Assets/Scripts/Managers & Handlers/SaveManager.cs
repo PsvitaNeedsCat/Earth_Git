@@ -43,8 +43,11 @@ public class SaveManager : MonoBehaviour
     // Saves the currently open save file
     public void SaveGame()
     {
+        // Save to array
         m_saves[m_currentFile].scene = SceneManager.GetActiveScene().name;
+        m_saves[m_currentFile].room = RoomManager.Instance.GetCurrentRoom();
 
+        // Save to txt file
         FileStream fs = File.Open(Application.dataPath + "/" + m_settings.m_saveFileName + m_currentFile.ToString() + ".txt", FileMode.OpenOrCreate);
         m_formatter.Serialize(fs, m_saves[m_currentFile]);
         fs.Close();
@@ -69,6 +72,7 @@ public class SaveManager : MonoBehaviour
         return true;
     }
 
+    // Updates the array with the saved .txt files
     private void UpdateSaves()
     {
         // Cheak each save
@@ -97,6 +101,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    // Creates a new save file - does not save it
     public void CreateSave(int _saveId)
     {
         // Create a save
@@ -111,11 +116,11 @@ public class SaveManager : MonoBehaviour
     // Loads the scene, room, and power of the current save
     private void LoadSaveScene()
     {
-        // Load correct scene & room
-        // RoomManager.LoadScene()
-        // RoomManager.ChangeRoom()
-
+        // Load the correct scene
         SceneManager.LoadScene(m_saves[m_currentFile].scene);
+
+        // Load the correct room
+
     }
 
     // Gets a save file - used for displaying info
