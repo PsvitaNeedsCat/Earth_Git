@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &16668973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -268,7 +268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &212973316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_saveId: 2
+  m_deleteButton: {fileID: 1952715416}
 --- !u!1 &262508699
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,7 +893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &565479477
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1016,6 +1017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_saveId: 1
+  m_deleteButton: {fileID: 1098107637}
 --- !u!1 &621409997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1067,10 @@ MonoBehaviour:
   - {fileID: 1024989914}
   - {fileID: 565479478}
   - {fileID: 212973317}
+  m_deleteButtons:
+  - {fileID: 2022428410}
+  - {fileID: 1098107639}
+  - {fileID: 1952715418}
   m_returnButton: {fileID: 1378701765}
 --- !u!4 &621410000
 Transform:
@@ -1612,7 +1618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1024989913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1736,6 +1742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_saveId: 0
+  m_deleteButton: {fileID: 2022428408}
 --- !u!1 &1065261712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1098107638
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1898,7 +1905,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 621410001}
+      - m_Target: {fileID: 621409998}
         m_MethodName: DeleteSave
         m_Mode: 3
         m_Arguments:
@@ -2037,7 +2044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1378701764
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2190,7 +2197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1484632655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2763,7 +2770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1952715417
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2826,7 +2833,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 621410001}
+      - m_Target: {fileID: 621409998}
         m_MethodName: DeleteSave
         m_Mode: 3
         m_Arguments:
@@ -2972,7 +2979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2022428409
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3035,7 +3042,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 621410001}
+      - m_Target: {fileID: 621409998}
         m_MethodName: DeleteSave
         m_Mode: 3
         m_Arguments:
