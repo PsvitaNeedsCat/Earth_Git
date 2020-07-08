@@ -12,7 +12,7 @@ public class EffectsManager : MonoBehaviour
         testThree
     }
 
-    private static string m_effectsPath = "Effects";
+    private readonly string m_effectsPath = "Effects";
     private static Dictionary<string, GameObject> m_effectDictionary = new Dictionary<string, GameObject>();
     private static Transform m_transform;
 

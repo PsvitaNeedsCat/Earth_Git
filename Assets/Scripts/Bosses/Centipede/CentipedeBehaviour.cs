@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Parent class for all centipede behaviours. Contains basic logic for running and resetting a behaviour
 public class CentipedeBehaviour : MonoBehaviour
 {
     public enum EBehaviourState { fresh, running, complete }
@@ -24,6 +25,7 @@ public class CentipedeBehaviour : MonoBehaviour
         m_currentState = EBehaviourState.complete;
     }
 
+    // Changes the behaviour's state to 'complete' after a set amount of seconds
     protected IEnumerator CompleteAfterSeconds(float _afterSeconds)
     {
         yield return new WaitForSeconds(_afterSeconds);
