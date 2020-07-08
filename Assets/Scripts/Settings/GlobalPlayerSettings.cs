@@ -66,4 +66,8 @@ public class GlobalPlayerSettings : ScriptableObject
     [Header("Material")]
     public List<SceneOutlineColour> m_outlineColours;
 
+    [Header("Saving")]
+    public string m_saveSeparator = "#SPACE#";
+    public string m_saveFileName = "SaveData";
+
 }
