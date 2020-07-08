@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CentipedeHead : MonoBehaviour
 {
+    // Damage things when hit by the centipede's head
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
 
         if (player)
         {
+            // Calculate knockback on the player
             Vector3 dir = (player.transform.position - transform.position);
             dir.y = 0.0f;
             player.KnockBack(dir.normalized);
