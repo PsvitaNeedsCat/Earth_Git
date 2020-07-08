@@ -37,13 +37,11 @@ public class RoomManager : MonoBehaviour
         m_playerInput = FindObjectOfType<PlayerInput>();
         Debug.Assert(m_playerInput, "Cannot find player input");
 
+        // Disbale all rooms
         for (int i = 0; i < m_rooms.Count; i++)
         {
-            m_rooms[i].SetActive(i == m_currentRoom);
+            m_rooms[i].SetActive(false);
         }
-
-        // Find cam look target
-        m_camTarget = GameObject.Find("CamTarget");
 
         // Create copies of the rooms
         m_roomCopies = new GameObject[m_rooms.Count];
@@ -51,6 +49,19 @@ public class RoomManager : MonoBehaviour
         {
             m_roomCopies[i] = Instantiate(m_rooms[i], Vector3.zero, Quaternion.identity);
             m_roomCopies[i].SetActive(false);
+        }
+
+        // Find cam look target
+        m_camTarget = GameObject.Find("CamTarget");
+
+        // Activate the first room
+        for (int i = 0; i < m_rooms.Count; i++)
+        {
+            if (i == m_currentRoom)
+            {
+                m_rooms[i].SetActive(true);
+                break;
+            }
         }
     }
 

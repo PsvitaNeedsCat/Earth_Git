@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button m_playButton;
     [SerializeField] private Button m_quitButton;
     [SerializeField] private Button[] m_saveButtons = new Button[3];
+    [SerializeField] private Button[] m_deleteButtons = new Button[3];
     [SerializeField] private Button m_returnButton;
 
     private EventSystem m_eventSystem;
@@ -51,6 +52,8 @@ public class MainMenu : MonoBehaviour
 
             // Fade in
             b.image.DOFade(1.0f, 0.5f);
+
+            //if (m_deleteButtons)
         }
 
         // Return button

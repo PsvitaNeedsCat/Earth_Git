@@ -7,6 +7,7 @@ using TMPro;
 public class SaveFileButton : MonoBehaviour
 {
     [SerializeField] private int m_saveId;
+    [SerializeField] private GameObject m_deleteButton;
 
     MainMenu m_menuManager;
 
@@ -28,7 +29,9 @@ public class SaveFileButton : MonoBehaviour
         if (save != null)
         {
             text = save.scene;
+            m_deleteButton.SetActive(true);
         }
+        else { m_deleteButton.SetActive(false); }
 
         GetComponentInChildren<TextMeshProUGUI>().text = text;
     }
