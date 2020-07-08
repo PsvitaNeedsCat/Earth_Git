@@ -15,7 +15,7 @@ public class RoomManager : MonoBehaviour
     private int m_newRoom;
     private Animator m_blackWall;
     private PlayerInput m_playerInput;
-    private GameObject[] m_roomPrefabs = null;
+    private GameObject[] m_roomCopies;
     private GameObject m_camTarget;
 
     private bool m_loadScene = false;
@@ -23,6 +23,8 @@ public class RoomManager : MonoBehaviour
 
     private static RoomManager m_instance;
     public static RoomManager Instance { get { return m_instance; } }
+
+    public int GetCurrentRoom() { return m_currentRoom; }
 
     private void Awake()
     {
@@ -42,6 +44,14 @@ public class RoomManager : MonoBehaviour
 
         // Find cam look target
         m_camTarget = GameObject.Find("CamTarget");
+
+        // Create copies of the rooms
+        m_roomCopies = new GameObject[m_rooms.Count];
+        for (int i = 0; i < m_rooms.Count; i++)
+        {
+            m_roomCopies[i] = Instantiate(m_rooms[i], Vector3.zero, Quaternion.identity);
+            m_roomCopies[i].SetActive(false);
+        }
     }
 
     private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
@@ -110,10 +120,6 @@ public class RoomManager : MonoBehaviour
     // Resets the current room - used when player dies
     public void ReloadCurrentRoom()
     {
-        // If prefabs array is empty, populate it
-        if (m_roomPrefabs == null)
-        { m_roomPrefabs = Resources.LoadAll<GameObject>("Prefabs/Rooms/" + SceneManager.GetActiveScene().name); }
-
         string roomName = m_rooms[m_currentRoom].name;
 
         Vector3 oldPos = m_rooms[m_currentRoom].transform.position;
@@ -122,22 +128,11 @@ public class RoomManager : MonoBehaviour
         Destroy(m_rooms[m_currentRoom]);
         m_rooms.RemoveAt(m_currentRoom);
 
-        // Find the prefab with the same name 
-        // (so that they don't have to be in the same order)
-        GameObject prefab = null;
-        for (int i = 0; i < m_roomPrefabs.Length; i++)
-        {
-            if (m_roomPrefabs[i].name == roomName)
-            {
-                prefab = m_roomPrefabs[i];
-                break;
-            }
-        }
-
         // Spawn room
-        GameObject newRoom = Instantiate(prefab, oldPos, Quaternion.identity);
+        GameObject newRoom = Instantiate(m_roomCopies[m_currentRoom], oldPos, Quaternion.identity);
         newRoom.name = roomName; // Set name so it isn't name(Clone)
         m_rooms.Insert(m_currentRoom, newRoom);
+        m_rooms[m_currentRoom].SetActive(true);
 
         // Set camera to look at player
         CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();

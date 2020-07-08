@@ -16,8 +16,12 @@ public class ButtonHandler : MonoBehaviour
         Application.Quit();
     }
 
-    public void ReturnToMenu()
+    public void SaveAndQuit()
     {
+        SaveManager.Instance.SaveGame();
+
+        Time.timeScale = 1.0f;
+
         SceneManager.LoadScene("MainMenu");
     }
 

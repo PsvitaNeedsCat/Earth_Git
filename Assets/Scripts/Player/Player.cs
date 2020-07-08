@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -270,6 +270,11 @@ public class Player : MonoBehaviour
             if (m_activePowers[eChunkEffect.fire]) { TryChangeEffect(eChunkEffect.fire); }
             else { TryChangeEffect(eChunkEffect.none); }
             Debug.Log("Fire power: " + m_activePowers[eChunkEffect.fire]);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
