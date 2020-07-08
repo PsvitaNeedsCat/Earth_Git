@@ -68,6 +68,8 @@ public class ToadBoss : MonoBehaviour
 
     private void CheckBehaviourSkips()
     {
+
+
         // If we are about to do the spit attack, but we ate a poison block, skip to swell up
         if (m_currentBehaviour is ToadSpit)
         {
@@ -83,7 +85,7 @@ public class ToadBoss : MonoBehaviour
             }
         }
         // If we've just done spit attack, skip swell up
-        else if (m_currentBehaviour is ToadSwell)
+        else if (m_currentBehaviour is ToadSwell && m_didSpitAttack)
         {
             m_didSpitAttack = false;
             m_currentBehaviourIndex = (m_currentBehaviourIndex + 1) % m_totalBehaviours;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles behaviour sequencing of centipede boss, 
 public class CentipedeBoss : MonoBehaviour
 {
     public static CentipedeSettings m_settings;
@@ -12,14 +13,15 @@ public class CentipedeBoss : MonoBehaviour
     private int m_totalBehaviours;
     private CentipedeBehaviour m_currentBehaviour;
 
+    // Initialise variables
     private void Awake()
     {
         m_settings = Resources.Load<CentipedeSettings>("ScriptableObjects/CentipedeBossSettings");
         m_totalBehaviours = m_behaviourLoop.Count;
         m_dropLava = false;
-        
     }
 
+    // Start first behaviour
     private void Start()
     {
         m_currentBehaviour = m_behaviourLoop[0];
@@ -34,6 +36,7 @@ public class CentipedeBoss : MonoBehaviour
 
     private void UpdateBehaviour()
     {
+        // Move to next state when complete
         if (m_currentBehaviour.m_currentState == CentipedeBehaviour.EBehaviourState.complete)
         {
             GoToNextBehaviour();

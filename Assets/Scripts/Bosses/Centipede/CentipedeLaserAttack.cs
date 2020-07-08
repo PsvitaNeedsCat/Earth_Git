@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Centipede walks around the edge of the arena, firing its lasers
 public class CentipedeLaserAttack : CentipedeBehaviour
 {
     public List<CentipedeBodySegment> m_bodySegments;
-    public List<Transform> m_movePoints;
+    public List<Transform> m_movePoints; // Corners of arena, used to walk around the edge
     private CentipedeHealth m_centipedeHealth;
 
     private void Awake()
@@ -16,11 +17,16 @@ public class CentipedeLaserAttack : CentipedeBehaviour
     public override void StartBehaviour()
     {
         base.StartBehaviour();
-
+        
+        // Update centipede movement variables
         CentipedeMovement.m_seekingTarget = true;
         CentipedeMovement.m_loopTargets = true;
         CentipedeMovement.SetTargets(m_movePoints);
+
+        // Activate body segments
         m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.body);
+
+        // Start firing lasers
         StartCoroutine(FireLaserGroups());
     }
 
@@ -28,12 +34,15 @@ public class CentipedeLaserAttack : CentipedeBehaviour
     {
         base.CompleteBehaviour();
 
+        // Reset centipede movement variables
         CentipedeMovement.m_seekingTarget = false;
         CentipedeMovement.m_loopTargets = false;
     }
 
+    // Fires groups of lasers, 
     private IEnumerator FireLaserGroups()
     {
+        // 
         for (int i = 0; i < CentipedeBoss.m_settings.m_timesLasersFired; i++)
         {
             bool bodyDamaged = m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body);

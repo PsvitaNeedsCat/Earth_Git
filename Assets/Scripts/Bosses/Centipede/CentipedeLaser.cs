@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+// Fires lasers for one centipede body segment
 public class CentipedeLaser : MonoBehaviour
 {
     public GameObject m_laserAudio;
@@ -14,6 +15,7 @@ public class CentipedeLaser : MonoBehaviour
 
     private bool m_isFiring = false;
 
+    // Visual indicator that a segment is about to fire a laser
     public void FireWarning(float _duration)
     {
         m_mesh.transform.DOPunchScale(Vector3.one * 0.3f, _duration * 2.0f, vibrato: 1).SetEase(Ease.InSine);
