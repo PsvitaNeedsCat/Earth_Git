@@ -7,7 +7,7 @@ public class Interactable : MonoBehaviour
     [HideInInspector] public static Interactable m_closest = null; // Closest to the player
     [HideInInspector] public float m_distToPlayer = float.MaxValue;
 
-    private static Player m_playerRef;
+    protected static Player m_playerRef;
 
     public virtual void Awake()
     {
