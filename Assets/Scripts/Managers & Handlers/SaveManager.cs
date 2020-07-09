@@ -16,7 +16,7 @@ public class SaveManager : MonoBehaviour
         public int room = 0;
         public Dictionary<eChunkEffect, bool> unlockedPowers = new Dictionary<eChunkEffect, bool>()
         {
-            { eChunkEffect.none, false },
+            { eChunkEffect.none, true },
             { eChunkEffect.water, false },
             { eChunkEffect.fire, false }
         };
@@ -28,6 +28,7 @@ public class SaveManager : MonoBehaviour
 
     private GlobalPlayerSettings m_settings;
     BinaryFormatter m_formatter = new BinaryFormatter();
+    private bool m_initLoad = false;
 
     private static SaveManager m_instace;
     public static SaveManager Instance { get { return m_instace; } }
@@ -38,6 +39,10 @@ public class SaveManager : MonoBehaviour
         else { m_instace = this; }
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+
+        DontDestroyOnLoad(this.gameObject);
+
+        SceneManager.sceneLoaded += SceneLoaded;
     }
 
     // Saves the currently open save file
@@ -45,7 +50,8 @@ public class SaveManager : MonoBehaviour
     {
         // Save to array
         m_saves[m_currentFile].scene = SceneManager.GetActiveScene().name;
-        m_saves[m_currentFile].room = RoomManager.Instance.GetCurrentRoom();
+        m_saves[m_currentFile].room = (RoomManager.Instance) ? RoomManager.Instance.GetCurrentRoom() : 0;
+        m_saves[m_currentFile].unlockedPowers = Player.m_activePowers;
 
         // Save to txt file
         FileStream fs = File.Open(Application.dataPath + "/" + m_settings.m_saveFileName + m_currentFile.ToString() + ".txt", FileMode.OpenOrCreate);
@@ -116,11 +122,23 @@ public class SaveManager : MonoBehaviour
     // Loads the scene, room, and power of the current save
     private void LoadSaveScene()
     {
+        m_initLoad = true;
+
         // Load the correct scene
         SceneManager.LoadScene(m_saves[m_currentFile].scene);
 
-        // Load the correct room
+        // Load the unlocked powers
+        Player.m_activePowers = m_saves[m_currentFile].unlockedPowers;
+    }
 
+    private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
+    {
+        // Load the correct room
+        if (m_initLoad && RoomManager.Instance)
+        {
+            m_initLoad = false;
+            RoomManager.Instance.ForceLoadRoom(m_saves[m_currentFile].room); 
+        }
     }
 
     // Gets a save file - used for displaying info

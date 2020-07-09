@@ -22,7 +22,10 @@ public class EffectsManager : MonoBehaviour
 
         for (int i = 0; i < effects.Length; i++)
         {
-            m_effectDictionary.Add(effects[i].name, effects[i]);
+            if (!m_effectDictionary.ContainsKey(effects[i].name))
+            {
+                m_effectDictionary.Add(effects[i].name, effects[i]);
+            }
         }
     }
 
