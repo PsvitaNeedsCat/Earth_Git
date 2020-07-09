@@ -21,6 +21,14 @@ public class CentipedeSettings : ScriptableObject
     public int m_lasersAtOnceDamaged;
     public int m_timesLasersFired;
 
+    [Header("Body Attack Settings")]
+    public int m_numBodyProjectiles;
+    public int m_numBodyAttacks;
+    public float m_bodyProjectileSpeed;
+    public float m_bodyProjectileSpeedDamaged;
+    public float m_bodyTimeBetweenFiring;
+    public float m_bodyAttackStartDelay;
+
     [Header("Train Settings")]
     public float m_trainMoveSpeed;
     public float m_trainDamagedMoveSpeed;
