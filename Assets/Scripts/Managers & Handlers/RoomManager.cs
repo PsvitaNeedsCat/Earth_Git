@@ -159,7 +159,7 @@ public class RoomManager : MonoBehaviour
         // Validate
         if (_room >= m_rooms.Count)
         {
-            Debug.LogError("Room number " + _room + " is larger than total rooms");
+            Debug.Log("Room number " + _room + " is larger than total rooms");
             return;
         }
 
