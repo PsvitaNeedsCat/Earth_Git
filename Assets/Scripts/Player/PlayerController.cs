@@ -159,15 +159,6 @@ public class PlayerController : MonoBehaviour
         // Only rotate and move character if there is directional input
         if (_direction.magnitude != 0.0f)
         {
-            //// Get yaw
-            //float yaw = Camera.main.transform.rotation.eulerAngles.y;
-
-            //// Convert to 3D
-            //Vector3 moveDir = new Vector3(_direction.x, 0.0f, _direction.y);
-
-            //// Rotate direction vector by yaw
-            //moveDir = Quaternion.Euler(new Vector3(0.0f, yaw, 0.0f)) * moveDir;
-
             // Change the move direction relative to the camera
             Vector3 moveDir = Camera.main.RelativeDirection2(_direction);
 
