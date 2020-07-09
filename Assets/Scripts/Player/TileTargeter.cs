@@ -76,6 +76,8 @@ public class TileTargeter : MonoBehaviour
         // Move direction by camera
         Vector3 direction = Camera.main.RelativeDirection2(_dir);
 
+        if (!m_settings) { m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings"); }
+
         direction = direction.normalized * m_settings.m_TargeterMoveDist;
 
         // Move tile targeter accordingly
