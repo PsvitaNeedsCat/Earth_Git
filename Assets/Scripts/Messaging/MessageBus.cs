@@ -8,6 +8,16 @@ using TMPro;
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
+    // Music - Must remain at top
+    // Add more music to the bottom of the music list
+    menuMusic,
+    wMusic,
+    stopMusic,
+    wToadMusic,
+    fMusic,
+    fCentipedeMusic,
+    dMusic,
+
     none,
     test,
     fadedToBlack,
@@ -66,15 +76,6 @@ public enum EMessageType
     toadRoar,
     toadSpit,
     toadTongue,
-
-    // Music
-    menuMusic,
-    wMusic,
-    stopMusic,
-    wToadMusic,
-    fMusic,
-    fCentipedeMusic,
-    dMusic,
 }
 
 [System.Serializable]

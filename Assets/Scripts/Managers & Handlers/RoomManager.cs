@@ -153,6 +153,38 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    // Loads the player into a specified room - also teleports player to the room
+    public void ForceLoadRoom(int _room)
+    {
+        // Validate
+        if (_room >= m_rooms.Count)
+        {
+            Debug.Log("Room number " + _room + " is larger than total rooms");
+            return;
+        }
+
+        // Disable all rooms except main one
+        for (int i = 0; i < m_rooms.Count; i++)
+        {
+            m_rooms[i].SetActive(i == _room);
+        }
+
+        // Get spawn point
+        GameObject spawnPoint = GameObject.Find("SpawnPoint");
+
+        if (spawnPoint)
+        {
+            // Set player spawn
+            m_playerInput.transform.position = spawnPoint.transform.position;
+
+            m_currentRoom = _room;
+        }
+        else
+        {
+            Debug.Log("Spawn point was not found when trying to load room " + _room);
+        }
+    }
+
     // Fades to black without the animation calls
     public void FadeToBlack() => m_blackWall.SetTrigger("QuietFadeToBlack");
     public void FadeToGame() => m_blackWall.SetTrigger("FadeToGame");

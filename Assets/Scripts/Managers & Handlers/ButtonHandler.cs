@@ -23,6 +23,9 @@ public class ButtonHandler : MonoBehaviour
 
         Time.timeScale = 1.0f;
 
+        MainMenu mainMenu = FindObjectOfType<MainMenu>();
+        if (mainMenu) { Destroy(mainMenu.gameObject); }
+
         SceneManager.LoadScene("MainMenu");
     }
 

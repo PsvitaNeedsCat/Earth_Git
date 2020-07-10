@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
     private GlobalPlayerSettings m_settings;
     private Player m_instance;
     private PlayerController m_playerController;
-    private float m_punchTimer = 0.0f; // For punch cooldown (0.0f can punch)
-    private float m_raiseTimer = 0.0f; // For raise cooldown (0.0f can raise)
     [SerializeField] private TileTargeter m_tileTargeter;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
     private CrystalSelection m_crystalUI;
@@ -87,18 +85,6 @@ public class Player : MonoBehaviour
         playerVelocity.y = 0.0f;
         float playerSpeed = playerVelocity.magnitude;
         m_animator.SetFloat("Blend", Mathf.Clamp01(playerSpeed / m_maxSpeed));
-
-        // Punch cooldown
-        if (m_punchTimer > 0.0f)
-        {
-            m_punchTimer -= Time.fixedDeltaTime;
-        }
-
-        // Raise cooldown
-        if (m_raiseTimer > 0.0f)
-        {
-            m_raiseTimer -= Time.fixedDeltaTime;
-        }
     }
 
     // Depending on whether the player is trying to raise a chunk or not,
@@ -124,42 +110,34 @@ public class Player : MonoBehaviour
     // Attempts to punch
     public void TryPunch()
     {
-        if (m_punchTimer <= 0.0f)
-        {
-            m_punchTimer = m_settings.m_punchCooldown;
-            
-            m_playerController.Punch(m_currentEffect);
-        }
+        m_playerController.Punch(m_currentEffect);
     }
 
     // Attempts to raise a chunk
     public void TryRaiseChunk()
     {
-        if (m_raiseTimer <= 0.0f)
+        // Try confirm chunk
+        Tile closestTile = m_tileTargeter.GetClosest();
+
+        // Closest tile exists
+        // And is free
+        if (closestTile && !closestTile.IsOccupied())
         {
-            // Try confirm chunk
-            Tile closestTile = m_tileTargeter.GetClosest();
+            // CHUNK IS GOOD TO RAISE
 
-            // Closest tile exists
-            // And is free
-            if (closestTile && !closestTile.IsOccupied())
-            {
-                // CHUNK IS GOOD TO RAISE
+            m_playerController.m_confirmedTile = closestTile;
 
-                m_raiseTimer = m_settings.m_raiseCooldown;
+            // Remove this when animator is set
+            m_playerController.RaiseChunk();
 
-                m_playerController.m_confirmedTile = closestTile;
-
-                // Remove this when animator is set
-                m_playerController.RaiseChunk();
-
-                // Set animation trigger
-            }
+            // Set animation trigger
         }
     }
 
     public void ActivateTileTargeter()
     {
+        SetLAnalogDirection(m_moveDirection, true);
+        m_moveDirection = Vector2.zero;
         m_playerController.ActivateTileTargeter();
     }
 

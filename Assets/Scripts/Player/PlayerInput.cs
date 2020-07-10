@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -45,6 +46,8 @@ public class PlayerInput : MonoBehaviour
         // Movement
         m_controls.PlayerMovement.Movement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
         m_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
+        m_controls.PlayerMovement.KeyboardMovement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
+        m_controls.PlayerMovement.KeyboardMovement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
         // Interact
         m_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
@@ -61,7 +64,7 @@ public class PlayerInput : MonoBehaviour
         m_controls.Pause.UnPause.performed += _ => m_player.UnPause();
         // Dialogue
         m_controls.Dialogue.Continue.performed += _ => m_player.ContinueDialogue();
-           
+
         // Set init values
         SetMovement(m_defaultMovement);
         SetCombat(m_defaultCombat);
