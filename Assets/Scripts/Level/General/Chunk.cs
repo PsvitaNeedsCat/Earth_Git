@@ -134,6 +134,16 @@ public class Chunk : MonoBehaviour
             return;
         }
 
+        FireBug fireBug = other.GetComponent<FireBug>();
+
+        if (fireBug && !other.isTrigger)
+        {
+            fireBug.Hit(m_currentEffect);
+            Destroy(this.gameObject);
+            Debug.Log("Chunk hit fire bug");
+            return; 
+        }
+
         if (other.isTrigger) { Debug.Log("Hit trigger"); return; }
 
         // Did not hit ground or player
