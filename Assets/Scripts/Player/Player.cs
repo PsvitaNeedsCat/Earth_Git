@@ -99,9 +99,6 @@ public class Player : MonoBehaviour
             // Set the tile targeter direction
             m_tileTargeter.SetTargetDirection(_dir, transform.position);
 
-            // Reset move direction
-            //m_moveDirection = Vector2.zero;
-
             return;
         }
 
@@ -148,7 +145,7 @@ public class Player : MonoBehaviour
     public void BeginTileTarget()
     {
         m_isTargeting = true;
-        SetLAnalogDirection(-transform.forward);
+        m_tileTargeter.SetTargetDirection(new Vector2(transform.forward.x, transform.forward.z), transform.position, false);
         m_moveDirection = Vector2.zero;
         m_tileTargeter.gameObject.SetActive(true);
     }

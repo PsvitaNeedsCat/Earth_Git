@@ -69,12 +69,14 @@ public class TileTargeter : MonoBehaviour
     }
 
     // Changes the direction from the player that the tile should try and target
-    public void SetTargetDirection(Vector2 _dir, Vector3 _playerPos)
+    public void SetTargetDirection(Vector2 _dir, Vector3 _playerPos, bool _useRelativeCamera = true)
     {
         m_direction = _dir;
 
+        Vector3 direction = _dir;
+
         // Move direction by camera
-        Vector3 direction = Camera.main.RelativeDirection2(_dir);
+        if (_useRelativeCamera) { direction = Camera.main.RelativeDirection2(_dir); }
 
         if (!m_settings) { m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings"); }
 
