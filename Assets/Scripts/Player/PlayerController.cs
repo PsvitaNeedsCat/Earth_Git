@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
     [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
-    public List<Image> m_healthImages;
-    public List<Image> m_healthBackgroundImages;
+    private List<Image> m_healthImages;
+    private List<Image> m_healthBackgroundImages;
 
     // Private variables
     private PlayerController m_instance;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private GameObject m_pauseMenu = null;
     private GameObject m_pauseMenuPrefab;
     private EventSystem[] m_eventSystems;
+    private GameCanvas m_gameCanvas;
 
     private void Awake()
     {
@@ -41,6 +42,10 @@ public class PlayerController : MonoBehaviour
         {
             m_instance = this;
         }
+
+        m_gameCanvas = FindObjectOfType<GameCanvas>();
+        m_healthImages = m_gameCanvas.m_healthImages;
+        m_healthBackgroundImages = m_gameCanvas.m_healthBackgroundImages;
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
@@ -308,7 +313,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                m_healthBackgroundImages[i].enabled = true;
+                m_healthBackgroundImages[i].enabled = false;
             }
         }
 
