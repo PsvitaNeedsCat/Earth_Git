@@ -14,8 +14,6 @@ public class PlayerInput : MonoBehaviour
     private bool m_prevMovement;
     private bool m_prevCombat;
 
-    private bool m_isTargeting = false;
-
     // Initial values
     [SerializeField] private bool m_defaultMovement = true;
     [SerializeField] private bool m_defaultCombat = true;
@@ -44,17 +42,17 @@ public class PlayerInput : MonoBehaviour
         // Controls //
 
         // Movement
-        m_controls.PlayerMovement.Movement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
-        m_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
-        m_controls.PlayerMovement.KeyboardMovement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
-        m_controls.PlayerMovement.KeyboardMovement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>(), m_isTargeting);
+        m_controls.PlayerMovement.Movement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerMovement.KeyboardMovement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerMovement.KeyboardMovement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
         // Interact
         m_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
-        m_controls.PlayerCombat.Punch.performed += _ => m_player.StartPunchAnim();
+        m_controls.PlayerCombat.PunchRaise.performed += _ => m_player.PunchOrRaise();
         // Raise Chunk
-        m_controls.PlayerCombat.Raise.performed += _ => BeginTileTarget();
-        m_controls.PlayerCombat.Raise.canceled += _ => EndTileTarget();
+        m_controls.PlayerCombat.Target.performed += _ => m_player.BeginTileTarget();
+        m_controls.PlayerCombat.Target.canceled += _ => m_player.EndTileTarget();
         // Change powers
         m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
         m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
@@ -124,21 +122,5 @@ public class PlayerInput : MonoBehaviour
             SetCombat(m_prevCombat);
             m_controls.Dialogue.Disable();
         }
-    }
-
-    // Called when the player holds down A
-    private void BeginTileTarget()
-    {
-        m_isTargeting = true;
-        m_player.ActivateTileTargeter();
-        m_player.ResetTileTargeter();
-    }
-
-    // Called when the player releases A
-    private void EndTileTarget()
-    {
-        m_player.StartRaiseChunkAnim();
-        m_player.DeactivateTileTargeter();
-        m_isTargeting = false;
     }
 }
