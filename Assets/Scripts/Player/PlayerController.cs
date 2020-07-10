@@ -53,7 +53,14 @@ public class PlayerController : MonoBehaviour
 
         // Set health
         m_health = GetComponent<HealthComponent>();
-        m_health.Init(m_settings.m_defaultMaxHealth, m_settings.m_defaultMaxHealth, OnHurt, OnHealed, OnDeath);
+        // Set max health based on powers unlocked
+        int maxHealth = 2;
+        foreach (KeyValuePair<eChunkEffect, bool> i in Player.m_activePowers)
+        {
+            if (i.Value) { ++maxHealth; }
+        }
+        m_health.Init(maxHealth, maxHealth, OnHurt, OnHealed, OnDeath);
+        SetMaxHealth(maxHealth);
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();

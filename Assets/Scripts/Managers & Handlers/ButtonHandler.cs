@@ -48,4 +48,10 @@ public class ButtonHandler : MonoBehaviour
         // Change the focus
         menuScript.SetSaveButtonFocus(_saveId);
     }
+
+    public void ReturnToOverworld()
+    {
+        Resume();
+        RoomManager.Instance.LoadScene("Overworld");
+    }
 }
