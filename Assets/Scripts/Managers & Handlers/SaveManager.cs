@@ -20,6 +20,7 @@ public class SaveManager : MonoBehaviour
             { eChunkEffect.water, false },
             { eChunkEffect.fire, false }
         };
+        public int health = 3;
     }
 
     // 3 player saves
@@ -52,6 +53,9 @@ public class SaveManager : MonoBehaviour
         m_saves[m_currentFile].scene = SceneManager.GetActiveScene().name;
         m_saves[m_currentFile].room = (RoomManager.Instance) ? RoomManager.Instance.GetCurrentRoom() : 0;
         m_saves[m_currentFile].unlockedPowers = Player.m_activePowers;
+        PlayerController player = FindObjectOfType<PlayerController>();
+        if (player) { m_saves[m_currentFile].health = player.GetCurrentHealth(); }
+        else { Debug.LogError("Unbale to find player, could not save health"); }
 
         // Save to txt file
         FileStream fs = File.Open(Application.dataPath + "/" + m_settings.m_saveFileName + m_currentFile.ToString() + ".txt", FileMode.OpenOrCreate);
@@ -137,7 +141,12 @@ public class SaveManager : MonoBehaviour
         if (m_initLoad && RoomManager.Instance)
         {
             m_initLoad = false;
-            RoomManager.Instance.ForceLoadRoom(m_saves[m_currentFile].room); 
+            RoomManager.Instance.ForceLoadRoom(m_saves[m_currentFile].room);
+
+            // Load the correct health
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player) { player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health; }
+            else { Debug.LogError("Unable to find player, could not load health"); }
         }
     }
 

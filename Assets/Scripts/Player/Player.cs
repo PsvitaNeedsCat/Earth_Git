@@ -70,6 +70,14 @@ public class Player : MonoBehaviour
 
         m_crystalUI = FindObjectOfType<CrystalSelection>();
         UpdateUI();
+
+        // Set max health based on powers unlocked
+        int maxHealth = 2;
+        foreach (KeyValuePair<eChunkEffect, bool> i in m_activePowers)
+        {
+            if (i.Value) { ++maxHealth; }
+        }
+        m_playerController.SetMaxHealth(maxHealth);
     }
 
     private void FixedUpdate()

@@ -317,8 +317,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (!m_health) { m_health = GetComponent<HealthComponent>(); }
         m_health.SetMaxHealth(_newMax);
 
         UpdateHealthSprites();
     }
+    public int GetCurrentHealth() { return m_health.Health; }
 }
