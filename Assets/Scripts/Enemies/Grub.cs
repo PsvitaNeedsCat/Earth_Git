@@ -62,7 +62,7 @@ public class Grub : MonoBehaviour
             {
                 MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
 
-                if (m_dead) { Dead(); }
+                if (!m_dead) { Dead(); }
             }
             else
             {
