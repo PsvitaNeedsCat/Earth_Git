@@ -1206,7 +1206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currentState: 0
   m_toadAnimator: {fileID: 7805022237412165854}
-  m_idleDuration: 3
+  m_idleDuration: 0.5
 --- !u!114 &5161606004523416817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1713,9 +1713,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5992857105935463310}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1896771273727456169}
   m_Father: {fileID: 5161606005267804813}
@@ -1723,7 +1723,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1920, y: -1080}
+  m_AnchoredPosition: {x: -40, y: -240}
   m_SizeDelta: {x: 80, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6316757559975149434
@@ -2071,7 +2071,7 @@ PrefabInstance:
     - target: {fileID: -6057140222963153312, guid: d73f634f55668e04e89bb1c2f8a4d005,
         type: 3}
       propertyPath: m_UpdateMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: d73f634f55668e04e89bb1c2f8a4d005,
         type: 3}
