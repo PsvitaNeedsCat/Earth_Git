@@ -176,16 +176,6 @@ public class PlayerController : MonoBehaviour
         hurtbox.Init(transform.position, _effect);
     }
 
-    public void ActivateTileTargeter()
-    {
-        m_tileTargeter.gameObject.SetActive(true);
-    }
-
-    public void DeactivateTileTargeter()
-    {
-        m_tileTargeter.gameObject.SetActive(false);
-    }
-
     public bool TryConfirmChunk()
     {
         Tile tile = m_tileTargeter.GetClosest();

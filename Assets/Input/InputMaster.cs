@@ -391,7 +391,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
             ""id"": ""ec4733ed-a7fd-443e-972a-42745a135f1b"",
             ""actions"": [
                 {
-                    ""name"": ""Punch"",
+                    ""name"": ""Punch/Raise"",
                     ""type"": ""Button"",
                     ""id"": ""b1dabd34-cc74-4a67-8378-308e0911b037"",
                     ""expectedControlType"": ""Button"",
@@ -399,7 +399,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Raise"",
+                    ""name"": ""Target"",
                     ""type"": ""Button"",
                     ""id"": ""41026273-1866-4acf-9ccc-fd8922ffd7a4"",
                     ""expectedControlType"": ""Button"",
@@ -447,7 +447,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Punch"",
+                    ""action"": ""Punch/Raise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -458,18 +458,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Punch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""68e55889-b3d1-455e-9f43-be127963d0be"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Raise"",
+                    ""action"": ""Punch/Raise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -480,7 +469,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Raise"",
+                    ""action"": ""Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8088a34f-c203-4dfa-b355-f271efc03f80"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -929,8 +929,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
-        m_PlayerCombat_Punch = m_PlayerCombat.FindAction("Punch", throwIfNotFound: true);
-        m_PlayerCombat_Raise = m_PlayerCombat.FindAction("Raise", throwIfNotFound: true);
+        m_PlayerCombat_PunchRaise = m_PlayerCombat.FindAction("Punch/Raise", throwIfNotFound: true);
+        m_PlayerCombat_Target = m_PlayerCombat.FindAction("Target", throwIfNotFound: true);
         m_PlayerCombat_NoPower = m_PlayerCombat.FindAction("No Power", throwIfNotFound: true);
         m_PlayerCombat_WaterPower = m_PlayerCombat.FindAction("Water Power", throwIfNotFound: true);
         m_PlayerCombat_FirePower = m_PlayerCombat.FindAction("Fire Power", throwIfNotFound: true);
@@ -1090,8 +1090,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     // PlayerCombat
     private readonly InputActionMap m_PlayerCombat;
     private IPlayerCombatActions m_PlayerCombatActionsCallbackInterface;
-    private readonly InputAction m_PlayerCombat_Punch;
-    private readonly InputAction m_PlayerCombat_Raise;
+    private readonly InputAction m_PlayerCombat_PunchRaise;
+    private readonly InputAction m_PlayerCombat_Target;
     private readonly InputAction m_PlayerCombat_NoPower;
     private readonly InputAction m_PlayerCombat_WaterPower;
     private readonly InputAction m_PlayerCombat_FirePower;
@@ -1100,8 +1100,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     {
         private @InputMaster m_Wrapper;
         public PlayerCombatActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Punch => m_Wrapper.m_PlayerCombat_Punch;
-        public InputAction @Raise => m_Wrapper.m_PlayerCombat_Raise;
+        public InputAction @PunchRaise => m_Wrapper.m_PlayerCombat_PunchRaise;
+        public InputAction @Target => m_Wrapper.m_PlayerCombat_Target;
         public InputAction @NoPower => m_Wrapper.m_PlayerCombat_NoPower;
         public InputAction @WaterPower => m_Wrapper.m_PlayerCombat_WaterPower;
         public InputAction @FirePower => m_Wrapper.m_PlayerCombat_FirePower;
@@ -1115,12 +1115,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerCombatActionsCallbackInterface != null)
             {
-                @Punch.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
-                @Punch.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
-                @Punch.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
-                @Raise.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
-                @Raise.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
-                @Raise.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
+                @PunchRaise.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
+                @PunchRaise.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
+                @PunchRaise.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
+                @Target.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
+                @Target.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
+                @Target.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
                 @NoPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
                 @NoPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
                 @NoPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
@@ -1137,12 +1137,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerCombatActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Punch.started += instance.OnPunch;
-                @Punch.performed += instance.OnPunch;
-                @Punch.canceled += instance.OnPunch;
-                @Raise.started += instance.OnRaise;
-                @Raise.performed += instance.OnRaise;
-                @Raise.canceled += instance.OnRaise;
+                @PunchRaise.started += instance.OnPunchRaise;
+                @PunchRaise.performed += instance.OnPunchRaise;
+                @PunchRaise.canceled += instance.OnPunchRaise;
+                @Target.started += instance.OnTarget;
+                @Target.performed += instance.OnTarget;
+                @Target.canceled += instance.OnTarget;
                 @NoPower.started += instance.OnNoPower;
                 @NoPower.performed += instance.OnNoPower;
                 @NoPower.canceled += instance.OnNoPower;
@@ -1273,8 +1273,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     }
     public interface IPlayerCombatActions
     {
-        void OnPunch(InputAction.CallbackContext context);
-        void OnRaise(InputAction.CallbackContext context);
+        void OnPunchRaise(InputAction.CallbackContext context);
+        void OnTarget(InputAction.CallbackContext context);
         void OnNoPower(InputAction.CallbackContext context);
         void OnWaterPower(InputAction.CallbackContext context);
         void OnFirePower(InputAction.CallbackContext context);

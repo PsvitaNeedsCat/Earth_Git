@@ -378,7 +378,7 @@
             "id": "ec4733ed-a7fd-443e-972a-42745a135f1b",
             "actions": [
                 {
-                    "name": "Punch",
+                    "name": "Punch/Raise",
                     "type": "Button",
                     "id": "b1dabd34-cc74-4a67-8378-308e0911b037",
                     "expectedControlType": "Button",
@@ -386,7 +386,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Raise",
+                    "name": "Target",
                     "type": "Button",
                     "id": "41026273-1866-4acf-9ccc-fd8922ffd7a4",
                     "expectedControlType": "Button",
@@ -434,7 +434,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Punch",
+                    "action": "Punch/Raise",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -445,18 +445,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Punch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "68e55889-b3d1-455e-9f43-be127963d0be",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Raise",
+                    "action": "Punch/Raise",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -467,7 +456,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Raise",
+                    "action": "Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8088a34f-c203-4dfa-b355-f271efc03f80",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Target",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -7,9 +7,7 @@ public class EffectsManager : MonoBehaviour
 {
     public enum EEffectType
     {
-        testOne,
-        testTwo,
-        testThree
+        rockSummon,
     }
 
     private readonly string m_effectsPath = "Effects";

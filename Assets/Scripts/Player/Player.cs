@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private TileTargeter m_tileTargeter;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
     private CrystalSelection m_crystalUI;
+    private bool m_isTargeting = false;
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -48,7 +49,6 @@ public class Player : MonoBehaviour
     public void Pause() => m_playerController.Pause();
     public void UnPause() => m_playerController.UnPause();
     public void ContinueDialogue() => m_playerController.ContinueDialogue();
-    public void ResetTileTargeter() => m_tileTargeter.ResetDirection();
 
     private void Awake()
     {
@@ -89,16 +89,15 @@ public class Player : MonoBehaviour
 
     // Depending on whether the player is trying to raise a chunk or not,
     // It will either move the player or move the tile targeter
-    public void SetLAnalogDirection(Vector2 _dir, bool _isTargeting)
+    public void SetLAnalogDirection(Vector2 _dir)
     {
         // Player is trying to target a tile
-        if (_isTargeting)
+        if (m_isTargeting)
         {
+            if (_dir == Vector2.zero) { return; }
+
             // Set the tile targeter direction
             m_tileTargeter.SetTargetDirection(_dir, transform.position);
-
-            // Reset move direction
-            m_moveDirection = Vector2.zero;
 
             return;
         }
@@ -116,53 +115,46 @@ public class Player : MonoBehaviour
     // Attempts to raise a chunk
     public void TryRaiseChunk()
     {
-        // Try confirm chunk
-        Tile closestTile = m_tileTargeter.GetClosest();
-
         // Closest tile exists
         // And is free
-        if (closestTile && !closestTile.IsOccupied())
+        if (m_playerController.m_confirmedTile && !m_playerController.m_confirmedTile.IsOccupied())
         {
             // CHUNK IS GOOD TO RAISE
 
-            m_playerController.m_confirmedTile = closestTile;
-
             // Remove this when animator is set
             m_playerController.RaiseChunk();
-
-            // Set animation trigger
         }
     }
 
-    public void ActivateTileTargeter()
+    // Checks a variable and either punches or raises a chunk
+    public void PunchOrRaise()
     {
-        SetLAnalogDirection(m_moveDirection, true);
-        m_moveDirection = Vector2.zero;
-        m_playerController.ActivateTileTargeter();
-    }
-
-    public void DeactivateTileTargeter()
-    {
-        m_playerController.DeactivateTileTargeter();
-    }
-
-    // Starts the punch animation, if possible
-    public void StartPunchAnim()
-    {
-        if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch")) { return; }
-
-        m_animator.SetTrigger("Punch");
-    }
-
-    // Starts the chunk raise animation, if possible
-    public void StartRaiseChunkAnim()
-    {
-        if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Summon")) { return; }
-
-        if (m_playerController.TryConfirmChunk())
+        if (m_isTargeting)
         {
-            m_animator.SetTrigger("Summon");
+            if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Summon")
+                && m_playerController.TryConfirmChunk())
+            { m_animator.SetTrigger("Summon"); }
+            return;
         }
+
+        if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
+        { m_animator.SetTrigger("Punch"); }
+    }
+
+    // Called when the player holds down A
+    public void BeginTileTarget()
+    {
+        m_isTargeting = true;
+        m_tileTargeter.SetTargetDirection(new Vector2(transform.forward.x, transform.forward.z), transform.position, false);
+        m_moveDirection = Vector2.zero;
+        m_tileTargeter.gameObject.SetActive(true);
+    }
+
+    // Called when the player releases A
+    public void EndTileTarget()
+    {
+        m_tileTargeter.gameObject.SetActive(false);
+        m_isTargeting = false;
     }
 
     public void TryChangeEffect(eChunkEffect _effect)
