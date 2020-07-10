@@ -94,4 +94,11 @@ public class HealthComponent : MonoBehaviour
         IsInvincible = true;
         m_timerActive = true;
     }
+
+    public void SetMaxHealth(int _newMax)
+    {
+        _newMax = Mathf.Clamp(_newMax, 1, int.MaxValue);
+        m_maxHealth = _newMax;
+        Health = Mathf.Clamp(Health, 0, m_maxHealth);
+    }
 }

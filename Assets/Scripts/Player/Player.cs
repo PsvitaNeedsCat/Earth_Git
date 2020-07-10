@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private eChunkEffect m_currentEffect = eChunkEffect.none;
     private CrystalSelection m_crystalUI;
 
-    // Max speed that the player will reach with their current drag
+    // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
 
     // Unlocks a power for use

@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
     [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
-    [SerializeField] private Sprite[] m_glassSprites;
+    public List<Image> m_healthImages;
+    public List<Image> m_healthBackgroundImages;
 
     // Private variables
     private PlayerController m_instance;
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnHurt()
     {
-        UpdateGlassSprite(m_health.Health - 1);
+        UpdateHealthSprites();
 
         MessageBus.TriggerEvent(EMessageType.playerHurt);
 
@@ -121,36 +122,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnHealed()
     {
-        // Update glasss
-        UpdateGlassSprite(3);
-    }
-
-    private void UpdateGlassSprite(int _health)
-    {
-        switch (_health)
-        {
-            case 3:
-                {
-                    m_glassUI.sprite = m_glassSprites[0];
-                    break;
-                }
-
-            case 2:
-                {
-                    m_glassUI.sprite = m_glassSprites[1];
-                    break;
-                }
-
-            case 1:
-                {
-                    m_glassUI.sprite = m_glassSprites[2];
-                    break;
-                }
-
-            // 0
-            default:
-                break;
-        }
+        // Update health sprites
+        UpdateHealthSprites();
     }
 
     // Moves the player in a given direction
@@ -313,5 +286,44 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Couldn't set mpb");
         }
+    }
+
+    public void UpdateHealthSprites()
+    {
+        int newCurrentHealth = m_health.Health;
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (i < newCurrentHealth)
+            {
+                m_healthImages[i].enabled = true;
+            }
+            else
+            {
+                m_healthImages[i].enabled = false;
+            }
+        }
+    }
+
+    public void SetMaxHealth(int _newMax)
+    {
+        _newMax = Mathf.Clamp(_newMax, 1, 6);
+
+        // Activate / disable background images
+        for (int i = 0; i < 6; i++)
+        {
+            if (i < _newMax)
+            {
+                m_healthBackgroundImages[i].enabled = true;
+            }
+            else
+            {
+                m_healthBackgroundImages[i].enabled = true;
+            }
+        }
+
+        m_health.SetMaxHealth(_newMax);
+
+        UpdateHealthSprites();
     }
 }
