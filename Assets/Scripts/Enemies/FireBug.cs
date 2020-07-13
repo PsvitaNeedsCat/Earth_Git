@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using TMPro;
 
 using DG.Tweening;
 
@@ -15,6 +16,7 @@ public class FireBug : MonoBehaviour
         vulnerable
     }
 
+    public TextMeshProUGUI m_stateText;
     public List<Transform> m_patrolPoints;
     public float m_moveSpeed;
     public float m_chargeSpeed;
@@ -61,6 +63,10 @@ public class FireBug : MonoBehaviour
                     break;
                 }
         }
+
+        m_stateText.text = m_state.ToString();
+
+        if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     // Patrols between points
@@ -233,8 +239,8 @@ public class FireBug : MonoBehaviour
             Gizmos.DrawLine(transform.position, transform.position + m_chargeDir * 100.0f);
         }
 
-#if UNITY_EDITOR
-        Handles.Label(transform.position + Vector3.up * 0.5f, m_state.ToString());
-#endif
+//#if UNITY_EDITOR
+//        Handles.Label(transform.position + Vector3.up * 0.5f, m_state.ToString());
+//#endif
     }
 }
