@@ -11,19 +11,12 @@ public class CentipedeAnimations : MonoBehaviour
     {
         float startTime = 0.0f;
 
+        // Animation has two walk cycles in it, start each segment's animation at .25 seconds to offset segments
         for (int i = 0; i < m_segmentAnimators.Count; i++)
         {
+            Debug.Log("Playing segment " + i + " starting at " + startTime);
             m_segmentAnimators[i].Play("Walk", 0, startTime);
             startTime = (startTime + 0.25f) % 1.0f;
-
-            //if (i % 2 == 1)
-            //{
-            //    m_segmentAnimators[i].Play("Walk", 0, 0.75f);
-            //}
-            //else
-            //{
-            //    m_segmentAnimators[i].Play("Walk", 0, 0.0f);
-            //}
         }
     }
 
@@ -35,5 +28,42 @@ public class CentipedeAnimations : MonoBehaviour
         {
             animator.SetFloat("Speed", speed);
         }
+    }
+
+    public void Stunned()
+    {
+        for (int i = 0; i < m_segmentAnimators.Count; i++)
+        {
+            m_segmentAnimators[i].SetTrigger("Stunned");
+        }
+    }
+
+    public void Recovered()
+    {
+        for (int i = 0; i < m_segmentAnimators.Count; i++)
+        {
+            m_segmentAnimators[i].SetTrigger("Recovered");
+        }
+    }
+
+    public void ChargeStart()
+    {
+        m_segmentAnimators[0].SetTrigger("ChargeStart");
+    }
+
+    public void ChargeEnd()
+    {
+        m_segmentAnimators[0].SetTrigger("ChargeEnd");
+        // Debug.Log("Charge animation end");
+    }
+
+    public void TailAttackStart()
+    {
+        m_segmentAnimators[6].SetTrigger("TailAttackStart");
+    }
+
+    public void TailAttackEnd()
+    {
+        m_segmentAnimators[6].SetTrigger("TailAttackEnd");
     }
 }
