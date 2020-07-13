@@ -9,6 +9,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public Transform m_preBurrowPoint;
     public List<Transform> m_burrowDownPoints;
     public List<Transform> m_burrowUpPoints;
+    public Transform m_mesh;
 
     private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
@@ -40,6 +41,9 @@ public class CentipedeTailAttack : CentipedeBehaviour
         //while (!CentipedeMovement.m_atTarget) yield return null;
         CentipedeMovement.m_burrowing = false;
 
+        // m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
+        // m_animations.TailAttackStart();
+
         m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.m_settings.m_rotationSpeed * 100.0f, CentipedeBoss.m_settings.m_firingDuration);
         StartCoroutine(FireProjectiles());
     }
@@ -47,6 +51,9 @@ public class CentipedeTailAttack : CentipedeBehaviour
     private IEnumerator BurrowUp()
     {
         Debug.Log("Starting burrow up");
+
+        // m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
+        // m_animations.TailAttackEnd();
 
         // CentipedeMovement.m_burrowing = true;
         CentipedeMovement.BurrowUp(m_burrowUpPoints);

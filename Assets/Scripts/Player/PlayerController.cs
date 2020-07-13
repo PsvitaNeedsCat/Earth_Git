@@ -173,6 +173,15 @@ public class PlayerController : MonoBehaviour
         m_rigidBody.AddForce(Vector3.up * m_settings.m_gravity);
     }
 
+    public void CancelStairsGravity(Vector3 _right)
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
+        {
+            m_rigidBody.AddForce(Vector3.down * m_settings.m_gravity);
+            m_rigidBody.AddForce(hit.normal * m_settings.m_gravity);
+        }
+    }
+
     // Makes the player punch
     public void Punch(eChunkEffect _effect)
     {

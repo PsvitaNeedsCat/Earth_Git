@@ -51,6 +51,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         CentipedeMovement.m_useTrainSpeed = true;
         CentipedeBoss.m_dropLava = true;
         m_trainAudio.SetActive(true);
+        m_animations.ChargeStart();
         StartCoroutine(TunnelAttack());
     }
 
@@ -70,6 +71,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         {
             CentipedeMovement.m_useTrainSpeed = false;
             CentipedeBoss.m_dropLava = false;
+            m_animations.ChargeEnd();
             StartCoroutine(ReenterArena());
         }
         else
