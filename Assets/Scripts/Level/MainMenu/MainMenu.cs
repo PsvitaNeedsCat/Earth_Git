@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour
             m_saveButtons[i].GetComponent<SaveFileButton>().CheckSaveStatus();
 
             // Fade in
-            FadeButton(m_saveButtons[i], true);
+            FadeButton(m_saveButtons[i], true, (i == 0));
 
             // Fade in delete button
             if (m_deleteButtons[i].IsActive())
@@ -59,13 +59,10 @@ public class MainMenu : MonoBehaviour
 
         // Return button
         FadeButton(m_returnButton, true);
-
-        // Set the event system
-        m_eventSystem.SetSelectedGameObject(m_saveButtons[0].gameObject);
     }
 
     // Fades a given button in or out
-    private void FadeButton(Button _button, bool _fadeIn)
+    private void FadeButton(Button _button, bool _fadeIn, bool _setFocus = false)
     {
         // Set alpha
         Color colour = _button.image.color;
@@ -76,7 +73,10 @@ public class MainMenu : MonoBehaviour
         if (_fadeIn)
         {
             _button.gameObject.SetActive(true);
-            _button.image.DOFade(1.0f, 0.5f);
+            if (_setFocus)
+            { _button.image.DOFade(1.0f, 0.5f).OnComplete(() => m_eventSystem.SetSelectedGameObject(_button.gameObject)); }
+            else
+            { _button.image.DOFade(1.0f, 0.5f); }
         }
         else
         {
@@ -105,11 +105,8 @@ public class MainMenu : MonoBehaviour
         FadeButton(m_returnButton, false);
 
         // Activate play and quit buttons
-        FadeButton(m_playButton, true);
+        FadeButton(m_playButton, true, true);
         FadeButton(m_quitButton, true);
-
-        // Set focus
-        m_eventSystem.SetSelectedGameObject(m_playButton.gameObject);
     }
 
     // Tries to load a save, otherwise it will create a save
