@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using TMPro;
 
 public class Dialogue : Interactable
 {
     // Variables
+    [SerializeField] private Sprite m_characterSprite;
     [SerializeField] private string[] m_dialogue;
     private int m_dialogueIndex = 0;
     private char[] m_curDialogue;
@@ -49,6 +51,20 @@ public class Dialogue : Interactable
         // Instantiate dialogue
         m_dialogueObj = Instantiate(m_dialoguePrefab, Vector3.zero, Quaternion.identity);
         m_dialogueText = m_dialogueObj.GetComponentInChildren<TextMeshProUGUI>();
+        if (m_characterSprite != null)
+        {
+            // Character sprite assign
+            Image[] images = m_dialogueObj.GetComponentsInChildren<Image>();
+            foreach (Image i in images)
+            {
+                if (i.gameObject.name == "CharacterSprite")
+                {
+                    i.sprite = m_characterSprite;
+                    i.color = Color.white;
+                    break;
+                }
+            }
+        }
 
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
