@@ -76,7 +76,7 @@ public class Dialogue : Interactable
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
         m_active = true;
-        m_prompt.SetActive(false);
+        if (m_prompt) { m_prompt.SetActive(false); }
     }
 
     public override void Update()
