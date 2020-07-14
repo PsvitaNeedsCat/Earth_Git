@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Tile m_confirmedTile = null;
     [HideInInspector] public bool m_inSand = false;
     [HideInInspector] public Rigidbody m_rigidBody;
+    [HideInInspector] public static bool m_saveOnAwake = false;
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
@@ -74,6 +75,13 @@ public class PlayerController : MonoBehaviour
         Debug.Assert(m_glassUI, "Unable to find glass effect object");
 
         m_pauseMenuPrefab = Resources.Load<GameObject>("Prefabs/Pause Menu Parent");
+
+        // Save
+        if (m_saveOnAwake)
+        {
+            SaveManager.Instance.SaveGame();
+            m_saveOnAwake = false;
+        }
     }
 
     private void Start()
