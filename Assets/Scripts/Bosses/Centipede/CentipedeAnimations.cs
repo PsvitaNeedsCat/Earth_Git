@@ -19,6 +19,7 @@ public class CentipedeAnimations : MonoBehaviour
         }
     }
 
+    // Sets the animation speed of all centipede segments
     public void SetAnimSpeed(float _animSpeed)
     {
         float speed = m_speedCurve.Evaluate(_animSpeed);
@@ -29,16 +30,16 @@ public class CentipedeAnimations : MonoBehaviour
         }
     }
 
+    // Sets the stunned trigger on all body segment animators
     public void Stunned()
     {
         for (int i = 0; i < m_segmentAnimators.Count; i++)
         {
             m_segmentAnimators[i].SetTrigger("Stunned");
         }
-
-        Debug.Log("Set stunned triggers");
     }
 
+    // Sets the recovered trigger on all body segment animators
     public void Recovered()
     {
         for (int i = 0; i < m_segmentAnimators.Count; i++)
@@ -47,22 +48,25 @@ public class CentipedeAnimations : MonoBehaviour
         }
     }
 
+    // Start the charging animation on the head segment
     public void ChargeStart()
     {
         m_segmentAnimators[0].SetTrigger("ChargeStart");
     }
 
+    // End the charging animatino on the head segment
     public void ChargeEnd()
     {
         m_segmentAnimators[0].SetTrigger("ChargeEnd");
-        // Debug.Log("Charge animation end");
     }
 
+    // Start the tail attack animation on the tail segment
     public void TailAttackStart()
     {
         m_segmentAnimators[6].SetTrigger("TailAttackStart");
     }
 
+    // End the tail attack animation on the tail segment
     public void TailAttackEnd()
     {
         m_segmentAnimators[6].SetTrigger("TailAttackEnd");

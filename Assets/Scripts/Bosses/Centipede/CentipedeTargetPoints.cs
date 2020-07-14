@@ -17,7 +17,6 @@ public class CentipedeTargetPoints : MonoBehaviour
 #if UNITY_EDITOR
             Handles.Label(child.position, child.name);
 #endif
-
         }
     }
 }

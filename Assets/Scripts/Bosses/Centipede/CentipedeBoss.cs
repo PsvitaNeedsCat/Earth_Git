@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Handles behaviour sequencing of centipede boss, 
+// Handles behaviour sequencing of centipede boss
 public class CentipedeBoss : MonoBehaviour
 {
     public static CentipedeSettings m_settings;

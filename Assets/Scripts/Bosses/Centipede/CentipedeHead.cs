@@ -21,8 +21,8 @@ public class CentipedeHead : MonoBehaviour
     {
         if (CentipedeTrainAttack.m_stunned) return;
 
+        // Damage the player if they're hit by the centipede head
         PlayerController player = other.GetComponent<PlayerController>();
-
         if (player)
         {
             // Calculate knockback on the player
@@ -34,6 +34,7 @@ public class CentipedeHead : MonoBehaviour
             return;
         }
 
+        // During the train attack, destroy any chunks hit
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
