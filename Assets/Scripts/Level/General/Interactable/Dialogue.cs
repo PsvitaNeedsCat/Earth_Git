@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 using TMPro;
 
+[System.Serializable]
 public class Dialogue : Interactable
 {
     // Variables
     [SerializeField] private Sprite m_characterSprite;
-    [SerializeField] private string[] m_dialogue;
+    public string[] m_dialogue;
     private int m_dialogueIndex = 0;
     private char[] m_curDialogue;
     private int m_charIndex = 0;
@@ -148,5 +149,11 @@ public class Dialogue : Interactable
         m_player.SetDialogue(false);
         m_charIndex = 0;
         m_dialogueIndex = 0;
+    }
+
+    // Returns true if the dialogue is still active
+    public bool IsRunning()
+    {
+        return m_active;
     }
 }

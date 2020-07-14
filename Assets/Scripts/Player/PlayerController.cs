@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private GlobalPlayerSettings m_settings;
     private HealthComponent m_health;
     private PlayerInput m_input;
-    private Image m_glassUI;
     private GameObject m_pauseMenu = null;
     private GameObject m_pauseMenuPrefab;
     private EventSystem[] m_eventSystems;
@@ -70,10 +69,6 @@ public class PlayerController : MonoBehaviour
         m_input = GetComponent<PlayerInput>();
         Debug.Assert(m_input, "Player has no PlayerInput.cs");
 
-        // Get glass UI
-        m_glassUI = GameObject.Find("glassEffect").GetComponent<Image>();
-        Debug.Assert(m_glassUI, "Unable to find glass effect object");
-
         m_pauseMenuPrefab = Resources.Load<GameObject>("Prefabs/Pause Menu Parent");
 
         // Save
@@ -108,6 +103,11 @@ public class PlayerController : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         seq.Append(m_meshRenderer.material.DOColor(m_settings.m_hurtColour, m_settings.m_hurtTime * 0.5f));
         seq.Append(m_meshRenderer.material.DOColor(Color.white, m_settings.m_hurtTime * 0.5f));
+
+        // Tween health bar
+        m_healthBackgroundImages[m_health.Health].rectTransform.DORewind();
+        m_healthBackgroundImages[m_health.Health].rectTransform.DOPunchScale(Vector3.one * 0.5f, 0.2f);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.shortSharp);
     }
 
     private void OnDeath()
