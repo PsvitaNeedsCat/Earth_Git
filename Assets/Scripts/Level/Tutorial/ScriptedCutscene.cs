@@ -11,6 +11,10 @@ public class ScriptedCutscene : MonoBehaviour
     private bool m_dialogueDone = true;
     private bool m_animationDone = true;
 
+    // Pause
+    private float m_timer = 0.0f;
+    private bool m_paused = false;
+
     private void Awake()
     {
         NextEvent();
@@ -31,11 +35,25 @@ public class ScriptedCutscene : MonoBehaviour
 
         // Dialogue and Animation is done
         if (m_dialogueDone && m_animationDone)
-        { NextEvent(); }
+        { CheckEventStatus(); }
+    }
+
+    private void CheckEventStatus()
+    {
+        // Set timer
+        if (!m_paused && m_script[m_index].m_pause > 0.0f)
+        { m_paused = true; m_timer = m_script[m_index].m_pause; return; }
+
+        // Timer is still going
+        if (m_timer > 0.0f) { m_timer -= Time.deltaTime; return; }
+
+        NextEvent();
     }
 
     private void NextEvent()
     {
+        m_timer = 0.0f;
+        m_paused = false;
         ++m_index;
 
         // Is at end
@@ -44,7 +62,7 @@ public class ScriptedCutscene : MonoBehaviour
         // If blank
         if (!m_script[m_index].m_dialogue &&
             (!m_script[m_index].m_animator || m_script[m_index].m_trigger == ""))
-        { NextEvent(); return; }
+        { CheckEventStatus(); return; }
 
         // Init event(s)
         if (m_script[m_index].m_dialogue)
@@ -65,7 +83,12 @@ public class ScriptedCutscene : MonoBehaviour
 [System.Serializable]
 public class CutsceneEvent
 {
+    [Tooltip("Leave empty if no dialogue is to be played")]
     public Dialogue m_dialogue = null;
+    [Tooltip("Leave empty if no animation is to be played")]
     public Animator m_animator = null;
+    [Tooltip("Name the trigger and animation the same")]
     public string m_trigger = "";
+    [Tooltip("Length of pause after this event (seconds)")]
+    public float m_pause = 0.0f;
 }
