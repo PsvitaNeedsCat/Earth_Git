@@ -119,12 +119,27 @@ public class Chunk : MonoBehaviour
         CentipedeSegmentMover centipedeSegment = other.GetComponent<CentipedeSegmentMover>();
         if (centipedeSegment)
         {
-            if (m_currentEffect == eChunkEffect.water)
+            // If the chunk's trigger is hitting a collider, check if the chunk has hit the centipede boss while charging
+            if (!other.isTrigger)
             {
-                centipedeSegment.Damaged();
+                if (CentipedeTrainAttack.m_charging && m_currentEffect == eChunkEffect.none && !CentipedeTrainAttack.m_stunned)
+                {
+                    other.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
+                    Destroy(this.gameObject);
+                    return;
+                }
+
+                if (m_currentEffect == eChunkEffect.water)
+                {
+                    centipedeSegment.Damaged();
+                }
+                Destroy(this.gameObject);
+                return;
             }
-            Destroy(this.gameObject);
-            return;
+            else
+            {
+                
+            }
         }
 
         CentipedeLavaTrail trail = other.GetComponent<CentipedeLavaTrail>();

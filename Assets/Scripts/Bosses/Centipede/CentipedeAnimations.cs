@@ -14,7 +14,6 @@ public class CentipedeAnimations : MonoBehaviour
         // Animation has two walk cycles in it, start each segment's animation at .25 seconds to offset segments
         for (int i = 0; i < m_segmentAnimators.Count; i++)
         {
-            Debug.Log("Playing segment " + i + " starting at " + startTime);
             m_segmentAnimators[i].Play("Walk", 0, startTime);
             startTime = (startTime + 0.25f) % 1.0f;
         }
@@ -36,6 +35,8 @@ public class CentipedeAnimations : MonoBehaviour
         {
             m_segmentAnimators[i].SetTrigger("Stunned");
         }
+
+        Debug.Log("Set stunned triggers");
     }
 
     public void Recovered()
