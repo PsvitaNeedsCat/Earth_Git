@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using TMPro;
 
 public class Dialogue : Interactable
 {
     // Variables
+    [SerializeField] private Sprite m_characterSprite;
     [SerializeField] private string[] m_dialogue;
     private int m_dialogueIndex = 0;
     private char[] m_curDialogue;
@@ -22,7 +24,7 @@ public class Dialogue : Interactable
 
     // Timer
     private float m_timer = 0.0f;
-    private const float m_timerMax = 0.01f;
+    private const float m_timerMax = 0.04f;
 
     public override void Awake()
     {
@@ -49,15 +51,36 @@ public class Dialogue : Interactable
         // Instantiate dialogue
         m_dialogueObj = Instantiate(m_dialoguePrefab, Vector3.zero, Quaternion.identity);
         m_dialogueText = m_dialogueObj.GetComponentInChildren<TextMeshProUGUI>();
+        if (m_characterSprite != null)
+        {
+            // Character sprite assign
+            Image[] images = m_dialogueObj.GetComponentsInChildren<Image>();
+            foreach (Image i in images)
+            {
+                if (i.gameObject.name == "CharacterSprite")
+                {
+                    i.sprite = m_characterSprite;
+                    i.color = Color.white;
+                    break;
+                }
+            }
+
+            // Move bottom text margin
+            TextMeshProUGUI secondTMPro = m_dialogueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            Vector4 margin = secondTMPro.margin;
+            margin.x = 211.5f;
+            secondTMPro.margin = margin;
+        }
 
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
         m_active = true;
+        m_prompt.SetActive(false);
     }
 
-    private void Update()
+    public override void Update()
     {
-        if (!m_active) { return; }
+        if (!m_active) { base.Update(); return; }
 
         // Go through current dialogue
         if (m_timer <= 0.0f)
