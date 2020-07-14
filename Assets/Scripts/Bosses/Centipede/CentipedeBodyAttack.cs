@@ -6,6 +6,7 @@ public class CentipedeBodyAttack : CentipedeBehaviour
 {
     public List<CentipedeSegmentFirer> m_segmentFirers;
     public List<Transform> m_movePoints;
+
     private CentipedeHealth m_centipedeHealth;
 
     private void Awake()
@@ -38,14 +39,18 @@ public class CentipedeBodyAttack : CentipedeBehaviour
     {
         yield return new WaitForSeconds(CentipedeBoss.m_settings.m_bodyAttackStartDelay);
 
-        for (int i = 0; i < CentipedeBoss.m_settings.m_numBodyAttacks; i++)
+        int numAttacks = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.m_settings.m_numBodyAttacksDamaged : CentipedeBoss.m_settings.m_numBodyAttacks;
+
+        for (int i = 0; i < numAttacks; i++)
         {
-            float timeBetween = 0.4f;
+            float timeBetween = 0.4f; // Time offset needed to fire projectiles down one row
             StartCoroutine(FireBodyProjectiles(timeBetween));
             
             yield return new WaitForSeconds(timeBetween * CentipedeBoss.m_settings.m_numBodyProjectiles);
-            
-            yield return new WaitForSeconds(CentipedeBoss.m_settings.m_bodyTimeBetweenFiring);
+
+            float delay = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.m_settings.m_bodyTimeBetweenFiringDamaged : CentipedeBoss.m_settings.m_bodyTimeBetweenFiring;
+
+            yield return new WaitForSeconds(delay);
         }
 
         // m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.body);
