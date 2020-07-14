@@ -72,16 +72,15 @@ public class Dialogue : Interactable
             secondTMPro.margin = margin;
         }
 
-        //211.5081
-
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
         m_active = true;
+        m_prompt.SetActive(false);
     }
 
-    private void Update()
+    public override void Update()
     {
-        if (!m_active) { return; }
+        if (!m_active) { base.Update(); return; }
 
         // Go through current dialogue
         if (m_timer <= 0.0f)

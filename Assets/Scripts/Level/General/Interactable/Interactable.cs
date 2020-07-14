@@ -7,7 +7,11 @@ public class Interactable : MonoBehaviour
     [HideInInspector] public static Interactable m_closest = null; // Closest to the player
     [HideInInspector] public float m_distToPlayer = float.MaxValue;
 
-    protected static Player m_playerRef;
+    private static Player m_playerRef;
+    private bool m_playerIsClose = false;
+    private GlobalPlayerSettings m_playerSettings;
+
+    [SerializeField] protected GameObject m_prompt = null;
 
     public virtual void Awake()
     {
@@ -17,6 +21,8 @@ public class Interactable : MonoBehaviour
             Player player = FindObjectOfType<Player>();
             if (player) { m_playerRef = player; }
         }
+
+        m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
     // Message bus listener
@@ -43,5 +49,28 @@ public class Interactable : MonoBehaviour
 
         // Compare distances to the player
         if (m_distToPlayer < m_closest.m_distToPlayer) { m_closest = this; }
+    }
+
+    public virtual void Update()
+    {
+        // Check if the player is close enough to trigger the prompt
+        m_playerIsClose = (m_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
+
+        // If there is a prompt
+        if (m_prompt)
+        {
+            // Player is close enough to interact - prompt is not currently active
+            if (!m_prompt.activeSelf && m_playerIsClose)
+            {
+                // Turn prompt on
+                m_prompt.SetActive(true);
+            }
+            // Player is not close enough to interact - prompt is currently active
+            else if (m_prompt.activeSelf && !m_playerIsClose)
+            {
+                // Turn off prompt
+                m_prompt.SetActive(false);
+            }
+        }
     }
 }
