@@ -64,7 +64,15 @@ public class Dialogue : Interactable
                     break;
                 }
             }
+
+            // Move bottom text margin
+            TextMeshProUGUI secondTMPro = m_dialogueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            Vector4 margin = secondTMPro.margin;
+            margin.x = 211.5f;
+            secondTMPro.margin = margin;
         }
+
+        //211.5081
 
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
