@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class CentipedeHead : MonoBehaviour
 {
+    public BoxCollider m_damageTrigger;
+    private CentipedeTrainAttack m_trainAttack;
+
+    private void Awake()
+    {
+        m_trainAttack = GetComponentInParent<CentipedeTrainAttack>();
+        m_damageTrigger = GetComponent<BoxCollider>();
+    }
+
+    public void DisableCollider() => m_damageTrigger.enabled = false;
+    public void EnableCollider() => m_damageTrigger.enabled = true;
+
     // Damage things when hit by the centipede's head
     private void OnTriggerEnter(Collider other)
     {
+        if (CentipedeTrainAttack.m_stunned) return;
+
         PlayerController player = other.GetComponent<PlayerController>();
 
         if (player)
@@ -20,11 +34,17 @@ public class CentipedeHead : MonoBehaviour
             return;
         }
 
-        Chunk chunk = other.GetComponent<Chunk>();
+        Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
             chunk.GetComponent<HealthComponent>().Health = 0;
             MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
+
+            if (m_trainAttack.m_currentState == CentipedeBehaviour.EBehaviourState.running && !CentipedeTrainAttack.m_stunned)
+            {
+                m_trainAttack.HitByChunk();
+                chunk.GetComponent<HealthComponent>().Health = 0;
+            }
         }
     }
 }

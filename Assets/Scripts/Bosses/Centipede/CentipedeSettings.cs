@@ -33,6 +33,8 @@ public class CentipedeSettings : ScriptableObject
     public float m_trainMoveSpeed;
     public float m_trainDamagedMoveSpeed;
     public float m_lavaLifetime;
+    public int m_chunksToStun;
+    public float m_stunnedFor;
 
     [Header("Tail Settings")]
     public float m_fireDelay;

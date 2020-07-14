@@ -26,10 +26,15 @@ public class CentipedeHealth : MonoBehaviour
 
     private bool[] m_sectionsActive = { false, false, false };
     private bool[] m_sectionsDamaged = { false, false, false};
+    private CentipedeTrainAttack m_trainAttack;
 
     // Array of lists of segments indices: "Head segments", "Body segments", "Tail segments"
     private List<int>[] m_sectionSegments = { new List<int>{ 0 }, new List<int>{ 1, 2, 3, 4, 5 }, new List<int>{ 6 } };
 
+    private void Awake()
+    {
+        m_trainAttack = GetComponent<CentipedeTrainAttack>();
+    }
 
     public bool IsSectionDamaged(ESegmentType _type)
     {
@@ -39,6 +44,8 @@ public class CentipedeHealth : MonoBehaviour
     // Activate (or deactivate) a section of the body, changing all materials
     public void ActivateSection(bool _activate, ESegmentType _type)
     {
+        Debug.Log("Activating section " + _type.ToString() + " with value: " + _activate);
+
         // Don't activate a section if it's already damaged
         if (m_sectionsDamaged[(int)_type]) return;
 
@@ -57,6 +64,8 @@ public class CentipedeHealth : MonoBehaviour
     // Damages a section of the centipede, storing the new state, and changing the materials
     public void DamageSection(ESegmentType _type)
     {
+        Debug.Log("Trying to damage section " + _type.ToString());
+
         // If the section is not active, or has already been damaged, it can't be damaged
         if (!m_sectionsActive[(int)_type]) return;
         if (m_sectionsDamaged[(int)_type]) return;
@@ -69,6 +78,8 @@ public class CentipedeHealth : MonoBehaviour
             m_segmentRenderers[segment].material = m_segmentMaterials[(int)_type].m_cooled;
             m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
         }
+
+        if (_type == ESegmentType.head) { m_trainAttack.OnDamaged(); }
 
         m_sectionsDamaged[(int)_type] = true;
 
