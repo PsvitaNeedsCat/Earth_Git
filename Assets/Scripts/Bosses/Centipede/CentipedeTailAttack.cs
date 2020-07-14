@@ -67,7 +67,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator FireProjectiles()
     {
-        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.tail);
+        m_centipedeHealth.ActivateSection(true, 6);
 
         while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
         {
@@ -86,7 +86,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
             yield return null;
         }
 
-        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.tail);
+        m_centipedeHealth.ActivateSection(false, 6);
 
         StartCoroutine(BurrowUp());
     }

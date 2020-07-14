@@ -24,12 +24,12 @@ public class CentipedeHealth : MonoBehaviour
     public List<SkinnedMeshRenderer> m_segmentRenderers;
     public GameObject m_bossObject;
 
-    private bool[] m_sectionsActive = { false, false, false };
+    private bool[] m_sectionsActive = { false, false, false, false, false, false, false };
     private bool[] m_sectionsDamaged = { false, false, false};
     private CentipedeTrainAttack m_trainAttack;
 
     // Array of lists of segments indices: "Head segments", "Body segments", "Tail segments"
-    private List<int>[] m_sectionSegments = { new List<int>{ 0 }, new List<int>{ 1, 2, 3, 4, 5 }, new List<int>{ 6 } };
+    private List<int>[] m_sectionSegments = { new List<int> { 0 }, new List<int> { 1, 2, 3, 4, 5 }, new List<int> { 6 } };
 
     private void Awake()
     {
@@ -42,23 +42,23 @@ public class CentipedeHealth : MonoBehaviour
     }
 
     // Activate (or deactivate) a section of the body, changing all materials
-    public void ActivateSection(bool _activate, ESegmentType _type)
+    public void ActivateSection(bool _activate, int _sectionIndex)
     {
-        Debug.Log("Activating section " + _type.ToString() + " with value: " + _activate);
-
         // Don't activate a section if it's already damaged
-        if (m_sectionsDamaged[(int)_type]) return;
+        if (m_sectionsDamaged[(int)IndexToSegmentType(_sectionIndex)]) return;
 
-        List<int> segments = m_sectionSegments[(int)_type];
+        //List<int> segments = m_sectionSegments[(int)_type];
 
-        // Change the material of each segment
-        foreach (int segment in segments)
-        {
-            m_segmentRenderers[segment].material = (_activate) ? m_segmentMaterials[(int)_type].m_heated : m_segmentMaterials[(int)_type].m_normal;
-        }
+        //// Change the material of each segment
+        //foreach (int segment in segments)
+        //{
+        //    m_segmentRenderers[segment].material = (_activate) ? m_segmentMaterials[(int)_type].m_heated : m_segmentMaterials[(int)_type].m_normal;
+        //}
+
+        m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
         
         // Store the new state of this section
-        m_sectionsActive[(int)_type] = _activate;
+        m_sectionsActive[_sectionIndex] = _activate;
     }
 
     // Damages a section of the centipede, storing the new state, and changing the materials
@@ -103,5 +103,13 @@ public class CentipedeHealth : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
         MessageBus.TriggerEvent(EMessageType.centipedeDamaged);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+    }
+
+    private ESegmentType IndexToSegmentType(int _index)
+    {
+        if (_index == 0) return ESegmentType.head;
+        if (_index == 6) return ESegmentType.tail;
+
+        return ESegmentType.body;
     }
 }

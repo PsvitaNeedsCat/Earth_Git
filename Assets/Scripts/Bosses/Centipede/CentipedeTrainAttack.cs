@@ -137,7 +137,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_head.DisableCollider();
         CentipedeMovement.m_seekingTarget = false;
         m_charging = false;
-        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.head);
+        m_centipedeHealth.ActivateSection(true, 0);
         m_animations.Stunned();
         yield return new WaitForSeconds(_forSeconds);
         StartCoroutine(Recover());
@@ -150,7 +150,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_animations.Recovered();
         yield return new WaitForSeconds(0.1f);
         m_stunned = false;
-        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.head);
+        m_centipedeHealth.ActivateSection(false, 0);
         m_head.EnableCollider();
         CompleteBehaviour();
     }
