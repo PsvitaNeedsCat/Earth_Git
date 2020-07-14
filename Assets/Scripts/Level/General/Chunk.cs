@@ -93,6 +93,8 @@ public class Chunk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Hit: " + other.gameObject.name);
+
         // If colliding with hurtbox, ignore
         Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
         if (hurtboxCheck) { return; }
@@ -155,18 +157,16 @@ public class Chunk : MonoBehaviour
         {
             fireBug.Hit(m_currentEffect);
             Destroy(this.gameObject);
-            Debug.Log("Chunk hit fire bug");
             return; 
         }
 
-        if (other.isTrigger) { Debug.Log("Hit trigger"); return; }
+        if (other.isTrigger) { return; }
 
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
         {
             if (IsAgainstWall(m_prevVelocity.normalized))
             {
-                Debug.Log("Snapped. Hit: " + other.gameObject.name);
                 HitWall();
             }
         }
@@ -174,6 +174,8 @@ public class Chunk : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collided with: " + collision.gameObject.name);
+
         ToadBoss boss = collision.gameObject.GetComponent<ToadBoss>();
         if (boss)
         {
@@ -290,6 +292,7 @@ public class Chunk : MonoBehaviour
     {
         m_rigidBody.isKinematic = false;
         m_rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        m_mainCollider.enabled = false;
     }
 
     // Decides what to do when the chunk hits a wall
@@ -330,6 +333,7 @@ public class Chunk : MonoBehaviour
 
         // Change colliders
         DisableAllColliders();
+        m_mainCollider.enabled = true;
 
         // Find nearest grid tile
         Tile nearest = Grid.FindClosestTileAny(transform.position);
