@@ -41,8 +41,9 @@ public class CentipedeTailAttack : CentipedeBehaviour
         //while (!CentipedeMovement.m_atTarget) yield return null;
         CentipedeMovement.m_burrowing = false;
 
-        // m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
-        // m_animations.TailAttackStart();
+        m_animations.TailAttackStart();
+        m_mesh.transform.localPosition = m_mesh.transform.localPosition + Vector3.up;
+        m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
 
         m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.m_settings.m_rotationSpeed * 100.0f, CentipedeBoss.m_settings.m_firingDuration);
         StartCoroutine(FireProjectiles());
@@ -52,14 +53,15 @@ public class CentipedeTailAttack : CentipedeBehaviour
     {
         Debug.Log("Starting burrow up");
 
-        // m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
-        // m_animations.TailAttackEnd();
-
+        m_animations.TailAttackEnd();
+        
         // CentipedeMovement.m_burrowing = true;
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
         // yield return new WaitForSeconds(CentipedeBoss.m_settings.m_burrowDuration * 8.0f);
         while (CentipedeMovement.m_burrowing) yield return null;
         // while (CentipedeMovement.m_burrowed) yield return null;
+        m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
+        m_mesh.transform.localPosition = m_mesh.transform.localPosition - Vector3.up;
         CentipedeMovement.m_burrowing = false;
 
         CompleteBehaviour();
@@ -67,7 +69,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator FireProjectiles()
     {
-        m_centipedeHealth.ActivateSection(true, CentipedeHealth.ESegmentType.tail);
+        m_centipedeHealth.ActivateSection(true, 6);
 
         while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
         {
@@ -86,7 +88,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
             yield return null;
         }
 
-        m_centipedeHealth.ActivateSection(false, CentipedeHealth.ESegmentType.tail);
+        m_centipedeHealth.ActivateSection(false, 6);
 
         StartCoroutine(BurrowUp());
     }

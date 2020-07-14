@@ -24,10 +24,12 @@ public class CentipedeSettings : ScriptableObject
     [Header("Body Attack Settings")]
     public int m_numBodyProjectiles;
     public int m_numBodyAttacks;
+    public int m_numBodyAttacksDamaged;
     public float m_bodyProjectileSpeed;
     public float m_bodyProjectileSpeedDamaged;
-    public float m_bodyTimeBetweenFiring;
-    public float m_bodyAttackStartDelay;
+    public float m_bodyTimeBetweenFiring; // Delay between projectile groups
+    public float m_bodyTimeBetweenFiringDamaged;
+    public float m_bodyAttackStartDelay; // Delay at start of attack
 
     [Header("Train Settings")]
     public float m_trainMoveSpeed;
