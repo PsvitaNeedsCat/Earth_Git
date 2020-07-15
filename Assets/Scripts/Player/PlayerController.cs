@@ -144,6 +144,11 @@ public class PlayerController : MonoBehaviour
     {
         // Update health sprites
         UpdateHealthSprites();
+
+        // Tween health bar
+        m_healthBackgroundImages[m_health.Health - 1].rectTransform.DORewind();
+        m_healthBackgroundImages[m_health.Health - 1].rectTransform.DOPunchScale(Vector3.one * 0.5f, 0.2f);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.shortSharp);
     }
 
     // Moves the player in a given direction

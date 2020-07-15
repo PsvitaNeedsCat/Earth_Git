@@ -9,13 +9,20 @@ public class WallButton : MonoBehaviour
 {
     [SerializeField] private UnityEvent m_triggerEvent;
 
+    private Vector3 m_startPos;
+
+    private void Awake()
+    {
+        m_startPos = transform.position;
+    }
+
     public void Invoke()
     {
         m_triggerEvent.Invoke();
-
-        Vector3 pos = transform.position;
-        Vector3 halfForward = transform.forward * 0.5f;
-        transform.DORewind();
-        transform.DOMove(pos - halfForward, 0.5f).OnComplete(() => transform.DOMove(pos + halfForward, 0.5f));
+        
+        Vector3 halfForward = transform.forward * 0.05f;
+        transform.DOKill();
+        transform.position = m_startPos;
+        transform.DOMove(transform.position - halfForward, 0.5f).OnComplete(() => transform.DOMove(transform.position + halfForward, 0.5f));
     }
 }
