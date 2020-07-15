@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public class ToadSpitProjectile : MonoBehaviour
@@ -12,27 +14,35 @@ public class ToadSpitProjectile : MonoBehaviour
     public float m_dropShadowMaxScale = 0.1f;
     public GameObject m_dropShadow;
 
+    [SerializeField] private GameObject m_visibleProjectile = null;
+    private ToadBossSettings m_settings;
+
     bool m_isFragment = false;
     [HideInInspector] public bool m_shouldSplit = false;
     [HideInInspector] public Tile m_aimedTile;
     [HideInInspector] public Rigidbody m_rigidbody;
+    [HideInInspector] public Vector3 m_fDir;
 
     readonly int m_damage = 1;
 
     // Also determines number of fragments
     readonly Vector3[] m_fragmentDirections = { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
     readonly float m_fragmentLifetime = 3.0f;
-    readonly float m_fragmentHeightGain = 1.0f;
     readonly float m_gravity = 100.0f;
+
 
     private void Awake()
     {
         m_rigidbody = GetComponent<Rigidbody>();
+        m_settings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
     }
 
     private void Update()
     {
-        UpdateDropShadow();        
+        // Face velocity
+        m_visibleProjectile.transform.up = -m_rigidbody.velocity;
+
+        UpdateDropShadow();
     }
 
     private void FixedUpdate()
@@ -43,8 +53,6 @@ public class ToadSpitProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided");
-
         // If allowed, split
         if (m_shouldSplit && !m_isFragment) Split();
 
@@ -69,9 +77,20 @@ public class ToadSpitProjectile : MonoBehaviour
         // Spawn four fragments around this one
         for (int i = 0; i < m_fragmentDirections.Length; i++)
         {
-            ToadSpitProjectile fragment = Instantiate(this.gameObject, transform.position + m_fragmentDirections[i] + Vector3.up * m_fragmentHeightGain,
-                transform.rotation, null).GetComponent<ToadSpitProjectile>();
+            ToadSpitProjectile fragment = Instantiate(this.gameObject, transform.position, transform.rotation, null).GetComponent<ToadSpitProjectile>();
             fragment.m_isFragment = true;
+            fragment.m_fDir = m_fragmentDirections[i];
+            Vector3 pos = fragment.transform.position;
+            pos.y += 0.5f;
+            fragment.transform.position = pos;
+            fragment.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+            fragment.transform.DOScale(0.7f, 0.07f).SetEase(Ease.InElastic);
+
+            // Projectile motion
+            fragment.m_rigidbody.AddForce(
+                (Quaternion.Euler(m_fragmentDirections[i] * m_settings.m_fragmentAngle) * Vector3.up)
+                * m_settings.m_fragmentForce, ForceMode.Impulse
+                );
         }
     }
 

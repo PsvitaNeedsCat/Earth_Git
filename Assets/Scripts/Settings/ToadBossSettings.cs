@@ -13,4 +13,9 @@ public class ToadBossSettings : ScriptableObject
     public float m_staySwelledUpFor = 5.0f;
 
     public float m_underwaterTime = 5.0f;
+
+    [Tooltip("0 degrees is directly up")]
+    public float m_fragmentAngle = 20.0f;
+
+    public float m_fragmentForce = 2.0f;
 }
