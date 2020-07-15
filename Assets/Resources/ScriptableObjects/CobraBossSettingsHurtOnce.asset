@@ -10,22 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac45ff985e3e910429794af06471dea7, type: 3}
-  m_Name: CobraBossSettings
+  m_Name: CobraBossSettingsHurtOnce
   m_EditorClassIdentifier: 
-  m_undamagedWallSequence:
-  - m_wallOneType: 1
-    m_wallOneFrom: 0
-    m_wallTwoType: 0
-    m_wallTwoFrom: 0
-  - m_wallOneType: 1
-    m_wallOneFrom: 3
-    m_wallTwoType: 0
-    m_wallTwoFrom: 0
-  - m_wallOneType: 1
-    m_wallOneFrom: 2
-    m_wallTwoType: 0
-    m_wallTwoFrom: 0
-  m_damagedOnceWallSequence:
+  m_wallSequence:
   - m_wallOneType: 2
     m_wallOneFrom: 0
     m_wallTwoType: 0
@@ -42,20 +29,6 @@ MonoBehaviour:
     m_wallOneFrom: 1
     m_wallTwoType: 0
     m_wallTwoFrom: 0
-  m_damagedTwiceWallSequence:
-  - m_wallOneType: 1
-    m_wallOneFrom: 0
-    m_wallTwoType: 2
-    m_wallTwoFrom: 3
-  - m_wallOneType: 1
-    m_wallOneFrom: 1
-    m_wallTwoType: 2
-    m_wallTwoFrom: 2
-  - m_wallOneType: 1
-    m_wallOneFrom: 3
-    m_wallTwoType: 2
-    m_wallTwoFrom: 1
-  - m_wallOneType: 1
-    m_wallOneFrom: 0
-    m_wallTwoType: 2
-    m_wallTwoFrom: 2
+  m_timeBetweenWalls: 3
+  m_wallDelayBeforeMove: 1
+  m_wallMoveDuration: 1.5
