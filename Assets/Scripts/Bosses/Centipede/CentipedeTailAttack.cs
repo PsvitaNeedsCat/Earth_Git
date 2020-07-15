@@ -28,38 +28,38 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator BurrowDown()
     {
+        // Move to the pre-burrow point
         CentipedeMovement.SetTargets(new List<Transform> { m_preBurrowPoint });
         CentipedeMovement.m_seekingTarget = true;
         while (!CentipedeMovement.m_atTarget) yield return null;
-        CentipedeMovement.m_seekingTarget = false;
 
-        // CentipedeMovement.m_burrowing = true;
+        // Burrow down
+        CentipedeMovement.m_seekingTarget = false;
         CentipedeMovement.BurrowDown(m_burrowDownPoints);
-        // yield return new WaitForSeconds(CentipedeBoss.m_settings.m_burrowDuration * 8.0f);
         while (CentipedeMovement.m_burrowing) yield return null;
 
-        //while (!CentipedeMovement.m_atTarget) yield return null;
+        // Start tail attack
         CentipedeMovement.m_burrowing = false;
-
         m_animations.TailAttackStart();
+
+        // Move mesh to undo animation position and rotation changes
         m_mesh.transform.localPosition = m_mesh.transform.localPosition + Vector3.up;
         m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
 
+        // Rotate the firing object
         m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.m_settings.m_rotationSpeed * 100.0f, CentipedeBoss.m_settings.m_firingDuration);
         StartCoroutine(FireProjectiles());
     }
 
     private IEnumerator BurrowUp()
     {
-        Debug.Log("Starting burrow up");
-
         m_animations.TailAttackEnd();
         
-        // CentipedeMovement.m_burrowing = true;
+        // Burrow up
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
-        // yield return new WaitForSeconds(CentipedeBoss.m_settings.m_burrowDuration * 8.0f);
         while (CentipedeMovement.m_burrowing) yield return null;
-        // while (CentipedeMovement.m_burrowed) yield return null;
+
+        // Undo the position and rotation changes from the tail
         m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
         m_mesh.transform.localPosition = m_mesh.transform.localPosition - Vector3.up;
         CentipedeMovement.m_burrowing = false;
@@ -69,8 +69,10 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
     private IEnumerator FireProjectiles()
     {
+        // Activate the tail section
         m_centipedeHealth.ActivateSection(true, 6);
 
+        // Fire for a duration
         while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
         {
             m_timeFiredFor += Time.deltaTime;
@@ -79,6 +81,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
             bool tailDamaged = m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.tail);
             float fireDelay = (tailDamaged) ? CentipedeBoss.m_settings.m_fireDelayDamaged : CentipedeBoss.m_settings.m_fireDelay;
 
+            // If enough time has passed, fire
             if (m_timeSinceLastFire >= fireDelay)
             {
                 m_firer.FireAll(tailDamaged);
@@ -88,6 +91,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
             yield return null;
         }
 
+        // Deactivate the tail section
         m_centipedeHealth.ActivateSection(false, 6);
 
         StartCoroutine(BurrowUp());
@@ -96,7 +100,6 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public override void CompleteBehaviour()
     {
         base.CompleteBehaviour();
-        Debug.Log("Tail finished");
     }
 
     public override void Reset()

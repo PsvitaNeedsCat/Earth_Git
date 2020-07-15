@@ -15,11 +15,7 @@ public class CentipedePathfinding : MonoBehaviour
         m_grid = GetComponent<CentipedeGrid>();
     }
 
-    private void Update()
-    {
-        // FindPath(seeker.position, target.position);
-    }
-
+    // Get a path between two transforms
     public List<PathNode> GetPath(Transform _seeker, Transform _target)
     {
         m_seeker = _seeker;
@@ -31,6 +27,7 @@ public class CentipedePathfinding : MonoBehaviour
         return m_path;
     }
 
+    // Find a path through the grid, between two positions
     private void FindPath(Vector3 _startPosition, Vector3 _targetPosition)
     {
         PathNode startNode = CentipedeGrid.NodeFromWorldPoint(_startPosition);
@@ -41,10 +38,13 @@ public class CentipedePathfinding : MonoBehaviour
 
         openSet.Add(startNode);
 
+        // Iterate through until solved
         while (openSet.Count > 0)
         {
+            // Update current node
             PathNode currentNode = openSet[0];
-
+            
+            // Check all other nodes on the open set
             for(int i = 1; i < openSet.Count; i++)
             {
                 PathNode checkNode = openSet[i];
@@ -56,6 +56,7 @@ public class CentipedePathfinding : MonoBehaviour
                 }
             }
 
+            // Move current node to the closed set
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
 
@@ -66,6 +67,7 @@ public class CentipedePathfinding : MonoBehaviour
                 return;
             }
 
+            // Check all neighbours
             foreach (PathNode neighbour in m_grid.GetNeighbours(currentNode))
             {
                 // Continue if not walkable or already in closed set
@@ -90,6 +92,7 @@ public class CentipedePathfinding : MonoBehaviour
         }
     }
 
+    // Retrace through node parents in order to find the final path
     private void RetracePath(PathNode _startNode, PathNode _endNode)
     {
         List<PathNode> path = new List<PathNode>();
