@@ -172,6 +172,11 @@ public class Chunk : MonoBehaviour
         }
     }
 
+    //private bool ObjectsArePresent()
+    //{
+    //    // TO BE DONE
+    //}
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collided with: " + collision.gameObject.name);

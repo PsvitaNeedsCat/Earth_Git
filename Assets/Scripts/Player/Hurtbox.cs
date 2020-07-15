@@ -27,8 +27,14 @@ public class Hurtbox : MonoBehaviour
     private void Update()
     {
         // Check the amount of frames skipped
-        if (m_framesSkipped < m_settings.m_framesBeforeDestroy) { m_framesSkipped++; }
-        else { Destroy(this.gameObject); }
+        if (m_framesSkipped < m_settings.m_framesBeforeDestroy)
+        {
+            m_framesSkipped++; 
+        }
+        else
+        {
+            Destroy(this.gameObject); 
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,6 +60,9 @@ public class Hurtbox : MonoBehaviour
         }
 
         WallButton button = other.GetComponent<WallButton>();
-        if (button) { button.Invoke(); }
+        if (button)
+        {
+            button.Invoke(); 
+        }
     }
 }
