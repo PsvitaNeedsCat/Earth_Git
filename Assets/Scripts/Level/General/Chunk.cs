@@ -93,8 +93,6 @@ public class Chunk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit: " + other.gameObject.name);
-
         // If collider has hit any of these, return
         // Should be refactored further
         if (CollisionHasComponent<Hurtbox>(other, null) ||
@@ -179,8 +177,6 @@ public class Chunk : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collided with: " + collision.gameObject.name);
-
         ToadBoss boss = collision.gameObject.GetComponent<ToadBoss>();
         if (boss)
         {
