@@ -23,29 +23,43 @@ public class ScriptedCutscene : MonoBehaviour
     private void Update()
     {
         // Run through sequence
-        
+
         // Current event has Dialogue AND is done being played
-        if (m_script[m_index].m_dialogue && !m_script[m_index].m_dialogue.IsRunning())
-        { m_dialogueDone = true; }
+        if (HasDialogue(m_script[m_index]) && !m_script[m_index].m_dialogue.IsRunning())
+        {
+            m_dialogueDone = true; 
+        }
 
         // Current event has Animation AND is done being played
-        if (m_script[m_index].m_animator &&
-            !m_script[m_index].m_animator.GetCurrentAnimatorStateInfo(0).IsName(m_script[m_index].m_trigger))
-        { m_animationDone = true; }
+        bool isAnimationRunning = m_script[m_index].m_animator.GetCurrentAnimatorStateInfo(0).IsName(m_script[m_index].m_trigger);
+        if (HasAnimator(m_script[m_index]) && !isAnimationRunning)
+        {
+            m_animationDone = true; 
+        }
 
         // Dialogue and Animation is done
         if (m_dialogueDone && m_animationDone)
-        { CheckEventStatus(); }
+        { 
+            CheckEventStatus(); 
+        }
     }
 
     private void CheckEventStatus()
     {
         // Set timer
         if (!m_paused && m_script[m_index].m_pause > 0.0f)
-        { m_paused = true; m_timer = m_script[m_index].m_pause; return; }
+        {
+            m_paused = true; 
+            m_timer = m_script[m_index].m_pause; 
+            return; 
+        }
 
         // Timer is still going
-        if (m_timer > 0.0f) { m_timer -= Time.deltaTime; return; }
+        if (m_timer > 0.0f)
+        {
+            m_timer -= Time.deltaTime; 
+            return; 
+        }
 
         NextEvent();
     }
@@ -57,26 +71,41 @@ public class ScriptedCutscene : MonoBehaviour
         ++m_index;
 
         // Is at end
-        if (m_index >= m_script.Length) { Destroy(this.gameObject); return; }
+        if (m_index >= m_script.Length)
+        {
+            Destroy(this.gameObject); 
+            return; 
+        }
 
         // If blank
-        if (!m_script[m_index].m_dialogue &&
-            (!m_script[m_index].m_animator || m_script[m_index].m_trigger == ""))
-        { CheckEventStatus(); return; }
+        if (!HasDialogue(m_script[m_index]) && !HasAnimator(m_script[m_index]))
+        { 
+            CheckEventStatus(); 
+            return; 
+        }
 
         // Init event(s)
-        if (m_script[m_index].m_dialogue)
+        if (HasDialogue(m_script[m_index]))
         {
             // Dialogue
             m_dialogueDone = false;
             m_script[m_index].m_dialogue.Invoke();
         }
-        if (m_script[m_index].m_animator && m_script[m_index].m_trigger != "")
+        if (HasAnimator(m_script[m_index]))
         {
             // Animation
             m_animationDone = false;
             m_script[m_index].m_animator.SetTrigger(m_script[m_index].m_trigger);
         }
+    }
+
+    private bool HasDialogue(CutsceneEvent _event)
+    {
+        return _event.m_dialogue;
+    }
+    private bool HasAnimator(CutsceneEvent _event)
+    {
+        return _event.m_animator && _event.m_trigger != "";
     }
 }
 
