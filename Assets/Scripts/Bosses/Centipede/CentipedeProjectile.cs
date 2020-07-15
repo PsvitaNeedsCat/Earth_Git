@@ -13,10 +13,8 @@ public class CentipedeProjectile : MonoBehaviour
     {
         if (other.isTrigger) return;
 
-        // Debug.Log("Collided with " + other.name);
-
+        // If the player is hit, damage them
         HealthComponent healthComp = other.GetComponent<HealthComponent>();
-
         if (healthComp?.m_type == HealthComponent.EHealthType.player)
         {
             healthComp.Health -= 1;

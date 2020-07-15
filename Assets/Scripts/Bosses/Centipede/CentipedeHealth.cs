@@ -47,14 +47,7 @@ public class CentipedeHealth : MonoBehaviour
         // Don't activate a section if it's already damaged
         if (m_sectionsDamaged[(int)IndexToSegmentType(_sectionIndex)]) return;
 
-        //List<int> segments = m_sectionSegments[(int)_type];
-
-        //// Change the material of each segment
-        //foreach (int segment in segments)
-        //{
-        //    m_segmentRenderers[segment].material = (_activate) ? m_segmentMaterials[(int)_type].m_heated : m_segmentMaterials[(int)_type].m_normal;
-        //}
-
+        // Change the segment's material
         m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
         
         // Store the new state of this section
@@ -105,6 +98,7 @@ public class CentipedeHealth : MonoBehaviour
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
     }
 
+    // Converts segment index to segment type
     private ESegmentType IndexToSegmentType(int _index)
     {
         if (_index == 0) return ESegmentType.head;

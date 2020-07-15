@@ -14,8 +14,10 @@ public class CentipedeSegmentFirer : MonoBehaviour
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Centipede/CentipedeBodyProjectile");
     }
 
+    // Fire a projectile left and right
     public void FireProjectiles(float _speed)
     {
+        // Swell up as firing
         transform.DORewind();
         transform.DOPunchScale(Vector3.one * 0.2f, 0.15f);
 

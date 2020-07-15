@@ -10,6 +10,7 @@ public class CentipedeRumbleAudio : MonoBehaviour
 
     private void Update()
     {
+        // Update rumble sound volume based on distance to center
         float dist = (m_centipedeHead.position - transform.position).magnitude;
         m_rumbleSound.volume = m_soundDistanceCurve.Evaluate(dist);
     }

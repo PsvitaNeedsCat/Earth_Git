@@ -131,7 +131,6 @@ public class Grub : MonoBehaviour
 
         m_invincible = true;
         m_moving = false;
-        TurnAround();
     }
 
     private void Move()
@@ -141,17 +140,15 @@ public class Grub : MonoBehaviour
         // Reached end point
         if (m_moveCount >= m_endDistance)
         {
-            ChargeUp();
             m_moveCount = 0;
+            TurnAround();
         }
         else
         {
             // Move forward one tile
             Vector3 movePos = transform.position;
             movePos += transform.forward;
-            transform.DOMove(movePos, m_settings.m_grubSpeed).OnComplete(() => m_moving = false);
-
-            m_moveCount += 1;
+            transform.DOMove(movePos, m_settings.m_grubSpeed).OnComplete(() => { ChargeUp(); m_moveCount += 1; });
         }
     }
 
@@ -161,5 +158,6 @@ public class Grub : MonoBehaviour
         m_projSpawn.RotateAround(transform.position, Vector3.up, 180.0f);
         m_currentTarget = (m_currentTarget == m_startPos) ? m_endPos : m_startPos;
         m_moveTimer = m_settings.m_grubMaxMoveTime;
+        m_moving = false;
     }
 }

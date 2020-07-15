@@ -6,13 +6,14 @@ public class CentipedeLavaTrail : MonoBehaviour
 {
     private void Awake()
     {
+        // Destroy after lifetime is up
         Destroy(this.gameObject, CentipedeBoss.m_settings.m_lavaLifetime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // If the player walks on the lava, damage them and knock them back
         PlayerController player = other.GetComponent<PlayerController>();
-
         if (player)
         {
             Vector3 dir = (player.transform.position - transform.position);
@@ -23,6 +24,7 @@ public class CentipedeLavaTrail : MonoBehaviour
             return;
         }
 
+        // If a water-infused chunk hits the lava, destroy it, otherwise destroy the chunk
         Chunk chunk = other.GetComponent<Chunk>();
         if (chunk)
         {

@@ -10,6 +10,7 @@ public class CentipedeTailFirer : MonoBehaviour
     public float m_spawnDistance;
     public float m_spawnHeight;
 
+    // Fire four projectiles in cardinal directions
     public void FireAll(bool _tailDamaged)
     {
         m_tailObject.transform.DOPunchScale(Vector3.one * 0.2f, 0.1f);
@@ -21,6 +22,7 @@ public class CentipedeTailFirer : MonoBehaviour
         Fire(transform.localRotation * Vector3.back, _tailDamaged);
     }
 
+    // Fire a signle projectile in a direction
     private void Fire(Vector3 _dir, bool _tailDamaged)
     {
         float projectileSpeed = (_tailDamaged) ? CentipedeBoss.m_settings.m_projectileSpeedDamaged : CentipedeBoss.m_settings.m_projectileSpeed;
