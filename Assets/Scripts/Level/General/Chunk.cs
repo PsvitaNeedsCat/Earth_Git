@@ -95,55 +95,34 @@ public class Chunk : MonoBehaviour
     {
         Debug.Log("Hit: " + other.gameObject.name);
 
-        // If colliding with hurtbox, ignore
-        Hurtbox hurtboxCheck = other.GetComponent<Hurtbox>();
-        if (hurtboxCheck) { return; }
-
-        // If hit projectile, ignore
-        Projectile projectile = other.GetComponent<Projectile>();
-        if (projectile) { return; }
-
-        // If hit preassure plate, ignore
-        PressurePlate pp = other.GetComponent<PressurePlate>();
-        if (pp) { return; }
-
-        SandBlock sand = other.GetComponent<SandBlock>();
-        if (sand && !sand.m_isGlass) { return; }
-
-        ToadBoss boss = other.GetComponent<ToadBoss>();
-        if (boss)
+        // If collider has hit any of these, return
+        // Should be refactored further
+        if (CollisionHasComponent<Hurtbox>(other, null) ||
+            CollisionHasComponent<Projectile>(other, null) ||
+            CollisionHasComponent<PressurePlate>(other, null))
         {
-            boss.OnHit();
-            Destroy(this.gameObject);
             return;
         }
-
-        CentipedeSegmentMover centipedeSegment = other.GetComponent<CentipedeSegmentMover>();
-        if (centipedeSegment)
+        
+        // Collides with Toad Boss
+        if (CollisionHasComponent<ToadBoss>(other, ToadBossHit))
+        {
+            return;
+        }
+        
+        // Chunk hit a centipede segment
+        if (CollisionHasComponent<CentipedeSegmentMover>(other, null))
         {
             // If the chunk's trigger is hitting a collider, check if the chunk has hit the centipede boss while charging
             if (!other.isTrigger)
             {
-                if (CentipedeTrainAttack.m_charging && m_currentEffect == eChunkEffect.none && !CentipedeTrainAttack.m_stunned)
-                {
-                    other.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
-                    Destroy(this.gameObject);
-                    return;
-                }
+                HitCentipedeSegment(other);
+            }
 
-                if (m_currentEffect == eChunkEffect.water)
-                {
-                    centipedeSegment.Damaged();
-                }
-                Destroy(this.gameObject);
-                return;
-            }
-            else
-            {
-                
-            }
+            return;
         }
 
+        // Destroys the lava trail if hit by this chunk
         CentipedeLavaTrail trail = other.GetComponent<CentipedeLavaTrail>();
         if (trail)
         {
@@ -151,8 +130,8 @@ public class Chunk : MonoBehaviour
             return;
         }
 
+        // Chunk hit a fire bug enemy
         FireBug fireBug = other.GetComponent<FireBug>();
-
         if (fireBug && !other.isTrigger)
         {
             fireBug.Hit(m_currentEffect);
@@ -160,7 +139,11 @@ public class Chunk : MonoBehaviour
             return; 
         }
 
-        if (other.isTrigger) { return; }
+        // If the other is a trigger, don't look into snapping
+        if (other.isTrigger)
+        {
+            return;
+        }
 
         // Did not hit ground or player
         if (other.tag != "Ground" && other.tag != "Player" && other.tag != "Lava")
@@ -172,10 +155,21 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    //private bool ObjectsArePresent()
-    //{
-    //    // TO BE DONE
-    //}
+    // Checks if the given collider has the component given - if true, action is invoked
+    private bool CollisionHasComponent<T>(Collider _collider, System.Action _action)
+    {
+        T component = _collider.GetComponent<T>();
+
+        // Collider has the component
+        if (component != null)
+        {
+            _action.Invoke();
+            return true;
+        }
+
+        // Collider does not have the component
+        return false;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -193,6 +187,30 @@ public class Chunk : MonoBehaviour
     private void FixedUpdate()
     {
         m_prevVelocity = m_rigidBody.velocity;
+    }
+
+    // Called when this chunk collides with the toad boss
+    private void ToadBossHit()
+    {
+        boss.OnHit();
+        Destroy(this.gameObject);
+    }
+
+    // Called when this chunk collides with a centipede segment
+    private void HitCentipedeSegment(Collider _colldier)
+    {
+        if (CentipedeTrainAttack.m_charging && m_currentEffect == eChunkEffect.none && !CentipedeTrainAttack.m_stunned)
+        {
+            _colldier.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
+            Destroy(this.gameObject);
+            return;
+        }
+
+        if (m_currentEffect == eChunkEffect.water)
+        {
+            _colldier.GetComponent<CentipedeSegmentMover>().Damaged();
+        }
+        Destroy(this.gameObject);
     }
 
     // Called when chunk is to be raised
