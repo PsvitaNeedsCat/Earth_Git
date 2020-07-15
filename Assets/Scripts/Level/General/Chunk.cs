@@ -166,7 +166,10 @@ public class Chunk : MonoBehaviour
         // Collider has the component
         if (component != null)
         {
-            _action.Invoke();
+            if (_action != null)
+            {
+                _action.Invoke();
+            }
             return true;
         }
 
