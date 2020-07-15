@@ -103,10 +103,13 @@ public class Chunk : MonoBehaviour
         {
             return;
         }
-        
+
         // Collides with Toad Boss
-        if (CollisionHasComponent<ToadBoss>(other, ToadBossHit))
+        ToadBoss boss = other.GetComponent<ToadBoss>();
+        if (boss)
         {
+            boss.OnHit();
+            Destroy(this.gameObject);
             return;
         }
         
@@ -187,13 +190,6 @@ public class Chunk : MonoBehaviour
     private void FixedUpdate()
     {
         m_prevVelocity = m_rigidBody.velocity;
-    }
-
-    // Called when this chunk collides with the toad boss
-    private void ToadBossHit()
-    {
-        boss.OnHit();
-        Destroy(this.gameObject);
     }
 
     // Called when this chunk collides with a centipede segment
