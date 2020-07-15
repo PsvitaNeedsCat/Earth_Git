@@ -52,5 +52,8 @@ public class Hurtbox : MonoBehaviour
 
             Destroy(this.gameObject);
         }
+
+        WallButton button = other.GetComponent<WallButton>();
+        if (button) { button.Invoke(); }
     }
 }

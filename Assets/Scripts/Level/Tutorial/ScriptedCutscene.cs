@@ -57,7 +57,11 @@ public class ScriptedCutscene : MonoBehaviour
         ++m_index;
 
         // Is at end
-        if (m_index >= m_script.Length) { Destroy(this.gameObject); return; }
+        if (m_index >= m_script.Length)
+        {
+            Destroy(this.gameObject); 
+            return; 
+        }
 
         // If blank
         if (!m_script[m_index].m_dialogue &&
