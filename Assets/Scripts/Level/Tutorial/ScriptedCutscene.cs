@@ -5,6 +5,22 @@ using UnityEditor;
 
 public class ScriptedCutscene : MonoBehaviour
 {
+    [System.Serializable]
+    public class CutsceneEvent
+    {
+        [Tooltip("Leave empty if no dialogue is to be played")]
+        public Dialogue m_dialogue = null;
+        [Tooltip("Leave empty if no animation is to be played")]
+        public Animator m_animator = null;
+        [Tooltip("Name the trigger and animation the same")]
+        public string m_trigger = "";
+        [Tooltip("Length of pause after this event (seconds)")]
+        public float m_pause = 0.0f;
+    }
+
+    [SerializeField] private Transform m_initSpawn = null;
+    [SerializeField] private bool m_restrictMovement = true;
+    [SerializeField] private bool m_restrictCombat = true;
     [SerializeField] private CutsceneEvent[] m_script;
 
     private int m_index = -1;
@@ -15,8 +31,27 @@ public class ScriptedCutscene : MonoBehaviour
     private float m_timer = 0.0f;
     private bool m_paused = false;
 
-    private void Awake()
+    private void Start()
     {
+        PlayerInput player = FindObjectOfType<PlayerInput>();
+
+        // Spawn player
+        if (m_initSpawn != null)
+        {
+            player.transform.position = m_initSpawn.position;
+            player.transform.rotation = m_initSpawn.rotation;
+        }
+
+        // Restrict controls
+        if (m_restrictMovement)
+        {
+            player.SetMovement(false);
+        }
+        if (m_restrictCombat)
+        {
+            player.SetCombat(false);
+        }
+
         NextEvent();
     }
 
@@ -31,10 +66,13 @@ public class ScriptedCutscene : MonoBehaviour
         }
 
         // Current event has Animation AND is done being played
-        bool isAnimationRunning = m_script[m_index].m_animator.GetCurrentAnimatorStateInfo(0).IsName(m_script[m_index].m_trigger);
-        if (HasAnimator(m_script[m_index]) && !isAnimationRunning)
+        if (HasAnimator(m_script[m_index]))
         {
-            m_animationDone = true; 
+            bool isAnimationRunning = m_script[m_index].m_animator.GetCurrentAnimatorStateInfo(0).IsName(m_script[m_index].m_trigger);
+            if (!isAnimationRunning)
+            {
+                m_animationDone = true;
+            }
         }
 
         // Dialogue and Animation is done
@@ -107,17 +145,4 @@ public class ScriptedCutscene : MonoBehaviour
     {
         return _event.m_animator && _event.m_trigger != "";
     }
-}
-
-[System.Serializable]
-public class CutsceneEvent
-{
-    [Tooltip("Leave empty if no dialogue is to be played")]
-    public Dialogue m_dialogue = null;
-    [Tooltip("Leave empty if no animation is to be played")]
-    public Animator m_animator = null;
-    [Tooltip("Name the trigger and animation the same")]
-    public string m_trigger = "";
-    [Tooltip("Length of pause after this event (seconds)")]
-    public float m_pause = 0.0f;
 }

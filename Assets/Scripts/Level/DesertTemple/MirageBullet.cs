@@ -6,6 +6,8 @@ public class MirageBullet : MirageParent
 {
     [SerializeField] private Material[] m_materials = new Material[] { };
     private GlobalEnemySettings m_settings;
+    private const float m_lifeTime = 5.0f;
+    private float m_lifeTimer = 0.0f;
 
     protected override void Awake()
     {
@@ -16,6 +18,18 @@ public class MirageBullet : MirageParent
 
         // Set velocity
         GetComponent<Rigidbody>().velocity = transform.forward * m_settings.m_mirageBulletSpeed;
+    }
+
+    private void Update()
+    {
+        if (m_lifeTimer >= m_lifeTime)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            m_lifeTimer += Time.deltaTime;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
