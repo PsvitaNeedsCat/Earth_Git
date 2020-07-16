@@ -8,12 +8,17 @@ public class ScriptedCutscene : MonoBehaviour
     [System.Serializable]
     public class CutsceneEvent
     {
+        [Header("Dialogue")]
         [Tooltip("Leave empty if no dialogue is to be played")]
         public Dialogue m_dialogue = null;
+
+        [Header("Animator")]
         [Tooltip("Leave empty if no animation is to be played")]
         public Animator m_animator = null;
         [Tooltip("Name the trigger and animation the same")]
         public string m_trigger = "";
+
+        [Header("Pause After Event")]
         [Tooltip("Length of pause after this event (seconds)")]
         public float m_pause = 0.0f;
     }

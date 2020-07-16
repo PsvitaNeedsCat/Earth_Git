@@ -44,6 +44,15 @@ public class MirageBullet : MirageParent
         Destroy(gameObject);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // If hit wall
+        if (other.gameObject.layer == LayerMask.NameToLayer("Walls"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     public void Init(eChunkEffect _bulletEffect, eChunkEffect _playerEffect)
     {
         // Update bullet's effect
