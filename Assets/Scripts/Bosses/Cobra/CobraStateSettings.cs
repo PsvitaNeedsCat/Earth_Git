@@ -17,10 +17,14 @@ public struct CobraMirageWallDef
 [CreateAssetMenu(fileName = "New Cobra State Settings", menuName = "Settings/CobraStateSettings")]
 public class CobraStateSettings : ScriptableObject
 {
-    public CobraMirageWallDef[] m_wallSequence;
-    
     [Header("Mirage Wall Settings")]
+    public CobraMirageWallDef[] m_wallSequence;
     public float m_timeBetweenWalls;
     public float m_wallDelayBeforeMove;
     public float m_wallMoveDuration;
+
+    [Header("Mirage Block Scramble Settings")]
+    public int m_enemiesToSpawn;
+    public float m_scrambleEnemySpawnInterval;
+    public float m_enemyLifetime;
 }

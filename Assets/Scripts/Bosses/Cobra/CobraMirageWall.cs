@@ -9,7 +9,7 @@ public class CobraMirageWall : CobraBehaviour
     public GameObject m_redWall;
     public Transform m_arenaCenter;
 
-    public Vector3[] m_wallDirections;
+    private Vector3[] m_wallDirections;
 
     private void Awake()
     {

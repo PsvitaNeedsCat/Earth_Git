@@ -32,13 +32,13 @@ public class CobraHealth : MonoBehaviour
         m_settingsHurtTwice = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtTwice");
     }
 
-    private void Start()
-    {
-        m_currentHealth = CobraBoss.m_settings.m_maxHealth;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Comma)) m_currentHealth--;
+    }
+
+    public void SetCurrentHealth(int _newHealth)
+    {
+        m_currentHealth = _newHealth;
     }
 }

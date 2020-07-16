@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CobraMirageBlockScramble : CobraBehaviour
 {
-    public string m_blockLayout; // B = Blue block, R = Red block, N = None
     public Transform m_arenaCenter;
     public GameObject m_blueBlockPrefab;
     public GameObject m_redBlockPrefab;
+    public GameObject m_desertEnemyPrefab;
 
     private Vector3 m_arenaTopLeft;
+    private List<Vector3> m_enemySpawnpoints = new List<Vector3>();
+    private List<int> m_enemySpawnOrder;
 
     private void Awake()
     {
@@ -17,6 +19,34 @@ public class CobraMirageBlockScramble : CobraBehaviour
         m_arenaTopLeft = m_arenaCenter.position;
         m_arenaTopLeft += Vector3.forward * 2.0f;
         m_arenaTopLeft += -Vector3.right * 2.0f;
+
+        GenerateEnemySpawnpoints();
+    }
+
+    private void GenerateEnemySpawnpoints()
+    {
+        Vector3 farTopLeft = m_arenaTopLeft + Vector3.forward + -Vector3.right;
+
+        for (int i = 0; i < 5; i++)
+        {
+            m_enemySpawnpoints.Add(farTopLeft + Vector3.right * (i + 1));
+            m_enemySpawnpoints.Add(farTopLeft + -Vector3.forward * (i + 1));
+        }
+    }
+
+    private void GenerateEnemySpawnOrder()
+    {
+        // Get list of 0-9
+        m_enemySpawnOrder = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        
+        // Shuffle it
+        for (int i = 0; i < m_enemySpawnOrder.Count; i++)
+        {
+            int temp = m_enemySpawnOrder[i];
+            int randomIndex = Random.Range(i, m_enemySpawnOrder.Count);
+            m_enemySpawnOrder[i] = m_enemySpawnOrder[randomIndex];
+            m_enemySpawnOrder[randomIndex] = temp;
+        }
     }
 
     public override void StartBehaviour()
@@ -31,11 +61,23 @@ public class CobraMirageBlockScramble : CobraBehaviour
     {
         yield return new WaitForSeconds(CobraBoss.m_settings.m_timeBeforeGenerate);
 
-        GenerateBlockScramble(m_blockLayout);
+        // Choose a random layout from the list and generate it
+        int layoutIndex = Random.Range(0, CobraBoss.m_settings.m_blockLayouts.Count);
+        GenerateBlockScramble(CobraBoss.m_settings.m_blockLayouts[layoutIndex]);
 
-        yield return new WaitForSeconds(CobraBoss.m_settings.m_generatedBlockLifetime + CobraBoss.m_settings.m_timeAfterGenerate);
+        for (int i = 0; i < CobraHealth.StateSettings.m_enemiesToSpawn; i++)
+        {
+            SpawnEnemy(i);
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_scrambleEnemySpawnInterval);
+        }
 
         CompleteBehaviour();
+    }
+
+    private void SpawnEnemy(int _index)
+    {
+        GameObject newEnemy = Instantiate(m_desertEnemyPrefab, m_enemySpawnpoints[_index], Quaternion.identity, transform.parent);
+        Destroy(newEnemy, CobraHealth.StateSettings.m_enemyLifetime);
     }
 
     public override void CompleteBehaviour()
@@ -46,6 +88,8 @@ public class CobraMirageBlockScramble : CobraBehaviour
     public override void Reset()
     {
         base.Reset();
+
+        GenerateEnemySpawnOrder();
     }
 
     private void GenerateBlockScramble(string _layout)
@@ -96,7 +140,7 @@ public class CobraMirageBlockScramble : CobraBehaviour
                 // If we generated a block, set it to destroy after a time
                 if (generatedBlock != null)
                 {
-                    Destroy(generatedBlock, CobraBoss.m_settings.m_generatedBlockLifetime);
+                    Destroy(generatedBlock, CobraHealth.StateSettings.m_scrambleEnemySpawnInterval * CobraHealth.StateSettings.m_enemiesToSpawn);
                 }
             }
         }
