@@ -23,8 +23,12 @@ public class CobraStateSettings : ScriptableObject
     public float m_wallDelayBeforeMove;
     public float m_wallMoveDuration;
 
-    [Header("Mirage Block Scramble Settings")]
-    public int m_enemiesToSpawn;
-    public float m_scrambleEnemySpawnInterval;
-    public float m_enemyLifetime;
+    [Header("Sand Drop Settings")]
+    public float m_potProjectileSpeed; // How fast the bullets of the pot should go
+    public float m_numPotsToFire; // How many pots should fire during one attack sequence
+    public float m_delayBetweenPots; // How much time will pass inbetween pots firing
+
+    public int m_projectilesPerPot; // How many projectiles each pot will ifre
+    public float m_potProjectileInterval; // Time between firing projectiles by a pot
+    public float m_potProjectileLifetime; // How long before the projectiles are despawned
 }
