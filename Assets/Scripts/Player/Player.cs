@@ -45,6 +45,10 @@ public class Player : MonoBehaviour
 
         UpdateUI();
     }
+    public eChunkEffect GetCurrentPower()
+    {
+        return m_currentEffect;
+    }
 
     public void Pause() => m_playerController.Pause();
     public void UnPause() => m_playerController.UnPause();
