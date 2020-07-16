@@ -32,4 +32,12 @@ public class GlobalEnemySettings : ScriptableObject
     public float m_grubGrowSize = 0.8f;
     [Tooltip("How long the grub is vulnerable for")]
     public float m_grubVulnerableTime = 4.0f;
+
+    [Header("Snake Enemy")]
+    [Tooltip("How fast the mirage bullets move in the air")]
+    public float m_mirageBulletSpeed = 2.0f;
+    [Tooltip("The longer the number, the less often the snake fires")]
+    public float m_snakeFireDelay = 1.0f;
+    [Tooltip("How far away from the snake does the bullet spawn")]
+    public float m_snakeBulletSpawnDist = 1.0f;
 }
