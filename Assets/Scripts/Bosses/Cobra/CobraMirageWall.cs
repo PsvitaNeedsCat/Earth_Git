@@ -38,7 +38,7 @@ public class CobraMirageWall : CobraBehaviour
             StartCoroutine(SendWall(wallDef.m_wallOneType, wallDef.m_wallOneFrom));
 
             // Check if there is a second wall, and if so, send it
-            if (wallDef.m_wallTwoType != ECobraMirageWallType.none)
+            if (wallDef.m_wallTwoType != ECobraMirageType.none)
             { 
                 StartCoroutine(SendWall(wallDef.m_wallTwoType, wallDef.m_wallTwoFrom)); 
             }
@@ -51,9 +51,9 @@ public class CobraMirageWall : CobraBehaviour
     }
 
     // Handles the sending of one wall
-    private IEnumerator SendWall(ECobraMirageWallType _type, EDirection _direction)
+    private IEnumerator SendWall(ECobraMirageType _type, EDirection _direction)
     {
-        if (_type == ECobraMirageWallType.none)
+        if (_type == ECobraMirageType.none)
         {
             Debug.LogError("Tried to send a cobra mirage wall of type none");
             yield break;
@@ -62,7 +62,7 @@ public class CobraMirageWall : CobraBehaviour
         GameObject wall;
 
         // Wall appears
-        wall = (_type == ECobraMirageWallType.blue) ? m_blueWall : m_redWall;
+        wall = (_type == ECobraMirageType.blue) ? m_blueWall : m_redWall;
         wall.transform.position = m_arenaCenter.transform.position + m_wallDirections[(int)_direction] * CobraBoss.m_settings.m_wallSpawnDistance;
         wall.transform.LookAt(m_arenaCenter.transform);
         wall.SetActive(true);

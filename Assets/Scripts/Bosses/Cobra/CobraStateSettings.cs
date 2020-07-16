@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ECobraMirageWallType { none, blue, red }
+public enum ECobraMirageType { none, blue, red }
 public enum EDirection { northEast, southEast, southWest, northWest }
 
 [System.Serializable]
 public struct CobraMirageWallDef
 {
-    public ECobraMirageWallType m_wallOneType;
+    public ECobraMirageType m_wallOneType;
     public EDirection m_wallOneFrom; // Direction that the wall comes from
-    public ECobraMirageWallType m_wallTwoType; // If set to none, no wall will be spawned
+    public ECobraMirageType m_wallTwoType; // If set to none, no wall will be spawned
     public EDirection m_wallTwoFrom;
 }
 
