@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CobraMirageBlockScramble : CobraBehaviour
+public class CobraSandDrop : CobraBehaviour
 {
-    public string m_blockLayout; // B = Blue block, R = Red block, N = None
     public Transform m_arenaCenter;
-    public GameObject m_blueBlockPrefab;
-    public GameObject m_redBlockPrefab;
+    public GameObject m_sandPrefab;
+    public List<CobraPot> m_pots;
 
     private Vector3 m_arenaTopLeft;
+    private List<int> m_potFiringOrder;
 
     private void Awake()
     {
@@ -17,13 +17,28 @@ public class CobraMirageBlockScramble : CobraBehaviour
         m_arenaTopLeft = m_arenaCenter.position;
         m_arenaTopLeft += Vector3.forward * 2.0f;
         m_arenaTopLeft += -Vector3.right * 2.0f;
+
+    }
+
+    private void GeneratePotFiringOrder()
+    {
+        m_potFiringOrder = new List<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        for (int i = 0; i < m_potFiringOrder.Count; i++)
+        {
+            int temp = m_potFiringOrder[i];
+            int randomIndex = Random.Range(i, m_potFiringOrder.Count);
+            m_potFiringOrder[i] = m_potFiringOrder[randomIndex];
+            m_potFiringOrder[randomIndex] = temp;
+        }
     }
 
     public override void StartBehaviour()
     {
         base.StartBehaviour();
 
-        // StartCoroutine(CompleteAfterSeconds(3.0f));
+        GeneratePotFiringOrder();
+
         StartCoroutine(StartScramble());
     }
 
@@ -31,9 +46,21 @@ public class CobraMirageBlockScramble : CobraBehaviour
     {
         yield return new WaitForSeconds(CobraBoss.m_settings.m_timeBeforeGenerate);
 
-        GenerateBlockScramble(m_blockLayout);
+        // Choose a random layout from the list and generate it
+        int layoutIndex = Random.Range(0, CobraBoss.m_settings.m_blockLayouts.Count);
+        GenerateBlockScramble(CobraBoss.m_settings.m_blockLayouts[layoutIndex]);
 
-        yield return new WaitForSeconds(CobraBoss.m_settings.m_generatedBlockLifetime + CobraBoss.m_settings.m_timeAfterGenerate);
+        for (int i = 0; i < CobraHealth.StateSettings.m_numPotsToFire; i++)
+        {
+            // One pot fires its group of projectiles
+            for (int j = 0; j < CobraHealth.StateSettings.m_projectilesPerPot; j++)
+            {
+                m_pots[m_potFiringOrder[i]].FireProjectile();
+                yield return new WaitForSeconds(CobraHealth.StateSettings.m_potProjectileInterval);
+            }
+
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPots);
+        }
 
         CompleteBehaviour();
     }
@@ -72,17 +99,10 @@ public class CobraMirageBlockScramble : CobraBehaviour
                 // Based on the character read, spawn a block, or ignore
                 switch (blockType)
                 {
-                    case 'B':
-                    case 'b':
+                    case 'S':
+                    case 's':
                         {
-                            generatedBlock = Instantiate(m_blueBlockPrefab, worldPosition, Quaternion.identity, transform.parent);
-                            break;
-                        }
-
-                    case 'R':
-                    case 'r':
-                        {
-                            generatedBlock = Instantiate(m_redBlockPrefab, worldPosition, Quaternion.identity, transform.parent);
+                            generatedBlock = Instantiate(m_sandPrefab, worldPosition, Quaternion.identity, transform.parent);
                             break;
                         }
 
@@ -96,7 +116,9 @@ public class CobraMirageBlockScramble : CobraBehaviour
                 // If we generated a block, set it to destroy after a time
                 if (generatedBlock != null)
                 {
-                    Destroy(generatedBlock, CobraBoss.m_settings.m_generatedBlockLifetime);
+                    CobraStateSettings settings = CobraHealth.StateSettings;
+                    float lifetime = settings.m_numPotsToFire * settings.m_delayBetweenPots + settings.m_numPotsToFire * settings.m_projectilesPerPot * settings.m_potProjectileInterval;
+                    Destroy(generatedBlock, lifetime);
                 }
             }
         }

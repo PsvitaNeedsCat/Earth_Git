@@ -14,8 +14,6 @@ public class CobraGlobalSettings : ScriptableObject
     public float m_wallSpawnDistance;
 
     [Header("Mirage Block Scramble Settings")]
-    public float m_generatedBlockLifetime;
     public float m_timeBeforeGenerate;
-    public float m_timeAfterGenerate;
-    
+    public List<string> m_blockLayouts; // B = Blue block, R = Red block, N = None
 }

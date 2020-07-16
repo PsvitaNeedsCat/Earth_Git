@@ -11,11 +11,15 @@ public class CobraBoss : MonoBehaviour
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
     private CobraBehaviour m_currentBehaviour;
+    private CobraHealth m_cobraHealth;
 
     // Initialise variables
     private void Awake()
     {
+        m_cobraHealth = GetComponent<CobraHealth>();
+
         m_settings = Resources.Load<CobraGlobalSettings>("ScriptableObjects/CobraGlobalSettings");
+        m_cobraHealth.SetCurrentHealth(m_settings.m_maxHealth);
 
         m_totalBehaviours = m_behaviourLoop.Count;
     }
