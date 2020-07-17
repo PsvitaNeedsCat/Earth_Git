@@ -5,6 +5,8 @@ using UnityEngine;
 public enum ECobraMirageType { none, blue, red }
 public enum EDirection { northEast, southEast, southWest, northWest }
 
+// public enum E
+
 [System.Serializable]
 public struct CobraMirageWallDef
 {
@@ -31,4 +33,12 @@ public class CobraStateSettings : ScriptableObject
     public int m_projectilesPerPot; // How many projectiles each pot will ifre
     public float m_potProjectileInterval; // Time between firing projectiles by a pot
     public float m_potProjectileLifetime; // How long before the projectiles are despawned
+
+    [Header("Mirage Barrage Settings")]
+    public List<int> m_barrageAttackPositions;
+
+    public float m_barrageProjectileSpeed;
+    public int m_barrageProjectilesPerHead;
+    public float m_barrageProjectileInterval;
+    public float m_barrageProjectileLifetime;
 }
