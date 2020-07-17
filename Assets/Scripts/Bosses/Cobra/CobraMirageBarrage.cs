@@ -37,22 +37,12 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void LowerHeads()
     {
-        //foreach (CobraMirageSpit cobra in m_mirageCobras)
-        //{
-        //    cobra.LowerHead();
-        //}
-
-        //m_spit.LowerHead();
+        CobraHealth.SetCollider(true);
     }
 
     private void RaiseHeads()
     {
-        //foreach (CobraMirageSpit cobra in m_mirageCobras)
-        //{
-        //    cobra.RaiseHead();
-        //}
-
-        //m_spit.RaiseHead();
+        CobraHealth.SetCollider(true);
     }
 
     private void GenerateSnakes()

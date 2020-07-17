@@ -85,7 +85,7 @@ public class Chunk : MonoBehaviour
     {
         m_globalSettings.m_isQuitting = true;
     }
-    
+
     private void OnDestroy()
     {
         transform.DOKill();
@@ -97,7 +97,8 @@ public class Chunk : MonoBehaviour
         // Should be refactored further
         if (CollisionHasComponent<Hurtbox>(other, null) ||
             CollisionHasComponent<Projectile>(other, null) ||
-            CollisionHasComponent<PressurePlate>(other, null))
+            CollisionHasComponent<PressurePlate>(other, null) ||
+            CollisionHasComponent<MirageBullet>(other, null))
         {
             return;
         }
@@ -120,6 +121,14 @@ public class Chunk : MonoBehaviour
                 HitCentipedeSegment(other);
             }
 
+            return;
+        }
+
+        CobraHealth cobra = other.GetComponent<CobraHealth>();
+        if (cobra)
+        {
+            CobraHealth.OnHit();
+            Destroy(gameObject);
             return;
         }
 
@@ -192,18 +201,18 @@ public class Chunk : MonoBehaviour
     }
 
     // Called when this chunk collides with a centipede segment
-    private void HitCentipedeSegment(Collider _colldier)
+    private void HitCentipedeSegment(Collider _collider)
     {
         if (CentipedeTrainAttack.m_charging && m_currentEffect == eChunkEffect.none && !CentipedeTrainAttack.m_stunned)
         {
-            _colldier.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
+            _collider.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
             Destroy(this.gameObject);
             return;
         }
 
         if (m_currentEffect == eChunkEffect.water)
         {
-            _colldier.GetComponent<CentipedeSegmentMover>().Damaged();
+            _collider.GetComponent<CentipedeSegmentMover>().Damaged();
         }
         Destroy(this.gameObject);
     }
@@ -392,4 +401,5 @@ public class Chunk : MonoBehaviour
 
         transform.DOMove(_tonguePos, 0.2f);
     }
+
 }

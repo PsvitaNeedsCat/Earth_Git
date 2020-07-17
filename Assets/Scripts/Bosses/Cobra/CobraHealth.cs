@@ -38,7 +38,10 @@ public class CobraHealth : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Comma)) m_currentHealth--;
+        if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            m_currentHealth--;
+        }
     }
 
     public void SetCurrentHealth(int _newHealth)
@@ -46,8 +49,13 @@ public class CobraHealth : MonoBehaviour
         m_currentHealth = _newHealth;
     }
 
-    public void SetCollider(bool _active)
+    public static void SetCollider(bool _active)
     {
         m_collider.enabled = _active;
+    }
+
+    public static void OnHit()
+    {
+        m_currentHealth -= 1;
     }
 }
