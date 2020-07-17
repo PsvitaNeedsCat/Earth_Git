@@ -45,7 +45,10 @@ public class CentipedeHealth : MonoBehaviour
     public void ActivateSection(bool _activate, int _sectionIndex)
     {
         // Don't activate a section if it's already damaged
-        if (m_sectionsDamaged[(int)IndexToSegmentType(_sectionIndex)]) return;
+        if (m_sectionsDamaged[(int)IndexToSegmentType(_sectionIndex)])
+        {
+            return;
+        }
 
         // Change the segment's material
         m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;

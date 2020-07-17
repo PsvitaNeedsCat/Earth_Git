@@ -16,7 +16,6 @@ public class FireBug : MonoBehaviour
         vulnerable
     }
 
-    public TextMeshProUGUI m_stateText;
     public List<Transform> m_patrolPoints;
     public float m_moveSpeed;
     public float m_chargeSpeed;
@@ -63,8 +62,6 @@ public class FireBug : MonoBehaviour
                     break;
                 }
         }
-
-        m_stateText.text = m_state.ToString();
 
         if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
@@ -182,6 +179,7 @@ public class FireBug : MonoBehaviour
         
         if (_effect == eChunkEffect.water && m_state == EFireBugState.vulnerable)
         {
+            MessageBus.TriggerEvent(EMessageType.fireBugKilled);
             Destroy(this.gameObject);
             return;
         }

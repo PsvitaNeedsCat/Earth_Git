@@ -76,6 +76,9 @@ public enum EMessageType
     toadRoar,
     toadSpit,
     toadTongue,
+
+    // Added stuff
+    fireBugKilled,
 }
 
 [System.Serializable]

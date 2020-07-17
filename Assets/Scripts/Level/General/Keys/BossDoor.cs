@@ -9,16 +9,17 @@ public class BossDoor : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        PlayerInput player = collision.collider.GetComponent<PlayerInput>();
+        Player player = collision.collider.GetComponent<Player>();
         if (player)
         {
-            if (player.GetComponent<Player>().m_hasKey)
+            if (player.m_hasKey)
             {
                 // Unlock
                 MessageBus.TriggerEvent(EMessageType.doorUnlocked);
+                player.m_hasKey = false;
                 Destroy(this.gameObject);
 
-                // Temp
+                // Load scene if there is one
                 if (m_sceneToLoadUponUnlock != "")
                 {
                     RoomManager.Instance.LoadScene(m_sceneToLoadUponUnlock);
