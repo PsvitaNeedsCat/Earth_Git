@@ -40,7 +40,5 @@ public class MirageBullet : MirageParent
 
         // Update the current power
         PowerChanged(_playerEffect.ToString());
-
-
     }
 }
