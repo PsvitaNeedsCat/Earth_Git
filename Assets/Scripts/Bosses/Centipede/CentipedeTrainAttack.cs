@@ -33,7 +33,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_centipedeHealth = GetComponent<CentipedeHealth>();
         m_charging = false;
         m_stunned = false;
-        Debug.Log("Stunned is false");
     }
 
     public override void StartBehaviour()
