@@ -45,5 +45,6 @@ public class Snake : MonoBehaviour
         Vector3 spawnPos = transform.position + (transform.forward * m_settings.m_snakeBulletSpawnDist);
         MirageBullet bullet = Instantiate(m_bulletRef, spawnPos, transform.rotation).GetComponent<MirageBullet>();
         bullet.Init(m_effectType, m_playerRef.GetCurrentPower());
+        bullet.transform.parent = transform;
     }
 }

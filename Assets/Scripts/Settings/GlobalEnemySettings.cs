@@ -12,6 +12,8 @@ public class GlobalEnemySettings : ScriptableObject
     public float m_spitCooldown = 2.0f;
     [Tooltip("Speed of the spit")]
     public float m_spitProjectileSpeed = 1.0f;
+    [Tooltip("How far away from the statue the projectile will spawn")]
+    public float m_spitSpawnDist = 1.0f;
 
     [Header("Tongue Enemy")]
     [Tooltip("How long before the enemy extends its tongue again")]
