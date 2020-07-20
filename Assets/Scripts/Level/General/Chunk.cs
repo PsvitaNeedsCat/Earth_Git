@@ -401,5 +401,4 @@ public class Chunk : MonoBehaviour
 
         transform.DOMove(_tonguePos, 0.2f);
     }
-
 }
