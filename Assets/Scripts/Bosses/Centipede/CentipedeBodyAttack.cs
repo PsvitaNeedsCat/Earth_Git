@@ -76,7 +76,7 @@ public class CentipedeBodyAttack : CentipedeBehaviour
             // Activate the section of the body that is firing, for a short time
             m_centipedeHealth.ActivateSection(true, i + 1);
             yield return new WaitForSeconds(_timeBetween);
-            StartCoroutine(DeactivateSectionAfter(i + 1, _timeBetween));
+            StartCoroutine(DeactivateSectionAfter(i + 1, _timeBetween * 2.0f));
         }
     }
 
