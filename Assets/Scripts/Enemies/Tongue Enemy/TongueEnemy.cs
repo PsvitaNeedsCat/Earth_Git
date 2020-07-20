@@ -16,6 +16,7 @@ public class TongueEnemy : MonoBehaviour
 
     private GlobalEnemySettings m_settings;
     private float m_tongueTimer = 0.0f;
+    private float m_retractingTimer = 0.0f;
 
     private void Awake()
     {
@@ -34,9 +35,18 @@ public class TongueEnemy : MonoBehaviour
                 m_state = State.extending;
 
                 m_tongueTimer = m_settings.m_TongueCooldown;
+                m_retractingTimer = 1.0f;
                 
                 m_tongue.gameObject.SetActive(true);
                 m_tongue.Extend();
+            }
+        }
+        else if (m_state == State.retracting)
+        {
+            m_retractingTimer -= Time.deltaTime;
+            if (m_retractingTimer <= 0.0f)
+            {
+                Swallow();
             }
         }
     }
@@ -44,6 +54,8 @@ public class TongueEnemy : MonoBehaviour
     public void Swallow()
     {
         m_state = State.idle;
+
+        m_tongue.Swallow();
 
         eChunkType typeSwallowed = m_tongue.GetAttached();
 

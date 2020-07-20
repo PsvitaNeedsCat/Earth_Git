@@ -9,14 +9,15 @@ public class Tongue : MonoBehaviour
     private GlobalEnemySettings m_settings;
 
     private Chunk m_attachedChunk = null;
-    private TongueEnemy m_parent;
-    [SerializeField] private Transform m_tongueMaxPosition;
+    private TongueEnemy m_parent = null;
+    private Animator m_animator = null;
 
     private void Awake()
     {
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");
 
         m_parent = transform.parent.GetComponent<TongueEnemy>();
+        m_animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,7 +26,7 @@ public class Tongue : MonoBehaviour
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
-            chunk.SnapToTongue(transform.position);
+            chunk.SnapToTongue(GetComponent<Collider>().ClosestPoint(chunk.transform.position));
             chunk.transform.parent = transform;
             m_attachedChunk = chunk;
 
@@ -52,18 +53,21 @@ public class Tongue : MonoBehaviour
     {
         MessageBus.TriggerEvent(EMessageType.enemyTongueExtend);
 
-        // Tween to position
-        transform.DOKill(false);
-        transform.DOMove(m_tongueMaxPosition.position, 1.0f).OnComplete(() => Retract());
+        // Start animation
+        m_animator.SetTrigger("Extend");
     }
 
-    // Retarcts the tongue
-    private void Retract()
+    // Called by animator when retract animation begins
+    public void Retract()
     {
         m_parent.m_state = TongueEnemy.State.retracting;
 
-        transform.DOKill(false);
-        transform.DOMove(m_parent.transform.position, 1.0f).OnComplete(() => m_parent.Swallow());
+        m_animator.SetFloat("ExtendDirection", -1.0f);
+    }
+
+    public void Swallow()
+    {
+        m_animator.SetFloat("ExtendDirection", 1.0f);
     }
 
     // Is called when tongue enemy swallows
