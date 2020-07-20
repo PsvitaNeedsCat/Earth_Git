@@ -50,6 +50,8 @@ public class CentipedeHealth : MonoBehaviour
             return;
         }
 
+        Debug.Log("Activated section " + _sectionIndex);
+
         // Change the segment's material
         m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
         
@@ -61,10 +63,13 @@ public class CentipedeHealth : MonoBehaviour
     public void DamageSection(ESegmentType _type)
     {
         Debug.Log("Trying to damage section " + _type.ToString());
+        
 
         // If the section is not active, or has already been damaged, it can't be damaged
-        if (!m_sectionsActive[(int)_type]) return;
+        if (!m_sectionsActive[SegmentTypeToIndex(_type)]) return;
         if (m_sectionsDamaged[(int)_type]) return;
+
+        Debug.Log("Damaged section " + _type.ToString());
 
         List<int> segments = m_sectionSegments[(int)_type];
 
@@ -101,11 +106,33 @@ public class CentipedeHealth : MonoBehaviour
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
     }
 
+    private int SegmentTypeToIndex(ESegmentType _type)
+    {
+        if (_type == ESegmentType.head)
+        {
+            return 0;
+        }
+
+        if (_type == ESegmentType.tail)
+        {
+            return 6;
+        }
+
+        return 1;
+    }
+
     // Converts segment index to segment type
     private ESegmentType IndexToSegmentType(int _index)
     {
-        if (_index == 0) return ESegmentType.head;
-        if (_index == 6) return ESegmentType.tail;
+        if (_index == 0)
+        {
+            return ESegmentType.head;
+        }
+
+        if (_index == 6)
+        {
+            return ESegmentType.tail;
+        }
 
         return ESegmentType.body;
     }
