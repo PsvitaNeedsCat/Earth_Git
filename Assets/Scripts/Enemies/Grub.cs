@@ -38,6 +38,11 @@ public class Grub : MonoBehaviour
         m_endPos = transform.position;
         m_endPos += transform.forward * m_endDistance;
         m_currentTarget = m_endPos;
+
+        for (int i = 0; i < m_renderer.materials.Length; i++)
+        {
+            m_renderer.materials[i].SetFloat("_Blend", 0.0f);
+        }
     }
 
     private void FixedUpdate()
@@ -90,7 +95,14 @@ public class Grub : MonoBehaviour
         transform.DOKill();
         transform.DOScale(0.5f, 0.1f);
         transform.Rotate(transform.forward, 180.0f);
-        for (int i = 0; i < m_renderer.materials.Length; i++) { m_renderer.materials[i].color = new Color(0.5f, 0.5f, 0.5f); }
+        for (int i = 0; i < m_renderer.materials.Length; i++)
+        {
+            m_renderer.materials[i].SetFloat("_Blend", 0.0f);
+            m_renderer.materials[i].color = Color.grey;
+        }
+        Vector3 newPos = transform.position;
+        newPos.y = 0.0f;
+        transform.position = newPos;
         m_dead = true;
         MessageBus.TriggerEvent(EMessageType.grubKilled);
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
