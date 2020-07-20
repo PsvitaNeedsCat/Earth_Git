@@ -24,6 +24,7 @@ public class Grub : MonoBehaviour
     private Vector3 m_startPos;
     private Vector3 m_endPos;
     private Vector3 m_currentTarget;
+    private float m_tweenMat = 0.0f;
 
     private bool m_dead = false;
 
@@ -102,7 +103,7 @@ public class Grub : MonoBehaviour
         transform.DOScale(m_settings.m_grubGrowSize, m_settings.m_grubVulnerableTime).OnComplete(() => FireProjectile());
         for (int i = 0; i < m_renderer.materials.Length; i++)
         {
-            m_renderer.materials[i].DOColor(new Color(1.0f, 0.5f, 0.0f), 0.1f);
+            m_renderer.materials[i].SetFloat("_Blend", 1.0f);
         }
     }
 
@@ -114,7 +115,7 @@ public class Grub : MonoBehaviour
         transform.DOScale(0.5f, 0.5f).SetEase(Ease.OutBounce);
         for (int i = 0; i < m_renderer.materials.Length; i++)
         {
-            m_renderer.materials[i].DOColor(m_defaultMats[i].color, 0.1f);
+            m_renderer.materials[i].SetFloat("_Blend", 0.0f);
         }
 
         // Init
