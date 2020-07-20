@@ -32,15 +32,34 @@ public class FireBug : MonoBehaviour
     private Vector3 m_chargeTarget;
     private Vector3 m_chargeDir;
     private Rigidbody m_rigidBody;
+    private Quaternion m_startRotation;
 
     private void Awake()
     {
         transform.LookAt(m_patrolPoints[m_currentPatrolPointIndex]);
         m_rigidBody = GetComponent<Rigidbody>();
+        m_startRotation = transform.rotation;
+    }
+
+    private void OnEnable()
+    {
+        m_state = EFireBugState.patrolling;
+        m_currentPatrolPointIndex = 0;
+        m_mesh.transform.rotation = m_startRotation;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     // Switch based on state
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void FixedUpdate()
     {
         switch (m_state)
         {
@@ -62,8 +81,6 @@ public class FireBug : MonoBehaviour
                     break;
                 }
         }
-
-        if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     // Patrols between points
@@ -73,7 +90,7 @@ public class FireBug : MonoBehaviour
 
         // Find current target point, and move towards it
         Transform targetPoint = m_patrolPoints[m_currentPatrolPointIndex];
-        Vector3 newPos = Vector3.MoveTowards(transform.position, targetPoint.position, Time.deltaTime * m_moveSpeed);
+        Vector3 newPos = Vector3.MoveTowards(transform.position, targetPoint.position, Time.fixedDeltaTime * m_moveSpeed);
         m_rigidBody.MovePosition(newPos);
 
         CheckForPlayer();
@@ -83,8 +100,10 @@ public class FireBug : MonoBehaviour
     {
         // Update charge, keep looking at target and moving towards it
         transform.LookAt(m_chargeTarget);
-        Vector3 newPos = Vector3.MoveTowards(transform.position, m_chargeTarget, Time.deltaTime * m_chargeSpeed);
+        Vector3 newPos = Vector3.MoveTowards(transform.position, m_chargeTarget, Time.fixedDeltaTime * m_chargeSpeed);
         m_rigidBody.MovePosition(newPos);
+
+        Debug.Log("Charging");
     }
     
     private void Vulnerable()
@@ -151,7 +170,7 @@ public class FireBug : MonoBehaviour
         yield return new WaitForSeconds(m_vulnerableTime);
 
         // m_mesh.transform.DORotate(Vector3.right, 0.5f);
-        m_mesh.transform.DOLocalRotateQuaternion(Quaternion.identity, 0.5f);
+        m_mesh.transform.DOLocalRotateQuaternion(Quaternion.identity, 0.5f).OnComplete(() => transform.DOLookAt(m_patrolPoints[m_currentPatrolPointIndex].position, 0.2f));
 
         m_state = EFireBugState.patrolling;
     }
@@ -195,9 +214,9 @@ public class FireBug : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger) return;
-
         Debug.Log("Trigger hit " + other.name);
+
+        if (other.isTrigger) return;
 
         Player player = other.GetComponent<Player>();
 
@@ -214,6 +233,7 @@ public class FireBug : MonoBehaviour
 
         if (m_state == EFireBugState.charging)
         {
+            StopAllCoroutines();
             StartCoroutine(FlipOver());
             return;
         }
