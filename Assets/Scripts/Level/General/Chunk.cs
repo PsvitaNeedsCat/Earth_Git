@@ -146,8 +146,21 @@ public class Chunk : MonoBehaviour
         {
             fireBug.Hit(m_currentEffect);
             Destroy(this.gameObject);
-            return; 
+            return;
         }
+
+        //if (fireBug && !other.isTrigger)
+        //{
+        //    Debug.Log("Hit fire bug hitbox");
+        //    fireBug.Hit(m_currentEffect);
+        //    Destroy(this.gameObject);
+        //    return; 
+        //}
+        //else if (fireBug && other.isTrigger)
+        //{
+        //    Debug.Log("Hit fire bug trigger");
+        //    return;
+        //}
 
         // If the other is a trigger, don't look into snapping
         if (other.isTrigger)

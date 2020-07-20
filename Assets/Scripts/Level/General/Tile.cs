@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
 
         // Spawn new chunk and raise it
         GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_chunkType];
-        newChunk = Instantiate(chunkPrefab, transform.position, transform.rotation, null).GetComponent<Chunk>();
+        newChunk = Instantiate(chunkPrefab, transform.position, Quaternion.identity, null).GetComponent<Chunk>();
         newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
 

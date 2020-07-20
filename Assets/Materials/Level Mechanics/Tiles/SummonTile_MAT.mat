@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FireGrub_MAT
-  m_Shader: {fileID: 4800000, guid: 8c1a62d75587a7148818f2bfd06e5a93, type: 3}
+  m_Name: SummonTile_MAT
+  m_Shader: {fileID: 4800000, guid: aa462a47d12ef984291d3a6ead2f9e6f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,20 +39,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _HotEmissionTex:
-        m_Texture: {fileID: 2800000, guid: 6c41f96dbd14d6541ab96c78c8aca5c9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _HotTex:
-        m_Texture: {fileID: 2800000, guid: 5acdb914a1192ce48bfcfedaf87bf18e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainEmissionTex:
-        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1f7954c1e8b05764d92adc994ac8fe55, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5b21fda4996710745a5a722c7bafba1c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -67,10 +55,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SymbolTex:
+        m_Texture: {fileID: 2800000, guid: 87e65299bea2fbc468c2b4c2823c6b12, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Blend: 1
+    - _Blend: 0
     - _BumpScale: 1
-    - _Cutoff: 0.5
+    - _Cutoff: 0.3
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -88,5 +80,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HotEmission: {r: 1, g: 0.23260738, b: 0, a: 1}
-    - _MainEmission: {r: 0, g: 0, b: 0, a: 1}
+    - _LitColor: {r: 1, g: 1, b: 1, a: 1}
