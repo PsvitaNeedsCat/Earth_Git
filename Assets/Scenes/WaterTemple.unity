@@ -4347,6 +4347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 5
   m_musicTrigger: 3
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &167717028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6060,7 +6061,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-172044
+  m_Name: pb_Mesh34516
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14445,6 +14446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 1
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &626404115
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16857,7 +16859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &759238692
 Transform:
   m_ObjectHideFlags: 0
@@ -19268,6 +19270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 2
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &896873359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24926,7 +24929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1168658669
 Transform:
   m_ObjectHideFlags: 0
@@ -33320,6 +33323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 4
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &1637608452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34969,6 +34973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 3
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &1721909462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36703,6 +36708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 2
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!1001 &1798671210
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37308,6 +37314,16 @@ PrefabInstance:
     - target: {fileID: 620025186983872415, guid: 4a171315eedc23344a26365f076d50eb,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445209526589889167, guid: 4a171315eedc23344a26365f076d50eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921334963066596463, guid: 4a171315eedc23344a26365f076d50eb,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -38372,7 +38388,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.5
+  orthographic size: 2.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -44392,6 +44408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roomName: Room 3
   m_musicTrigger: 7
+  m_unlockDoor: {fileID: 0}
 --- !u!65 &2111547853
 BoxCollider:
   m_ObjectHideFlags: 0
