@@ -99,7 +99,7 @@ public class FireBug : MonoBehaviour
     private void Charge()
     {
         // Update charge, keep looking at target and moving towards it
-        transform.LookAt(m_chargeTarget);
+        // transform.LookAt(m_chargeTarget);
         Vector3 newPos = Vector3.MoveTowards(transform.position, m_chargeTarget, Time.fixedDeltaTime * m_chargeSpeed);
         m_rigidBody.MovePosition(newPos);
 
