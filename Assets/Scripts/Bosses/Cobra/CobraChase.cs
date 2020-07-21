@@ -9,6 +9,7 @@ public class CobraChase : CobraBehaviour
     public GameObject m_dropShadow;
     public Transform m_arenaCenter;
     public GameObject m_stompHurtbox;
+    public GameObject m_crystal;
 
     private int m_timesJumped = 0;
     private Player m_playerRef;
@@ -75,6 +76,7 @@ public class CobraChase : CobraBehaviour
         // Wait for last jump to complete before dying
         yield return new WaitForSeconds(CobraBoss.m_settings.m_jumpDuration);
 
+        m_crystal.SetActive(true);
         Death();
     }
 

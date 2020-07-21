@@ -8,16 +8,6 @@ using TMPro;
 // ENUM NAMES MUST MATCH CORRESPONDING NAME IN RESOUCES FOLDER //
 public enum EMessageType
 {
-    // Music - Must remain at top
-    // Add more music to the bottom of the music list
-    menuMusic,
-    wMusic,
-    stopMusic,
-    wToadMusic,
-    fMusic,
-    fCentipedeMusic,
-    dMusic,
-
     none,
     test,
     fadedToBlack,
@@ -39,7 +29,6 @@ public enum EMessageType
     tongueStuck,
     enemySwallow,
     enemySpit,
-    grubKilled,
     grubFire,
     enemyTongueExtend,
     tongueEnemyKilled,
@@ -78,7 +67,18 @@ public enum EMessageType
     toadTongue,
 
     // Added stuff
-    fireBugKilled,
+    fireBugKilled = 400,
+    grubKilled,
+
+    // Music
+    menuMusic = 800,
+    wMusic,
+    stopMusic,
+    wToadMusic,
+    fMusic,
+    fCentipedeMusic = 805,
+    dMusic,
+    dCobraMusic,
 }
 
 [System.Serializable]
