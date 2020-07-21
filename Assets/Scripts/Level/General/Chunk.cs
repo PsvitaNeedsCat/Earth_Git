@@ -316,18 +316,24 @@ public class Chunk : MonoBehaviour
     private bool IsAgainstWall(Vector3 _hitVec)
     {
         // Start position - almost the bottom of the chunk
-        Vector3 checkPosition = transform.position;
-        checkPosition.y -= m_globalSettings.m_chunkHeight * 0.4f;
+        Vector3 checkPosition = transform.position + (_hitVec.normalized * 1.0f);
 
         // Raycast in the direction of the hit vector for half a chunk's length
-        RaycastHit hit;
-        if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
+        //if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
+        Collider[] hits = Physics.OverlapBox(checkPosition, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, m_globalSettings.m_wallLayers);
+        if (hits.Length > 0)
         {
             // Hit something
 
             // Ignore sand
-            SandBlock sand = hit.transform.GetComponent<SandBlock>();
-            if (sand && !sand.m_isGlass) { return false; }
+            foreach (Collider i in hits)
+            {
+                SandBlock sand = i.transform.GetComponent<SandBlock>();
+                if (sand && !sand.m_isGlass) 
+                { 
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -413,13 +419,19 @@ public class Chunk : MonoBehaviour
     }
 
     // Snaps the chunk to a given position
-    public void SnapToTongue(Vector3 _tonguePos)
+    public void SnapToTongue(Vector3 _tonguePos, Vector3 _frogPos)
     {
-        m_rigidBody.velocity = Vector3.zero;
+        m_rigidBody.velocity = Vector3.zero; // Reset velocity
 
+        // Disable all collision
         DisableAllColliders();
         m_mainCollider.enabled = false;
 
+        // Tween to tongue
         transform.DOMove(_tonguePos, 0.2f);
+        Vector3 distance = _frogPos - transform.position;
+        distance.y = 0.0f;
+        float tweenTime = distance.magnitude / 3.0f;
+        transform.DOMove(_frogPos, tweenTime);
     }
 }
