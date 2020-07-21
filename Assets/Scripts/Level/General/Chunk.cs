@@ -405,13 +405,19 @@ public class Chunk : MonoBehaviour
     }
 
     // Snaps the chunk to a given position
-    public void SnapToTongue(Vector3 _tonguePos)
+    public void SnapToTongue(Vector3 _tonguePos, Vector3 _frogPos)
     {
-        m_rigidBody.velocity = Vector3.zero;
+        m_rigidBody.velocity = Vector3.zero; // Reset velocity
 
+        // Disable all collision
         DisableAllColliders();
         m_mainCollider.enabled = false;
 
+        // Tween to tongue
         transform.DOMove(_tonguePos, 0.2f);
+        Vector3 distance = _frogPos - transform.position;
+        distance.y = 0.0f;
+        float tweenTime = distance.magnitude / 3.0f;
+        transform.DOMove(_frogPos, tweenTime);
     }
 }

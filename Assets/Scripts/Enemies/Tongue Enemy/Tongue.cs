@@ -26,8 +26,7 @@ public class Tongue : MonoBehaviour
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
-            chunk.SnapToTongue(GetComponent<Collider>().ClosestPoint(chunk.transform.position));
-            chunk.transform.parent = transform;
+            chunk.SnapToTongue(GetComponent<Collider>().ClosestPoint(chunk.transform.position), m_parent.transform.position);
             m_attachedChunk = chunk;
 
             MessageBus.TriggerEvent(EMessageType.tongueStuck);
