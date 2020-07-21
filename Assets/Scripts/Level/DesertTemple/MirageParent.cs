@@ -79,7 +79,7 @@ public class MirageParent : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer((m_currentEffect == m_effectType) ? "Ground" : m_defaultLayer);
 
         // Update collider
-        m_collider.isTrigger = m_currentEffect == m_effectType;
+        m_collider.isTrigger = (m_currentEffect == m_effectType);
 
         // Update alpha
         Color colour = m_renderer.material.color;

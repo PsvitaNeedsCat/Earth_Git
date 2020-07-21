@@ -41,14 +41,13 @@ public class CobraBoss : MonoBehaviour
     // Start first behaviour
     private void Start()
     {
+        m_currentBehaviour = m_behaviourLoop[0];
         StartCoroutine(DelayedStart());
     }
 
     private IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(m_startDelay);
-
-        m_currentBehaviour = m_behaviourLoop[0];
         m_currentBehaviour.StartBehaviour();
     }
 

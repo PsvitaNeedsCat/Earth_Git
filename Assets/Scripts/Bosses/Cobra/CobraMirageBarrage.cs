@@ -28,6 +28,7 @@ public class CobraMirageBarrage : CobraBehaviour
     private IEnumerator StartSpawning()
     {
         m_boss.FlipTiles();
+        ChunkManager.DestroyAllChunks();
 
         yield return new WaitForSeconds(1.0f);
 

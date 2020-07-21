@@ -37,4 +37,19 @@ public class ChunkManager : MonoBehaviour
         if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
         else { m_instance = this; }
     }
+
+    public static void DestroyAllChunks()
+    {
+        for (int i = 0; i < m_chunks.Count; i++)
+        {
+            Chunk chunk = m_chunks[i];
+
+            if (chunk != null)
+            {
+                Destroy(chunk.gameObject);
+            }
+        }
+
+        m_chunks.Clear();
+    }
 }

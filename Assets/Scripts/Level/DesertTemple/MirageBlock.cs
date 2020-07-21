@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MirageBlock : MirageParent
 {
+    public bool m_damagesPlayer = false;
+
     private bool m_isPlayerInside = false;
     private bool m_attemptToSolidify = false;
 
@@ -15,6 +17,15 @@ public class MirageBlock : MirageParent
             m_isPlayerInside = true;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (m_damagesPlayer && !collision.collider.isTrigger && collision.gameObject.GetComponent<Player>())
+        {
+            collision.gameObject.GetComponent<HealthComponent>().Health -= 1;
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         // Check if player has left the block
