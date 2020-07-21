@@ -21,10 +21,10 @@ public class Player : MonoBehaviour
     private GlobalPlayerSettings m_settings;
     private Player m_instance;
     private PlayerController m_playerController;
-    [SerializeField] private TileTargeter m_tileTargeter;
+    [SerializeField] private TileTargeter m_tileTargeter = null;
     private eChunkEffect m_currentEffect = eChunkEffect.none;
     private CrystalSelection m_crystalUI;
-    private bool m_isTargeting = false;
+    private Vector3 m_rStickDir = Vector3.zero;
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -91,32 +91,60 @@ public class Player : MonoBehaviour
         m_animator.SetFloat("Blend", Mathf.Clamp01(playerSpeed / m_maxSpeed));
     }
 
-    // Depending on whether the player is trying to raise a chunk or not,
-    // It will either move the player or move the tile targeter
+    // Modifies movement - called by PlayerInput
     public void SetLAnalogDirection(Vector2 _dir)
     {
-        // Player is trying to target a tile
-        if (m_isTargeting)
+        // Player is trying to move
+        m_moveDirection = _dir;
+
+        m_tileTargeter.UpdateDirection(transform.position);
+    }
+
+    // Modifies targeting - called by PlayerInput
+    public void SetRAnalogDirection(Vector2 _dir)
+    {
+        m_rStickDir = Camera.main.RelativeDirection2(_dir);
+
+        m_tileTargeter.SetTargetDirection(_dir, transform.position);
+
+        m_tileTargeter.gameObject.SetActive(_dir != Vector2.zero);
+    }
+
+    // Called by PlayerInput
+    public void BeginPunchAnimation()
+    {
+        if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
-            if (_dir == Vector2.zero) { return; }
+            if (m_rStickDir != Vector3.zero)
+            {
+                transform.forward = m_rStickDir;
+            }
 
-            // Set the tile targeter direction
-            m_tileTargeter.SetTargetDirection(_dir, transform.position);
+            m_animator.SetTrigger("Punch");
+        }
+    }
 
+    // Called by PlayerInput
+    public void BeginRaiseAnimation()
+    {
+        if (!m_tileTargeter.gameObject.activeSelf)
+        {
             return;
         }
 
-        // Player is trying to move
-        m_moveDirection = _dir;
+        if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Summon") && m_playerController.TryConfirmChunk())
+        {
+            m_animator.SetTrigger("Summon");
+        }
     }
 
-    // Attempts to punch
+    // Called by punch animation
     public void TryPunch()
     {
         m_playerController.Punch(m_currentEffect);
     }
 
-    // Attempts to raise a chunk
+    // Called by raise animation
     public void TryRaiseChunk()
     {
         // Closest tile exists
@@ -128,37 +156,6 @@ public class Player : MonoBehaviour
             // Remove this when animator is set
             m_playerController.RaiseChunk();
         }
-    }
-
-    // Checks a variable and either punches or raises a chunk
-    public void PunchOrRaise()
-    {
-        if (m_isTargeting)
-        {
-            if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Summon")
-                && m_playerController.TryConfirmChunk())
-            { m_animator.SetTrigger("Summon"); }
-            return;
-        }
-
-        if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
-        { m_animator.SetTrigger("Punch"); }
-    }
-
-    // Called when the player holds down A
-    public void BeginTileTarget()
-    {
-        m_isTargeting = true;
-        m_tileTargeter.SetTargetDirection(new Vector2(transform.forward.x, transform.forward.z), transform.position, false);
-        m_moveDirection = Vector2.zero;
-        m_tileTargeter.gameObject.SetActive(true);
-    }
-
-    // Called when the player releases A
-    public void EndTileTarget()
-    {
-        m_tileTargeter.gameObject.SetActive(false);
-        m_isTargeting = false;
     }
 
     public void TryChangeEffect(eChunkEffect _effect)

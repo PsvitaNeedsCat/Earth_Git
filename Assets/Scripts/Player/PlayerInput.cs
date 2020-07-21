@@ -49,10 +49,14 @@ public class PlayerInput : MonoBehaviour
         // Interact
         m_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
-        m_controls.PlayerCombat.PunchRaise.performed += _ => m_player.PunchOrRaise();
+        m_controls.PlayerCombat.Punch.performed += _ => m_player.BeginPunchAnimation();
         // Raise Chunk
-        m_controls.PlayerCombat.Target.performed += _ => m_player.BeginTileTarget();
-        m_controls.PlayerCombat.Target.canceled += _ => m_player.EndTileTarget();
+        m_controls.PlayerCombat.Raise.performed += _ => m_player.BeginRaiseAnimation();
+        // Target
+        m_controls.PlayerCombat.Target.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerCombat.Target.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerCombat.KeyboardTarget.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
+        m_controls.PlayerCombat.KeyboardTarget.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         // Change powers
         m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
         m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);

@@ -446,7 +446,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
             ""id"": ""ec4733ed-a7fd-443e-972a-42745a135f1b"",
             ""actions"": [
                 {
-                    ""name"": ""Punch/Raise"",
+                    ""name"": ""Punch"",
+                    ""type"": ""Button"",
+                    ""id"": ""7dee811c-5069-44c0-9a3e-92ccd7ba7524"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Raise"",
                     ""type"": ""Button"",
                     ""id"": ""b1dabd34-cc74-4a67-8378-308e0911b037"",
                     ""expectedControlType"": ""Button"",
@@ -455,9 +463,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Target"",
-                    ""type"": ""Button"",
-                    ""id"": ""41026273-1866-4acf-9ccc-fd8922ffd7a4"",
-                    ""expectedControlType"": ""Button"",
+                    ""type"": ""Value"",
+                    ""id"": ""d5f19d8a-ef0c-4e1e-9e5d-004d36d1d3cb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""KeyboardTarget"",
+                    ""type"": ""Value"",
+                    ""id"": ""52c1c1f4-dadd-4396-9e98-16a7b0306ebc"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -498,44 +514,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e6f47dce-30fd-403b-a375-1716bf37ae42"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Punch/Raise"",
+                    ""action"": ""Raise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8f732128-24de-481d-8277-24105d233379"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""id"": ""b80bc5ac-75e7-4afe-803e-630dfdf61a7e"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Punch/Raise"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3575caa9-cd06-46b0-b015-ce06f113a11d"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Target"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8088a34f-c203-4dfa-b355-f271efc03f80"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Target"",
+                    ""action"": ""Raise"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -626,6 +620,94 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Mirage Power"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92ce0dc0-91b1-4d45-8838-22b26d5c8cc5"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Punch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2fcd609-4f43-4c7b-bc46-86868c4f0da2"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Punch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b5cb2b5-827d-4ed6-9454-fddb1935debb"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""ArrowKeys"",
+                    ""id"": ""910e7932-1b9a-441a-ac23-6227f18068d3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardTarget"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7c5e52e3-2b1a-45e7-bae1-da29f36756c4"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""KeyboardTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""252a5714-929a-4050-8b12-40ee860a9713"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""KeyboardTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""59a7ca57-cca8-43ed-868a-c2eaf52ce354"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""KeyboardTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e8d096ca-c106-4c39-8f34-50d2b24d0f7d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""KeyboardTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -984,8 +1066,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
-        m_PlayerCombat_PunchRaise = m_PlayerCombat.FindAction("Punch/Raise", throwIfNotFound: true);
+        m_PlayerCombat_Punch = m_PlayerCombat.FindAction("Punch", throwIfNotFound: true);
+        m_PlayerCombat_Raise = m_PlayerCombat.FindAction("Raise", throwIfNotFound: true);
         m_PlayerCombat_Target = m_PlayerCombat.FindAction("Target", throwIfNotFound: true);
+        m_PlayerCombat_KeyboardTarget = m_PlayerCombat.FindAction("KeyboardTarget", throwIfNotFound: true);
         m_PlayerCombat_NoPower = m_PlayerCombat.FindAction("No Power", throwIfNotFound: true);
         m_PlayerCombat_WaterPower = m_PlayerCombat.FindAction("Water Power", throwIfNotFound: true);
         m_PlayerCombat_FirePower = m_PlayerCombat.FindAction("Fire Power", throwIfNotFound: true);
@@ -1145,8 +1229,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
     // PlayerCombat
     private readonly InputActionMap m_PlayerCombat;
     private IPlayerCombatActions m_PlayerCombatActionsCallbackInterface;
-    private readonly InputAction m_PlayerCombat_PunchRaise;
+    private readonly InputAction m_PlayerCombat_Punch;
+    private readonly InputAction m_PlayerCombat_Raise;
     private readonly InputAction m_PlayerCombat_Target;
+    private readonly InputAction m_PlayerCombat_KeyboardTarget;
     private readonly InputAction m_PlayerCombat_NoPower;
     private readonly InputAction m_PlayerCombat_WaterPower;
     private readonly InputAction m_PlayerCombat_FirePower;
@@ -1155,8 +1241,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
     {
         private @InputMaster m_Wrapper;
         public PlayerCombatActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PunchRaise => m_Wrapper.m_PlayerCombat_PunchRaise;
+        public InputAction @Punch => m_Wrapper.m_PlayerCombat_Punch;
+        public InputAction @Raise => m_Wrapper.m_PlayerCombat_Raise;
         public InputAction @Target => m_Wrapper.m_PlayerCombat_Target;
+        public InputAction @KeyboardTarget => m_Wrapper.m_PlayerCombat_KeyboardTarget;
         public InputAction @NoPower => m_Wrapper.m_PlayerCombat_NoPower;
         public InputAction @WaterPower => m_Wrapper.m_PlayerCombat_WaterPower;
         public InputAction @FirePower => m_Wrapper.m_PlayerCombat_FirePower;
@@ -1170,12 +1258,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerCombatActionsCallbackInterface != null)
             {
-                @PunchRaise.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
-                @PunchRaise.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
-                @PunchRaise.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunchRaise;
+                @Punch.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
+                @Punch.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
+                @Punch.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPunch;
+                @Raise.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
+                @Raise.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
+                @Raise.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnRaise;
                 @Target.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
                 @Target.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
                 @Target.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnTarget;
+                @KeyboardTarget.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
+                @KeyboardTarget.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
+                @KeyboardTarget.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
                 @NoPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
                 @NoPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
                 @NoPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
@@ -1192,12 +1286,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerCombatActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @PunchRaise.started += instance.OnPunchRaise;
-                @PunchRaise.performed += instance.OnPunchRaise;
-                @PunchRaise.canceled += instance.OnPunchRaise;
+                @Punch.started += instance.OnPunch;
+                @Punch.performed += instance.OnPunch;
+                @Punch.canceled += instance.OnPunch;
+                @Raise.started += instance.OnRaise;
+                @Raise.performed += instance.OnRaise;
+                @Raise.canceled += instance.OnRaise;
                 @Target.started += instance.OnTarget;
                 @Target.performed += instance.OnTarget;
                 @Target.canceled += instance.OnTarget;
+                @KeyboardTarget.started += instance.OnKeyboardTarget;
+                @KeyboardTarget.performed += instance.OnKeyboardTarget;
+                @KeyboardTarget.canceled += instance.OnKeyboardTarget;
                 @NoPower.started += instance.OnNoPower;
                 @NoPower.performed += instance.OnNoPower;
                 @NoPower.canceled += instance.OnNoPower;
@@ -1328,8 +1428,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
     }
     public interface IPlayerCombatActions
     {
-        void OnPunchRaise(InputAction.CallbackContext context);
+        void OnPunch(InputAction.CallbackContext context);
+        void OnRaise(InputAction.CallbackContext context);
         void OnTarget(InputAction.CallbackContext context);
+        void OnKeyboardTarget(InputAction.CallbackContext context);
         void OnNoPower(InputAction.CallbackContext context);
         void OnWaterPower(InputAction.CallbackContext context);
         void OnFirePower(InputAction.CallbackContext context);
