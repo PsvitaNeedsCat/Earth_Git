@@ -43,7 +43,7 @@ public class TileTargeter : MonoBehaviour
 
         m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 
-        if (!m_closestTile)
+        if (!m_closestTile || m_closestTile.IsOccupied())
         {
             m_indicator.SetActive(false);
             return; 
@@ -77,10 +77,15 @@ public class TileTargeter : MonoBehaviour
     {
         m_direction = _dir;
 
-        Vector3 direction = _dir;
+        UpdateDirection(_playerPos, _useRelativeCamera);
+    }
+
+    public void UpdateDirection(Vector3 _playerPos, bool _useRelativeCamera = true)
+    {
+        Vector3 direction = m_direction;
 
         // Move direction by camera
-        if (_useRelativeCamera) { direction = Camera.main.RelativeDirection2(_dir); }
+        if (_useRelativeCamera) { direction = Camera.main.RelativeDirection2(direction); }
 
         if (!m_settings) { m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings"); }
 

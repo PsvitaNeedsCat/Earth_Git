@@ -433,7 +433,15 @@
             "id": "ec4733ed-a7fd-443e-972a-42745a135f1b",
             "actions": [
                 {
-                    "name": "Punch/Raise",
+                    "name": "Punch",
+                    "type": "Button",
+                    "id": "7dee811c-5069-44c0-9a3e-92ccd7ba7524",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Raise",
                     "type": "Button",
                     "id": "b1dabd34-cc74-4a67-8378-308e0911b037",
                     "expectedControlType": "Button",
@@ -442,9 +450,17 @@
                 },
                 {
                     "name": "Target",
-                    "type": "Button",
-                    "id": "41026273-1866-4acf-9ccc-fd8922ffd7a4",
-                    "expectedControlType": "Button",
+                    "type": "Value",
+                    "id": "d5f19d8a-ef0c-4e1e-9e5d-004d36d1d3cb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "KeyboardTarget",
+                    "type": "Value",
+                    "id": "52c1c1f4-dadd-4396-9e98-16a7b0306ebc",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -485,44 +501,22 @@
                 {
                     "name": "",
                     "id": "e6f47dce-30fd-403b-a375-1716bf37ae42",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Punch/Raise",
+                    "action": "Raise",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "8f732128-24de-481d-8277-24105d233379",
-                    "path": "<Keyboard>/j",
+                    "id": "b80bc5ac-75e7-4afe-803e-630dfdf61a7e",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Punch/Raise",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3575caa9-cd06-46b0-b015-ce06f113a11d",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Target",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8088a34f-c203-4dfa-b355-f271efc03f80",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Target",
+                    "action": "Raise",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -613,6 +607,94 @@
                     "action": "Mirage Power",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92ce0dc0-91b1-4d45-8838-22b26d5c8cc5",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2fcd609-4f43-4c7b-bc46-86868c4f0da2",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b5cb2b5-827d-4ed6-9454-fddb1935debb",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "ArrowKeys",
+                    "id": "910e7932-1b9a-441a-ac23-6227f18068d3",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeyboardTarget",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "7c5e52e3-2b1a-45e7-bae1-da29f36756c4",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "KeyboardTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "252a5714-929a-4050-8b12-40ee860a9713",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "KeyboardTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "59a7ca57-cca8-43ed-868a-c2eaf52ce354",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "KeyboardTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e8d096ca-c106-4c39-8f34-50d2b24d0f7d",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "KeyboardTarget",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

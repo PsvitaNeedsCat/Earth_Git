@@ -53,8 +53,8 @@ public class Tile : MonoBehaviour
         {
             return true;
         }
-
-        return Physics.Raycast(transform.position, Vector3.up, m_globalSettings.m_tileSize, m_globalSettings.m_raycastMask);
+        Vector3 centre = transform.position + new Vector3(0.0f, 0.5f, 0.0f);
+        return Physics.CheckBox(centre, new Vector3(0.45f, 0.45f, 0.45f));
     }
 
     // Returns the tile's type
