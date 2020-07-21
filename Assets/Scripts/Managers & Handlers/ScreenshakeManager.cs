@@ -15,7 +15,10 @@ public class ScreenshakeManager : MonoBehaviour
 
     private void Awake()
     {
-        if (s_instance && s_instance != this) Destroy(s_instance.gameObject);
+        if (s_instance && s_instance != this)
+        {
+            Destroy(s_instance.gameObject);
+        }
 
         s_instance = this;
     }
