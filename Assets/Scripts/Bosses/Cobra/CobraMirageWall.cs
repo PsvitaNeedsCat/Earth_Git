@@ -23,14 +23,13 @@ public class CobraMirageWall : CobraBehaviour
         base.StartBehaviour();
 
         StartCoroutine(WallSequence());
-
-        // StartCoroutine(CompleteAfterSeconds(3.0f));
     }
 
     // Handles the sequencing of all walls
     private IEnumerator WallSequence()
     {
         m_boss.FlipTiles();
+        ChunkManager.DestroyAllChunks();
         yield return new WaitForSeconds(1.0f);
 
         CobraMirageWallDef[] wallSequence = CobraHealth.StateSettings.m_wallSequence;
@@ -76,7 +75,6 @@ public class CobraMirageWall : CobraBehaviour
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_wallDelayBeforeMove);
 
         // Walls moves across the arena
-        // wall.transform.DOMoveZ(wall.transform.position.z + CobraBoss.m_settings.m_wallTravelDistance, CobraHealth.StateSettings.m_wallMoveDuration);
         wall.transform.DOBlendableMoveBy(wall.transform.forward * CobraBoss.m_settings.m_wallTravelDistance, CobraHealth.StateSettings.m_wallMoveDuration);
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_wallMoveDuration);
 

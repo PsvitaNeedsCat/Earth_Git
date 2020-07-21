@@ -8,6 +8,7 @@ public class CobraChase : CobraBehaviour
     public Transform m_mesh;
     public GameObject m_dropShadow;
     public Transform m_arenaCenter;
+    public GameObject m_stompHurtbox;
 
     private int m_timesJumped = 0;
     private Player m_playerRef;
@@ -41,6 +42,7 @@ public class CobraChase : CobraBehaviour
             yield return null;
         }
 
+        m_stompHurtbox.SetActive(true);
         m_dropShadow.SetActive(false);
 
         StartCoroutine(Chase());
