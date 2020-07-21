@@ -10,7 +10,26 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Lava") { return; }
+        SandBlock sand = other.GetComponent<SandBlock>();
+
+        if (sand)
+        {
+            if (sand.m_isGlass)
+            {
+                MessageBus.TriggerEvent(EMessageType.projectileSplash);
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        if (other.tag == "Lava")
+        {
+            return;
+        }
 
         Player playerHealth = other.GetComponent<Player>();
 

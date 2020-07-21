@@ -16,4 +16,15 @@ public class CobraGlobalSettings : ScriptableObject
     [Header("Mirage Block Scramble Settings")]
     public float m_timeBeforeGenerate;
     public List<string> m_blockLayouts; // B = Blue block, R = Red block, N = None
+
+    [Header("Chase Settings")]
+    public int m_jumpsBeforeDeath;
+    public float m_jumpDuration;
+    public float m_jumpDelay;
+    public float m_bigJumpHeight;
+    public float m_bigJumpDuration;
+
+    [Header("Jump Drop Shadow Settings")]
+    public float m_dropShadowMinScale = 0.01f;
+    public float m_dropShadowMaxScale = 0.1f;
 }

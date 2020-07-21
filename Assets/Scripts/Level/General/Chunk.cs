@@ -127,7 +127,15 @@ public class Chunk : MonoBehaviour
         CobraHealth cobra = other.GetComponent<CobraHealth>();
         if (cobra)
         {
-            CobraHealth.OnHit();
+            CobraHealth.Damage();
+            Destroy(gameObject);
+            return;
+        }
+
+        CobraMirageClone clone = other.GetComponent<CobraMirageClone>();
+        if (clone)
+        {
+            clone.Damage();
             Destroy(gameObject);
             return;
         }

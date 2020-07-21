@@ -11,13 +11,8 @@ public class CobraMirageClone : MonoBehaviour
         m_collider = GetComponent<BoxCollider>();
     }
 
-    public void LowerHead()
+    public void Damage()
     {
-        m_collider.enabled = true;
-    }
-
-    public void RaiseHead()
-    {
-        m_collider.enabled = false;
+        Destroy(this.gameObject);
     }
 }

@@ -10,10 +10,12 @@ public class CobraMirageWall : CobraBehaviour
     public Transform m_arenaCenter;
 
     private Vector3[] m_wallDirections;
+    private CobraBoss m_boss;
 
     private void Awake()
     {
         m_wallDirections = new Vector3[] { transform.forward, transform.right, -transform.forward, -transform.right };
+        m_boss = GetComponent<CobraBoss>();
     }
 
     public override void StartBehaviour()
@@ -28,6 +30,9 @@ public class CobraMirageWall : CobraBehaviour
     // Handles the sequencing of all walls
     private IEnumerator WallSequence()
     {
+        m_boss.FlipTiles();
+        yield return new WaitForSeconds(1.0f);
+
         CobraMirageWallDef[] wallSequence = CobraHealth.StateSettings.m_wallSequence;
 
         for (int i = 0; i < wallSequence.Length; i++)
