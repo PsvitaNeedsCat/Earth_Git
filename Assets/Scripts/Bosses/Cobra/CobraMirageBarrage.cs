@@ -9,11 +9,13 @@ public class CobraMirageBarrage : CobraBehaviour
     private GameObject m_mirageClonePrefab;
     private List<CobraMirageSpit> m_mirageCobras = new List<CobraMirageSpit>();
     private CobraMirageSpit m_spit;
+    private CobraBoss m_boss;
 
     private void Awake()
     {
         m_mirageClonePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/MirageCobra");
         m_spit = GetComponent<CobraMirageSpit>();
+        m_boss = GetComponent<CobraBoss>();
     }
 
     public override void StartBehaviour()
@@ -25,24 +27,28 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
+        m_boss.FlipTiles();
+
+        yield return new WaitForSeconds(1.0f);
+
         // Create mirage clones, and place them around the pots
         GenerateSnakes();
 
         yield return new WaitForSeconds(2.0f);
 
-        RaiseHeads();
+        RaiseHead();
 
         StartCoroutine(FireProjectiles());
     }
 
-    private void LowerHeads()
+    private void LowerHead()
     {
         CobraHealth.SetCollider(true);
     }
 
-    private void RaiseHeads()
+    private void RaiseHead()
     {
-        CobraHealth.SetCollider(true);
+        CobraHealth.SetCollider(false);
     }
 
     private void GenerateSnakes()
@@ -74,7 +80,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator FireProjectiles()
     {
-        LowerHeads();
+        LowerHead();
 
         for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
         {
@@ -89,11 +95,21 @@ public class CobraMirageBarrage : CobraBehaviour
         CompleteBehaviour();
     }
 
+    public void CancelAttack()
+    {
+        StopAllCoroutines();
+        OnAttackEnd();
+        CompleteBehaviour();
+    }
+
     private void FireAllHeads()
     {
         foreach(CobraMirageSpit spit in m_mirageCobras)
         {
-            spit.FireProjectile();
+            if (spit != null)
+            {
+                spit.FireProjectile();
+            }
         }
 
         m_spit.FireProjectile();
@@ -101,9 +117,14 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void OnAttackEnd()
     {
+        RaiseHead();
+
         for (int i = 0; i < m_mirageCobras.Count; i++)
         {
-            Destroy(m_mirageCobras[i].gameObject);
+            if (m_mirageCobras[i] != null)
+            {
+                Destroy(m_mirageCobras[i].gameObject);
+            }
         }
 
         m_mirageCobras.Clear();

@@ -9,6 +9,8 @@ public class Tile : MonoBehaviour
     // Private variables
     GlobalTileSettings m_globalSettings;
     [SerializeField] eChunkType m_chunkType;
+    private Collider m_collider;
+    private bool m_ignore = false;
 
     // Tiles automatically added to and removed from grid over lifetime
     private void OnEnable() => Grid.AddTile(this);
@@ -16,7 +18,8 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        m_globalSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings"); ;
+        m_globalSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
+        m_collider = GetComponentInChildren<Collider>();
     }
 
     // Returns null if chunk failed to raise
@@ -46,6 +49,11 @@ public class Tile : MonoBehaviour
     // Checks if there is a chunk currently above thise tile
     public bool IsOccupied()
     {
+        if (m_ignore)
+        {
+            return true;
+        }
+
         return Physics.Raycast(transform.position, Vector3.up, m_globalSettings.m_tileSize, m_globalSettings.m_raycastMask);
     }
 
@@ -53,5 +61,20 @@ public class Tile : MonoBehaviour
     public eChunkType GetTileType()
     {
         return m_chunkType;
+    }
+
+    public void SetChunkType(eChunkType _type)
+    {
+        m_chunkType = _type;
+    }
+
+    public void SetCollider(bool _active)
+    {
+        m_collider.enabled = _active;
+    }
+
+    public void SetIgnore(bool _ignore)
+    {
+        m_ignore = _ignore;
     }
 }

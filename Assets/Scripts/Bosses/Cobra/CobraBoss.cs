@@ -7,11 +7,16 @@ public class CobraBoss : MonoBehaviour
     public static CobraGlobalSettings m_settings;
 
     public List<CobraBehaviour> m_behaviourLoop;
+    public CobraBehaviour m_chaseBehaviour;
+    public float m_startDelay = 3.0f;
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
     private CobraBehaviour m_currentBehaviour;
     private CobraHealth m_cobraHealth;
+    private bool m_chasing = false;
+    private PlayerController m_playerController;
+    private List<FlippableTile> m_flippableTiles;
 
     // Initialise variables
     private void Awake()
@@ -22,11 +27,27 @@ public class CobraBoss : MonoBehaviour
         m_cobraHealth.SetCurrentHealth(m_settings.m_maxHealth);
 
         m_totalBehaviours = m_behaviourLoop.Count;
+        m_playerController = FindObjectOfType<PlayerController>();
+        m_flippableTiles = new List<FlippableTile>(FindObjectsOfType<FlippableTile>());
+    }
+
+    public void StartChase()
+    {
+        m_chasing = true;
+        m_currentBehaviour = m_chaseBehaviour;
+        m_currentBehaviour.StartBehaviour();
     }
 
     // Start first behaviour
     private void Start()
     {
+        StartCoroutine(DelayedStart());
+    }
+
+    private IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(m_startDelay);
+
         m_currentBehaviour = m_behaviourLoop[0];
         m_currentBehaviour.StartBehaviour();
     }
@@ -54,5 +75,22 @@ public class CobraBoss : MonoBehaviour
         m_currentBehaviourIndex = (m_currentBehaviourIndex + 1) % m_totalBehaviours;
         m_currentBehaviour = m_behaviourLoop[m_currentBehaviourIndex];
         m_currentBehaviour.StartBehaviour();
+    }
+
+    public void FlipTiles()
+    {
+        StartCoroutine(StartTileFlip());        
+    }
+
+    private IEnumerator StartTileFlip()
+    {
+        m_playerController.KnockBack(Vector3.up * 2.5f);
+
+        yield return new WaitForSeconds(0.2f);
+
+        for (int i = 0; i < m_flippableTiles.Count; i++)
+        {
+            m_flippableTiles[i].Flip();
+        }
     }
 }

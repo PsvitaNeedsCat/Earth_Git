@@ -68,8 +68,6 @@ public class ToadBoss : MonoBehaviour
 
     private void CheckBehaviourSkips()
     {
-
-
         // If we are about to do the spit attack, but we ate a poison block, skip to swell up
         if (m_currentBehaviour is ToadSpit)
         {
