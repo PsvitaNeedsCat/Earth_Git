@@ -71,6 +71,8 @@ public class CentipedeHealth : MonoBehaviour
 
         Debug.Log("Damaged section " + _type.ToString());
 
+        HitFreezeManager.BeginHitFreeze(0.2f);
+
         List<int> segments = m_sectionSegments[(int)_type];
 
         // Change material of segments
@@ -80,7 +82,10 @@ public class CentipedeHealth : MonoBehaviour
             m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
         }
 
-        if (_type == ESegmentType.head) { m_trainAttack.OnDamaged(); }
+        if (_type == ESegmentType.head)
+        {
+            m_trainAttack.OnDamaged(); 
+        }
 
         m_sectionsDamaged[(int)_type] = true;
 

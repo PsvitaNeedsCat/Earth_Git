@@ -121,7 +121,7 @@ public class ToadBoss : MonoBehaviour
         m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         m_healthIcons[m_healthComp.Health].SetActive(false);
 
-        HitFreezeManager.BeginHitFreeze(0.5f);
+        HitFreezeManager.BeginHitFreeze(0.2f);
     }
 
     private void Died()
