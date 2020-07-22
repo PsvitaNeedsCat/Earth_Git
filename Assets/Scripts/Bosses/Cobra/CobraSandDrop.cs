@@ -22,6 +22,7 @@ public class CobraSandDrop : CobraBehaviour
 
     private void GeneratePotFiringOrder()
     {
+        // Generate a shuffled order of integers
         m_potFiringOrder = new List<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
         for (int i = 0; i < m_potFiringOrder.Count; i++)
@@ -38,17 +39,16 @@ public class CobraSandDrop : CobraBehaviour
         base.StartBehaviour();
 
         GeneratePotFiringOrder();
-
         StartCoroutine(StartScramble());
     }
 
     private IEnumerator StartScramble()
     {
-        yield return new WaitForSeconds(CobraBoss.m_settings.m_timeBeforeGenerate);
+        yield return new WaitForSeconds(CobraBoss.s_settings.m_timeBeforeGenerate);
 
         // Choose a random layout from the list and generate it
-        int layoutIndex = Random.Range(0, CobraBoss.m_settings.m_blockLayouts.Count);
-        GenerateBlockScramble(CobraBoss.m_settings.m_blockLayouts[layoutIndex]);
+        int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
+        GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
 
         for (int i = 0; i < CobraHealth.StateSettings.m_numPotsToFire; i++)
         {
@@ -77,7 +77,7 @@ public class CobraSandDrop : CobraBehaviour
 
     private void GenerateBlockScramble(string _layout)
     {
-        int arenaLength = CobraBoss.m_settings.m_arenaLength;
+        int arenaLength = CobraBoss.s_settings.m_arenaLength;
 
         // If the length of the layout array isn't correct, don't try to load it
         if (_layout.Length != arenaLength * arenaLength)

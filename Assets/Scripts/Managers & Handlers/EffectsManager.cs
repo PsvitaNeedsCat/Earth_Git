@@ -11,8 +11,8 @@ public class EffectsManager : MonoBehaviour
     }
 
     private readonly string m_effectsPath = "Effects";
-    private static Dictionary<string, GameObject> m_effectDictionary = new Dictionary<string, GameObject>();
-    private static Transform m_transform;
+    private static Dictionary<string, GameObject> s_effectDictionary = new Dictionary<string, GameObject>();
+    private static Transform s_transform;
 
     private void Awake()
     {
@@ -20,27 +20,27 @@ public class EffectsManager : MonoBehaviour
 
         for (int i = 0; i < effects.Length; i++)
         {
-            if (!m_effectDictionary.ContainsKey(effects[i].name))
+            if (!s_effectDictionary.ContainsKey(effects[i].name))
             {
-                m_effectDictionary.Add(effects[i].name, effects[i]);
+                s_effectDictionary.Add(effects[i].name, effects[i]);
             }
         }
     }
 
-    private void OnEnable() => m_transform = this.transform;
-    private void OnDisable() => m_transform = null;
+    private void OnEnable() => s_transform = this.transform;
+    private void OnDisable() => s_transform = null;
 
     // Create an instance of the specified type of effect, and returns a reference to the object created
     public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter)
     {
-        if (m_transform = null)
+        if (s_transform = null)
         {
             Debug.LogError("Tried to spawn an effect without an instance of effects manager, please place the prefab in the scene");
             return null;
         }
 
         // Try to find effect in dictionary
-        GameObject effectPrefab = m_effectDictionary[_type.ToString()];
+        GameObject effectPrefab = s_effectDictionary[_type.ToString()];
 
         // If not found, log an error and return
         if (!effectPrefab)
@@ -50,7 +50,7 @@ public class EffectsManager : MonoBehaviour
         }
 
         // Create effect, and modify transform
-        GameObject newEffect = Instantiate(effectPrefab, m_transform);
+        GameObject newEffect = Instantiate(effectPrefab, s_transform);
         Destroy(newEffect, _destroyAfter);
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;

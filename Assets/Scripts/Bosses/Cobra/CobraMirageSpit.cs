@@ -20,7 +20,7 @@ public class CobraMirageSpit : MonoBehaviour
     public void FireProjectile()
     {
         GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
-        eChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? eChunkEffect.water : eChunkEffect.fire;
+        EChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? EChunkEffect.water : EChunkEffect.fire;
         newBullet.GetComponent<MirageBullet>().Init(chunkEffect, m_playerRef.GetCurrentPower());
 
         Destroy(newBullet, CobraHealth.StateSettings.m_barrageProjectileLifetime);

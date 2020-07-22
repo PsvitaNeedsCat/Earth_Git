@@ -21,15 +21,15 @@ public class RoomManager : MonoBehaviour
     private bool m_loadScene = false;
     private string m_newScene = "";
 
-    private static RoomManager m_instance;
-    public static RoomManager Instance { get { return m_instance; } }
+    private static RoomManager s_instance;
+    public static RoomManager Instance { get { return s_instance; } }
 
     public int GetCurrentRoom() { return m_currentRoom; }
 
     private void Awake()
     {
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
         Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");

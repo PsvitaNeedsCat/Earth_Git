@@ -26,7 +26,7 @@ public class CentipedeTailFirer : MonoBehaviour
     // Fire a signle projectile in a direction
     private void Fire(Vector3 _dir, bool _tailDamaged)
     {
-        float projectileSpeed = (_tailDamaged) ? CentipedeBoss.m_settings.m_projectileSpeedDamaged : CentipedeBoss.m_settings.m_projectileSpeed;
+        float projectileSpeed = (_tailDamaged) ? CentipedeBoss.s_settings.m_projectileSpeedDamaged : CentipedeBoss.s_settings.m_projectileSpeed;
 
         GameObject newProjectile = Instantiate(m_projectilePrefab, transform.position + m_spawnDistance * _dir + Vector3.up * m_spawnHeight, Quaternion.identity, m_projectileParent);
         newProjectile.GetComponent<Rigidbody>().velocity = _dir * projectileSpeed;

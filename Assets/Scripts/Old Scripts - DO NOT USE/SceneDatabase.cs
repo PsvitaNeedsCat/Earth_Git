@@ -12,11 +12,11 @@ public class SceneDatabase : MonoBehaviour
         public Vector3 m_position;
         public Quaternion m_rotation;
         public bool m_active;
-        public eChunkType m_chunkType = eChunkType.none;
+        public EChunkType m_chunkType = EChunkType.none;
     }
 
-    private static SceneDatabase m_instance;
-    public static SceneDatabase Instance { get { return m_instance; } }
+    private static SceneDatabase s_instance;
+    public static SceneDatabase Instance { get { return s_instance; } }
 
     private Dictionary<string, List<ObjectData>> m_database = new Dictionary<string, List<ObjectData>>();
 
@@ -24,8 +24,8 @@ public class SceneDatabase : MonoBehaviour
 
     private void Awake()
     {
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         DontDestroyOnLoad(this.gameObject);
 
@@ -147,7 +147,7 @@ public class SceneDatabase : MonoBehaviour
         {
             // It has a chunk type of not none (it is a chunk)
             // & the position matches
-            if (m_database[currentScene][i].m_chunkType != eChunkType.none && 
+            if (m_database[currentScene][i].m_chunkType != EChunkType.none && 
                 m_database[currentScene][i].m_position == _chunk.transform.position)
             {
                 // Chunk exists

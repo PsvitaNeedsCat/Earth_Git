@@ -67,7 +67,7 @@ public class CobraMirageWall : CobraBehaviour
 
         // Wall appears
         wall = (_type == ECobraMirageType.blue) ? m_blueWall : m_redWall;
-        wall.transform.position = m_arenaCenter.transform.position + m_wallDirections[(int)_direction] * CobraBoss.m_settings.m_wallSpawnDistance;
+        wall.transform.position = m_arenaCenter.transform.position + m_wallDirections[(int)_direction] * CobraBoss.s_settings.m_wallSpawnDistance;
         wall.transform.LookAt(m_arenaCenter.transform);
         wall.SetActive(true);
 
@@ -75,7 +75,7 @@ public class CobraMirageWall : CobraBehaviour
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_wallDelayBeforeMove);
 
         // Walls moves across the arena
-        wall.transform.DOBlendableMoveBy(wall.transform.forward * CobraBoss.m_settings.m_wallTravelDistance, CobraHealth.StateSettings.m_wallMoveDuration);
+        wall.transform.DOBlendableMoveBy(wall.transform.forward * CobraBoss.s_settings.m_wallTravelDistance, CobraHealth.StateSettings.m_wallMoveDuration);
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_wallMoveDuration);
 
         // Wall disappears

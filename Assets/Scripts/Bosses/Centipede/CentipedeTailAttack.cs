@@ -30,16 +30,16 @@ public class CentipedeTailAttack : CentipedeBehaviour
     {
         // Move to the pre-burrow point
         CentipedeMovement.SetTargets(new List<Transform> { m_preBurrowPoint });
-        CentipedeMovement.m_seekingTarget = true;
-        while (!CentipedeMovement.m_atTarget) yield return null;
+        CentipedeMovement.s_seekingTarget = true;
+        while (!CentipedeMovement.s_atTarget) yield return null;
 
         // Burrow down
-        CentipedeMovement.m_seekingTarget = false;
+        CentipedeMovement.s_seekingTarget = false;
         CentipedeMovement.BurrowDown(m_burrowDownPoints);
-        while (CentipedeMovement.m_burrowing) yield return null;
+        while (CentipedeMovement.s_burrowing) yield return null;
 
         // Start tail attack
-        CentipedeMovement.m_burrowing = false;
+        CentipedeMovement.s_burrowing = false;
         m_animations.TailAttackStart();
 
         // Move mesh to undo animation position and rotation changes
@@ -47,7 +47,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
         m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
 
         // Rotate the firing object
-        m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.m_settings.m_rotationSpeed * 100.0f, CentipedeBoss.m_settings.m_firingDuration);
+        m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.s_settings.m_rotationSpeed * 100.0f, CentipedeBoss.s_settings.m_firingDuration);
         StartCoroutine(FireProjectiles());
     }
 
@@ -57,12 +57,12 @@ public class CentipedeTailAttack : CentipedeBehaviour
         
         // Burrow up
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
-        while (CentipedeMovement.m_burrowing) yield return null;
+        while (CentipedeMovement.s_burrowing) yield return null;
 
         // Undo the position and rotation changes from the tail
         m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
         m_mesh.transform.localPosition = m_mesh.transform.localPosition - Vector3.up;
-        CentipedeMovement.m_burrowing = false;
+        CentipedeMovement.s_burrowing = false;
 
         CompleteBehaviour();
     }
@@ -73,13 +73,13 @@ public class CentipedeTailAttack : CentipedeBehaviour
         m_centipedeHealth.ActivateSection(true, 6);
 
         // Fire for a duration
-        while (m_timeFiredFor < CentipedeBoss.m_settings.m_firingDuration)
+        while (m_timeFiredFor < CentipedeBoss.s_settings.m_firingDuration)
         {
             m_timeFiredFor += Time.deltaTime;
             m_timeSinceLastFire += Time.deltaTime;
 
             bool tailDamaged = m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.tail);
-            float fireDelay = (tailDamaged) ? CentipedeBoss.m_settings.m_fireDelayDamaged : CentipedeBoss.m_settings.m_fireDelay;
+            float fireDelay = (tailDamaged) ? CentipedeBoss.s_settings.m_fireDelayDamaged : CentipedeBoss.s_settings.m_fireDelay;
 
             // If enough time has passed, fire
             if (m_timeSinceLastFire >= fireDelay)

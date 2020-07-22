@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Overworld : MonoBehaviour
 {
-    private static Overworld m_instance;
+    private static Overworld s_instance;
 
     private bool[] m_unlockedLevels = new bool[3]
     {
@@ -16,8 +16,8 @@ public class Overworld : MonoBehaviour
     private void Awake()
     {
         // Only one instance
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
     }
 
     // Updates and checks if the level is unlocked based off of what powers the player has unlocked
@@ -26,7 +26,7 @@ public class Overworld : MonoBehaviour
         // Update unlocked levels
         for (int i = 0; i < m_unlockedLevels.Length; i++)
         {
-            m_unlockedLevels[i] = Player.m_activePowers[(eChunkEffect)i];
+            m_unlockedLevels[i] = Player.s_activePowers[(EChunkEffect)i];
         }
 
         return m_unlockedLevels[_id];

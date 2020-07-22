@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     // Public variables
-    [HideInInspector] public eChunkEffect m_effect = eChunkEffect.none;
+    [HideInInspector] public EChunkEffect m_effect = EChunkEffect.none;
 
     // Private variables
     private int m_framesSkipped = 0;
@@ -13,7 +13,7 @@ public class Hurtbox : MonoBehaviour
     private Vector3 m_playerPos;
 
     // Called when hurtbox is instantiated
-    public void Init(Vector3 _pos, eChunkEffect _effect)
+    public void Init(Vector3 _pos, EChunkEffect _effect)
     {
         m_playerPos = _pos;
         m_effect = _effect;

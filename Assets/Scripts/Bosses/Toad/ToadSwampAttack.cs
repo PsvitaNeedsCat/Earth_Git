@@ -17,7 +17,7 @@ public class ToadSwampAttack : ToadBehaviour
         m_startingX = transform.parent.position.x;
 
         // Possible places to move to after wave attack
-        m_possiblePositions = new float[] { m_startingX - Grid.m_tileSize, m_startingX, m_startingX + Grid.m_tileSize };
+        m_possiblePositions = new float[] { m_startingX - Grid.s_tileSize, m_startingX, m_startingX + Grid.s_tileSize };
         m_collider = GetComponent<Collider>();
         m_toadSettings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    [SerializeField] private eChunkEffect m_effectType = eChunkEffect.none;
+    [SerializeField] private EChunkEffect m_effectType = EChunkEffect.none;
 
     private GameObject m_bulletRef = null;
     private GlobalEnemySettings m_settings;

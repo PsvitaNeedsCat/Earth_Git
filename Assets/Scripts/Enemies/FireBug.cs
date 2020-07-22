@@ -187,16 +187,16 @@ public class FireBug : MonoBehaviour
         m_state = EFireBugState.patrolling;
     }
 
-    public void Hit(eChunkEffect _effect)
+    public void Hit(EChunkEffect _effect)
     {
-        if (_effect == eChunkEffect.none && m_state != EFireBugState.vulnerable)
+        if (_effect == EChunkEffect.none && m_state != EFireBugState.vulnerable)
         {
             StopAllCoroutines();
             StartCoroutine(FlipOver());
             return;
         }
         
-        if (_effect == eChunkEffect.water && m_state == EFireBugState.vulnerable)
+        if (_effect == EChunkEffect.water && m_state == EFireBugState.vulnerable)
         {
             MessageBus.TriggerEvent(EMessageType.fireBugKilled);
             Destroy(this.gameObject);

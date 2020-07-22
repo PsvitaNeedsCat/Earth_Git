@@ -4,41 +4,43 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+// Manages the health of the cobra boss, and how its attack settings change at different health values
 public class CobraHealth : MonoBehaviour
 {
     public List<GameObject> m_healthIcons;
     private static List<GameObject> s_healthIcons;
 
-    private static CobraStateSettings m_settingsFull;
-    private static CobraStateSettings m_settingsHurtOnce;
-    private static CobraStateSettings m_settingsHurtTwice;
+    private static CobraStateSettings s_settingsFull;
+    private static CobraStateSettings s_settingsHurtOnce;
+    private static CobraStateSettings s_settingsHurtTwice;
 
-    private static BoxCollider m_collider;
-    private static int m_currentHealth;
-    private static CobraHealth m_health;
+    private static BoxCollider s_collider;
+    private static int s_currentHealth;
+    private static CobraHealth s_health;
 
-    private static CobraMirageBarrage m_barrage;
-    private static CobraBoss m_boss;
+    private static CobraMirageBarrage s_barrage;
+    private static CobraBoss s_boss;
 
+    // Return the appropriate settings variable based on what health we are on
     public static CobraStateSettings StateSettings
     {
         get
         {
-            switch (m_currentHealth)
+            switch (s_currentHealth)
             {
                 case 3:
                 {
-                    return m_settingsFull;
+                    return s_settingsFull;
                 }
 
                 case 2:
                 {
-                    return m_settingsHurtOnce;
+                    return s_settingsHurtOnce;
                 }
                 
                 case 1:
                 {
-                    return m_settingsHurtTwice;
+                    return s_settingsHurtTwice;
                 }
 
                 default:
@@ -52,71 +54,74 @@ public class CobraHealth : MonoBehaviour
 
     private void Awake()
     {
-        m_settingsFull = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsFull");
-        m_settingsHurtOnce = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtOnce");
-        m_settingsHurtTwice = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtTwice");
+        // Initialise variables
+        s_settingsFull = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsFull");
+        s_settingsHurtOnce = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtOnce");
+        s_settingsHurtTwice = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtTwice");
 
-        m_boss = GetComponent<CobraBoss>();
-        m_collider = GetComponent<BoxCollider>();
+        s_boss = GetComponent<CobraBoss>();
+        s_collider = GetComponent<BoxCollider>();
     }
 
     private void OnEnable()
     {
         // If there is already a cobra health, destroy this
-        if (m_health != null)
+        if (s_health != null)
         {
             Destroy(transform.parent.parent.gameObject);
         }
         // Otherwise, assign this as the instance
         else
         {
-            m_health = this;
+            s_health = this;
         }
 
         s_healthIcons = m_healthIcons;
-        m_barrage = GetComponent<CobraMirageBarrage>();
+        s_barrage = GetComponent<CobraMirageBarrage>();
     }
 
     private void OnDisable()
     {
-        m_health = null;
+        s_health = null;
         s_healthIcons.Clear();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Comma))
-        {
-            m_currentHealth--;
-        }
+        //if (Input.GetKeyDown(KeyCode.Comma))
+        //{
+        //    m_currentHealth--;
+        //}
     }
 
     public void SetCurrentHealth(int _newHealth)
     {
-        m_currentHealth = _newHealth;
+        s_currentHealth = _newHealth;
     }
 
     public static void SetCollider(bool _active)
     {
-        m_collider.enabled = _active;
+        s_collider.enabled = _active;
     }
 
     public static void Damage()
     {
-        if (m_currentHealth == 0)
+        if (s_currentHealth == 0)
         {
             return;
         }
 
-        m_currentHealth -= 1;
+        // Decrement health value and update health UI
+        s_currentHealth -= 1;
         s_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
-        s_healthIcons[m_currentHealth].SetActive(false);
+        s_healthIcons[s_currentHealth].SetActive(false);
 
-        m_barrage.CancelAttack();
+        s_barrage.CancelAttack();
 
-        if (m_currentHealth == 0)
+        // If on 0 health, start the chase behaviour
+        if (s_currentHealth == 0)
         {
-            m_boss.StartChase();
+            s_boss.StartChase();
         }
     }
 }

@@ -19,8 +19,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     public List<TunnelDef> m_tunnels;
     public GameObject m_trainAudio;
-    public static bool m_charging = false;
-    public static bool m_stunned = false;
+    public static bool s_charging = false;
+    public static bool s_stunned = false;
     public CentipedeHead m_head;
 
     private int m_currentTunnelIndex = 0;
@@ -31,8 +31,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     private void Awake()
     {
         m_centipedeHealth = GetComponent<CentipedeHealth>();
-        m_charging = false;
-        m_stunned = false;
+        s_charging = false;
+        s_stunned = false;
     }
 
     public override void StartBehaviour()
@@ -46,16 +46,16 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     {
         // Make centipede move to tunnel end, via tunnel start
         CentipedeMovement.SetTargets(new List<Transform>{ m_tunnels[0].m_tunnelStart, m_tunnels[0].m_tunnelEnd});
-        CentipedeMovement.m_seekingTarget = true;
+        CentipedeMovement.s_seekingTarget = true;
 
-        while (!CentipedeMovement.m_atTarget)
+        while (!CentipedeMovement.s_atTarget)
         {
             yield return null;
         }
 
         // Start charging
-        CentipedeMovement.m_useTrainSpeed = true;
-        CentipedeBoss.m_dropLava = true;
+        CentipedeMovement.s_useTrainSpeed = true;
+        CentipedeBoss.s_dropLava = true;
         m_trainAudio.SetActive(true);
         m_animations.ChargeStart();
         StartCoroutine(TunnelAttack());
@@ -63,12 +63,12 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
     private IEnumerator TunnelAttack()
     {
-        m_charging = true;
+        s_charging = true;
         TunnelDef currentTunnel = m_tunnels[m_currentTunnelIndex];
         CentipedeMovement.SetTargets(new List<Transform> { currentTunnel.m_tunnelEnd, currentTunnel.m_tunnelStart, currentTunnel.m_tunnelTarget, currentTunnel.m_nextCorner });
 
         // Wait for centipede to reach a target
-        while (!CentipedeMovement.m_atTarget)
+        while (!CentipedeMovement.s_atTarget)
         {
             yield return null;
         }
@@ -76,9 +76,9 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         // If done with all tunnels, return to arena
         if (m_currentTunnelIndex >= m_tunnels.Count - 1)
         {
-            CentipedeMovement.m_useTrainSpeed = false;
-            CentipedeBoss.m_dropLava = false;
-            m_charging = false;
+            CentipedeMovement.s_useTrainSpeed = false;
+            CentipedeBoss.s_dropLava = false;
+            s_charging = false;
             m_animations.ChargeEnd();
             StartCoroutine(ReenterArena());
         }
@@ -96,7 +96,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_trainAudio.SetActive(false);
         CentipedeMovement.SetTargets(new List<Transform> { m_tunnels[0].m_tunnelStart});
 
-        while (!CentipedeMovement.m_atTarget)
+        while (!CentipedeMovement.s_atTarget)
         {
             yield return null;
         }
@@ -108,10 +108,10 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     public override void CompleteBehaviour()
     {
         base.CompleteBehaviour();
-        CentipedeMovement.m_seekingTarget = false;
-        m_charging = false;
-        CentipedeMovement.m_useTrainSpeed = false;
-        CentipedeBoss.m_dropLava = false;
+        CentipedeMovement.s_seekingTarget = false;
+        s_charging = false;
+        CentipedeMovement.s_useTrainSpeed = false;
+        CentipedeBoss.s_dropLava = false;
         m_trainAudio.SetActive(false);
     }
 
@@ -121,7 +121,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         base.Reset();
         m_currentTunnelIndex = 0;
         m_chunksHit = 0;
-        m_stunned = false;
+        s_stunned = false;
         Debug.Log("Stunned is false");
     }
 
@@ -131,9 +131,9 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_chunksHit++;
 
         // If hit by enough chunks, get stunned
-        if (m_chunksHit >= CentipedeBoss.m_settings.m_chunksToStun)
+        if (m_chunksHit >= CentipedeBoss.s_settings.m_chunksToStun)
         {
-            StartCoroutine(StunFor(CentipedeBoss.m_settings.m_stunnedFor));
+            StartCoroutine(StunFor(CentipedeBoss.s_settings.m_stunnedFor));
         }
     }
 
@@ -141,10 +141,10 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     private IEnumerator StunFor(float _forSeconds)
     {
         // Get stunned for a duration
-        m_stunned = true;
+        s_stunned = true;
         m_head.DisableCollider();
-        CentipedeMovement.m_seekingTarget = false;
-        m_charging = false;
+        CentipedeMovement.s_seekingTarget = false;
+        s_charging = false;
         m_centipedeHealth.ActivateSection(true, 0);
         m_animations.Stunned();
         yield return new WaitForSeconds(_forSeconds);
@@ -160,7 +160,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         yield return new WaitForSeconds(0.1f);
 
         // Complete behaviour
-        m_stunned = false;
+        s_stunned = false;
         m_centipedeHealth.ActivateSection(false, 0);
         m_head.EnableCollider();
         CompleteBehaviour();

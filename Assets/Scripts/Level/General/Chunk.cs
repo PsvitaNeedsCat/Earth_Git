@@ -4,7 +4,7 @@ using UnityEngine;
 
 using DG.Tweening;
 
-public enum eChunkEffect
+public enum EChunkEffect
 {
     none,
     water,
@@ -15,8 +15,8 @@ public enum eChunkEffect
 public class Chunk : MonoBehaviour
 {
     // Public variables
-    [HideInInspector] public eChunkEffect m_currentEffect = eChunkEffect.none;
-    [HideInInspector] public eChunkEffect CurrentEffect
+    [HideInInspector] public EChunkEffect m_currentEffect = EChunkEffect.none;
+    [HideInInspector] public EChunkEffect CurrentEffect
     {
         get { return m_currentEffect; }
         set
@@ -24,13 +24,13 @@ public class Chunk : MonoBehaviour
             m_waterParticles.SetActive(false);
             m_fireParticles.SetActive(false);
 
-            if (value == eChunkEffect.water) { m_waterParticles.SetActive(true); }
-            if (value == eChunkEffect.fire) { m_fireParticles.SetActive(true); }
+            if (value == EChunkEffect.water) { m_waterParticles.SetActive(true); }
+            if (value == EChunkEffect.fire) { m_fireParticles.SetActive(true); }
 
             m_currentEffect = value;
         }
     }
-    [HideInInspector] public eChunkType m_chunkType = eChunkType.none;
+    [HideInInspector] public EChunkType m_chunkType = EChunkType.none;
     [HideInInspector] public bool m_isRaised = false;
 
     // Serialized variables
@@ -224,14 +224,14 @@ public class Chunk : MonoBehaviour
     // Called when this chunk collides with a centipede segment
     private void HitCentipedeSegment(Collider _collider)
     {
-        if (CentipedeTrainAttack.m_charging && m_currentEffect == eChunkEffect.none && !CentipedeTrainAttack.m_stunned)
+        if (CentipedeTrainAttack.s_charging && m_currentEffect == EChunkEffect.none && !CentipedeTrainAttack.s_stunned)
         {
             _collider.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
             Destroy(this.gameObject);
             return;
         }
 
-        if (m_currentEffect == eChunkEffect.water)
+        if (m_currentEffect == EChunkEffect.water)
         {
             _collider.GetComponent<CentipedeSegmentMover>().Damaged();
         }
@@ -267,7 +267,7 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.water:
+            case EChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
                     break;
@@ -354,15 +354,15 @@ public class Chunk : MonoBehaviour
     {
         switch (m_currentEffect)
         {
-            case eChunkEffect.water:
+            case EChunkEffect.water:
                 {
                     OnDeath();
                     break;
                 }
 
-            case eChunkEffect.fire:
+            case EChunkEffect.fire:
                 {
-                    CurrentEffect = eChunkEffect.none;
+                    CurrentEffect = EChunkEffect.none;
                     MessageBus.TriggerEvent(EMessageType.chunkHitWall);
                     SnapChunk();
                     break;

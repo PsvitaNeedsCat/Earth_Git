@@ -37,7 +37,7 @@ public class Lava : MonoBehaviour
         Chunk chunk = other.GetComponent<Chunk>();
         if (chunk)
         {
-            if (chunk.m_currentEffect == eChunkEffect.water)
+            if (chunk.m_currentEffect == EChunkEffect.water)
             {
                 // Turn lava to stone
                 TurnToStone();

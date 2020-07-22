@@ -16,12 +16,12 @@ public class MainMenu : MonoBehaviour
 
     private EventSystem m_eventSystem;
 
-    private static MainMenu m_instance;
+    private static MainMenu s_instance;
 
     private void Awake()
     {
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         m_eventSystem = FindObjectOfType<EventSystem>();
     }

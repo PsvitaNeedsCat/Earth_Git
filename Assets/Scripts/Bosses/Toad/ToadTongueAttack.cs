@@ -39,15 +39,15 @@ public class ToadTongueAttack : ToadBehaviour
 
     private void Swallow()
     {
-        eChunkType typeSwallowed = m_tongueCollider.Swallow();
+        EChunkType typeSwallowed = m_tongueCollider.Swallow();
 
-        ToadBoss.m_eaten = typeSwallowed;
+        ToadBoss.s_eaten = typeSwallowed;
 
         m_tongueAnimator.gameObject.SetActive(false);
         m_tongueAnimator.SetFloat("ExtendDirection", 1.0f);
         m_tongueAimIndicator.SetActive(false);
 
-        if (typeSwallowed != eChunkType.none)
+        if (typeSwallowed != EChunkType.none)
         {
             MessageBus.TriggerEvent(EMessageType.enemySwallow);
         }

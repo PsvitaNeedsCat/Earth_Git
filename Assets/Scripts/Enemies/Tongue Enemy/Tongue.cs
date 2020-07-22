@@ -70,11 +70,11 @@ public class Tongue : MonoBehaviour
     }
 
     // Is called when tongue enemy swallows
-    public eChunkType GetAttached()
+    public EChunkType GetAttached()
     {
-        if (!m_attachedChunk) { return eChunkType.none; }
+        if (!m_attachedChunk) { return EChunkType.none; }
 
-        eChunkType type = m_attachedChunk.m_chunkType;
+        EChunkType type = m_attachedChunk.m_chunkType;
 
         Destroy(m_attachedChunk.gameObject);
 

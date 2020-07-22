@@ -19,8 +19,8 @@ public class CentipedeBodyAttack : CentipedeBehaviour
         base.StartBehaviour();
 
         // Move around the edge of the arena
-        CentipedeMovement.m_seekingTarget = true;
-        CentipedeMovement.m_loopTargets = true;
+        CentipedeMovement.s_seekingTarget = true;
+        CentipedeMovement.s_loopTargets = true;
         CentipedeMovement.SetTargets(m_movePoints);
 
         // Start firing projectiles
@@ -32,17 +32,17 @@ public class CentipedeBodyAttack : CentipedeBehaviour
         base.CompleteBehaviour();
 
         // Stop pathfinding
-        CentipedeMovement.m_seekingTarget = false;
-        CentipedeMovement.m_loopTargets = false;
+        CentipedeMovement.s_seekingTarget = false;
+        CentipedeMovement.s_loopTargets = false;
     }
 
     private IEnumerator FiringSequence()
     {
         // Delay before firing first attack
-        yield return new WaitForSeconds(CentipedeBoss.m_settings.m_bodyAttackStartDelay);
+        yield return new WaitForSeconds(CentipedeBoss.s_settings.m_bodyAttackStartDelay);
 
         // Determine how many times to fire a line of projectiles
-        int numAttacks = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.m_settings.m_numBodyAttacksDamaged : CentipedeBoss.m_settings.m_numBodyAttacks;
+        int numAttacks = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.s_settings.m_numBodyAttacksDamaged : CentipedeBoss.s_settings.m_numBodyAttacks;
 
         // Perform attacks
         for (int i = 0; i < numAttacks; i++)
@@ -51,10 +51,10 @@ public class CentipedeBodyAttack : CentipedeBehaviour
             StartCoroutine(FireBodyProjectiles(timeBetween));
             
             // Wait for projectiles to fire
-            yield return new WaitForSeconds(timeBetween * CentipedeBoss.m_settings.m_numBodyProjectiles);
+            yield return new WaitForSeconds(timeBetween * CentipedeBoss.s_settings.m_numBodyProjectiles);
 
             // After projectiles have fired, have a delay before the next ones fire
-            float delay = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.m_settings.m_bodyTimeBetweenFiringDamaged : CentipedeBoss.m_settings.m_bodyTimeBetweenFiring;
+            float delay = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.s_settings.m_bodyTimeBetweenFiringDamaged : CentipedeBoss.s_settings.m_bodyTimeBetweenFiring;
             yield return new WaitForSeconds(delay);
         }
 
@@ -64,11 +64,11 @@ public class CentipedeBodyAttack : CentipedeBehaviour
     private IEnumerator FireBodyProjectiles(float _timeBetween)
     {
         // Fire projectiles, starting with the front body segment
-        for (int i = 0; i < CentipedeBoss.m_settings.m_numBodyProjectiles; i++)
+        for (int i = 0; i < CentipedeBoss.s_settings.m_numBodyProjectiles; i++)
         {
             // Calculate projectile speed
             bool bodyDamaged = m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body);
-            float projectileSpeed = (bodyDamaged) ? CentipedeBoss.m_settings.m_bodyProjectileSpeedDamaged : CentipedeBoss.m_settings.m_bodyProjectileSpeed;
+            float projectileSpeed = (bodyDamaged) ? CentipedeBoss.s_settings.m_bodyProjectileSpeedDamaged : CentipedeBoss.s_settings.m_bodyProjectileSpeed;
 
             // Fire projectiles
             m_segmentFirers[i].FireProjectiles(projectileSpeed);

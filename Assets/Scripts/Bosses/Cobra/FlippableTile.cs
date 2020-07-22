@@ -16,17 +16,19 @@ public class FlippableTile : MonoBehaviour
 
     private IEnumerator StartFlip()
     {
+        // Disable functionality of top tile, store temp information
         Tile tempTile = m_topTile;
-        eChunkType tempType = tempTile.GetTileType();
+        EChunkType tempType = tempTile.GetTileType();
         tempTile.SetChunkType(m_bottomTile.GetTileType());
         tempTile.SetCollider(false);
         tempTile.SetIgnore(true);
         m_bottomTile.SetCollider(true);
 
+        // Rotate tile
         transform.DOBlendableRotateBy(Vector3.right * 180.0f, m_flipTime);
-
         yield return new WaitForSeconds(m_flipTime);
 
+        // Swap tiles, make new top tile functional
         m_topTile = m_bottomTile;
         m_topTile.SetIgnore(false);
         m_bottomTile = tempTile;
