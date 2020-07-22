@@ -8,7 +8,7 @@ public class Crystal : MonoBehaviour
 {
     public int m_setMaxHealth = 3;
     [SerializeField] private bool m_endgameCrystal = false;
-    [SerializeField] private eChunkEffect m_crystalType;
+    [SerializeField] private EChunkEffect m_crystalType;
     [SerializeField] private string m_nextSceneName;
     private bool m_collected = false;
 
@@ -34,7 +34,7 @@ public class Crystal : MonoBehaviour
             }
 
             player.GetComponent<PlayerController>().SetMaxHealth(m_setMaxHealth);
-            PlayerController.m_saveOnAwake = true;
+            PlayerController.s_saveOnAwake = true;
 
             transform.DOMove(transform.position + Vector3.up, 1.0f).SetEase(Ease.OutSine);
             transform.DORotate(new Vector3(0.0f, 720.0f, 0.0f), 1.0f, RotateMode.LocalAxisAdd);

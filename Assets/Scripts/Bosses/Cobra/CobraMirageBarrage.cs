@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Cobra mirage barrage attack behaviour
 public class CobraMirageBarrage : CobraBehaviour
 {
     public List<CobraPot> m_pots;
@@ -13,6 +14,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void Awake()
     {
+        // Initialise variables
         m_mirageClonePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/MirageCobra");
         m_spit = GetComponent<CobraMirageSpit>();
         m_boss = GetComponent<CobraBoss>();
@@ -27,6 +29,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
+        // Flip tiles and destroy chunks
         m_boss.FlipTiles();
         ChunkManager.DestroyAllChunks();
 
@@ -36,8 +39,6 @@ public class CobraMirageBarrage : CobraBehaviour
         GenerateSnakes();
 
         yield return new WaitForSeconds(2.0f);
-
-        RaiseHead();
 
         StartCoroutine(FireProjectiles());
     }
@@ -71,6 +72,7 @@ public class CobraMirageBarrage : CobraBehaviour
                 continue;
             }
 
+            // Create a mirage cobra
             Vector3 spawnPos = m_pots[spawnPots[i]].transform.position;
             Quaternion spawnRot = m_pots[spawnPots[i]].transform.rotation;
             GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
@@ -81,8 +83,10 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator FireProjectiles()
     {
+        // Enable collider, can be damaged
         LowerHead();
 
+        // Fire all heads, at a delay
         for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
         {
             FireAllHeads();
@@ -118,8 +122,10 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void OnAttackEnd()
     {
+        // Disable collider
         RaiseHead();
 
+        // Destroy mirage cobras
         for (int i = 0; i < m_mirageCobras.Count; i++)
         {
             if (m_mirageCobras[i] != null)

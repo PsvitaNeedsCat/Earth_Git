@@ -10,11 +10,11 @@ public class Player : MonoBehaviour
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
     [HideInInspector] public bool m_hasKey = false;
-    public static Dictionary<eChunkEffect, bool> m_activePowers = new Dictionary<eChunkEffect, bool>()
+    public static Dictionary<EChunkEffect, bool> s_activePowers = new Dictionary<EChunkEffect, bool>()
     {
-        { eChunkEffect.none, true },
-        { eChunkEffect.water, false },
-        { eChunkEffect.fire, false }
+        { EChunkEffect.none, true },
+        { EChunkEffect.water, false },
+        { EChunkEffect.fire, false }
     };
 
     // Private variables
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private Player m_instance;
     private PlayerController m_playerController;
     [SerializeField] private TileTargeter m_tileTargeter = null;
-    private eChunkEffect m_currentEffect = eChunkEffect.none;
+    private EChunkEffect m_currentEffect = EChunkEffect.none;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
 
@@ -30,22 +30,22 @@ public class Player : MonoBehaviour
     private readonly float m_maxSpeed = 1.6f;
 
     // Unlocks a power for use
-    public void PowerUnlocked(eChunkEffect _power)
+    public void PowerUnlocked(EChunkEffect _power)
     {
-        m_activePowers[_power] = true;
+        s_activePowers[_power] = true;
         UpdateUI();
     }
     public void ResetPowers()
     {
         // Reset all the powers except the first (rock)
-        for(int i = 1; i < m_activePowers.Count; i++)
+        for(int i = 1; i < s_activePowers.Count; i++)
         {
-            m_activePowers[(eChunkEffect)i] = false;
+            s_activePowers[(EChunkEffect)i] = false;
         }
 
         UpdateUI();
     }
-    public eChunkEffect GetCurrentPower()
+    public EChunkEffect GetCurrentPower()
     {
         return m_currentEffect;
     }
@@ -158,10 +158,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TryChangeEffect(eChunkEffect _effect)
+    public void TryChangeEffect(EChunkEffect _effect)
     {
         // Do not let the player change if the power is not unlocked
-        if (!m_activePowers[_effect]) { return; }
+        if (!s_activePowers[_effect]) { return; }
 
         // Change the player's power
         m_currentEffect = _effect;
@@ -171,13 +171,13 @@ public class Player : MonoBehaviour
 
         switch (_effect)
         {
-            case eChunkEffect.water:
+            case EChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerWater);
                     break;
                 }
 
-            case eChunkEffect.fire:
+            case EChunkEffect.fire:
                 {
                     MessageBus.TriggerEvent(EMessageType.powerFire);
                     break;
@@ -194,16 +194,16 @@ public class Player : MonoBehaviour
     private void UpdateUI()
     {
         int num = -1;
-        for (int i = 0; i < m_activePowers.Count; i++)
+        for (int i = 0; i < s_activePowers.Count; i++)
         {
-            if (m_activePowers[(eChunkEffect)i])
+            if (s_activePowers[(EChunkEffect)i])
             {
                 ++num;
             }
         }
 
         bool[] active = new bool[3];
-        for (int i = 0; i < m_activePowers.Count; i++) { active[i] = m_activePowers[(eChunkEffect)i]; }
+        for (int i = 0; i < s_activePowers.Count; i++) { active[i] = s_activePowers[(EChunkEffect)i]; }
         m_crystalUI.UpdateUnlocked(active);
         m_crystalUI.UpdateSelected((int)m_currentEffect);
     }
@@ -212,14 +212,14 @@ public class Player : MonoBehaviour
     public void TryInteract()
     {
         // Check for the closest interactable
-        Interactable.m_closest = null;
+        Interactable.s_closest = null;
         MessageBus.TriggerEvent(EMessageType.interact);
 
         // There are no interactables
-        if (!Interactable.m_closest) { return; }
+        if (!Interactable.s_closest) { return; }
 
         // Closest interactable is outside the maximum distance
-        if (Interactable.m_closest.m_distToPlayer > m_settings.m_maxInteractableDist) { return; }
+        if (Interactable.s_closest.m_distToPlayer > m_settings.m_maxInteractableDist) { return; }
 
         // If everything is good, invoke
         m_playerController.Interact();
@@ -230,17 +230,17 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            m_activePowers[eChunkEffect.water] = !m_activePowers[eChunkEffect.water];
-            if (m_activePowers[eChunkEffect.water]) { TryChangeEffect(eChunkEffect.water); }
-            else { TryChangeEffect(eChunkEffect.none); }
-            Debug.Log("Water power: " + m_activePowers[eChunkEffect.water]);
+            s_activePowers[EChunkEffect.water] = !s_activePowers[EChunkEffect.water];
+            if (s_activePowers[EChunkEffect.water]) { TryChangeEffect(EChunkEffect.water); }
+            else { TryChangeEffect(EChunkEffect.none); }
+            Debug.Log("Water power: " + s_activePowers[EChunkEffect.water]);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            m_activePowers[eChunkEffect.fire] = !m_activePowers[eChunkEffect.fire];
-            if (m_activePowers[eChunkEffect.fire]) { TryChangeEffect(eChunkEffect.fire); }
-            else { TryChangeEffect(eChunkEffect.none); }
-            Debug.Log("Fire power: " + m_activePowers[eChunkEffect.fire]);
+            s_activePowers[EChunkEffect.fire] = !s_activePowers[EChunkEffect.fire];
+            if (s_activePowers[EChunkEffect.fire]) { TryChangeEffect(EChunkEffect.fire); }
+            else { TryChangeEffect(EChunkEffect.none); }
+            Debug.Log("Fire power: " + s_activePowers[EChunkEffect.fire]);
         }
 
         if (Input.GetKeyDown(KeyCode.P))

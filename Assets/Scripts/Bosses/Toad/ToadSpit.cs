@@ -9,7 +9,7 @@ public class ToadSpit : ToadBehaviour
     public Transform m_projectileSpawnSocket;
     public float m_projLaunchForce = 2.0f;
 
-    public static Dictionary<int, Tile> m_levelTiles = new Dictionary<int, Tile>();
+    public static Dictionary<int, Tile> s_levelTiles = new Dictionary<int, Tile>();
 
     GameObject m_projectilePrefab;
     ToadBoss m_toadBoss;
@@ -23,12 +23,12 @@ public class ToadSpit : ToadBehaviour
     private void Start()
     {
         // Store all level tiles in a dictionary
-        m_levelTiles.Clear();
+        s_levelTiles.Clear();
         List<Tile> tiles = Grid.GetTiles();
         Debug.Log("Spit attack found " + tiles.Count + " tiles");
         for (int i = 0; i < tiles.Count; i++)
         {
-            m_levelTiles.Add(tiles[i].GetInstanceID(), tiles[i]);
+            s_levelTiles.Add(tiles[i].GetInstanceID(), tiles[i]);
         }
     }
 
@@ -42,7 +42,7 @@ public class ToadSpit : ToadBehaviour
     public override void Reset()
     {
         base.Reset();
-        ToadBoss.m_eaten = eChunkType.none;
+        ToadBoss.s_eaten = EChunkType.none;
     }
 
     public void AESpitProjectile() => StartCoroutine(SpitProjectile());
@@ -65,7 +65,7 @@ public class ToadSpit : ToadBehaviour
         proj.m_rigidbody.AddForce(Vector3.up * m_projLaunchForce, ForceMode.Impulse);
 
         // If boss has eaten rock, notify projectile
-        if (ToadBoss.m_eaten == eChunkType.rock) proj.m_shouldSplit = true;
+        if (ToadBoss.s_eaten == EChunkType.rock) proj.m_shouldSplit = true;
 
         // Wait until projectile is off-screen
         yield return new WaitForSeconds(0.5f);
@@ -78,23 +78,23 @@ public class ToadSpit : ToadBehaviour
     // Removes aimed tile from the dictionary, so another shot can't be fired at the same tile
     public static void ProjectileCreated(Tile _aimedTile)
     {
-        m_levelTiles.Remove(_aimedTile.GetInstanceID());
+        s_levelTiles.Remove(_aimedTile.GetInstanceID());
     }
     
     // Re-adds tile to the dictionary, because the projectile aiming at it has been destroyed
     public static void ProjectileDestroyed(Tile _aimedTile)
     {
-        m_levelTiles.Add(_aimedTile.GetInstanceID(), _aimedTile);
+        s_levelTiles.Add(_aimedTile.GetInstanceID(), _aimedTile);
     }
 
     private Tile GetRandomFreeTile()
     {
         // Get list of keys from dict
-        List<int> keyList = new List<int>(m_levelTiles.Keys);
+        List<int> keyList = new List<int>(s_levelTiles.Keys);
         
         // Get a key at random, and return the tile at that key
         int randomIndex = Random.Range(0, keyList.Count);
         int randomKey = keyList[randomIndex];
-        return m_levelTiles[randomKey];
+        return s_levelTiles[randomKey];
     }
 }

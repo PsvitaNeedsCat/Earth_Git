@@ -6,9 +6,9 @@ public class MirageParent : MonoBehaviour
 {
     [SerializeField] private string m_defaultLayer = "Walls";
 
-    public eChunkEffect m_effectType = eChunkEffect.none;
+    public EChunkEffect m_effectType = EChunkEffect.none;
 
-    protected eChunkEffect m_currentEffect = eChunkEffect.none;
+    protected EChunkEffect m_currentEffect = EChunkEffect.none;
     private MeshRenderer m_renderer = null;
     private Collider m_collider = null;
 
@@ -49,10 +49,10 @@ public class MirageParent : MonoBehaviour
     }
 
     // Converts a string to an eChunkEffect
-    protected eChunkEffect StringToEffect(string _string)
+    protected EChunkEffect StringToEffect(string _string)
     {
         // Try automatically parsing
-        eChunkEffect value = eChunkEffect.none;
+        EChunkEffect value = EChunkEffect.none;
         bool result = System.Enum.TryParse(_string, out value);
         if (result)
         {
@@ -62,11 +62,11 @@ public class MirageParent : MonoBehaviour
         // Otherwise, convert manually - it is already rock
         if (_string == "powerWater")
         {
-            value = eChunkEffect.water;
+            value = EChunkEffect.water;
         }
         else if (_string == "powerFire")
         {
-            value = eChunkEffect.fire;
+            value = EChunkEffect.fire;
         }
 
         return value;

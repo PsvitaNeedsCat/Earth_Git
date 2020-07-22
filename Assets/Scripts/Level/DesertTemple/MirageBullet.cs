@@ -53,7 +53,7 @@ public class MirageBullet : MirageParent
         }
     }
 
-    public void Init(eChunkEffect _bulletEffect, eChunkEffect _playerEffect)
+    public void Init(EChunkEffect _bulletEffect, EChunkEffect _playerEffect)
     {
         // Update bullet's effect
         m_effectType = _bulletEffect;

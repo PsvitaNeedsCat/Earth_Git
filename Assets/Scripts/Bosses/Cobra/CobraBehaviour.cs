@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Base class for cobra behaviours, handles the starting, stopping, and resetting of behaviours
 public class CobraBehaviour : MonoBehaviour
 {
     public enum EBehaviourState { fresh, running, complete }

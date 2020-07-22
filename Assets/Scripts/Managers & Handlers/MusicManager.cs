@@ -7,7 +7,7 @@ public class MusicManager : MonoBehaviour
 {
     [SerializeField] private EMessageType m_startingMusic = EMessageType.none;
 
-    private static MusicManager m_instace = null;
+    private static MusicManager s_instance = null;
 
     private string m_musicPath = "Music";
     private Dictionary<string, AudioClip> m_musicDictionary = new Dictionary<string, AudioClip>();
@@ -15,8 +15,8 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        if (m_instace != null && m_instace != this) { Destroy(this.gameObject); }
-        else { m_instace = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         // Get music
         AudioClip[] audioClips = Resources.LoadAll<AudioClip>(m_musicPath);

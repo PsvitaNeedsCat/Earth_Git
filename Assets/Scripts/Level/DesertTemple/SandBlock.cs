@@ -28,7 +28,7 @@ public class SandBlock : MonoBehaviour
         if (hurtbox)
         {
             if (m_isGlass) { Break(); } // Break if glass
-            else if (hurtbox.m_effect == eChunkEffect.fire) { TurnToGlass(); } // Turn to glass if currently sand and has fire equipped
+            else if (hurtbox.m_effect == EChunkEffect.fire) { TurnToGlass(); } // Turn to glass if currently sand and has fire equipped
         }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();

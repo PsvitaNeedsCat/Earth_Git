@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eChunkType
+public enum EChunkType
 {
     none,
     rock,

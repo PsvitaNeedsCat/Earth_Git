@@ -10,15 +10,14 @@ public class ToadBoss : MonoBehaviour
 
     public List<GameObject> m_healthIcons;
 
-    // Move to BT context eventually
-    public static eChunkType m_eaten = eChunkType.none;
-    public static bool m_tookDamage = false;
+    public static EChunkType s_eaten = EChunkType.none;
+    public static bool s_tookDamage = false;
 
-    int m_currentBehaviourIndex = 0;
-    int m_totalBehaviours;
-    ToadBehaviour m_currentBehaviour;
-    HealthComponent m_healthComp;
-    bool m_didSpitAttack = false;
+    private int m_currentBehaviourIndex = 0;
+    private int m_totalBehaviours;
+    private ToadBehaviour m_currentBehaviour;
+    private HealthComponent m_healthComp;
+    private bool m_didSpitAttack = false;
     
     ToadBossSettings m_toadSettings;
 
@@ -31,8 +30,8 @@ public class ToadBoss : MonoBehaviour
         m_toadSettings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
         m_healthComp = GetComponent<HealthComponent>();
         m_healthComp.Init(m_toadSettings.m_maxHealth, m_toadSettings.m_maxHealth, DamageTaken, null, Died);
-        m_tookDamage = false;
-        m_eaten = eChunkType.none;
+        s_tookDamage = false;
+        s_eaten = EChunkType.none;
     }
 
     private void Start()
@@ -71,9 +70,9 @@ public class ToadBoss : MonoBehaviour
         // If we are about to do the spit attack, but we ate a poison block, skip to swell up
         if (m_currentBehaviour is ToadSpit)
         {
-            if (m_eaten == eChunkType.poison)
+            if (s_eaten == EChunkType.poison)
             {
-                m_eaten = eChunkType.none;
+                s_eaten = EChunkType.none;
                 m_currentBehaviourIndex = (m_currentBehaviourIndex + 1) % m_totalBehaviours;
                 m_currentBehaviour = m_behaviourLoop[m_currentBehaviourIndex];
             }
@@ -105,9 +104,9 @@ public class ToadBoss : MonoBehaviour
 
     public void OnHit()
     {
-        if (m_tookDamage || !(m_currentBehaviour is ToadSwell)) return;
+        if (s_tookDamage || !(m_currentBehaviour is ToadSwell)) return;
 
-        m_tookDamage = true;
+        s_tookDamage = true;
 
         m_healthComp.Health -= 1;
     }

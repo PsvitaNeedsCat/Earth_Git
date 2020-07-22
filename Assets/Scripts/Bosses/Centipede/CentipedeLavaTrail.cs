@@ -7,7 +7,7 @@ public class CentipedeLavaTrail : MonoBehaviour
     private void Awake()
     {
         // Destroy after lifetime is up
-        Destroy(this.gameObject, CentipedeBoss.m_settings.m_lavaLifetime);
+        Destroy(this.gameObject, CentipedeBoss.s_settings.m_lavaLifetime);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,7 +28,7 @@ public class CentipedeLavaTrail : MonoBehaviour
         Chunk chunk = other.GetComponent<Chunk>();
         if (chunk)
         {
-            if (chunk.m_currentEffect == eChunkEffect.water)
+            if (chunk.m_currentEffect == EChunkEffect.water)
             {
                 Destroy(this.gameObject);
                 return;

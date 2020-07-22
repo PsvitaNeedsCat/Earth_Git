@@ -6,7 +6,7 @@ public class CentipedeProjectile : MonoBehaviour
 {
     private void Awake()
     {
-        Destroy(this.gameObject, CentipedeBoss.m_settings.m_projectileLifetime);
+        Destroy(this.gameObject, CentipedeBoss.s_settings.m_projectileLifetime);
     }
 
     private void OnTriggerEnter(Collider other)

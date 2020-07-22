@@ -5,27 +5,27 @@ using UnityEngine;
 public class Grid : MonoBehaviour
 {
     // Public variables
-    public static readonly float m_tileSize = 1.0f;
+    public static readonly float s_tileSize = 1.0f;
 
     // Private variables
     private Grid m_instance;
-    static List<Tile> m_tiles = new List<Tile>();
-    static GlobalPlayerSettings m_playerSettings;
+    static List<Tile> s_tiles = new List<Tile>();
+    static GlobalPlayerSettings s_playerSettings;
 
     public static void AddTile(Tile _newTile)
     {
-        if (!m_tiles.Contains(_newTile)) m_tiles.Add(_newTile);
+        if (!s_tiles.Contains(_newTile)) s_tiles.Add(_newTile);
 
         // Debug.Log("Tile added. Count: " + m_tiles.Count);
     }
 
     public static void RemoveTile(Tile _removeTile)
     {
-        m_tiles.Remove(_removeTile);
+        s_tiles.Remove(_removeTile);
         // Debug.Log("Tile removed. Count: " + m_tiles.Count);
     }
 
-    public static List<Tile> GetTiles() { return m_tiles; }
+    public static List<Tile> GetTiles() { return s_tiles; }
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class Grid : MonoBehaviour
         if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
         else { m_instance = this; }
 
-        m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+        s_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
     // Finds the closest tile to a query position - excluding tiles that are too close, or tiles that cannot be raised
@@ -43,15 +43,15 @@ public class Grid : MonoBehaviour
         Tile closestTile = null;
 
         // Check every tile
-        foreach (Tile tile in m_tiles)
+        foreach (Tile tile in s_tiles)
         {
             // If not including tiles of type 'none', and this is one, skip it
-            if (tile.GetTileType() == eChunkType.none || tile.GetTileType() == eChunkType.lava) { continue; }
+            if (tile.GetTileType() == EChunkType.none || tile.GetTileType() == EChunkType.lava) { continue; }
 
             Vector3 toPlayer = tile.transform.position - _playerPos;
             toPlayer.y = 0.0f;
 
-            if (toPlayer.magnitude < m_playerSettings.m_minTileRange) { continue; }
+            if (toPlayer.magnitude < s_playerSettings.m_minTileRange) { continue; }
 
             float dist = (tile.transform.position - _queryPosition).magnitude;
 
@@ -72,7 +72,7 @@ public class Grid : MonoBehaviour
         float closestDist = float.MaxValue;
         Tile closestTile = null;
 
-        foreach (Tile tile in m_tiles)
+        foreach (Tile tile in s_tiles)
         {
             float dist = (tile.transform.position - _queryPosition).magnitude;
 

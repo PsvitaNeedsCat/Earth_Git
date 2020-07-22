@@ -57,15 +57,15 @@ public class TongueEnemy : MonoBehaviour
 
         m_tongue.Swallow();
 
-        eChunkType typeSwallowed = m_tongue.GetAttached();
+        EChunkType typeSwallowed = m_tongue.GetAttached();
 
-        if (typeSwallowed == eChunkType.poison)
+        if (typeSwallowed == EChunkType.poison)
         {
             MessageBus.TriggerEvent(EMessageType.tongueEnemyKilled);
             Destroy(this.gameObject);
         }
 
-        if (typeSwallowed != eChunkType.none) { MessageBus.TriggerEvent(EMessageType.enemySwallow); }
+        if (typeSwallowed != EChunkType.none) { MessageBus.TriggerEvent(EMessageType.enemySwallow); }
 
         m_tongue.gameObject.SetActive(false);
     }

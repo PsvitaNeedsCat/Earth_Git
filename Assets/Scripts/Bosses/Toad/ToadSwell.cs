@@ -42,7 +42,7 @@ public class ToadSwell : ToadBehaviour
         SwellUp();
 
         // Wait for toad to take damage or timer to run out before swelling down
-        while (!ToadBoss.m_tookDamage && m_swelledTimer < m_toadSettings.m_staySwelledUpFor)
+        while (!ToadBoss.s_tookDamage && m_swelledTimer < m_toadSettings.m_staySwelledUpFor)
         {
             m_swelledTimer += Time.deltaTime;
             yield return null;
@@ -64,7 +64,7 @@ public class ToadSwell : ToadBehaviour
     {
         m_toadAnimator.SetTrigger("SwellDown");
 
-        ToadBoss.m_tookDamage = false;
+        ToadBoss.s_tookDamage = false;
         m_toadHealth.IsInvincible = true;
 
         m_meshTransform.DOKill();

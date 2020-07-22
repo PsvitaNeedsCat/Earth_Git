@@ -5,7 +5,6 @@ using UnityEngine;
 public enum ECobraMirageType { none, blue, red }
 public enum EDirection { northEast, southEast, southWest, northWest }
 
-// public enum E
 
 [System.Serializable]
 public struct CobraMirageWallDef
@@ -16,6 +15,7 @@ public struct CobraMirageWallDef
     public EDirection m_wallTwoFrom;
 }
 
+// Cobra boss settings that change based on health value
 [CreateAssetMenu(fileName = "New Cobra State Settings", menuName = "Settings/CobraStateSettings")]
 public class CobraStateSettings : ScriptableObject
 {

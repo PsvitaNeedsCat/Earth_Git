@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles the behaviour sequencing of the cobra boss
 public class CobraBoss : MonoBehaviour
 {
-    public static CobraGlobalSettings m_settings;
+    public static CobraGlobalSettings s_settings;
 
     public List<CobraBehaviour> m_behaviourLoop;
     public CobraBehaviour m_chaseBehaviour;
@@ -21,16 +22,17 @@ public class CobraBoss : MonoBehaviour
     // Initialise variables
     private void Awake()
     {
+        // Initialise variables
         m_cobraHealth = GetComponent<CobraHealth>();
-
-        m_settings = Resources.Load<CobraGlobalSettings>("ScriptableObjects/CobraGlobalSettings");
-        m_cobraHealth.SetCurrentHealth(m_settings.m_maxHealth);
+        s_settings = Resources.Load<CobraGlobalSettings>("ScriptableObjects/CobraGlobalSettings");
+        m_cobraHealth.SetCurrentHealth(s_settings.m_maxHealth);
 
         m_totalBehaviours = m_behaviourLoop.Count;
         m_playerController = FindObjectOfType<PlayerController>();
         m_flippableTiles = new List<FlippableTile>(FindObjectsOfType<FlippableTile>());
     }
 
+    // Switch to the chase behaviour, and start chasing the player
     public void StartChase()
     {
         m_chasing = true;
@@ -38,13 +40,14 @@ public class CobraBoss : MonoBehaviour
         m_currentBehaviour.StartBehaviour();
     }
 
-    // Start first behaviour
+    // Start the first behaviour after a delay
     private void Start()
     {
         m_currentBehaviour = m_behaviourLoop[0];
         StartCoroutine(DelayedStart());
     }
 
+    // Waits for a delay, and then starts the first behaviour
     private IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(m_startDelay);
@@ -81,6 +84,7 @@ public class CobraBoss : MonoBehaviour
         StartCoroutine(StartTileFlip());        
     }
 
+    // Knocks up the player, and shortly after, flips over all the tiles
     private IEnumerator StartTileFlip()
     {
         m_playerController.KnockBack(Vector3.up * 2.5f);

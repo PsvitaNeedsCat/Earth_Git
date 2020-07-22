@@ -6,15 +6,15 @@ using System.Linq;
 public class AudioManager : MonoBehaviour
 {
     // Private variables
-    private static AudioManager m_instance = null;
-    public static AudioManager Instance { get { return m_instance; } }
+    private static AudioManager s_instance = null;
+    public static AudioManager Instance { get { return s_instance; } }
     private string m_soundEffectsPath = "Audio";
     private Dictionary<string, AudioClip> m_soundDictionary = new Dictionary<string, AudioClip>();
 
     private void Awake()
     {
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
         
         AudioClip[] audioClips = Resources.LoadAll(m_soundEffectsPath, typeof(AudioClip)).Cast<AudioClip>().ToArray();
 

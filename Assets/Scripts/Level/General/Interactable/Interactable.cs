@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    [HideInInspector] public static Interactable m_closest = null; // Closest to the player
+    [HideInInspector] public static Interactable s_closest = null; // Closest to the player
     [HideInInspector] public float m_distToPlayer = float.MaxValue;
 
-    private static Player m_playerRef;
+    private static Player s_playerRef;
     private bool m_playerIsClose = false;
     private GlobalPlayerSettings m_playerSettings;
 
@@ -16,10 +16,10 @@ public class Interactable : MonoBehaviour
     public virtual void Awake()
     {
         // The first one gets the player reference
-        if (!m_playerRef)
+        if (!s_playerRef)
         {
             Player player = FindObjectOfType<Player>();
-            if (player) { m_playerRef = player; }
+            if (player) { s_playerRef = player; }
         }
 
         m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
@@ -38,23 +38,23 @@ public class Interactable : MonoBehaviour
     public void CheckForClosest(string _null)
     {
         // Set distance to the player
-        m_distToPlayer = (m_playerRef.transform.position - transform.position).magnitude;
+        m_distToPlayer = (s_playerRef.transform.position - transform.position).magnitude;
 
         // If there is nothing, this is the closest
-        if (!m_closest)
+        if (!s_closest)
         {
-            m_closest = this;
+            s_closest = this;
             return;
         }
 
         // Compare distances to the player
-        if (m_distToPlayer < m_closest.m_distToPlayer) { m_closest = this; }
+        if (m_distToPlayer < s_closest.m_distToPlayer) { s_closest = this; }
     }
 
     public virtual void Update()
     {
         // Check if the player is close enough to trigger the prompt
-        m_playerIsClose = (m_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
+        m_playerIsClose = (s_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
 
         // If there is a prompt
         if (m_prompt)

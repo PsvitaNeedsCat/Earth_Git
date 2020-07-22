@@ -49,11 +49,11 @@ public class ToadTongueCollider : MonoBehaviour
         m_tongueAttack.OnRetracted();
     }
 
-    public eChunkType Swallow()
+    public EChunkType Swallow()
     {
-        if (!m_attachedChunk) { return eChunkType.none; }
+        if (!m_attachedChunk) { return EChunkType.none; }
 
-        eChunkType type = m_attachedChunk.m_chunkType;
+        EChunkType type = m_attachedChunk.m_chunkType;
 
         Destroy(m_attachedChunk.gameObject);
 

@@ -10,31 +10,31 @@ public class CentipedeMovement : MonoBehaviour
     public CentipedePathfinding m_pathfinder;
     public CentipedeAnimations m_animations;
 
-    public static List<Transform> m_targets;
-    public static bool m_seekingTarget = false;
-    public static bool m_atTarget = false;
-    public static bool m_loopTargets = false;
-    public static bool m_useTrainSpeed = false;
-    public static bool m_burrowed = false;
-    public static bool m_burrowing = false;
+    public static List<Transform> s_targets;
+    public static bool s_seekingTarget = false;
+    public static bool s_atTarget = false;
+    public static bool s_loopTargets = false;
+    public static bool s_useTrainSpeed = false;
+    public static bool s_burrowed = false;
+    public static bool s_burrowing = false;
 
     private float m_t = 0.0f;
-    private static List<PathNode> m_path;
-    private static int m_positionInPath = 0;
-    private static Transform m_currentTarget;
-    private static int m_currentTargetIndex = 0;
+    private static List<PathNode> s_path;
+    private static int s_positionInPath = 0;
+    private static Transform s_currentTarget;
+    private static int s_currentTargetIndex = 0;
     private GameObject m_lavaTrailPrefab;
     private CentipedeHealth m_centipedeHealth;
 
-    private static CentipedeMovement m_instance;
+    private static CentipedeMovement s_instance;
 
     // Sets the list of targets for the centipede to pathfind to
     public static void SetTargets(List<Transform> _newTargets)
     {
-        m_atTarget = false;
-        m_targets = _newTargets;
-        m_currentTargetIndex = 0;
-        m_currentTarget = m_targets[0];
+        s_atTarget = false;
+        s_targets = _newTargets;
+        s_currentTargetIndex = 0;
+        s_currentTarget = s_targets[0];
 
         // After setting new targets, find a path to the current target
         GetPath();
@@ -43,8 +43,8 @@ public class CentipedeMovement : MonoBehaviour
     private void Awake()
     {
         // Single instance
-        if (m_instance) { Destroy(m_instance); }
-        m_instance = this;
+        if (s_instance) { Destroy(s_instance); }
+        s_instance = this;
 
         // Populate references to segments behind
         for (int i = 0; i < m_segments.Count - 1; i++)
@@ -53,17 +53,17 @@ public class CentipedeMovement : MonoBehaviour
         }
 
         // Initialise static variables
-        m_positionInPath = 0;
-        m_currentTargetIndex = 0;
-        m_path?.Clear();
-        m_currentTarget = null;
-        m_targets?.Clear();
-        m_seekingTarget = false;
-        m_atTarget = false;
-        m_loopTargets = false;
-        m_useTrainSpeed = false;
-        m_burrowed = false;
-        m_burrowing = false;
+        s_positionInPath = 0;
+        s_currentTargetIndex = 0;
+        s_path?.Clear();
+        s_currentTarget = null;
+        s_targets?.Clear();
+        s_seekingTarget = false;
+        s_atTarget = false;
+        s_loopTargets = false;
+        s_useTrainSpeed = false;
+        s_burrowed = false;
+        s_burrowing = false;
 
         m_lavaTrailPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Centipede/CentipedeLavaTrail");
         m_centipedeHealth = GetComponent<CentipedeHealth>();
@@ -84,13 +84,13 @@ public class CentipedeMovement : MonoBehaviour
     private void Update()
     {
         // If normal pathfinding
-        if (m_seekingTarget)
+        if (s_seekingTarget)
         {
             // Determine move speed
-            float moveSpeed = CentipedeBoss.m_settings.m_moveSpeed;
-            if (m_useTrainSpeed)
+            float moveSpeed = CentipedeBoss.s_settings.m_moveSpeed;
+            if (s_useTrainSpeed)
             {
-                moveSpeed = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head) ? CentipedeBoss.m_settings.m_trainDamagedMoveSpeed : CentipedeBoss.m_settings.m_trainMoveSpeed);
+                moveSpeed = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head) ? CentipedeBoss.s_settings.m_trainDamagedMoveSpeed : CentipedeBoss.s_settings.m_trainMoveSpeed);
             }
 
             // Set animation speed based on move speed
@@ -103,26 +103,26 @@ public class CentipedeMovement : MonoBehaviour
             AStarStep(m_t);
         }
         // If burrowing
-        else if (m_burrowing)
+        else if (s_burrowing)
         {
             // Increment time
-            m_t += (Time.smoothDeltaTime / CentipedeBoss.m_settings.m_burrowDuration);
+            m_t += (Time.smoothDeltaTime / CentipedeBoss.s_settings.m_burrowDuration);
 
             // If ready to go to next point
-            if (m_t > CentipedeBoss.m_settings.m_burrowDuration)
+            if (m_t > CentipedeBoss.s_settings.m_burrowDuration)
             {
                 // If we're not at the end of the points list
-                if (m_currentTargetIndex < m_targets.Count - 1)
+                if (s_currentTargetIndex < s_targets.Count - 1)
                 {
-                    m_currentTargetIndex++;
-                    m_currentTarget = m_targets[m_currentTargetIndex];
+                    s_currentTargetIndex++;
+                    s_currentTarget = s_targets[s_currentTargetIndex];
                     m_t = 0.0f;
-                    m_segments[0].NextPos(m_currentTarget.position, m_currentTarget.rotation);
+                    m_segments[0].NextPos(s_currentTarget.position, s_currentTarget.rotation);
                 }
                 // If we are, finish burrowing
                 else
                 {
-                    m_burrowing = false;
+                    s_burrowing = false;
                     return;
                 }
             }
@@ -135,34 +135,34 @@ public class CentipedeMovement : MonoBehaviour
     // Start burrowing down
     public static void BurrowDown(List<Transform> _points)
     {
-        m_instance.m_segments[0].ReachedPosition();
-        m_instance.m_t = 0.0f;
-        m_burrowing = true;
-        m_targets = _points;
-        m_currentTargetIndex = 0;
+        s_instance.m_segments[0].ReachedPosition();
+        s_instance.m_t = 0.0f;
+        s_burrowing = true;
+        s_targets = _points;
+        s_currentTargetIndex = 0;
     }
 
     // Start burrowing up
     public static void BurrowUp(List<Transform> _points)
     {
-        m_instance.m_t = 0.0f;
-        m_burrowing = true;
-        m_targets = _points;
-        m_currentTargetIndex = 0;
+        s_instance.m_t = 0.0f;
+        s_burrowing = true;
+        s_targets = _points;
+        s_currentTargetIndex = 0;
     }
 
     // 
     private void AStarStep(float _t)
     {
         PathNode head = CentipedeGrid.NodeFromWorldPoint(m_segments[0].transform.position);
-        PathNode target = CentipedeGrid.NodeFromWorldPoint(m_currentTarget.position);
+        PathNode target = CentipedeGrid.NodeFromWorldPoint(s_currentTarget.position);
 
         if (m_t >= 0.99f)
         {
             // If we're at the end of the current path, switch to next target
             if (head.m_gridX == target.m_gridX && head.m_gridY == target.m_gridY)
             {
-                m_atTarget = NextTarget();
+                s_atTarget = NextTarget();
                 
                 // return;
             }
@@ -172,14 +172,14 @@ public class CentipedeMovement : MonoBehaviour
             }
 
             // If we're not at the target, get a path to the target
-            if (m_atTarget) return;
+            if (s_atTarget) return;
             else GetPath();
 
             // Move to next path point
             NextPathPoint(true);
 
             // If charging and the head is not damaged, drop lava
-            if (CentipedeBoss.m_dropLava && !m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head)) DropLavaTrail();
+            if (CentipedeBoss.s_dropLava && !m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head)) DropLavaTrail();
 
             m_t -= 1.0f;
             return;
@@ -201,16 +201,16 @@ public class CentipedeMovement : MonoBehaviour
     private void NextPathPoint(bool _first)
     {
         // Check if at the end of the path
-        if (m_positionInPath == m_path.Count - 1 && !_first)
+        if (s_positionInPath == s_path.Count - 1 && !_first)
         {
             Debug.Log("Can't go to next position in path, at end");
             return;
         }
 
-        if (!_first) m_positionInPath++;
+        if (!_first) s_positionInPath++;
 
         // Setup segments to target the next point in the path
-        PathNode nextPoint = m_path[m_positionInPath];
+        PathNode nextPoint = s_path[s_positionInPath];
         Quaternion newHeadRot = Quaternion.LookRotation(nextPoint.m_worldPosition - m_segments[0].transform.position);
         m_segments[0].NextPos(nextPoint.m_worldPosition, newHeadRot);
     }
@@ -218,20 +218,20 @@ public class CentipedeMovement : MonoBehaviour
     // Returns true if we have reached the final target, 
     private bool NextTarget()
     {
-        if (!m_loopTargets && m_currentTargetIndex >= m_targets.Count - 1) return true;
+        if (!s_loopTargets && s_currentTargetIndex >= s_targets.Count - 1) return true;
 
         // Increment target index, looping if the variable is set
-        if (m_loopTargets)
+        if (s_loopTargets)
         {
-            m_currentTargetIndex = (m_currentTargetIndex + 1) % m_targets.Count;
+            s_currentTargetIndex = (s_currentTargetIndex + 1) % s_targets.Count;
         }
         else
         {
-            m_currentTargetIndex++;
+            s_currentTargetIndex++;
         }
         
         // Update current target and get a new path to it
-        m_currentTarget = m_targets[m_currentTargetIndex];
+        s_currentTarget = s_targets[s_currentTargetIndex];
         GetPath();
 
         return false;
@@ -240,7 +240,7 @@ public class CentipedeMovement : MonoBehaviour
     private static void GetPath()
     {
         // Will be incremented before use
-        m_positionInPath = 0;
-        m_path = m_instance.m_pathfinder.GetPath(m_instance.m_segments[0].transform, m_currentTarget);
+        s_positionInPath = 0;
+        s_path = s_instance.m_pathfinder.GetPath(s_instance.m_segments[0].transform, s_currentTarget);
     }
 }

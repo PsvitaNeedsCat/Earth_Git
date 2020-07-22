@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// General settings for the cobra boss
 [CreateAssetMenu(fileName = "New Cobra Global Settings", menuName = "Settings/CobraGlobalSettings")]
 public class CobraGlobalSettings : ScriptableObject
 {

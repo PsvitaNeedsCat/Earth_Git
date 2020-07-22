@@ -14,11 +14,11 @@ public class SaveManager : MonoBehaviour
     {
         public string scene = "Overworld";
         public int room = 0;
-        public Dictionary<eChunkEffect, bool> unlockedPowers = new Dictionary<eChunkEffect, bool>()
+        public Dictionary<EChunkEffect, bool> unlockedPowers = new Dictionary<EChunkEffect, bool>()
         {
-            { eChunkEffect.none, true },
-            { eChunkEffect.water, false },
-            { eChunkEffect.fire, false }
+            { EChunkEffect.none, true },
+            { EChunkEffect.water, false },
+            { EChunkEffect.fire, false }
         };
         public int health = 3;
     }
@@ -31,13 +31,13 @@ public class SaveManager : MonoBehaviour
     BinaryFormatter m_formatter = new BinaryFormatter();
     private bool m_initLoad = false;
 
-    private static SaveManager m_instace;
-    public static SaveManager Instance { get { return m_instace; } }
+    private static SaveManager s_instance;
+    public static SaveManager Instance { get { return s_instance; } }
 
     private void Awake()
     {
-        if (m_instace != null && m_instace != this) { Destroy(this.gameObject); }
-        else { m_instace = this; }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
@@ -52,7 +52,7 @@ public class SaveManager : MonoBehaviour
         // Save to array
         m_saves[m_currentFile].scene = SceneManager.GetActiveScene().name;
         m_saves[m_currentFile].room = (RoomManager.Instance) ? RoomManager.Instance.GetCurrentRoom() : 0;
-        m_saves[m_currentFile].unlockedPowers = Player.m_activePowers;
+        m_saves[m_currentFile].unlockedPowers = Player.s_activePowers;
         PlayerController player = FindObjectOfType<PlayerController>();
         if (player) { m_saves[m_currentFile].health = player.GetCurrentHealth(); }
         else { Debug.LogError("Unbale to find player, could not save health"); }
@@ -132,7 +132,7 @@ public class SaveManager : MonoBehaviour
         SceneManager.LoadScene(m_saves[m_currentFile].scene);
 
         // Load the unlocked powers
-        Player.m_activePowers = m_saves[m_currentFile].unlockedPowers;
+        Player.s_activePowers = m_saves[m_currentFile].unlockedPowers;
     }
 
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)

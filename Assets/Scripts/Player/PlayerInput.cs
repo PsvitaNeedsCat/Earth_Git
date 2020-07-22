@@ -19,19 +19,19 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private bool m_defaultCombat = true;
 
     // Only one instance
-    private static PlayerInput m_instance;
+    private static PlayerInput s_instance;
 
     private void Awake()
     {
         // Only one instance of the player
-        if (m_instance != null && m_instance != this)
+        if (s_instance != null && s_instance != this)
         {
             Debug.LogError("A second instance of 'PlayerInput.cs' wasinstantiated");
             Destroy(this.gameObject);
         }
         else
         {
-            m_instance = this;
+            s_instance = this;
         }
 
         // Init
@@ -58,9 +58,9 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerCombat.KeyboardTarget.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         m_controls.PlayerCombat.KeyboardTarget.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         // Change powers
-        m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.none);
-        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(eChunkEffect.water);
-        m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(eChunkEffect.fire);
+        m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(EChunkEffect.none);
+        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(EChunkEffect.water);
+        m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(EChunkEffect.fire);
         // Pause
         m_controls.PlayerMovement.Pause.performed += _ => m_player.Pause();
         m_controls.Pause.UnPause.performed += _ => m_player.UnPause();
@@ -76,7 +76,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (m_instance == this) { m_controls.Disable(); }
+        if (s_instance == this) { m_controls.Disable(); }
     }
 
     public void SetMovement(bool _active)

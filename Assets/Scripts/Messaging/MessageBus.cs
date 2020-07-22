@@ -89,9 +89,9 @@ public class MessageBusEvent : UnityEvent<string>
 
 public static class MessageBus
 {
-    private static Dictionary<EMessageType, UnityEvent<string>> m_eventDict = new Dictionary<EMessageType, UnityEvent<string>>();
+    private static Dictionary<EMessageType, UnityEvent<string>> s_eventDict = new Dictionary<EMessageType, UnityEvent<string>>();
 
-    private static int check = 0;
+    private static int s_check = 0;
 
     // Subscribes a listener to a type of message
     public static void AddListener(EMessageType _type, UnityAction<string> _listener)
@@ -99,7 +99,7 @@ public static class MessageBus
         if (_type == EMessageType.none) { return; }
 
         // Event already exists
-        if (m_eventDict.TryGetValue(_type, out UnityEvent<string> checkEvent))
+        if (s_eventDict.TryGetValue(_type, out UnityEvent<string> checkEvent))
         {
             checkEvent.AddListener(_listener);
         }
@@ -109,7 +109,7 @@ public static class MessageBus
             UnityEvent<string> newEvent = new MessageBusEvent();
             
             newEvent.AddListener(_listener);
-            m_eventDict.Add(_type, newEvent);
+            s_eventDict.Add(_type, newEvent);
         }
     }
 
@@ -120,7 +120,7 @@ public static class MessageBus
         UnityEvent<string> checkEvent = null;
 
         // Only try to remove listener if event exists
-        if (m_eventDict.TryGetValue(_type, out checkEvent))
+        if (s_eventDict.TryGetValue(_type, out checkEvent))
         {
             checkEvent.RemoveListener(_listener);
         }
@@ -132,7 +132,7 @@ public static class MessageBus
 
         UnityEvent<string> triggerEvent = null;
 
-        if (m_eventDict.TryGetValue(_type, out triggerEvent))
+        if (s_eventDict.TryGetValue(_type, out triggerEvent))
         {
             triggerEvent.Invoke(_param);
             Debug.Log("Successfully triggering event " + _type.ToString());
@@ -149,7 +149,7 @@ public static class MessageBus
 
         UnityEvent<string> triggerEvent = null;
 
-        if (m_eventDict.TryGetValue(_type, out triggerEvent))
+        if (s_eventDict.TryGetValue(_type, out triggerEvent))
         {
             triggerEvent.Invoke(_type.ToString());
         }
