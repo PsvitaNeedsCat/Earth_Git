@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8445870926504203913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8445870926504203912}
+  - component: {fileID: 8445870926504203919}
+  m_Layer: 5
+  m_Name: UIParticleSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8445870926504203912
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445870926504203913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8445870926504203919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445870926504203913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a99d301a1098844a26c72f3dc87d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: 0
+  Looping: 1
+  startLifetime: 5
+  startSpeed: 10
+  startSize: {x: 1, y: 1, z: 1}
+  startRotation: 45
+  gravity: 5
+  RateOverTime: 1
+  minX: 0
+  maxX: 0
+  minY: 0
+  maxY: 0
+  Colour:
+    serializedVersion: 2
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 0.9719956, g: 1, b: 0, a: 1}
+    key2: {r: 0, g: 0.9490196, b: 0.12240606, a: 0}
+    key3: {r: 0, g: 0.8002429, b: 1, a: 0}
+    key4: {r: 0.7811141, g: 0, b: 1, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 16384
+    ctime2: 32768
+    ctime3: 49151
+    ctime4: 65535
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  Size:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.826651
+      outSlope: 2.826651
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.075093865
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: -0.039672386
+      outSlope: -0.039672386
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11889863
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.4439669
+      outSlope: -3.4439669
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07259071
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minRotation: -90
+  maxRotation: 90
+  particleBase: {fileID: 8050375990941809748, guid: a5e307d5165638d429e990a12a2a9947,
+    type: 3}
+  material: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
