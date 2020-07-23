@@ -8,6 +8,8 @@ public class PlayerAnimations : MonoBehaviour
     private PlayerInput m_playerInput;
     private PlayerController m_playerController;
 
+    private bool m_prevMovement = true;
+
     private void Awake()
     {
         m_playerInput = GetComponentInParent<PlayerInput>();
@@ -27,11 +29,13 @@ public class PlayerAnimations : MonoBehaviour
 
     public void AEEnableMovement()
     {
-        m_playerInput.SetMovement(true);
+        m_playerInput.SetMovement(m_prevMovement);
     }
 
     public void AEDisableMovement()
     {
+        m_prevMovement = m_playerInput.HasMovement();
+
         m_playerInput.SetMovement(false);
     }
 }

@@ -84,6 +84,11 @@ public class PlayerInput : MonoBehaviour
         if (_active) { m_controls.PlayerMovement.Enable(); }
         else { m_controls.PlayerMovement.Disable(); }
     }
+    
+    public bool HasMovement()
+    {
+        return m_controls.PlayerMovement.enabled;
+    }
 
     public void SetCombat(bool _active)
     {
