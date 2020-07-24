@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.Events;
 
 public class ScriptedCutscene : MonoBehaviour
 {
@@ -27,6 +27,8 @@ public class ScriptedCutscene : MonoBehaviour
     [SerializeField] private bool m_restrictMovement = true;
     [SerializeField] private bool m_restrictCombat = true;
     [SerializeField] private CutsceneEvent[] m_script;
+    [Tooltip("Called when the script is over")]
+    [SerializeField] private UnityEvent m_endEvent = new UnityEvent();
 
     private int m_index = -1;
     private bool m_dialogueDone = true;
@@ -116,6 +118,7 @@ public class ScriptedCutscene : MonoBehaviour
         // Is at end
         if (m_index >= m_script.Length)
         {
+            m_endEvent.Invoke();
             Destroy(this.gameObject); 
             return; 
         }

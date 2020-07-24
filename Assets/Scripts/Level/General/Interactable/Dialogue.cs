@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using TMPro;
 
@@ -10,7 +11,10 @@ public class Dialogue : Interactable
 {
     // Variables
     [SerializeField] private Sprite m_characterSprite;
+    [SerializeField] private bool m_playOnAwake = false;
     public string[] m_dialogue;
+    [SerializeField] private UnityEvent m_endEvent = new UnityEvent();
+
     private int m_dialogueIndex = 0;
     private char[] m_curDialogue;
     private int m_charIndex = 0;
@@ -32,6 +36,11 @@ public class Dialogue : Interactable
         base.Awake();
         m_dialoguePrefab = Resources.Load<GameObject>("Prefabs/DialogueCanvas");
         m_player = FindObjectOfType<PlayerInput>();
+
+        if (m_playOnAwake)
+        {
+            Invoke();
+        }
     }
 
     public override void OnEnable()
@@ -149,6 +158,7 @@ public class Dialogue : Interactable
         m_player.SetDialogue(false);
         m_charIndex = 0;
         m_dialogueIndex = 0;
+        m_endEvent.Invoke();
     }
 
     // Returns true if the dialogue is still active
