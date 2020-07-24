@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     {
         if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
-            if (m_rStickDir != Vector3.zero)
+            if (m_rStickDir != Vector3.zero && m_moveDirection == Vector2.zero)
             {
                 transform.forward = m_rStickDir;
             }
