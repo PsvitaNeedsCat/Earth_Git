@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private EChunkEffect m_currentEffect = EChunkEffect.none;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
+    [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -168,6 +169,9 @@ public class Player : MonoBehaviour
 
         // Update display sprite
         UpdateUI();
+
+        // Particles
+        m_powerParticles[(int)_effect].Play();
 
         switch (_effect)
         {
