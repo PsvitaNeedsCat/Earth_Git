@@ -12,7 +12,7 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class SaveFile
     {
-        public string scene = "Overworld";
+        public string scene = "Dojo";
         public int room = 0;
         public Dictionary<EChunkEffect, bool> unlockedPowers = new Dictionary<EChunkEffect, bool>()
         {
