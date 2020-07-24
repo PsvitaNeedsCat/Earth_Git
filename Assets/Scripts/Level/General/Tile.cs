@@ -13,8 +13,14 @@ public class Tile : MonoBehaviour
     private bool m_ignore = false;
 
     // Tiles automatically added to and removed from grid over lifetime
-    private void OnEnable() => Grid.AddTile(this);
-    private void OnDisable() => Grid.RemoveTile(this);
+    private void OnEnable()
+    {
+        Grid.AddTile(this);
+    }
+    private void OnDisable()
+    {
+        Grid.RemoveTile(this);
+    }
 
     private void Awake()
     {
@@ -44,6 +50,20 @@ public class Tile : MonoBehaviour
         EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f);
 
         return newChunk;
+    }
+
+    // Used in tutorial - be careful with it - raises a chunk regardless of anything
+    public void ForceRaiseChunk()
+    {
+        // Spawn new chunk
+        GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_chunkType];
+        Chunk newChunk = Instantiate(chunkPrefab, transform.position, Quaternion.identity, null).GetComponent<Chunk>();
+        newChunk.m_chunkType = m_chunkType;
+        newChunk.RaiseChunk();
+
+        MessageBus.TriggerEvent(EMessageType.chunkRaise);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f);
     }
 
     // Checks if there is a chunk currently above thise tile
