@@ -316,7 +316,7 @@ public class Chunk : MonoBehaviour
     private bool IsAgainstWall(Vector3 _hitVec)
     {
         // Start position - almost the bottom of the chunk
-        Vector3 checkPosition = transform.position + (_hitVec.normalized * 1.0f);
+        Vector3 checkPosition = transform.position + _hitVec.normalized;
 
         // Raycast in the direction of the hit vector for half a chunk's length
         //if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))

@@ -30,11 +30,6 @@ public class TileTargeter : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, 0.1f);
-    }
-
     // Update is only called when tile targeter is active
     private void Update()
     {
