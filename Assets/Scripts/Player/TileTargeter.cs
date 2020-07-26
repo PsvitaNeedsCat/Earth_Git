@@ -30,6 +30,11 @@ public class TileTargeter : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, 0.1f);
+    }
+
     // Update is only called when tile targeter is active
     private void Update()
     {
@@ -53,7 +58,7 @@ public class TileTargeter : MonoBehaviour
         diff.y = 0.0f;
 
         // Check if closest is within maximum range && is not occupied
-        if (diff.magnitude < m_settings.m_maxTileRange && !m_closestTile.IsOccupied())
+        if (diff.magnitude < m_settings.m_maxTileRange)
         {
             m_indicator.SetActive(true);
             m_indicator.transform.position = m_closestTile.transform.position;
