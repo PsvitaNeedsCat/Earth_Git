@@ -96,4 +96,9 @@ public class CobraBoss : MonoBehaviour
             m_flippableTiles[i].Flip();
         }
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }
