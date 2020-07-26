@@ -29,6 +29,9 @@ public class CobraMirageWall : CobraBehaviour
     private IEnumerator WallSequence()
     {
         m_boss.FlipTiles();
+
+        yield return new WaitForSeconds(0.2f);
+
         ChunkManager.DestroyAllChunks();
         yield return new WaitForSeconds(1.0f);
 

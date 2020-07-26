@@ -79,7 +79,7 @@ public class RoomManager : MonoBehaviour
         // Change room
         else
         {
-            // Deacivate old room
+            // Deactivate old room
             m_rooms[m_currentRoom].SetActive(false);
 
             // Activate new room

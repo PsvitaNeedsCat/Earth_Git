@@ -31,6 +31,9 @@ public class CobraMirageBarrage : CobraBehaviour
     {
         // Flip tiles and destroy chunks
         m_boss.FlipTiles();
+
+        yield return new WaitForSeconds(0.2f);
+
         ChunkManager.DestroyAllChunks();
 
         yield return new WaitForSeconds(1.0f);

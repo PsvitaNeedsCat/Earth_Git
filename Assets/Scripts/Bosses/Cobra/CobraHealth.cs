@@ -54,36 +54,46 @@ public class CobraHealth : MonoBehaviour
 
     private void Awake()
     {
+        // If there is already a cobra health, destroy this
+        //if (s_health != null)
+        //{
+        //    Destroy(transform.parent.parent.gameObject);
+        //}
+        //// Otherwise, assign this as the instance
+        //else
+        //{
+        //    s_health = this;
+        //}
+        s_health = this;
+
+        s_healthIcons = m_healthIcons;
+        s_barrage = GetComponent<CobraMirageBarrage>();
+
         // Initialise variables
         s_settingsFull = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsFull");
         s_settingsHurtOnce = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtOnce");
         s_settingsHurtTwice = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtTwice");
 
+        s_currentHealth = CobraBoss.s_settings.m_maxHealth;
+
         s_boss = GetComponent<CobraBoss>();
         s_collider = GetComponent<BoxCollider>();
     }
 
+    private void OnDestroy()
+    {
+        s_health = null;
+        s_healthIcons.Clear();
+    }
+
     private void OnEnable()
     {
-        // If there is already a cobra health, destroy this
-        if (s_health != null)
-        {
-            Destroy(transform.parent.parent.gameObject);
-        }
-        // Otherwise, assign this as the instance
-        else
-        {
-            s_health = this;
-        }
-
-        s_healthIcons = m_healthIcons;
-        s_barrage = GetComponent<CobraMirageBarrage>();
+        
     }
 
     private void OnDisable()
     {
-        s_health = null;
-        s_healthIcons.Clear();
+        
     }
 
     private void Update()
