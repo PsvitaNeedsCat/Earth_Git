@@ -71,7 +71,7 @@ public class CentipedeHealth : MonoBehaviour
 
         Debug.Log("Damaged section " + _type.ToString());
 
-        HitFreezeManager.BeginHitFreeze(0.2f);
+        HitFreezeManager.BeginHitFreeze(0.1f);
 
         List<int> segments = m_sectionSegments[(int)_type];
 
