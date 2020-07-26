@@ -329,13 +329,11 @@ public class Chunk : MonoBehaviour
             foreach (Collider i in hits)
             {
                 SandBlock sand = i.transform.GetComponent<SandBlock>();
-                if (sand && !sand.m_isGlass) 
+                if (!sand || (sand && sand.m_isGlass)) 
                 { 
-                    return false;
+                    return true;
                 }
             }
-
-            return true;
         }
 
         return false;
