@@ -5,6 +5,21 @@ using UnityEngine;
 public enum ECobraMirageType { none, blue, red }
 public enum EDirection { northEast, southEast, southWest, northWest }
 
+public enum EShuffleMoveType { rotate, swap, fakeOut, complexRotate, sideToSide }
+public enum EShuffleActionType { move, inOrOut }
+
+[System.Serializable]
+public struct CobraMoveDef
+{
+    public EShuffleActionType m_actionType;
+    public EShuffleMoveType m_moveType;
+
+    public CobraMoveDef(EShuffleActionType _actionType, EShuffleMoveType _moveType)
+    {
+        m_actionType = _actionType;
+        m_moveType = _moveType;
+    }
+}
 
 [System.Serializable]
 public struct CobraMirageWallDef
@@ -33,6 +48,13 @@ public class CobraStateSettings : ScriptableObject
     public int m_projectilesPerPot; // How many projectiles each pot will ifre
     public float m_potProjectileInterval; // Time between firing projectiles by a pot
     public float m_potProjectileLifetime; // How long before the projectiles are despawned
+
+    [Header("Shuffle Settings")]
+    public List<EShuffleMoveType> m_allowedMoveTypes;
+    public float m_shuffleStartDelay;
+    public float m_shuffleMoveDelay;
+    public int m_shuffleNumMoves;
+    public int m_shuffleNumMirages;
 
     [Header("Mirage Barrage Settings")]
     public List<int> m_barrageAttackPositions;
