@@ -11,23 +11,20 @@ public class ToadTongueCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider _other)
     {
-        Debug.Log("Tongue collided with " + _other.name);
-
-        HealthComponent healthComp = _other.GetComponent<HealthComponent>();   
-
-        // If the player is hit, damage them and retract the tongue
-        if (healthComp && _other.GetComponent<PlayerController>())
-        {
-            healthComp.Health -= m_damage;
-            m_tongueAttack.RetractTongue();
-            return;
-        }
-
-        // If a chunk isn't attached, see if we have hit one
+        // Don't stick to a new chunk or deal damage if there is a chunk attached
         if (!m_attachedChunk)
         {
-            Chunk chunk = _other.GetComponentInParent<Chunk>();
+            HealthComponent healthComp = _other.GetComponent<HealthComponent>();
+            // If the player is hit, damage them and retract the tongue
+            if (healthComp && _other.GetComponent<PlayerController>())
+            {
+                healthComp.Health -= m_damage;
+                m_tongueAttack.RetractTongue();
+                return;
+            }
 
+            // Check if hit chunk
+            Chunk chunk = _other.GetComponentInParent<Chunk>();
             if (chunk)
             {
                 MessageBus.TriggerEvent(EMessageType.tongueStuck);
