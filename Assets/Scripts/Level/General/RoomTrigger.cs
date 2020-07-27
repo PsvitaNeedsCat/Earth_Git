@@ -16,7 +16,7 @@ public class RoomTrigger : MonoBehaviour
         {
             // Set room manager
             RoomManager.Instance.PrepareToChangeRoom(m_roomName);
-            RoomManager.Instance.m_respawnLocation = transform.position;
+            RoomManager.Instance.m_respawnLocation = transform.position - new Vector3(0.0f, 0.95f, 0.0f);
 
             // Set music if applicable
             if (m_musicTrigger != EMessageType.none)

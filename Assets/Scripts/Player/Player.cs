@@ -305,7 +305,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            HitFreezeManager.BeginHitFreeze(1.0f);
+            Debug.Log("Player got key");
+            m_hasKey = true;
         }
     }
 }
