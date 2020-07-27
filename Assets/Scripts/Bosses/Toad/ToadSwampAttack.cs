@@ -8,6 +8,7 @@ public class ToadSwampAttack : ToadBehaviour
 
     private float m_startingX;
     private float[] m_possiblePositions;
+    private int m_lastPosition = 1;
     private Collider m_collider;
     private ToadBossSettings m_toadSettings;
 

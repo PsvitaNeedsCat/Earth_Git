@@ -58,9 +58,8 @@ public class PlayerInput : MonoBehaviour
         m_controls.PlayerCombat.KeyboardTarget.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         m_controls.PlayerCombat.KeyboardTarget.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         // Change powers
-        m_controls.PlayerCombat.NoPower.performed += _ => m_player.TryChangeEffect(EChunkEffect.none);
-        m_controls.PlayerCombat.WaterPower.performed += _ => m_player.TryChangeEffect(EChunkEffect.water);
-        m_controls.PlayerCombat.FirePower.performed += _ => m_player.TryChangeEffect(EChunkEffect.fire);
+        m_controls.PlayerCombat.PowerSelection.performed += ctx => m_player.TryChangeEffect(ctx.ReadValue<Vector2>());
+        m_controls.PlayerCombat.PowerRotation.performed += ctx => m_player.RotateCurrentPower(ctx.ReadValue<float>());
         // Pause
         m_controls.PlayerMovement.Pause.performed += _ => m_player.Pause();
         m_controls.Pause.UnPause.performed += _ => m_player.UnPause();

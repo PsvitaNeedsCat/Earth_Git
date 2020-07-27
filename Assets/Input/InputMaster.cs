@@ -478,34 +478,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""No Power"",
-                    ""type"": ""Button"",
-                    ""id"": ""964ef8e0-1d6f-4de1-af36-1aa425d1fd97"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Power Selection"",
+                    ""type"": ""Value"",
+                    ""id"": ""9214649e-d45e-407b-b21a-343a03e1f7ac"",
+                    ""expectedControlType"": ""Dpad"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Water Power"",
-                    ""type"": ""Button"",
-                    ""id"": ""29de6a34-4843-4e4b-9179-f8e1abcd5825"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Fire Power"",
-                    ""type"": ""Button"",
-                    ""id"": ""82681fc2-aeef-4cb9-b648-d94725926196"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Mirage Power"",
-                    ""type"": ""Button"",
-                    ""id"": ""031d9282-e427-450d-88fc-84f8cfe3f06e"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Power Rotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""1a68dd7c-5295-45f0-939e-bade4921b5e4"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -530,94 +514,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Raise"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9918f710-bd8b-4f7c-9b51-e58973575e3a"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""No Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ac5e9507-3cc3-4a36-b22c-6bf86b0c162e"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""No Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b5cd684a-30d7-41a7-9174-ac727a26e169"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Water Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""67ef5946-2a83-491a-9c41-c0efd18ff155"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Water Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e3c709ab-4f29-43c3-af67-e2f68a323eed"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Fire Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""26605d48-dee7-47ad-b4ba-13f5d328aa9f"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Fire Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0b14bb4e-ccf4-41a0-93fb-a89c644414f5"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Mirage Power"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6f8f9997-c112-47b3-898c-f7a7d4510f0e"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Mirage Power"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -706,6 +602,182 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""KeyboardTarget"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""DPad"",
+                    ""id"": ""444c8735-4bac-4e2d-bb43-5cff130d5320"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7f998fa8-8604-4f01-b112-778ca5ede632"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a603ce9d-682e-4e43-9e6a-6d3d5d7647dc"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3803cc4a-b7da-4308-91a2-5c5201aacfcc"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""042831df-c1cd-4edf-8541-c3cacaf42350"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Numbers"",
+                    ""id"": ""63f5e86a-30f9-4714-a216-967e9486aebf"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1af1344a-5dcc-4dd3-98d2-2f0b480ad553"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""10713b34-0a3c-434c-88c9-087ed00d89df"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""417cce35-cd4f-4c59-a4a4-dd3660c02586"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""79a2af6b-bdde-4c65-87e2-0478c07e81da"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Shoulder Buttons"",
+                    ""id"": ""937424d2-a196-44e7-a74e-dd167cc9b215"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Power Rotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""c2858167-f874-414e-94f7-fdd48352702b"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""de9266f0-2f76-4ad3-89c1-6a6d09ec82b9"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Power Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""ER"",
+                    ""id"": ""bd6ac1a7-14bb-4fc2-92ab-5eaa38741f69"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Power Rotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""be9dcb0b-a21a-4b36-819a-2aefe1577127"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""57999a82-34f8-4df6-836b-32ee6fadebea"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Power Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -940,6 +1012,61 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""LAnalogStick"",
+                    ""id"": ""b68f29f8-fa04-48b5-abf3-3b9b09eca610"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""fe4ef4c2-517f-4152-802b-5fe5b775aba3"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""63cc8d1d-f584-42bd-8117-3c17ac1fb72b"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d9fa123e-3970-4fa1-864b-be974307704a"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e60c4957-508c-47d1-9d0c-cadfd1edf3ae"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""d3998b8b-c6bf-4233-8226-f0aea5c8650a"",
                     ""path"": ""<Gamepad>/buttonSouth"",
@@ -1070,10 +1197,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerCombat_Raise = m_PlayerCombat.FindAction("Raise", throwIfNotFound: true);
         m_PlayerCombat_Target = m_PlayerCombat.FindAction("Target", throwIfNotFound: true);
         m_PlayerCombat_KeyboardTarget = m_PlayerCombat.FindAction("KeyboardTarget", throwIfNotFound: true);
-        m_PlayerCombat_NoPower = m_PlayerCombat.FindAction("No Power", throwIfNotFound: true);
-        m_PlayerCombat_WaterPower = m_PlayerCombat.FindAction("Water Power", throwIfNotFound: true);
-        m_PlayerCombat_FirePower = m_PlayerCombat.FindAction("Fire Power", throwIfNotFound: true);
-        m_PlayerCombat_MiragePower = m_PlayerCombat.FindAction("Mirage Power", throwIfNotFound: true);
+        m_PlayerCombat_PowerSelection = m_PlayerCombat.FindAction("Power Selection", throwIfNotFound: true);
+        m_PlayerCombat_PowerRotation = m_PlayerCombat.FindAction("Power Rotation", throwIfNotFound: true);
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_UnPause = m_Pause.FindAction("UnPause", throwIfNotFound: true);
@@ -1233,10 +1358,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerCombat_Raise;
     private readonly InputAction m_PlayerCombat_Target;
     private readonly InputAction m_PlayerCombat_KeyboardTarget;
-    private readonly InputAction m_PlayerCombat_NoPower;
-    private readonly InputAction m_PlayerCombat_WaterPower;
-    private readonly InputAction m_PlayerCombat_FirePower;
-    private readonly InputAction m_PlayerCombat_MiragePower;
+    private readonly InputAction m_PlayerCombat_PowerSelection;
+    private readonly InputAction m_PlayerCombat_PowerRotation;
     public struct PlayerCombatActions
     {
         private @InputMaster m_Wrapper;
@@ -1245,10 +1368,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Raise => m_Wrapper.m_PlayerCombat_Raise;
         public InputAction @Target => m_Wrapper.m_PlayerCombat_Target;
         public InputAction @KeyboardTarget => m_Wrapper.m_PlayerCombat_KeyboardTarget;
-        public InputAction @NoPower => m_Wrapper.m_PlayerCombat_NoPower;
-        public InputAction @WaterPower => m_Wrapper.m_PlayerCombat_WaterPower;
-        public InputAction @FirePower => m_Wrapper.m_PlayerCombat_FirePower;
-        public InputAction @MiragePower => m_Wrapper.m_PlayerCombat_MiragePower;
+        public InputAction @PowerSelection => m_Wrapper.m_PlayerCombat_PowerSelection;
+        public InputAction @PowerRotation => m_Wrapper.m_PlayerCombat_PowerRotation;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1270,18 +1391,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @KeyboardTarget.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
                 @KeyboardTarget.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
                 @KeyboardTarget.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnKeyboardTarget;
-                @NoPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
-                @NoPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
-                @NoPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnNoPower;
-                @WaterPower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
-                @WaterPower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
-                @WaterPower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnWaterPower;
-                @FirePower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
-                @FirePower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
-                @FirePower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnFirePower;
-                @MiragePower.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
-                @MiragePower.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
-                @MiragePower.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnMiragePower;
+                @PowerSelection.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerSelection;
+                @PowerSelection.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerSelection;
+                @PowerSelection.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerSelection;
+                @PowerRotation.started -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerRotation;
+                @PowerRotation.performed -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerRotation;
+                @PowerRotation.canceled -= m_Wrapper.m_PlayerCombatActionsCallbackInterface.OnPowerRotation;
             }
             m_Wrapper.m_PlayerCombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -1298,18 +1413,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @KeyboardTarget.started += instance.OnKeyboardTarget;
                 @KeyboardTarget.performed += instance.OnKeyboardTarget;
                 @KeyboardTarget.canceled += instance.OnKeyboardTarget;
-                @NoPower.started += instance.OnNoPower;
-                @NoPower.performed += instance.OnNoPower;
-                @NoPower.canceled += instance.OnNoPower;
-                @WaterPower.started += instance.OnWaterPower;
-                @WaterPower.performed += instance.OnWaterPower;
-                @WaterPower.canceled += instance.OnWaterPower;
-                @FirePower.started += instance.OnFirePower;
-                @FirePower.performed += instance.OnFirePower;
-                @FirePower.canceled += instance.OnFirePower;
-                @MiragePower.started += instance.OnMiragePower;
-                @MiragePower.performed += instance.OnMiragePower;
-                @MiragePower.canceled += instance.OnMiragePower;
+                @PowerSelection.started += instance.OnPowerSelection;
+                @PowerSelection.performed += instance.OnPowerSelection;
+                @PowerSelection.canceled += instance.OnPowerSelection;
+                @PowerRotation.started += instance.OnPowerRotation;
+                @PowerRotation.performed += instance.OnPowerRotation;
+                @PowerRotation.canceled += instance.OnPowerRotation;
             }
         }
     }
@@ -1432,10 +1541,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRaise(InputAction.CallbackContext context);
         void OnTarget(InputAction.CallbackContext context);
         void OnKeyboardTarget(InputAction.CallbackContext context);
-        void OnNoPower(InputAction.CallbackContext context);
-        void OnWaterPower(InputAction.CallbackContext context);
-        void OnFirePower(InputAction.CallbackContext context);
-        void OnMiragePower(InputAction.CallbackContext context);
+        void OnPowerSelection(InputAction.CallbackContext context);
+        void OnPowerRotation(InputAction.CallbackContext context);
     }
     public interface IPauseActions
     {

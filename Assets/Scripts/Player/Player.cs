@@ -195,6 +195,62 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TryChangeEffect(Vector2 _dpadDir)
+    {
+        // Down
+        if (_dpadDir == Vector2.down)
+        {
+            return;
+        }
+
+        // Turn vector2 into EChunkEffect
+        EChunkEffect effect = EChunkEffect.none;
+
+        // Left/Right
+        if (_dpadDir == Vector2.left)
+        {
+            effect = EChunkEffect.water;
+        }
+        else if (_dpadDir == Vector2.right)
+        {
+            effect = EChunkEffect.fire;
+        }
+
+        TryChangeEffect(effect);
+    }
+
+    // Called by PlayerInput - rotates the power CW or CCW
+    public void RotateCurrentPower(float _dir)
+    {
+        EChunkEffect newPower;
+
+        // If at the top of the enum
+        if (_dir < 0.0f && m_currentEffect == EChunkEffect.none)
+        {
+            // Go to the end
+            newPower = EChunkEffect.fire;
+        }
+        // If at the bottom of the enum
+        else if (_dir > 0.0f && m_currentEffect == EChunkEffect.fire)
+        {
+            newPower = EChunkEffect.none;
+        }
+        // Otherwise, increment by direction
+        else
+        {
+            newPower = (EChunkEffect)((int)m_currentEffect + _dir);
+        }
+
+        // Loop around the wheel
+        if (!s_activePowers[newPower])
+        {
+            m_currentEffect = newPower;
+            RotateCurrentPower(_dir);
+        }
+
+        TryChangeEffect(newPower);
+    }
+
     private void UpdateUI()
     {
         int num = -1;
