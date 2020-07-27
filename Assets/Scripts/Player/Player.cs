@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private Player m_instance;
     private PlayerController m_playerController;
     [SerializeField] private TileTargeter m_tileTargeter = null;
-    private EChunkEffect m_currentEffect = EChunkEffect.none;
+    private static EChunkEffect s_currentEffect = EChunkEffect.none;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     }
     public EChunkEffect GetCurrentPower()
     {
-        return m_currentEffect;
+        return s_currentEffect;
     }
 
     public void Pause() => m_playerController.Pause();
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
     // Called by punch animation
     public void TryPunch()
     {
-        m_playerController.Punch(m_currentEffect);
+        m_playerController.Punch(s_currentEffect);
     }
 
     // Called by raise animation
@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
         if (!s_activePowers[_effect]) { return; }
 
         // Change the player's power
-        m_currentEffect = _effect;
+        s_currentEffect = _effect;
 
         // Update display sprite
         UpdateUI();
@@ -225,26 +225,26 @@ public class Player : MonoBehaviour
         EChunkEffect newPower;
 
         // If at the top of the enum
-        if (_dir < 0.0f && m_currentEffect == EChunkEffect.none)
+        if (_dir < 0.0f && s_currentEffect == EChunkEffect.none)
         {
             // Go to the end
             newPower = EChunkEffect.fire;
         }
         // If at the bottom of the enum
-        else if (_dir > 0.0f && m_currentEffect == EChunkEffect.fire)
+        else if (_dir > 0.0f && s_currentEffect == EChunkEffect.fire)
         {
             newPower = EChunkEffect.none;
         }
         // Otherwise, increment by direction
         else
         {
-            newPower = (EChunkEffect)((int)m_currentEffect + _dir);
+            newPower = (EChunkEffect)((int)s_currentEffect + _dir);
         }
 
         // Loop around the wheel
         if (!s_activePowers[newPower])
         {
-            m_currentEffect = newPower;
+            s_currentEffect = newPower;
             RotateCurrentPower(_dir);
         }
 
@@ -265,7 +265,7 @@ public class Player : MonoBehaviour
         bool[] active = new bool[3];
         for (int i = 0; i < s_activePowers.Count; i++) { active[i] = s_activePowers[(EChunkEffect)i]; }
         m_crystalUI.UpdateUnlocked(active);
-        m_crystalUI.UpdateSelected((int)m_currentEffect);
+        m_crystalUI.UpdateSelected((int)s_currentEffect);
     }
 
     // Will try to interact with whatever is closest
