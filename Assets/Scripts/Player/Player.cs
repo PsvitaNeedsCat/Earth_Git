@@ -51,9 +51,18 @@ public class Player : MonoBehaviour
         return s_currentEffect;
     }
 
-    public void Pause() => m_playerController.Pause();
-    public void UnPause() => m_playerController.UnPause();
-    public void ContinueDialogue() => m_playerController.ContinueDialogue();
+    public void Pause()
+    {
+        m_playerController.Pause();
+    }
+    public void UnPause()
+    {
+        m_playerController.UnPause();
+    }
+    public void ContinueDialogue()
+    {
+        m_playerController.ContinueDialogue();
+    }
 
     private void Awake()
     {
@@ -307,6 +316,12 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Player got key");
             m_hasKey = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            // Hit freeze
+            HitFreezeManager.BeginHitFreeze(2.0f);
         }
     }
 }
