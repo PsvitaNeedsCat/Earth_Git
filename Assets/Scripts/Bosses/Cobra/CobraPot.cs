@@ -10,11 +10,11 @@ public class CobraPot : MonoBehaviour
     public float m_lobProjectileSpawnHeight;
     public float m_lobVelocity;
     public Vector3 m_lobDir;
+    public LayerMask m_tileLayers;
+    public GameObject m_mesh;
 
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
-
-    private Vector3[] m_fireDirections = new Vector3[] { Vector3.forward, Vector3.right, -Vector3.forward, -Vector3.right };
 
     private void Awake()
     {
@@ -37,7 +37,10 @@ public class CobraPot : MonoBehaviour
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            FireAtSurroundingTiles();
+        }
     }
 
     private void LobProjectile(Vector3 _dir)
@@ -46,24 +49,50 @@ public class CobraPot : MonoBehaviour
         GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
         // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
 
-        lobProjectile.GetComponent<Rigidbody>().velocity = m_lobDir.normalized * m_lobVelocity;
+        lobProjectile.GetComponent<Rigidbody>().velocity = _dir * m_lobVelocity;
     }
 
     private void FireAtSurroundingTiles()
     {
-        for (int i = 0; i < m_fireDirections.Length; i++)
+        Vector3 lobDir = m_lobDir.normalized;
+
+        // Forward
+        if (CheckForTile(transform.forward))
         {
-            if (CheckForTile(m_fireDirections[i]))
-            {
-                LobProjectile(m_fireDirections[i]);
-            }
+            LobProjectile(lobDir);
+        }
+
+        // Right
+        if (CheckForTile(transform.right))
+        {
+            LobProjectile(new Vector3(lobDir.z, lobDir.y, lobDir.x));
+        }
+
+        // Back
+        if (CheckForTile(-transform.forward))
+        {
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, -lobDir.z));
+        }
+
+        // Left
+        if (CheckForTile(-transform.right))
+        {
+            LobProjectile(new Vector3(-lobDir.z, lobDir.y, lobDir.x));
         }
     }
 
     private bool CheckForTile(Vector3 _dir)
     {
-        // 
-        return true;
+        RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position + _dir, -Vector3.up);
+
+        if (Physics.Raycast(ray, out hitInfo, 5.0f, m_tileLayers))
+        {
+            Debug.Log("Hit " + hitInfo.collider.name);
+            return (hitInfo.collider.GetComponentInParent<Tile>());
+        }
+
+        return false;
     }
 
     //private Vector3 DirectionFromAngle(float _angle)

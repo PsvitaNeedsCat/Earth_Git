@@ -2,23 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class CobraShuffle : CobraBehaviour
 {
     public List<CobraPot> m_pots;
 
-    private List<CobraMoveDef> m_cobraMoves;
+    private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
+    private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
+    private List<CobraPot> m_activePots = new List<CobraPot>();
 
     public override void StartBehaviour()
     {
         base.StartBehaviour();
 
-        
+        GetPots();
 
         // Generate an order of moves
         GenerateMoves();
 
         // Jump into the middle
         StartCoroutine(JumpIn());
+    }
+
+    private void GetPots()
+    {
+        m_activePots.Clear();
+
+        m_activePotDefs = CobraHealth.StateSettings.m_shufflePotsToJumpIn;
+
+        for (int i = 0; i < m_activePotDefs.Count; i++)
+        {
+            m_activePots.Add(m_pots[m_activePotDefs[i].m_potIndex]);
+        }
     }
 
     // Pots jump into the center of the arena
@@ -28,6 +44,15 @@ public class CobraShuffle : CobraBehaviour
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);
 
         // Do jumping in
+        for (int i = 0; i < m_activePotDefs.Count; i++)
+        {
+            Vector3 jumpInPos = CobraBoss.GetTileWorldPos(m_activePotDefs[i].m_jumpInPoint);
+            // m_activePots[i].transform.DOMove(jumpInPos, CobraHealth.StateSettings.m_shuffleJumpInTime);
+
+            MovePot(m_activePots[i], jumpInPos, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime);
+        }
+
+        yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
 
         StartCoroutine(MoveSequence());
     }
@@ -79,5 +104,13 @@ public class CobraShuffle : CobraBehaviour
     public override void Reset()
     {
         base.Reset();
+    }
+
+    private void MovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration)
+    {
+        _pot.transform.DOBlendableMoveBy(_destination - transform.position, _duration);
+        // _pot.transform.DOBlendableLocalMoveBy(Vector3.up * _jumpHeight, _duration / 2.0f).OnComplete(() => _pot.transform.DOBlendableLocalMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f));
+        _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0);
+        // _pot.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0);
     }
 }

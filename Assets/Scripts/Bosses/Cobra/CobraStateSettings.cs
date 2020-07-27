@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ECobraMirageType { none, blue, red }
+
 public enum EDirection { northEast, southEast, southWest, northWest }
 
 public enum EShuffleMoveType { rotate, swap, fakeOut, complexRotate, sideToSide }
+
 public enum EShuffleActionType { move, inOrOut }
 
 [System.Serializable]
@@ -19,6 +21,13 @@ public struct CobraMoveDef
         m_actionType = _actionType;
         m_moveType = _moveType;
     }
+}
+
+[System.Serializable]
+public struct CobraShufflePotDef
+{
+    public int m_potIndex;
+    public int m_jumpInPoint;
 }
 
 [System.Serializable]
@@ -51,10 +60,11 @@ public class CobraStateSettings : ScriptableObject
 
     [Header("Shuffle Settings")]
     public List<EShuffleMoveType> m_allowedMoveTypes;
+    public List<CobraShufflePotDef> m_shufflePotsToJumpIn;
     public float m_shuffleStartDelay;
     public float m_shuffleMoveDelay;
+    public float m_shuffleJumpInTime;
     public int m_shuffleNumMoves;
-    public int m_shuffleNumMirages;
 
     [Header("Mirage Barrage Settings")]
     public List<int> m_barrageAttackPositions;
