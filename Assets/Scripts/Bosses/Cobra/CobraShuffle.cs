@@ -106,11 +106,9 @@ public class CobraShuffle : CobraBehaviour
         base.Reset();
     }
 
-    private void MovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration)
+    private void MovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration, )
     {
-        _pot.transform.DOBlendableMoveBy(_destination - transform.position, _duration);
-        // _pot.transform.DOBlendableLocalMoveBy(Vector3.up * _jumpHeight, _duration / 2.0f).OnComplete(() => _pot.transform.DOBlendableLocalMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f));
+        _pot.transform.DOMove(_destination, _duration);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0);
-        // _pot.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0);
     }
 }
