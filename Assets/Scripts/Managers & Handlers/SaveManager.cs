@@ -54,8 +54,14 @@ public class SaveManager : MonoBehaviour
         m_saves[m_currentFile].room = (RoomManager.Instance) ? RoomManager.Instance.GetCurrentRoom() : 0;
         m_saves[m_currentFile].unlockedPowers = Player.s_activePowers;
         PlayerController player = FindObjectOfType<PlayerController>();
-        if (player) { m_saves[m_currentFile].health = player.GetCurrentHealth(); }
-        else { Debug.LogError("Unbale to find player, could not save health"); }
+        if (player)
+        {
+            m_saves[m_currentFile].health = player.GetCurrentHealth();
+        }
+        else 
+        {
+            Debug.LogError("Unbale to find player, could not save health"); 
+        }
 
         // Save to txt file
         FileStream fs = File.Open(Application.dataPath + "/" + m_settings.m_saveFileName + m_currentFile.ToString() + ".txt", FileMode.OpenOrCreate);
@@ -133,6 +139,7 @@ public class SaveManager : MonoBehaviour
 
         // Load the unlocked powers
         Player.s_activePowers = m_saves[m_currentFile].unlockedPowers;
+        Player.s_currentEffect = EChunkEffect.none;
     }
 
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)

@@ -16,13 +16,13 @@ public class Player : MonoBehaviour
         { EChunkEffect.water, false },
         { EChunkEffect.fire, false }
     };
+    public static EChunkEffect s_currentEffect = EChunkEffect.none;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
     private Player m_instance;
     private PlayerController m_playerController;
     [SerializeField] private TileTargeter m_tileTargeter = null;
-    private static EChunkEffect s_currentEffect = EChunkEffect.none;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
