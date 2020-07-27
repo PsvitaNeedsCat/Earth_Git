@@ -8,7 +8,7 @@ public class ToadSwampAttack : ToadBehaviour
 
     private float m_startingX;
     private float[] m_possiblePositions;
-    private int m_lastPosition = 1;
+    private List<float> m_positionSeq = new List<float>();
     private Collider m_collider;
     private ToadBossSettings m_toadSettings;
 
@@ -36,7 +36,14 @@ public class ToadSwampAttack : ToadBehaviour
         m_collider.isTrigger = true;
         yield return new WaitForSeconds(m_toadSettings.m_underwaterTime / 2.0f);
 
-        float newXPos = m_possiblePositions[Random.Range(0, 3)];
+        // If all positions are used, get new pattern
+        if (m_positionSeq.Count == 0)
+        {
+            GetRandomSequence();
+        }
+
+        float newXPos = m_positionSeq[0];
+        m_positionSeq.RemoveAt(0);
 
         Vector3 oldPos = transform.parent.position;
         oldPos.x = newXPos;
@@ -45,6 +52,35 @@ public class ToadSwampAttack : ToadBehaviour
         yield return new WaitForSeconds(m_toadSettings.m_underwaterTime / 2.0f);
 
         m_toadAnimator.SetTrigger("SwampAttackFinish");
+    }
+
+    // Gets random positons
+    private void GetRandomSequence()
+    {
+        Dictionary<float, bool> usedPositions = new Dictionary<float, bool>()
+        {
+            { m_possiblePositions[0], false },
+            { m_possiblePositions[1], false },
+            { m_possiblePositions[2], false }
+        };
+
+        for (int i = 0; i < m_possiblePositions.Length; i++)
+        {
+            // Get list of possible positions to choose from
+            List<float> possiblePositions = new List<float>();
+            for (int j = 0; j < m_possiblePositions.Length; j++)
+            {
+                if (!usedPositions[m_possiblePositions[j]])
+                {
+                    possiblePositions.Add(m_possiblePositions[j]);
+                }
+            }
+
+            // Choose position at random
+            float chosenPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
+            usedPositions[chosenPosition] = true;
+            m_positionSeq.Add(chosenPosition);
+        }
     }
 
     public void LaunchWave()

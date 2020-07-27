@@ -6,7 +6,7 @@ using DG.Tweening;
 public class ToadWave : MonoBehaviour
 {
     public float m_travelTime = 3.0f;
-    public float m_travelDist = 7.0f;
+    public float m_travelDist = 12.0f;
 
     public void Launch()
     {
