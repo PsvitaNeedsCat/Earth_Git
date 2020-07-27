@@ -258,6 +258,12 @@ public class PlayerController : MonoBehaviour
             m_health.IsInvincible = !m_health.IsInvincible;
             Debug.Log("Invincibility set to: " + m_health.IsInvincible);
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            // Jump
+            m_rigidBody.AddForce(Vector3.up * 15.0f, ForceMode.Impulse);
+        }
     }
 
     // Pauses the game
