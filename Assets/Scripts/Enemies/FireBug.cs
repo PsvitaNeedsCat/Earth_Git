@@ -13,26 +13,29 @@ public class FireBug : MonoBehaviour
         none,
         patrolling,
         charging,
-        vulnerable
+        vulnerable,
+        waiting,
+        returning
     }
 
-    public List<Transform> m_patrolPoints;
-    public float m_moveSpeed;
-    public float m_chargeSpeed;
-    public float m_arriveDistance;
-    public float m_windUpTime;
-    public float m_vulnerableTime;
-    public float m_turnTime;
+    [SerializeField] private List<Transform> m_patrolPoints;
     public LayerMask m_visionHitLayers;
     public LayerMask m_chargeHitLayers;
     public GameObject m_mesh;
 
+    private float m_moveSpeed = 1.5f;
+    private float m_chargeSpeed = 6.0f;
+    private float m_arriveDistance = 0.2f;
+    private float m_windUpTime = 1.0f;
+    private float m_vulnerableTime = 5.0f;
+    private float m_turnTime = 0.6f;
     private int m_currentPatrolPointIndex = 0;
-    [SerializeField] private EFireBugState m_state = EFireBugState.patrolling;
+    private EFireBugState m_state = EFireBugState.patrolling;
     private Vector3 m_chargeTarget;
     private Vector3 m_chargeDir;
     private Rigidbody m_rigidBody;
     private Quaternion m_startRotation;
+    [SerializeField] private bool m_shouldPatrol = true;
 
     private void Awake()
     {
@@ -51,12 +54,6 @@ public class FireBug : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-    }
-
-    // Switch based on state
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     private void FixedUpdate()
@@ -80,20 +77,55 @@ public class FireBug : MonoBehaviour
                     Vulnerable();
                     break;
                 }
+
+            case EFireBugState.waiting:
+                {
+                    CheckForPlayer();
+                    break;
+                }
+
+            case EFireBugState.returning:
+                {
+                    ReturnToInitPoint();
+                    break;
+                }
         }
+    }
+
+    private void ReturnToInitPoint()
+    {
+        m_currentPatrolPointIndex = 0;
+
+        // Move towards point
+        MoveTowardsCurrentPoint();
+
+        CheckForPlayer();
+
+        // If reached point, then stop
+        CheckPatrolPoint();
     }
 
     // Patrols between points
     private void Patrol()
     {
+        if (!m_shouldPatrol)
+        {
+            m_state = EFireBugState.waiting;
+        }
+
         CheckPatrolPoint();
 
         // Find current target point, and move towards it
+        MoveTowardsCurrentPoint();
+
+        CheckForPlayer();
+    }
+
+    private void MoveTowardsCurrentPoint()
+    {
         Transform targetPoint = m_patrolPoints[m_currentPatrolPointIndex];
         Vector3 newPos = Vector3.MoveTowards(transform.position, targetPoint.position, Time.fixedDeltaTime * m_moveSpeed);
         m_rigidBody.MovePosition(newPos);
-
-        CheckForPlayer();
     }
 
     private void Charge()
@@ -102,8 +134,6 @@ public class FireBug : MonoBehaviour
         // transform.LookAt(m_chargeTarget);
         Vector3 newPos = Vector3.MoveTowards(transform.position, m_chargeTarget, Time.fixedDeltaTime * m_chargeSpeed);
         m_rigidBody.MovePosition(newPos);
-
-        Debug.Log("Charging");
     }
     
     private void Vulnerable()
@@ -172,7 +202,7 @@ public class FireBug : MonoBehaviour
         // m_mesh.transform.DORotate(Vector3.right, 0.5f);
         m_mesh.transform.DOLocalRotateQuaternion(Quaternion.identity, 0.5f).OnComplete(() => transform.DOLookAt(m_patrolPoints[m_currentPatrolPointIndex].position, 0.2f));
 
-        m_state = EFireBugState.patrolling;
+        m_state = (m_shouldPatrol) ? EFireBugState.patrolling : EFireBugState.returning;
     }
 
     private IEnumerator Turn()
@@ -204,18 +234,8 @@ public class FireBug : MonoBehaviour
         }
     }
 
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (m_state == EFireBugState.charging)
-    //    {
-    //        StartCoroutine(FlipOver());
-    //    }
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger hit " + other.name);
-
         if (other.isTrigger) return;
 
         Player player = other.GetComponent<Player>();
@@ -256,9 +276,5 @@ public class FireBug : MonoBehaviour
             Gizmos.DrawWireSphere(m_chargeTarget, 1.0f);
             Gizmos.DrawLine(transform.position, transform.position + m_chargeDir * 100.0f);
         }
-
-//#if UNITY_EDITOR
-//        Handles.Label(transform.position + Vector3.up * 0.5f, m_state.ToString());
-//#endif
     }
 }

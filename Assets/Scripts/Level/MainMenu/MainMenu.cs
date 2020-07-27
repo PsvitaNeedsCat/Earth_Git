@@ -14,16 +14,24 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button[] m_deleteButtons = new Button[3];
     [SerializeField] private Button m_returnButton;
 
-    private EventSystem m_eventSystem;
+    [SerializeField] private EventSystem m_eventSystem;
+    [SerializeField] private GameObject m_splashScreen = null;
+    [SerializeField] private GameObject m_menuObject = null;
 
     private static MainMenu s_instance;
+    private static bool s_splashSeen = false;
 
     private void Awake()
     {
         if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
         else { s_instance = this; }
 
-        m_eventSystem = FindObjectOfType<EventSystem>();
+        // Disable splash screen
+        if (s_splashSeen)
+        {
+            m_splashScreen.SetActive(false);
+            m_menuObject.SetActive(true);
+        }
     }
 
     private void OnDisable()
@@ -35,6 +43,8 @@ public class MainMenu : MonoBehaviour
     // Called when play is pressed
     public void PressPlay()
     {
+        s_splashSeen = true;
+
         // Deselect buttons
         m_eventSystem.SetSelectedGameObject(null);
 

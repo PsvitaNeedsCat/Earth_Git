@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HitFreezeManager : MonoBehaviour
 {
+    public static float s_ogTimeScale = 1.0f;
+    public static bool s_frozen = false;
+
     private static HitFreezeManager s_instance = null;
 
     private void Awake()
@@ -23,12 +26,16 @@ public class HitFreezeManager : MonoBehaviour
 
     private static IEnumerator FreezeForTime(float _freezeTime)
     {
-        float ogTimeScale = Time.timeScale;
+        s_ogTimeScale = Time.timeScale;
 
         Time.timeScale = 0.0f;
 
+        s_frozen = true;
+
         yield return new WaitForSecondsRealtime(_freezeTime);
 
-        Time.timeScale = ogTimeScale;
+        Time.timeScale = s_ogTimeScale;
+
+        s_frozen = false;
     }
 }

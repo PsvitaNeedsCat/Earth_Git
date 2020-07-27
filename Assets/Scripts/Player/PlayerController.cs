@@ -264,12 +264,16 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0.0f;
+        HitFreezeManager.s_ogTimeScale = 0.0f;
         AudioManager.Instance.PauseAll();
         m_input.SetPause(true);
 
         // Remove event systems
         m_eventSystems = FindObjectsOfType<EventSystem>();
-        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = false; }
+        for (int i = 0; i < m_eventSystems.Length; i++)
+        {
+            m_eventSystems[i].enabled = false; 
+        }
 
         m_pauseMenu = Instantiate(m_pauseMenuPrefab, Vector3.zero, Quaternion.identity);
     }
@@ -277,14 +281,20 @@ public class PlayerController : MonoBehaviour
     // UnPauses the game
     public void UnPause()
     {
-        Time.timeScale = 1.0f;
+        if (!HitFreezeManager.s_frozen)
+        {
+            Time.timeScale = 1.0f;
+        }
+        HitFreezeManager.s_ogTimeScale = 1.0f;
         m_input.SetPause(false);
         AudioManager.Instance.ContinuePlay();
         Destroy(m_pauseMenu);
 
         // Reenable event systems
-        for (int i = 0; i < m_eventSystems.Length; i++) { m_eventSystems[i].enabled = true
-; }
+        for (int i = 0; i < m_eventSystems.Length; i++)
+        {
+            m_eventSystems[i].enabled = true; 
+        }
     }
 
     public void ContinueDialogue()

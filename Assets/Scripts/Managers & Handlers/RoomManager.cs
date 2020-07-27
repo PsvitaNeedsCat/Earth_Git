@@ -85,6 +85,7 @@ public class RoomManager : MonoBehaviour
             // Activate new room
             m_currentRoom = m_newRoom;
             m_rooms[m_currentRoom].SetActive(true);
+            m_playerInput.transform.position = m_respawnLocation;
 
             m_blackWall.SetTrigger("FadeToGame");
             m_playerInput.SetMovement(true);

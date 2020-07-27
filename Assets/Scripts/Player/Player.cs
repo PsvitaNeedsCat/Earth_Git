@@ -16,13 +16,13 @@ public class Player : MonoBehaviour
         { EChunkEffect.water, false },
         { EChunkEffect.fire, false }
     };
+    public static EChunkEffect s_currentEffect = EChunkEffect.none;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
     private Player m_instance;
     private PlayerController m_playerController;
     [SerializeField] private TileTargeter m_tileTargeter = null;
-    private EChunkEffect m_currentEffect = EChunkEffect.none;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
@@ -48,12 +48,21 @@ public class Player : MonoBehaviour
     }
     public EChunkEffect GetCurrentPower()
     {
-        return m_currentEffect;
+        return s_currentEffect;
     }
 
-    public void Pause() => m_playerController.Pause();
-    public void UnPause() => m_playerController.UnPause();
-    public void ContinueDialogue() => m_playerController.ContinueDialogue();
+    public void Pause()
+    {
+        m_playerController.Pause();
+    }
+    public void UnPause()
+    {
+        m_playerController.UnPause();
+    }
+    public void ContinueDialogue()
+    {
+        m_playerController.ContinueDialogue();
+    }
 
     private void Awake()
     {
@@ -142,7 +151,7 @@ public class Player : MonoBehaviour
     // Called by punch animation
     public void TryPunch()
     {
-        m_playerController.Punch(m_currentEffect);
+        m_playerController.Punch(s_currentEffect);
     }
 
     // Called by raise animation
@@ -165,7 +174,7 @@ public class Player : MonoBehaviour
         if (!s_activePowers[_effect]) { return; }
 
         // Change the player's power
-        m_currentEffect = _effect;
+        s_currentEffect = _effect;
 
         // Update display sprite
         UpdateUI();
@@ -195,6 +204,62 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TryChangeEffect(Vector2 _dpadDir)
+    {
+        // Down
+        if (_dpadDir == Vector2.down)
+        {
+            return;
+        }
+
+        // Turn vector2 into EChunkEffect
+        EChunkEffect effect = EChunkEffect.none;
+
+        // Left/Right
+        if (_dpadDir == Vector2.left)
+        {
+            effect = EChunkEffect.water;
+        }
+        else if (_dpadDir == Vector2.right)
+        {
+            effect = EChunkEffect.fire;
+        }
+
+        TryChangeEffect(effect);
+    }
+
+    // Called by PlayerInput - rotates the power CW or CCW
+    public void RotateCurrentPower(float _dir)
+    {
+        EChunkEffect newPower;
+
+        // If at the top of the enum
+        if (_dir < 0.0f && s_currentEffect == EChunkEffect.none)
+        {
+            // Go to the end
+            newPower = EChunkEffect.fire;
+        }
+        // If at the bottom of the enum
+        else if (_dir > 0.0f && s_currentEffect == EChunkEffect.fire)
+        {
+            newPower = EChunkEffect.none;
+        }
+        // Otherwise, increment by direction
+        else
+        {
+            newPower = (EChunkEffect)((int)s_currentEffect + _dir);
+        }
+
+        // Loop around the wheel
+        if (!s_activePowers[newPower])
+        {
+            s_currentEffect = newPower;
+            RotateCurrentPower(_dir);
+        }
+
+        TryChangeEffect(newPower);
+    }
+
     private void UpdateUI()
     {
         int num = -1;
@@ -209,7 +274,7 @@ public class Player : MonoBehaviour
         bool[] active = new bool[3];
         for (int i = 0; i < s_activePowers.Count; i++) { active[i] = s_activePowers[(EChunkEffect)i]; }
         m_crystalUI.UpdateUnlocked(active);
-        m_crystalUI.UpdateSelected((int)m_currentEffect);
+        m_crystalUI.UpdateSelected((int)s_currentEffect);
     }
 
     // Will try to interact with whatever is closest
@@ -249,7 +314,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            HitFreezeManager.BeginHitFreeze(1.0f);
+            Debug.Log("Player got key");
+            m_hasKey = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            // Hit freeze
+            HitFreezeManager.BeginHitFreeze(2.0f);
         }
     }
 }
