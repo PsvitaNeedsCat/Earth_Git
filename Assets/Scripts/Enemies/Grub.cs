@@ -138,11 +138,10 @@ public class Grub : MonoBehaviour
         // Tween
         Vector3 projScale = proj.transform.localScale;
         proj.transform.localScale = projScale * 0.1f;
-        proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic);
+        proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic).OnComplete(() => m_invincible = true);
 
         proj.transform.parent = RoomManager.Instance.GetActiveRoom().transform;
 
-        m_invincible = true;
         m_moving = false;
     }
 
