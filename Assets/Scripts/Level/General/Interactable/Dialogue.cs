@@ -12,6 +12,7 @@ public class Dialogue : Interactable
     // Variables
     [SerializeField] private Sprite m_characterSprite;
     [SerializeField] private bool m_playOnAwake = false;
+    [TextArea(5, 5)]
     public string[] m_dialogue;
     [SerializeField] private UnityEvent m_endEvent = new UnityEvent();
 
