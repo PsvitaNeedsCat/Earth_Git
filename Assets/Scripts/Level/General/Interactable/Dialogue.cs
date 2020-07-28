@@ -21,6 +21,7 @@ public class Dialogue : Interactable
     private int m_charIndex = 0;
     private string m_displayText = "";
     private bool m_active = false;
+    private const float m_marginWithSprite = 462.927f;
 
     // References
     private GameObject m_dialoguePrefab;
@@ -76,10 +77,14 @@ public class Dialogue : Interactable
                 }
             }
 
-            // Move bottom text margin
+            // Move text margin
+            Vector4 margin = m_dialogueText.margin;
+            margin.x = m_marginWithSprite;
+            m_dialogueText.margin = margin;
+
             TextMeshProUGUI secondTMPro = m_dialogueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            Vector4 margin = secondTMPro.margin;
-            margin.x = 211.5f;
+            margin = secondTMPro.margin;
+            margin.x = m_marginWithSprite;
             secondTMPro.margin = margin;
         }
 
