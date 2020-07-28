@@ -46,10 +46,9 @@ public class CobraShuffle : CobraBehaviour
         // Do jumping in
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
-            Vector3 jumpInPos = CobraBoss.GetTileWorldPos(m_activePotDefs[i].m_jumpInPoint);
-            // m_activePots[i].transform.DOMove(jumpInPos, CobraHealth.StateSettings.m_shuffleJumpInTime);
-
-            MovePot(m_activePots[i], jumpInPos, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime);
+            // Vector3 jumpInPos = CobraBoss.GetTileWorldPos(m_activePotDefs[i].m_jumpInPoint);
+            Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
+            MovePot(m_activePots[i], jumpInPos, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
         }
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
@@ -62,6 +61,12 @@ public class CobraShuffle : CobraBehaviour
     {
         // Do move sequence
         yield return null;
+
+        for (int i = 0; i < 10; i++)
+        {
+            ExpandContract();
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleContractTime * 2.0f);
+        }
 
         StartCoroutine(JumpOut());
     }
@@ -106,9 +111,39 @@ public class CobraShuffle : CobraBehaviour
         base.Reset();
     }
 
-    private void MovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration, )
+    private void MovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration, bool _fireProjectiles)
+    {
+        StartCoroutine(StartMovePot(_pot, _destination, _jumpHeight, _duration, _fireProjectiles));
+    }
+
+    private IEnumerator StartMovePot(CobraPot _pot, Vector3 _destination, float _jumpHeight, float _duration, bool _fireProjectiles)
     {
         _pot.transform.DOMove(_destination, _duration);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0);
+        
+        if (_fireProjectiles)
+        {
+            yield return new WaitForSeconds(_duration);
+            _pot.FireLobProjectiles();
+        }
+    }
+    
+    private void ExpandContract()
+    {
+        for (int i = 0; i < m_activePots.Count; i++)
+        {
+            int potTileIndex = CobraMovementGrid.IndexFromWorldPos(m_activePots[i].transform.position);
+
+            if (potTileIndex >= 0)
+            {
+                Vector3 moveDir = -CobraBoss.s_settings.m_expandContractDirections[potTileIndex];
+                Debug.Log("Moving pot at tile index: " + potTileIndex + " in direction: " + moveDir);
+                MovePot(m_activePots[i], m_activePots[i].transform.position + moveDir, 1.0f, CobraHealth.StateSettings.m_shuffleContractTime, true);
+            }
+            else
+            {
+                Debug.LogError("Couldn't find what tile the pot was on");
+            }
+        }
     }
 }

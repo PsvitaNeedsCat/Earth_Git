@@ -43,8 +43,14 @@ public class CobraPot : MonoBehaviour
         }
     }
 
+    public void FireLobProjectiles()
+    {
+        FireAtSurroundingTiles();
+    }
+
     private void LobProjectile(Vector3 _dir)
     {
+        Debug.Log("Fired lob projectile");
         Vector3 spawnPosition = transform.position + transform.up * m_lobProjectileSpawnHeight;
         GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
         // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
@@ -54,7 +60,7 @@ public class CobraPot : MonoBehaviour
 
     private void FireAtSurroundingTiles()
     {
-        Vector3 lobDir = m_lobDir.normalized;
+        Vector3 lobDir = transform.rotation * m_lobDir.normalized;
 
         // Forward
         if (CheckForTile(transform.forward))
@@ -86,9 +92,11 @@ public class CobraPot : MonoBehaviour
         RaycastHit hitInfo;
         Ray ray = new Ray(transform.position + _dir, -Vector3.up);
 
+        // Debug.Log("Checking for tile");
+
         if (Physics.Raycast(ray, out hitInfo, 5.0f, m_tileLayers))
         {
-            Debug.Log("Hit " + hitInfo.collider.name);
+            // Debug.Log("Hit " + hitInfo.collider.name);
             return (hitInfo.collider.GetComponentInParent<Tile>());
         }
 
@@ -118,5 +126,11 @@ public class CobraPot : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + transform.forward, transform.position + transform.forward + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
     }
 }

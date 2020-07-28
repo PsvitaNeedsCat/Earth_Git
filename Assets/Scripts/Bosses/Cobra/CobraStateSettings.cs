@@ -64,6 +64,7 @@ public class CobraStateSettings : ScriptableObject
     public float m_shuffleStartDelay;
     public float m_shuffleMoveDelay;
     public float m_shuffleJumpInTime;
+    public float m_shuffleContractTime;
     public int m_shuffleNumMoves;
 
     [Header("Mirage Barrage Settings")]
