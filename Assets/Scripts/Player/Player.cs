@@ -168,6 +168,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // If the given power is unlocked, it selects it
     public void TryChangeEffect(EChunkEffect _effect)
     {
         // Do not let the player change if the power is not unlocked
@@ -204,6 +205,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Checks if the power in the given d-pad direction is unlocked and selects it
     public void TryChangeEffect(Vector2 _dpadDir)
     {
         // Down
