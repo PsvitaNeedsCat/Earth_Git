@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public int m_damage;
+    [SerializeField] private EMessageType m_destroyedSignal = EMessageType.projectileSplash;
+
+    public int m_damage = 1;
 
     public void Init(int _damage) => m_damage = _damage;
 
@@ -12,18 +14,9 @@ public class Projectile : MonoBehaviour
     {
         SandBlock sand = other.GetComponent<SandBlock>();
 
-        if (sand)
+        if (sand && !sand.m_isGlass)
         {
-            if (sand.m_isGlass)
-            {
-                MessageBus.TriggerEvent(EMessageType.projectileSplash);
-                Destroy(this.gameObject);
-                return;
-            }
-            else
-            {
-                return;
-            }
+            return;
         }
 
         if (other.tag == "Lava")
@@ -38,7 +31,7 @@ public class Projectile : MonoBehaviour
             playerHealth.GetComponent<HealthComponent>().Health -= m_damage;
         }
 
-        MessageBus.TriggerEvent(EMessageType.projectileSplash);
+        MessageBus.TriggerEvent(m_destroyedSignal);
         Destroy(this.gameObject);
     }
 }

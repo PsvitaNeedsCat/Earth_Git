@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,11 +46,39 @@ public class Lava : MonoBehaviour
             else
             {
                 // Block cannot handle the heat
-                chunk.GetComponent<HealthComponent>().Health = 0;
+                PrepareToSink(chunk);
             }
 
             return;
         }
+    }
+
+    // Gets the chunk set up to sink into lava
+    private void PrepareToSink(Chunk _chunk)
+    {
+        // Remove components
+        GameObject chunkObj = _chunk.gameObject;
+        Destroy(_chunk);
+        Destroy(chunkObj.GetComponent<Rigidbody>());
+
+        // Tween
+        Vector3 tweenPos = chunkObj.transform.position;
+        Vector3 diff = transform.position - tweenPos;
+        diff.y = 0.0f;
+        tweenPos += diff;
+        chunkObj.transform.DOMove(tweenPos, 0.25f).OnComplete(() => Sink(chunkObj));
+    }
+
+    // Sinks the chunk into lava
+    private void Sink(GameObject _chunk)
+    {
+        // Audio
+        MessageBus.TriggerEvent(EMessageType.chunkSinking);
+
+        // Tween
+        Vector3 sinkPosition = transform.position;
+        sinkPosition.y -= 0.6f;
+        _chunk.transform.DOMove(sinkPosition, 1.0f).OnComplete(() => Destroy(_chunk));
     }
 
     private void TurnToStone()

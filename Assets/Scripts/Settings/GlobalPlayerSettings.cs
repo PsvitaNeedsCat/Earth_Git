@@ -54,6 +54,8 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_chunkHitForce = 10000.0f;
     [Tooltip("How much horiztonally to move the hurt box by when spawning")]
     public float m_hurtboxMoveBy = 5.0f;
+    [Tooltip("The size the hurtbox changes to when using the fire punch")]
+    public float m_firePunchSize = 0.5f;
 
     [Space(10.0f)]
 
@@ -67,7 +69,6 @@ public class GlobalPlayerSettings : ScriptableObject
     public List<SceneOutlineColour> m_outlineColours;
 
     [Header("Saving")]
-    public string m_saveSeparator = "#SPACE#";
     public string m_saveFileName = "SaveData";
 
 }

@@ -6,13 +6,14 @@ public class BossDoor : MonoBehaviour
 {
     [Tooltip("Won't load a scene if left blank")]
     [SerializeField] private string m_sceneToLoadUponUnlock = "";
+    [SerializeField] private bool m_unlockOverride = false;
 
     private void OnCollisionEnter(Collision collision)
     {
         Player player = collision.collider.GetComponent<Player>();
         if (player)
         {
-            if (player.m_hasKey)
+            if (player.m_hasKey || m_unlockOverride)
             {
                 // Unlock
                 MessageBus.TriggerEvent(EMessageType.doorUnlocked);

@@ -86,11 +86,6 @@ public class Chunk : MonoBehaviour
         m_globalSettings.m_isQuitting = true;
     }
 
-    private void OnDestroy()
-    {
-        transform.DOKill();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         // If collider has hit any of these, return
@@ -156,19 +151,6 @@ public class Chunk : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-
-        //if (fireBug && !other.isTrigger)
-        //{
-        //    Debug.Log("Hit fire bug hitbox");
-        //    fireBug.Hit(m_currentEffect);
-        //    Destroy(this.gameObject);
-        //    return; 
-        //}
-        //else if (fireBug && other.isTrigger)
-        //{
-        //    Debug.Log("Hit fire bug trigger");
-        //    return;
-        //}
 
         // If the other is a trigger, don't look into snapping
         if (other.isTrigger)
