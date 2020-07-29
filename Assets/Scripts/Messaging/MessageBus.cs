@@ -23,6 +23,7 @@ public enum EMessageType
     waterChunkDestroyed,
     sandLand,
     sandDestroyed,
+    chunkSinking,
 
     // Enemies
     projectileSplash,
@@ -35,6 +36,7 @@ public enum EMessageType
     centipedeDamaged,
     centipedeSpawn,
     centipedeTailFire,
+    sandProjectileDestroyed,
 
     // Player
     playerHurt,
