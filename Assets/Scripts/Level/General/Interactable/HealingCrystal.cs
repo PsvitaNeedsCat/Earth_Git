@@ -17,5 +17,8 @@ public class HealingCrystal : Interactable
 
         // Return to maximum health
         playerHealth.HealToMax();
+
+        // Play sound
+        MessageBus.TriggerEvent(EMessageType.ting);
     }
 }
