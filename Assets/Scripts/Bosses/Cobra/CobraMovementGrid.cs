@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class CobraMovementGridTile
 {
@@ -19,6 +20,7 @@ public class CobraMovementGrid : MonoBehaviour
     private static List<CobraMovementGridTile> m_gridTiles;
     private static int m_gridSize = 5;
     private static Vector3 m_topLeftPosition;
+    private static float m_maxDistance = 1.3f;
 
     private void OnValidate()
     {
@@ -51,7 +53,7 @@ public class CobraMovementGrid : MonoBehaviour
             }
         }
 
-        if (closest != null)
+        if (closest != null && closestDist < m_maxDistance)
         {
             return closest.m_index;
         }
@@ -69,7 +71,7 @@ public class CobraMovementGrid : MonoBehaviour
         {
             for (int j = 0; j < m_gridSize; j++)
             {
-                m_gridTiles.Add(new CobraMovementGridTile(m_topLeftPosition + Vector3.right * i + -Vector3.forward * j, i * m_gridSize + j));
+                m_gridTiles.Add(new CobraMovementGridTile(m_topLeftPosition + -Vector3.forward * i + Vector3.right * j, i * m_gridSize + j));
             }
         }
     }
@@ -84,6 +86,10 @@ public class CobraMovementGrid : MonoBehaviour
         foreach (CobraMovementGridTile tile in m_gridTiles)
         {
             Gizmos.DrawWireCube(tile.m_worldPos, Vector3.one * 0.2f);
+
+#if UNITY_EDITOR
+            Handles.Label(tile.m_worldPos + Vector3.up * 0.2f, tile.m_index.ToString());
+#endif
         }
     }
 }

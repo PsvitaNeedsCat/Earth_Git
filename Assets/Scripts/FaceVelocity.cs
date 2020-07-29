@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class FaceVelocity : MonoBehaviour
 {
+    public GameObject m_facer;
+
     private Rigidbody m_rigidBody;
 
     private void Awake()
@@ -14,6 +16,6 @@ public class FaceVelocity : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(transform.position + m_rigidBody.velocity.normalized);
+        m_facer.transform.LookAt(m_facer.transform.position + m_rigidBody.velocity.normalized);
     }
 }

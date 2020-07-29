@@ -15,11 +15,16 @@ public class CobraPot : MonoBehaviour
 
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
+    private Vector3 m_startPosition;
+    private Quaternion m_startOrientation;
 
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
+
+        m_startPosition = transform.position;
+        m_startOrientation = transform.rotation;
     }
 
     public void FireProjectile()
@@ -50,7 +55,6 @@ public class CobraPot : MonoBehaviour
 
     private void LobProjectile(Vector3 _dir)
     {
-        Debug.Log("Fired lob projectile");
         Vector3 spawnPosition = transform.position + transform.up * m_lobProjectileSpawnHeight;
         GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
         // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
@@ -61,29 +65,36 @@ public class CobraPot : MonoBehaviour
     private void FireAtSurroundingTiles()
     {
         Vector3 lobDir = transform.rotation * m_lobDir.normalized;
+        
 
         // Forward
         if (CheckForTile(transform.forward))
         {
-            LobProjectile(lobDir);
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Right
         if (CheckForTile(transform.right))
         {
-            LobProjectile(new Vector3(lobDir.z, lobDir.y, lobDir.x));
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Back
         if (CheckForTile(-transform.forward))
         {
-            LobProjectile(new Vector3(lobDir.x, lobDir.y, -lobDir.z));
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Left
         if (CheckForTile(-transform.right))
         {
-            LobProjectile(new Vector3(-lobDir.z, lobDir.y, lobDir.x));
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
     }
 
@@ -92,36 +103,19 @@ public class CobraPot : MonoBehaviour
         RaycastHit hitInfo;
         Ray ray = new Ray(transform.position + _dir, -Vector3.up);
 
-        // Debug.Log("Checking for tile");
-
         if (Physics.Raycast(ray, out hitInfo, 5.0f, m_tileLayers))
         {
-            // Debug.Log("Hit " + hitInfo.collider.name);
             return (hitInfo.collider.GetComponentInParent<Tile>());
         }
 
         return false;
     }
 
-    //private Vector3 DirectionFromAngle(float _angle)
-    //{
-    //    Vector3 final = Quaternion.Euler(_angle, 0.0f, 0.0f) * Vector3.forward;
-    //    return final.normalized;
-    //}
-
-    //// vv Whether to use plus or minus in the ± part of the equation
-    //private float GetAngleForProjectile(float _vInitial, float _deltaX, float _deltaY, float _gravity, bool _plus)
-    //{
-    //    float toSqrt = (_vInitial * _vInitial * _vInitial * _vInitial) - _gravity * (_gravity * _deltaX * _deltaX + 2 * _deltaY * _vInitial * _vInitial);
-    //    float afterSqrt = Mathf.Sqrt(toSqrt);
-
-    //    // Choose + or - based on input
-    //    float signedAfterSqrt = (_plus) ? afterSqrt : -afterSqrt;
-
-    //    float finalValue = Mathf.Rad2Deg * Mathf.Tan((_vInitial * _vInitial + signedAfterSqrt) / _gravity * _deltaX);
-
-    //    return finalValue;
-    //}
+    public void ReturnToSpawn(float _overSeconds)
+    {
+        transform.DOMove(m_startPosition, _overSeconds);
+        transform.DORotateQuaternion(m_startOrientation, _overSeconds);
+    }
 
     private void OnDrawGizmosSelected()
     {

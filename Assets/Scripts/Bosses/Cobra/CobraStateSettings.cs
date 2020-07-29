@@ -54,7 +54,7 @@ public class CobraStateSettings : ScriptableObject
     public float m_numPotsToFire; // How many pots should fire during one attack sequence
     public float m_delayBetweenPots; // How much time will pass inbetween pots firing
 
-    public int m_projectilesPerPot; // How many projectiles each pot will ifre
+    public int m_projectilesPerPot; // How many projectiles each pot will fire
     public float m_potProjectileInterval; // Time between firing projectiles by a pot
     public float m_potProjectileLifetime; // How long before the projectiles are despawned
 
@@ -64,8 +64,13 @@ public class CobraStateSettings : ScriptableObject
     public float m_shuffleStartDelay;
     public float m_shuffleMoveDelay;
     public float m_shuffleJumpInTime;
+    public float m_shuffleJumpOutTime;
     public float m_shuffleContractTime;
     public int m_shuffleNumMoves;
+    public float m_shuffleRotateJumpTime;
+    public float m_shuffleSwapJumpTime;
+    public float m_shuffleSideToSideJumpTime;
+    public float m_shuffleComplexRotateJumpTime;
 
     [Header("Mirage Barrage Settings")]
     public List<int> m_barrageAttackPositions;
