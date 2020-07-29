@@ -28,4 +28,35 @@ public class CobraGlobalSettings : ScriptableObject
     [Header("Jump Drop Shadow Settings")]
     public float m_dropShadowMinScale = 0.01f;
     public float m_dropShadowMaxScale = 0.1f;
+
+    [Header("Shuffle Settings")]
+    // When the cobra is at these positions, this is the direction it will go in order to expand / contract
+    public Vector3[] m_expandContractDirections = 
+    { 
+        Vector3.right + -Vector3.forward,        Vector3.zero,                          -Vector3.forward,               Vector3.zero,                           -Vector3.right + -Vector3.forward,
+        Vector3.zero,                           -Vector3.right + Vector3.forward,        Vector3.forward,               Vector3.forward + Vector3.right,         Vector3.zero,
+        Vector3.right,                          -Vector3.right,                          Vector3.zero,                  Vector3.right,                          -Vector3.right,
+        Vector3.zero,                           -Vector3.right + -Vector3.forward,      -Vector3.forward,               Vector3.right + -Vector3.forward,        Vector3.zero,
+        Vector3.right + Vector3.forward,         Vector3.zero,                           Vector3.forward,               Vector3.zero,                           -Vector3.right + Vector3.forward
+    };
+
+    // When the cobra is at these positions, this is the direction it will go in order to rotate clockwise
+    public Vector3[] m_rotateClockwiseDirections =
+    {
+        Vector3.right,    Vector3.right,    Vector3.right,  Vector3.right,   -Vector3.forward,
+        Vector3.forward,  Vector3.right,    Vector3.right, -Vector3.forward, -Vector3.forward,
+        Vector3.forward,  Vector3.forward,  Vector3.zero,  -Vector3.forward, -Vector3.forward,
+        Vector3.forward,  Vector3.forward, -Vector3.right, -Vector3.right,   -Vector3.forward,
+        Vector3.forward, -Vector3.right,   -Vector3.right, -Vector3.right,   -Vector3.right
+    };
+
+    // When the cobra is at these positions, this is the direction it will go in order to move side-to-side
+    public Vector3[] m_sideToSideDirections =
+    {
+        Vector3.right, -Vector3.right, Vector3.zero, Vector3.right, -Vector3.right,
+        Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero,
+        Vector3.right, -Vector3.right, Vector3.zero, Vector3.right, -Vector3.right,
+        Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero,
+        Vector3.right, -Vector3.right, Vector3.zero, Vector3.right, -Vector3.right
+    };
 }

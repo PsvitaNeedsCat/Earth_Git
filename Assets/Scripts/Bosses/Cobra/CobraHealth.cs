@@ -134,4 +134,9 @@ public class CobraHealth : MonoBehaviour
             s_boss.StartChase();
         }
     }
+
+    public static int GetCurrentHealth()
+    {
+        return s_currentHealth;
+    }
 }
