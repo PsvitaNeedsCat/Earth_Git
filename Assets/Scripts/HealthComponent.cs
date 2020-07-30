@@ -31,7 +31,10 @@ public class HealthComponent : MonoBehaviour
             int delta = value - m_curHealth;
 
             // If invincible, cannot be damaged, but can still be healed
-            if (IsInvincible && delta < 0) { delta = 0; }
+            if (IsInvincible && delta < 0)
+            {
+                delta = 0; 
+            }
 
 
             // Update health, and check for death
@@ -46,7 +49,10 @@ public class HealthComponent : MonoBehaviour
                 OnDeath?.Invoke();
             }
 
-            if (delta > 0) OnHealed?.Invoke();
+            if (delta > 0)
+            {
+                OnHealed?.Invoke();
+            }
         }
     }
 
