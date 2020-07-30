@@ -33,11 +33,11 @@ public class CobraGlobalSettings : ScriptableObject
     // When the cobra is at these positions, this is the direction it will go in order to expand / contract
     public Vector3[] m_expandContractDirections = 
     { 
-        Vector3.right + -Vector3.forward,        Vector3.zero,                          -Vector3.forward,               Vector3.zero,                           -Vector3.right + -Vector3.forward,
-        Vector3.zero,                           -Vector3.right + Vector3.forward,        Vector3.forward,               Vector3.forward + Vector3.right,         Vector3.zero,
+        Vector3.right + -Vector3.forward,       -Vector3.forward,                       -Vector3.forward,              -Vector3.forward,                        -Vector3.right + -Vector3.forward,
+        Vector3.right,                          -Vector3.right + Vector3.forward,        Vector3.forward,               Vector3.forward + Vector3.right,        -Vector3.right,
         Vector3.right,                          -Vector3.right,                          Vector3.zero,                  Vector3.right,                          -Vector3.right,
-        Vector3.zero,                           -Vector3.right + -Vector3.forward,      -Vector3.forward,               Vector3.right + -Vector3.forward,        Vector3.zero,
-        Vector3.right + Vector3.forward,         Vector3.zero,                           Vector3.forward,               Vector3.zero,                           -Vector3.right + Vector3.forward
+        Vector3.right,                          -Vector3.right + -Vector3.forward,      -Vector3.forward,               Vector3.right + -Vector3.forward,       -Vector3.right,
+        Vector3.right + Vector3.forward,         Vector3.forward,                        Vector3.forward,               Vector3.forward,                        -Vector3.right + Vector3.forward
     };
 
     // When the cobra is at these positions, this is the direction it will go in order to rotate clockwise
