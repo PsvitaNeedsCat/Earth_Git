@@ -25,6 +25,14 @@ public class TongueEnemy : MonoBehaviour
         m_tongueTimer = m_settings.m_TongueCooldown;
     }
 
+    private void OnEnable()
+    {
+        // Reset animation & state
+        m_state = State.idle;
+        m_tongueTimer = 0.0f;
+        m_retractingTimer = 0.0f;
+    }
+
     private void Update()
     {
         if (m_state == State.idle)
