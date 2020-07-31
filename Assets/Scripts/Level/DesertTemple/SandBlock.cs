@@ -108,4 +108,9 @@ public class SandBlock : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.sandLand);
     }
+
+    public bool IsGrounded()
+    {
+        return !m_isFalling;
+    }
 }

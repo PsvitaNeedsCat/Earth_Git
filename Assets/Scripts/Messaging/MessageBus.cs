@@ -81,6 +81,7 @@ public enum EMessageType
     fCentipedeMusic = 805,
     dMusic,
     dCobraMusic,
+    oceanMan,
 }
 
 [System.Serializable]

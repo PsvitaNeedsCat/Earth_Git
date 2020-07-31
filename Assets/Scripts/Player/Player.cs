@@ -319,5 +319,10 @@ public class Player : MonoBehaviour
             Debug.Log("Player got key");
             m_hasKey = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            MessageBus.TriggerEvent(EMessageType.oceanMan);
+        }
     }
 }
