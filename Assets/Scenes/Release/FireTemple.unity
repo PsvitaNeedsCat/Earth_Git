@@ -7213,7 +7213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &124349500
 Transform:
   m_ObjectHideFlags: 0
@@ -18291,7 +18291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &799943170
 Transform:
   m_ObjectHideFlags: 0
@@ -27959,7 +27959,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh137722
+  m_Name: pb_Mesh236726
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -31692,6 +31692,16 @@ PrefabInstance:
       propertyPath: m_shouldPatrol
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4102436023241636077, guid: 016d21ea33db2ee4aa548b8c6d7d8c1f,
+        type: 3}
+      propertyPath: m_patrolPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 2128828249}
+    - target: {fileID: 4102436023241636077, guid: 016d21ea33db2ee4aa548b8c6d7d8c1f,
+        type: 3}
+      propertyPath: m_patrolPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 2075036212}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 016d21ea33db2ee4aa548b8c6d7d8c1f, type: 3}
 --- !u!4 &1332071985 stripped
@@ -56448,6 +56458,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2074820874}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2075036212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4102436022070341441, guid: 016d21ea33db2ee4aa548b8c6d7d8c1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1332071984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2075497312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62224,6 +62240,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2710354801131951071, guid: ee4db5ad2efd72143a1d1a368c03008c,
     type: 3}
   m_PrefabInstance: {fileID: 2127664363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2128828249 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4102436022296217629, guid: 016d21ea33db2ee4aa548b8c6d7d8c1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1332071984}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2130279633
 PrefabInstance:
