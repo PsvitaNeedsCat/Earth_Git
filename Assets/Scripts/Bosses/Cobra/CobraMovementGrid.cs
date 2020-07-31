@@ -25,8 +25,8 @@ public class CobraMovementGrid : MonoBehaviour
     private void Awake()
     {
         // Debug.Log("Generating grid");
-        GenerateGrid();
         m_topLeftPosition = transform.position;
+        GenerateGrid();
     }
 
     public static Vector3 WorldPosFromIndex(int _index)
