@@ -16,7 +16,6 @@ public class CobraBoss : MonoBehaviour
     private int m_totalBehaviours;
     private CobraBehaviour m_currentBehaviour;
     private CobraHealth m_cobraHealth;
-    private bool m_chasing = false;
     private PlayerController m_playerController;
     private List<FlippableTile> m_flippableTiles;
     private static Vector3 m_arenaTopLeft;
@@ -38,12 +37,14 @@ public class CobraBoss : MonoBehaviour
         m_arenaTopLeft += -Vector3.right * 2.0f;
     }
 
-
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 
     // Switch to the chase behaviour, and start chasing the player
     public void StartChase()
     {
-        m_chasing = true;
         m_currentBehaviour = m_chaseBehaviour;
         m_currentBehaviour.StartBehaviour();
     }

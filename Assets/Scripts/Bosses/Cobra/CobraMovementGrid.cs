@@ -22,14 +22,16 @@ public class CobraMovementGrid : MonoBehaviour
     private static Vector3 m_topLeftPosition;
     private static float m_maxDistance = 1.3f;
 
-    private void OnValidate()
+    private void Awake()
     {
-        m_topLeftPosition = transform.position;
+        // Debug.Log("Generating grid");
         GenerateGrid();
+        m_topLeftPosition = transform.position;
     }
 
     public static Vector3 WorldPosFromIndex(int _index)
     {
+        // Debug.Log("Getting world pos of " + _index + " from " + m_gridTiles);
         return m_gridTiles[_index].m_worldPos;
     }
 
@@ -65,6 +67,7 @@ public class CobraMovementGrid : MonoBehaviour
 
     private static void GenerateGrid()
     {
+        // Debug.Log("Creating grid list");
         m_gridTiles = new List<CobraMovementGridTile>();
 
         for (int i = 0; i < m_gridSize; i++)
@@ -74,6 +77,8 @@ public class CobraMovementGrid : MonoBehaviour
                 m_gridTiles.Add(new CobraMovementGridTile(m_topLeftPosition + -Vector3.forward * i + Vector3.right * j, i * m_gridSize + j));
             }
         }
+
+        // Debug.Log("Finished creating grid");
     }
 
     private void OnDrawGizmosSelected()

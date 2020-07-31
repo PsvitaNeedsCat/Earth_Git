@@ -11,6 +11,7 @@ public class CobraShuffle : CobraBehaviour
     private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
     private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
     private List<CobraPot> m_activePots = new List<CobraPot>();
+    private List<Vector3> m_potStartPositions = new List<Vector3>();
     private int m_currentMoveIndex = 0;
 
     public override void StartBehaviour()
@@ -29,12 +30,15 @@ public class CobraShuffle : CobraBehaviour
     private void GetPots()
     {
         m_activePots.Clear();
+        m_potStartPositions.Clear();
 
         m_activePotDefs = CobraHealth.StateSettings.m_shufflePotsToJumpIn;
 
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
+            // CobraPot 
             m_activePots.Add(m_pots[m_activePotDefs[i].m_potIndex]);
+
         }
     }
 
@@ -47,7 +51,6 @@ public class CobraShuffle : CobraBehaviour
         // Do jumping in
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
-            // Vector3 jumpInPos = CobraBoss.GetTileWorldPos(m_activePotDefs[i].m_jumpInPoint);
             Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
             MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
         }
@@ -77,6 +80,8 @@ public class CobraShuffle : CobraBehaviour
     {
         // Jump out
         yield return null;
+
+
 
         // Do jumping out
         for (int i = 0; i < m_activePots.Count; i++)
