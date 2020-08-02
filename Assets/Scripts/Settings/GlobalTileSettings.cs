@@ -7,7 +7,8 @@ public enum EChunkType
     none,
     rock,
     poison,
-    lava
+    carapace,
+    lava,
 }
 
 [CreateAssetMenu(fileName = "NewGlobalTileSettings", menuName = "Settings/GlobalTileSettings")]
