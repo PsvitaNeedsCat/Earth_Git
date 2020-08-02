@@ -8,7 +8,7 @@ public enum EChunkEffect
 {
     none,
     water,
-    fire
+    fire,
 }
 
 [RequireComponent(typeof(Rigidbody))]
