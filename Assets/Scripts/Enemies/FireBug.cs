@@ -5,7 +5,6 @@ using UnityEditor;
 using TMPro;
 
 using DG.Tweening;
-using UnityEditorInternal;
 
 public class FireBug : MonoBehaviour
 {
