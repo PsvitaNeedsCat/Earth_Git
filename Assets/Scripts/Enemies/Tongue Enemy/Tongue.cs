@@ -20,6 +20,14 @@ public class Tongue : MonoBehaviour
         m_animator = GetComponent<Animator>();
     }
 
+    private void OnEnable()
+    {
+        // Reset animator
+        m_animator.ResetTrigger(0);
+        m_animator.ResetTrigger(1);
+        m_animator.SetFloat("ExtendDirection", 1.0f);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // Hits a chunk

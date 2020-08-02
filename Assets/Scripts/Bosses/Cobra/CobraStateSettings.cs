@@ -3,8 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ECobraMirageType { none, blue, red }
+
 public enum EDirection { northEast, southEast, southWest, northWest }
 
+public enum EShuffleMoveType { rotate, swap, fakeOut, complexRotate, sideToSide }
+
+public enum EShuffleActionType { move, inOrOut }
+
+[System.Serializable]
+public struct CobraMoveDef
+{
+    public EShuffleActionType m_actionType;
+    public EShuffleMoveType m_moveType;
+
+    public CobraMoveDef(EShuffleActionType _actionType, EShuffleMoveType _moveType)
+    {
+        m_actionType = _actionType;
+        m_moveType = _moveType;
+    }
+}
+
+[System.Serializable]
+public struct CobraShufflePotDef
+{
+    public int m_potIndex;
+    public int m_jumpInPoint;
+}
 
 [System.Serializable]
 public struct CobraMirageWallDef
@@ -30,9 +54,23 @@ public class CobraStateSettings : ScriptableObject
     public float m_numPotsToFire; // How many pots should fire during one attack sequence
     public float m_delayBetweenPots; // How much time will pass inbetween pots firing
 
-    public int m_projectilesPerPot; // How many projectiles each pot will ifre
+    public int m_projectilesPerPot; // How many projectiles each pot will fire
     public float m_potProjectileInterval; // Time between firing projectiles by a pot
     public float m_potProjectileLifetime; // How long before the projectiles are despawned
+
+    [Header("Shuffle Settings")]
+    public List<EShuffleMoveType> m_allowedMoveTypes;
+    public List<CobraShufflePotDef> m_shufflePotsToJumpIn;
+    public float m_shuffleStartDelay;
+    public float m_shuffleMoveDelay;
+    public float m_shuffleJumpInTime;
+    public float m_shuffleJumpOutTime;
+    public float m_shuffleContractTime;
+    public int m_shuffleNumMoves;
+    public float m_shuffleRotateJumpTime;
+    public float m_shuffleSwapJumpTime;
+    public float m_shuffleSideToSideJumpTime;
+    public float m_shuffleComplexRotateJumpTime;
 
     [Header("Mirage Barrage Settings")]
     public List<int> m_barrageAttackPositions;

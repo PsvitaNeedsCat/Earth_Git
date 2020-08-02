@@ -7,11 +7,24 @@ public class CobraPot : MonoBehaviour
 {
     public Transform m_projectileParent;
     public float m_projectileSpawnDistance;
+    public float m_lobProjectileSpawnHeight;
+    public float m_lobVelocity;
+    public Vector3 m_lobDir;
+    public LayerMask m_tileLayers;
+    public GameObject m_mesh;
+
     private GameObject m_projectilePrefab;
+    private GameObject m_lobProjectilePrefab;
+    private Vector3 m_startPosition;
+    private Quaternion m_startOrientation;
 
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
+        m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
+
+        m_startPosition = transform.position;
+        m_startOrientation = transform.rotation;
     }
 
     public void FireProjectile()
@@ -25,5 +38,93 @@ public class CobraPot : MonoBehaviour
         // Temp minor visual feedback for firing
         transform.DOPunchScale(Vector3.one * 0.2f, 0.15f).SetEase(Ease.InOutElastic);
         transform.DOPunchPosition(Vector3.up * 0.2f, 0.2f).SetEase(Ease.InCubic);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            FireAtSurroundingTiles();
+        }
+    }
+
+    public void FireLobProjectiles()
+    {
+        FireAtSurroundingTiles();
+    }
+
+    private void LobProjectile(Vector3 _dir)
+    {
+        Vector3 spawnPosition = transform.position + transform.up * m_lobProjectileSpawnHeight;
+        GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
+        // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
+
+        lobProjectile.GetComponent<Rigidbody>().velocity = _dir * m_lobVelocity;
+    }
+
+    private void FireAtSurroundingTiles()
+    {
+        Vector3 lobDir = transform.rotation * m_lobDir.normalized;
+        
+
+        // Forward
+        if (CheckForTile(transform.forward))
+        {
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+        }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
+
+        // Right
+        if (CheckForTile(transform.right))
+        {
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+        }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
+
+        // Back
+        if (CheckForTile(-transform.forward))
+        {
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+        }
+
+        lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
+
+        // Left
+        if (CheckForTile(-transform.right))
+        {
+            LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+        }
+    }
+
+    private bool CheckForTile(Vector3 _dir)
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position + _dir, -Vector3.up);
+
+        if (Physics.Raycast(ray, out hitInfo, 5.0f, m_tileLayers))
+        {
+            return (hitInfo.collider.GetComponentInParent<Tile>());
+        }
+
+        return false;
+    }
+
+    public void ReturnToSpawn(float _overSeconds)
+    {
+        transform.DOMove(m_startPosition, _overSeconds);
+        transform.DORotateQuaternion(m_startOrientation, _overSeconds);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position + transform.forward, transform.position + transform.forward + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
+        Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
     }
 }

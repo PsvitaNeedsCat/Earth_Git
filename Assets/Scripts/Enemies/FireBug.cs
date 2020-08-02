@@ -5,6 +5,7 @@ using UnityEditor;
 using TMPro;
 
 using DG.Tweening;
+using UnityEditorInternal;
 
 public class FireBug : MonoBehaviour
 {
@@ -199,10 +200,11 @@ public class FireBug : MonoBehaviour
 
         yield return new WaitForSeconds(m_vulnerableTime);
 
-        // m_mesh.transform.DORotate(Vector3.right, 0.5f);
-        m_mesh.transform.DOLocalRotateQuaternion(Quaternion.identity, 0.5f).OnComplete(() => transform.DOLookAt(m_patrolPoints[m_currentPatrolPointIndex].position, 0.2f));
+        EFireBugState newState = (m_shouldPatrol) ? EFireBugState.patrolling : EFireBugState.returning;
+        Vector3 lookAtPos = m_patrolPoints[m_currentPatrolPointIndex].position;
+        System.Action newAction = new System.Action(() => transform.DOLookAt(lookAtPos, 0.2f).OnComplete(() => m_state = newState));
 
-        m_state = (m_shouldPatrol) ? EFireBugState.patrolling : EFireBugState.returning;
+        m_mesh.transform.DOLocalRotateQuaternion(Quaternion.identity, 0.5f).OnComplete(newAction.Invoke);
     }
 
     private IEnumerator Turn()

@@ -531,7 +531,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a2fcd609-4f43-4c7b-bc46-86868c4f0da2"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -749,7 +749,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""ER"",
+                    ""name"": ""RF"",
                     ""id"": ""bd6ac1a7-14bb-4fc2-92ab-5eaa38741f69"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -762,7 +762,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""be9dcb0b-a21a-4b36-819a-2aefe1577127"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -773,7 +773,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""57999a82-34f8-4df6-836b-32ee6fadebea"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

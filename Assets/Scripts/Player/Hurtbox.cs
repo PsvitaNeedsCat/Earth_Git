@@ -22,6 +22,14 @@ public class Hurtbox : MonoBehaviour
     private void Awake()
     {
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+
+        // Increase size if using fire punch
+        if (Player.s_currentEffect == EChunkEffect.fire)
+        {
+            Vector3 newScale = transform.localScale;
+            newScale.z = m_settings.m_firePunchSize;
+            transform.localScale = newScale;
+        }
     }
 
     private void Update()
