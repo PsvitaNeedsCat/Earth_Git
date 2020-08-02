@@ -13,18 +13,17 @@ public class CobraPot : MonoBehaviour
     public LayerMask m_tileLayers;
     public GameObject m_mesh;
 
+    [HideInInspector] public Vector3 m_finalPosition;
+    [HideInInspector] public Quaternion m_finalOrientation;
+    [HideInInspector] public int m_finalIndex;
+
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
-    private Vector3 m_startPosition;
-    private Quaternion m_startOrientation;
-
+    
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
-
-        m_startPosition = transform.position;
-        m_startOrientation = transform.rotation;
     }
 
     public void FireProjectile()
@@ -111,10 +110,10 @@ public class CobraPot : MonoBehaviour
         return false;
     }
 
-    public void ReturnToSpawn(float _overSeconds)
+    public void JumpOut(float _overSeconds)
     {
-        transform.DOMove(m_startPosition, _overSeconds);
-        transform.DORotateQuaternion(m_startOrientation, _overSeconds);
+        transform.DOMove(m_finalPosition, _overSeconds);
+        transform.DORotateQuaternion(m_finalOrientation, _overSeconds);
     }
 
     private void OnDrawGizmosSelected()

@@ -8,11 +8,22 @@ public class CobraShuffle : CobraBehaviour
 {
     public List<CobraPot> m_pots;
 
+    public static int m_bossPotIndex = 2;
+
     private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
     private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
     private List<CobraPot> m_activePots = new List<CobraPot>();
-    private List<Vector3> m_potStartPositions = new List<Vector3>();
     private int m_currentMoveIndex = 0;
+
+    private List<Vector3> m_potStartingPositions = new List<Vector3>();
+
+    private void Awake()
+    {
+        for (int i = 0; i < m_pots.Count; i++)
+        {
+            m_potStartingPositions.Add(m_pots[i].transform.position);
+        }
+    }
 
     public override void StartBehaviour()
     {
@@ -30,7 +41,6 @@ public class CobraShuffle : CobraBehaviour
     private void GetPots()
     {
         m_activePots.Clear();
-        m_potStartPositions.Clear();
 
         m_activePotDefs = CobraHealth.StateSettings.m_shufflePotsToJumpIn;
 
@@ -48,11 +58,29 @@ public class CobraShuffle : CobraBehaviour
         // Start delay
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);
 
+        List<int> potStartIndices = new List<int>();
+        List<Quaternion> potStartOrientations = new List<Quaternion>();
+
         // Do jumping in
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
+            potStartIndices.Add(m_activePotDefs[i].m_potIndex);
+            potStartOrientations.Add(m_activePots[i].transform.rotation);
+
             Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
             MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
+        }
+
+        // Generate final positions for the pots
+        for (int i = 0; i < m_activePots.Count; i++)
+        {
+            int randomIndex = Random.Range(0, potStartIndices.Count);
+            m_activePots[i].m_finalPosition = m_potStartingPositions[potStartIndices[randomIndex]];
+            m_activePots[i].m_finalOrientation = potStartOrientations[randomIndex];
+            m_activePots[i].m_finalIndex = randomIndex;
+
+            potStartIndices.RemoveAt(randomIndex);
+            potStartOrientations.RemoveAt(randomIndex);
         }
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
@@ -81,13 +109,16 @@ public class CobraShuffle : CobraBehaviour
         // Jump out
         yield return null;
 
-
-
         // Do jumping out
         for (int i = 0; i < m_activePots.Count; i++)
         {
-            m_activePots[i].ReturnToSpawn(CobraHealth.StateSettings.m_shuffleJumpOutTime);
+            m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
+
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
         }
+
+        // Reorder the list of pots
+        m_pots.Sort((pOne, pTwo) => pOne.m_finalIndex.CompareTo(pTwo.m_finalIndex));
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
