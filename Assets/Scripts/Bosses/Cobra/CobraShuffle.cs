@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
+using System.Linq;
 
 public class CobraShuffle : CobraBehaviour
 {
     public List<CobraPot> m_pots;
 
-    public static int m_bossPotIndex = 2;
+    public static int s_bossPotIndex = 2;
 
     private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
     private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
     private List<CobraPot> m_activePots = new List<CobraPot>();
     private int m_currentMoveIndex = 0;
 
-    private List<Vector3> m_potStartingPositions = new List<Vector3>();
+    // Start positions and orientations of all pots
+    public static List<Vector3> s_potStartingPositions = new List<Vector3>();
+    public static List<Quaternion> s_potStartingOrientations= new List<Quaternion>();
 
     private void Awake()
     {
         for (int i = 0; i < m_pots.Count; i++)
         {
-            m_potStartingPositions.Add(m_pots[i].transform.position);
+            s_potStartingPositions.Add(m_pots[i].transform.position);
+            s_potStartingOrientations.Add(m_pots[i].transform.rotation);
         }
     }
 
@@ -64,6 +68,7 @@ public class CobraShuffle : CobraBehaviour
         // Do jumping in
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
+            // Add the indices and orientations of 
             potStartIndices.Add(m_activePotDefs[i].m_potIndex);
             potStartOrientations.Add(m_activePots[i].transform.rotation);
 
@@ -74,18 +79,30 @@ public class CobraShuffle : CobraBehaviour
         // Generate final positions for the pots
         for (int i = 0; i < m_activePots.Count; i++)
         {
-            int randomIndex = Random.Range(0, potStartIndices.Count);
-            m_activePots[i].m_finalPosition = m_potStartingPositions[potStartIndices[randomIndex]];
-            m_activePots[i].m_finalOrientation = potStartOrientations[randomIndex];
-            m_activePots[i].m_finalIndex = randomIndex;
+            int randomIndexPosition = Random.Range(0, potStartIndices.Count);
+            int randomIndex = potStartIndices[randomIndexPosition];
+            m_activePots[i].m_finalPosition = s_potStartingPositions[randomIndex];
+            m_activePots[i].m_finalOrientation = potStartOrientations[randomIndexPosition];
+            m_activePots[i].m_finalIndex = potStartIndices[randomIndexPosition];
 
-            potStartIndices.RemoveAt(randomIndex);
-            potStartOrientations.RemoveAt(randomIndex);
+            if (m_activePotDefs[i].m_potIndex == s_bossPotIndex)
+            {
+                Debug.Log("Boss was at index " + s_bossPotIndex + ", now moving to index " + potStartIndices[randomIndexPosition]);
+                s_bossPotIndex = potStartIndices[randomIndexPosition];
+            }
+
+            potStartIndices.RemoveAt(randomIndexPosition);
+            potStartOrientations.RemoveAt(randomIndexPosition);
         }
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
 
         StartCoroutine(MoveSequence());
+    }
+
+    public static void RandomShuffle<T>(ref List<T> _target)
+    {
+        _target.OrderBy(x => System.Guid.NewGuid()).ToList();
     }
 
     // Pots move around the arena
