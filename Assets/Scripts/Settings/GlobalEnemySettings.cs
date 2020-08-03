@@ -42,4 +42,18 @@ public class GlobalEnemySettings : ScriptableObject
     public float m_snakeFireDelay = 1.0f;
     [Tooltip("How far away from the snake does the bullet spawn")]
     public float m_snakeBulletSpawnDist = 1.0f;
+
+    [Header("Pot Enemy")]
+    [Tooltip("The radius that it checks for the player before chasing them")]
+    public float m_potCheckRadius = 1.0f;
+    [Tooltip("How close to the player the pot enemy has to be before it slams down")]
+    public float m_potAttackRadius = 0.1f;
+    [Tooltip("How fast the pot enemy will move")]
+    public float m_potEnemySpeed = 1.0f;
+    [Tooltip("How fast the pot enemy will move downwards when attacking")]
+    public float m_potSlamSpeed = 2.0f;
+    [Tooltip("Height the pot hovers above the ground")]
+    public float m_potHoverHeight = 1.5f;
+    [Tooltip("Raycast for ground to hover above")]
+    public LayerMask m_potHoverLayerMask = new LayerMask();
 }
