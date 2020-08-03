@@ -65,6 +65,7 @@ public class CobraStateSettings : ScriptableObject
     public float m_shuffleMoveDelay;
     public float m_shuffleJumpInTime;
     public float m_shuffleJumpOutTime;
+    public float m_shuffleJumpOutDelay;
     public float m_shuffleContractTime;
     public int m_shuffleNumMoves;
     public float m_shuffleRotateJumpTime;

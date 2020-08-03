@@ -57,7 +57,7 @@ public class Hurtbox : MonoBehaviour
             hitDir.Normalize();
 
             Vector3 cardinal = hitDir.Cardinal();
-            if (chunk.Hit(cardinal * m_settings.m_chunkHitForce))
+            if (chunk.Hit(cardinal * m_settings.m_chunkHitForce) && chunk.m_chunkType != EChunkType.carapace)
             {
                 chunk.CurrentEffect = m_effect;
             }
