@@ -16,6 +16,7 @@ public class CobraShuffle : CobraBehaviour
     private List<CobraPot> m_activePots = new List<CobraPot>();
     private int m_currentMoveIndex = 0;
 
+    // Start positions and orientations of all pots
     public static List<Vector3> s_potStartingPositions = new List<Vector3>();
     public static List<Quaternion> s_potStartingOrientations= new List<Quaternion>();
 
@@ -67,6 +68,7 @@ public class CobraShuffle : CobraBehaviour
         // Do jumping in
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
+            // Add the indices and orientations of 
             potStartIndices.Add(m_activePotDefs[i].m_potIndex);
             potStartOrientations.Add(m_activePots[i].transform.rotation);
 
