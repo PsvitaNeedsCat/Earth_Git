@@ -19,6 +19,7 @@ public class TrainBug : MonoBehaviour
 
     [SerializeField] private GameObject m_meshParent = null;
     [SerializeField] private MeshRenderer m_meshRenderer = null;
+    private AudioSource m_chargingSound;
     private GlobalEnemySettings m_settings;
     private Rigidbody m_rigidbody;
 
@@ -29,6 +30,8 @@ public class TrainBug : MonoBehaviour
         m_startPosition = transform.position;
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");
         m_rigidbody = GetComponent<Rigidbody>();
+        m_chargingSound = GetComponent<AudioSource>();
+        m_chargingSound.Play();
     }
 
     private void FixedUpdate()
@@ -41,6 +44,7 @@ public class TrainBug : MonoBehaviour
                 {
                     if (IsTimerFinished())
                     {
+                        m_chargingSound.Play();
                         m_state = EStates.charging;
                         Flip(false);
                     }
@@ -94,8 +98,15 @@ public class TrainBug : MonoBehaviour
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
         {
+            // Check for stun
+            if (m_state == EStates.charging && chunk.m_currentEffect == EChunkEffect.none)
+            {
+                // Stunned
+                Stun();
+            }
+
             // Check for dead
-            if (m_state == EStates.vulnerable && chunk.m_currentEffect == EChunkEffect.water)
+            else if (m_state == EStates.vulnerable && chunk.m_currentEffect == EChunkEffect.water)
             {
                 // Dead
                 Dead();
@@ -144,6 +155,8 @@ public class TrainBug : MonoBehaviour
     private void Stun()
     {
         // Stunned
+        MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
+        m_chargingSound.Stop();
         m_rigidbody.velocity = Vector3.zero;
         Flip(true);
         m_vulnerableTimer = m_settings.m_trainVulernableTime;
@@ -153,8 +166,9 @@ public class TrainBug : MonoBehaviour
     // Kills the bug
     private void Dead()
     {
-        m_meshRenderer.material.color = new Color(0.0f, 0.0f, 0.0f);
+        MessageBus.TriggerEvent(EMessageType.grubKilled);
         Flip(true);
         m_state = EStates.dead;
+        Destroy(transform.parent.gameObject);
     }
 }
