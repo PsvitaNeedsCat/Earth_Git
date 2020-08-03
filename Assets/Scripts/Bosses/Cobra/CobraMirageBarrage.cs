@@ -62,7 +62,7 @@ public class CobraMirageBarrage : CobraBehaviour
         List<int> spawnPots = CobraHealth.StateSettings.m_barrageAttackPositions;
 
         // The pot in which to have the real snake
-        int realSpawnPot = spawnPots[Random.Range(0, spawnPots.Count)];
+        int realSpawnPot = CobraShuffle.s_bossPotIndex;
         transform.parent.position = m_pots[realSpawnPot].transform.position;
         transform.parent.rotation = m_pots[realSpawnPot].transform.rotation;
         GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
@@ -82,6 +82,7 @@ public class CobraMirageBarrage : CobraBehaviour
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
             mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
         }
+
     }
 
     private IEnumerator FireProjectiles()

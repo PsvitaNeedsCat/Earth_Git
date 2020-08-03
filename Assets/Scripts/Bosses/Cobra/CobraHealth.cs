@@ -133,6 +133,16 @@ public class CobraHealth : MonoBehaviour
         {
             s_boss.StartChase();
         }
+        else
+        {
+            // Boss chooses a new pot
+            List<int> possiblePositions = StateSettings.m_barrageAttackPositions;
+            int newBossPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
+            s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition];
+            CobraShuffle.s_bossPotIndex = newBossPosition;
+
+            Debug.Log("Boss moved to position " + newBossPosition);
+        }
     }
 
     public static int GetCurrentHealth()
