@@ -56,4 +56,10 @@ public class GlobalEnemySettings : ScriptableObject
     public float m_potHoverHeight = 1.5f;
     [Tooltip("Raycast for ground to hover above")]
     public LayerMask m_potHoverLayerMask = new LayerMask();
+
+    [Header("Train Bug")]
+    [Tooltip("How fast the bug will move forward")]
+    public float m_trainSpeed = 2.0f;
+    [Tooltip("How long the train bug will be vulnerable for")]
+    public float m_trainVulernableTime = 3.0f;
 }
