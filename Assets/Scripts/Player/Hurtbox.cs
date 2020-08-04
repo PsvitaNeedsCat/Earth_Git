@@ -57,10 +57,7 @@ public class Hurtbox : MonoBehaviour
             hitDir.Normalize();
 
             Vector3 cardinal = hitDir.Cardinal();
-            if (chunk.Hit(cardinal * m_settings.m_chunkHitForce) && chunk.m_chunkType != EChunkType.carapace)
-            {
-                chunk.UpdateEffect(m_effect);
-            }
+            chunk.Hit(cardinal * m_settings.m_chunkHitForce, m_effect);
 
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
 

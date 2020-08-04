@@ -93,16 +93,7 @@ public class Grub : MonoBehaviour
     private void Dead()
     {
         transform.DOKill();
-        transform.DOScale(0.5f, 0.1f);
-        transform.Rotate(transform.forward, 180.0f);
-        for (int i = 0; i < m_renderer.materials.Length; i++)
-        {
-            m_renderer.materials[i].SetFloat("_Blend", 0.0f);
-            m_renderer.materials[i].color = Color.grey;
-        }
-        Vector3 newPos = transform.position;
-        newPos.y = 0.0f;
-        transform.position = newPos;
+        transform.DOScale(0.5f, 0.1f).OnComplete(() => Destroy(transform.parent.gameObject));
         m_dead = true;
         MessageBus.TriggerEvent(EMessageType.grubKilled);
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
