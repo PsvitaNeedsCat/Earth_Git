@@ -32,7 +32,13 @@ public class SaveManager : MonoBehaviour
     private bool m_initLoad = false;
 
     private static SaveManager s_instance;
-    public static SaveManager Instance { get { return s_instance; } }
+    public static SaveManager Instance
+    {
+        get 
+        {
+            return s_instance; 
+        }
+    }
 
     private void Awake()
     {
@@ -77,7 +83,10 @@ public class SaveManager : MonoBehaviour
         UpdateSaves();
 
         // If the save does not exist
-        if (m_saves[_saveId] == null) { return false; }
+        if (m_saves[_saveId] == null)
+        {
+            return false; 
+        }
 
         m_currentFile = _saveId;
 
@@ -157,10 +166,13 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // Gets a save file - used for displaying info
+    // Returns a save file - used for displaying info
     public SaveFile GetSaveFile(int _saveId)
     {
-        if (_saveId >= m_saves.Length) { return null; }
+        if (_saveId >= m_saves.Length)
+        {
+            return null; 
+        }
 
         UpdateSaves();
 
@@ -178,6 +190,9 @@ public class SaveManager : MonoBehaviour
             File.Delete(filePath);
             UpdateSaves();
         }
-        else { Debug.LogError("Cannot delete save file " + _saveId); }
+        else
+        {
+            Debug.LogError("Cannot delete save file " + _saveId); 
+        }
     }
 }

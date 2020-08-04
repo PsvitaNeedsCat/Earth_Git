@@ -63,7 +63,7 @@ public class MoveableBlock : MonoBehaviour
                 dir.Normalize();
                 dir = dir.Cardinal();
 
-                chunk.Hit(dir * m_playerSettings.m_chunkHitForce);
+                chunk.Hit(dir * m_playerSettings.m_chunkHitForce, EChunkEffect.none);
 
                 return;
             }

@@ -19,23 +19,25 @@ public class HitFreezeManager : MonoBehaviour
         s_instance = this;
     }
 
+    // Freezes game for a set amount of tiem
     public static void BeginHitFreeze(float _freezeTime)
     {
         s_instance.StartCoroutine(FreezeForTime(_freezeTime));
     }
 
+    // Keeps the game frozen until the time is doen
     private static IEnumerator FreezeForTime(float _freezeTime)
     {
+        // Become frozen
         s_ogTimeScale = Time.timeScale;
-
         Time.timeScale = 0.0f;
-
         s_frozen = true;
 
+        // Wait
         yield return new WaitForSecondsRealtime(_freezeTime);
 
+        // Unfreeze
         Time.timeScale = s_ogTimeScale;
-
         s_frozen = false;
     }
 }
