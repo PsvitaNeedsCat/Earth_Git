@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
     [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
-    [SerializeField] private MeshRenderer m_moustache;
+    [SerializeField] private GameObject m_moustache;
     private List<Image> m_healthImages;
     private List<Image> m_healthBackgroundImages;
 
@@ -269,7 +269,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             // Moustache
-            m_moustache.enabled = !m_moustache.enabled;
+            // m_moustache.enabled = !m_moustache.enabled;
+            m_moustache.SetActive(true);
+            // m_moustache.transform.DOScale(m_moustache.transform.localScale.x * 1.1f, 0.5f).SetEase(Ease.InElastic);
+            m_moustache.transform.DOBlendableScaleBy(Vector3.one * 2.0f, 0.5f).SetEase(Ease.InElastic);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            m_moustache.transform.DOBlendableScaleBy(-Vector3.one * 2.0f, 0.5f).SetEase(Ease.InElastic);
         }
     }
 

@@ -19,6 +19,7 @@ public class CentipedeHealth : MonoBehaviour
     }
 
     public CentipedeSegmentMaterials[] m_segmentMaterials;
+    public GameObject[] m_segmentDamagedEffects;
     public GameObject m_crystal;
 
     public List<SkinnedMeshRenderer> m_segmentRenderers;
