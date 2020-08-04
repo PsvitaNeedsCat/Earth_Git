@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+using UnityEditor;
+
 public class CobraPot : MonoBehaviour
 {
     public Transform m_projectileParent;
@@ -13,9 +15,9 @@ public class CobraPot : MonoBehaviour
     public LayerMask m_tileLayers;
     public GameObject m_mesh;
 
-    [HideInInspector] public Vector3 m_finalPosition;
-    [HideInInspector] public Quaternion m_finalOrientation;
-    [HideInInspector] public int m_finalIndex;
+    public int m_potIndex = -1;
+    public int m_endIndex = -1;
+    public Quaternion m_endRotation;
 
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
@@ -112,8 +114,9 @@ public class CobraPot : MonoBehaviour
 
     public void JumpOut(float _overSeconds)
     {
-        transform.DOMove(m_finalPosition, _overSeconds);
-        transform.DORotateQuaternion(m_finalOrientation, _overSeconds);
+        Vector3 finalPosition = CobraShuffle.s_potStartingPositions[m_endIndex];
+        transform.DOMove(finalPosition, _overSeconds);
+        transform.DORotateQuaternion(m_endRotation, _overSeconds);
     }
 
     private void OnDrawGizmosSelected()
@@ -125,5 +128,11 @@ public class CobraPot : MonoBehaviour
         Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
         Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
         Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
+
+
+#if UNITY_EDITOR
+        Handles.Label(transform.position + Vector3.up * 0.5f, "CIndex: " + m_potIndex.ToString());
+        Handles.Label(transform.position + Vector3.up * 0.25f, "EIndex: " + m_endIndex.ToString());
+#endif
     }
 }

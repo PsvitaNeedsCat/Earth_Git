@@ -33,6 +33,12 @@ public class Player : MonoBehaviour
     // Unlocks a power for use
     public void PowerUnlocked(EChunkEffect _power)
     {
+        // Power is already unlocked
+        if (s_activePowers[_power])
+        {
+            return;
+        }
+
         s_activePowers[_power] = true;
         UpdateUI();
     }

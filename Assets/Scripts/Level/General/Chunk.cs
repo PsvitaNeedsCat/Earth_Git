@@ -38,6 +38,7 @@ public class Chunk : MonoBehaviour
     [SerializeField] private bool m_startOverride = false;
     [SerializeField] private GameObject m_waterParticles;
     [SerializeField] private GameObject m_fireParticles;
+    [SerializeField] private GameObject m_waterMesh = null;
 
     // Private variables
     private Rigidbody m_rigidBody;
@@ -413,5 +414,18 @@ public class Chunk : MonoBehaviour
         distance.y = 0.0f;
         float tweenTime = distance.magnitude / 3.0f;
         transform.DOMove(_frogPos, tweenTime);
+    }
+
+    // Changes the effect of the chunk
+    public void UpdateEffect(EChunkEffect _effect)
+    {
+        m_currentEffect = _effect;
+
+        // Update mesh
+        if (_effect == EChunkEffect.water)
+        {
+            GetComponentInChildren<MeshRenderer>().gameObject.SetActive(false);
+            m_waterMesh.SetActive(true);
+        }
     }
 }

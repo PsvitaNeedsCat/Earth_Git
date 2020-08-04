@@ -26,8 +26,14 @@ public class Interactable : MonoBehaviour
     }
 
     // Message bus listener
-    public virtual void OnEnable() => MessageBus.AddListener(EMessageType.interact, CheckForClosest);
-    public virtual void OnDisable() => MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
+    public virtual void OnEnable()
+    {
+        MessageBus.AddListener(EMessageType.interact, CheckForClosest);
+    }
+    public virtual void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
+    }
 
     virtual public void Invoke()
     {
@@ -48,7 +54,10 @@ public class Interactable : MonoBehaviour
         }
 
         // Compare distances to the player
-        if (m_distToPlayer < s_closest.m_distToPlayer) { s_closest = this; }
+        if (m_distToPlayer < s_closest.m_distToPlayer)
+        {
+            s_closest = this; 
+        }
     }
 
     public virtual void Update()

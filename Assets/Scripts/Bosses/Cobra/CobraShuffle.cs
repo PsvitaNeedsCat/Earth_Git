@@ -3,25 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
+using System.Linq;
+using UnityEditor;
 
 public class CobraShuffle : CobraBehaviour
 {
     public List<CobraPot> m_pots;
 
-    public static int m_bossPotIndex = 2;
+    public static int s_bossPotIndex = 2;
 
     private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
     private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
     private List<CobraPot> m_activePots = new List<CobraPot>();
-    private int m_currentMoveIndex = 0;
 
-    private List<Vector3> m_potStartingPositions = new List<Vector3>();
+    // Start positions and orientations of all pots
+    public static List<Vector3> s_potStartingPositions = new List<Vector3>();
+    public static List<Quaternion> s_potStartingRotations = new List<Quaternion>();
+
+    private List<int> m_toShuffle = new List<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
     private void Awake()
     {
         for (int i = 0; i < m_pots.Count; i++)
         {
-            m_potStartingPositions.Add(m_pots[i].transform.position);
+            s_potStartingPositions.Add(m_pots[i].transform.position);
+            s_potStartingRotations.Add(m_pots[i].transform.rotation);
+            m_pots[i].m_potIndex = i;
         }
     }
 
@@ -58,35 +65,106 @@ public class CobraShuffle : CobraBehaviour
         // Start delay
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);
 
-        List<int> potStartIndices = new List<int>();
-        List<Quaternion> potStartOrientations = new List<Quaternion>();
+        // Indices of pots jumping in
+        List<int> potIndices = new List<int>();
 
-        // Do jumping in
-        for (int i = 0; i < m_activePotDefs.Count; i++)
-        {
-            potStartIndices.Add(m_activePotDefs[i].m_potIndex);
-            potStartOrientations.Add(m_activePots[i].transform.rotation);
-
-            Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
-            MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
-        }
-
-        // Generate final positions for the pots
+        // Pots jump in
         for (int i = 0; i < m_activePots.Count; i++)
         {
-            int randomIndex = Random.Range(0, potStartIndices.Count);
-            m_activePots[i].m_finalPosition = m_potStartingPositions[potStartIndices[randomIndex]];
-            m_activePots[i].m_finalOrientation = potStartOrientations[randomIndex];
-            m_activePots[i].m_finalIndex = randomIndex;
+            // Store indices of pots jumping in
+            CobraPot thisPot = m_activePots[i];
+            potIndices.Add(thisPot.m_potIndex);
 
-            potStartIndices.RemoveAt(randomIndex);
-            potStartOrientations.RemoveAt(randomIndex);
+            // This pot jumps in
+            Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
+            MovePot(thisPot, jumpInPos - thisPot.transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
         }
+
+        bool bossMoved = false;
+
+        // Generate final positions for the pots
+        RandomShuffle(ref potIndices);
+
+        for (int i = 0; i < m_activePots.Count; i++)
+        {
+            CobraPot thisPot = m_activePots[i];
+            int newIndex = potIndices[i];
+            thisPot.m_endIndex = newIndex;
+            thisPot.m_endRotation = s_potStartingRotations[newIndex];
+
+            if (!bossMoved && thisPot.m_potIndex == s_bossPotIndex)
+            {
+                s_bossPotIndex = newIndex;
+            }
+        }
+
+        //// Store the indices of the pots that jump in
+        //List<int> potStartIndices = new List<int>();
+        //List<Quaternion> potStartOrientations = new List<Quaternion>();
+
+        //// Do jumping in
+        //for (int i = 0; i < m_activePotDefs.Count; i++)
+        //{
+        //    // Add the indices and orientations of pots that are jumping in to the lists
+        //    potStartIndices.Add(m_activePotDefs[i].m_potIndex);
+        //    potStartOrientations.Add(m_activePots[i].transform.rotation);
+
+        //    Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
+        //    MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
+        //}
+
+        //string potIndicesString = "";
+        //foreach(int index in potStartIndices)
+        //{
+        //    potIndicesString += index.ToString() + " ";
+        //}
+        //Debug.Log("Pot indices: " + potIndicesString);
+
+        //bool bossMoved = false;
+
+        //// Generate final positions for the pots
+        //for (int j = 0; j < m_activePots.Count; j++)
+        //{
+        //    int randomIndexPosition = Random.Range(0, potStartIndices.Count);
+        //    int randomIndex = potStartIndices[randomIndexPosition];
+
+        //    Debug.Log("Pot " + j + " final position is now " + randomIndex);
+
+        //    m_activePots[j].m_finalPosition = s_potStartingPositions[randomIndex];
+        //    m_activePots[j].m_finalOrientation = potStartOrientations[randomIndexPosition];
+        //    m_activePots[j].m_finalIndex = randomIndex;
+
+        //    if (!bossMoved && m_activePots[j].m_isBoss)
+        //    {
+        //        bossMoved = true;
+        //        Debug.Log("Boss was at index " + s_bossPotIndex + ", now moving to index " + potStartIndices[randomIndexPosition]);
+        //        SetBossPot(potStartIndices[randomIndexPosition]);
+        //    }
+
+        //    potStartIndices.RemoveAt(randomIndexPosition);
+        //    potStartOrientations.RemoveAt(randomIndexPosition);
+        //}
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
 
         StartCoroutine(MoveSequence());
     }
+
+    public static void RandomShuffle<T>(ref List<T> _target)
+    {
+        _target = _target.OrderBy(x => System.Guid.NewGuid()).ToList();
+    }
+
+    //public static void PrintList<T>(string _first, List<T> _target)
+    //{
+    //    string s = "";
+    //    foreach(T item in _target)
+    //    {
+    //        s += item.ToString();
+    //    }
+
+    //    Debug.Log(_first + s);
+    //}
 
     // Pots move around the arena
     private IEnumerator MoveSequence()
@@ -117,8 +195,23 @@ public class CobraShuffle : CobraBehaviour
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
         }
 
+        for (int i = 0; i < m_activePots.Count; i++)
+        {
+            m_activePots[i].m_potIndex = m_activePots[i].m_endIndex;
+        }
+
         // Reorder the list of pots
-        m_pots.Sort((pOne, pTwo) => pOne.m_finalIndex.CompareTo(pTwo.m_finalIndex));
+        m_pots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+
+        for (int i = 0; i < m_pots.Count; i++)
+        {
+            if (m_pots[i].m_potIndex == s_bossPotIndex)
+            {
+                s_bossPotIndex = i;
+            }
+
+            m_pots[i].m_potIndex = i;
+        }
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
@@ -129,7 +222,7 @@ public class CobraShuffle : CobraBehaviour
     // Returns how long the attack will take
     private float ExecuteMove(EShuffleActionType _actionType, EShuffleMoveType _moveType)
     {
-        Debug.Log("Executing move " + _actionType + _moveType);
+        // Debug.Log("Executing move " + _actionType + _moveType);
 
         if (_actionType == EShuffleActionType.inOrOut)
         {
@@ -368,5 +461,20 @@ public class CobraShuffle : CobraBehaviour
         }
 
         return jumpTime;
+    }
+
+    private void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        if (s_potStartingPositions.Count <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < m_pots.Count; i++)
+        {
+            Handles.Label(s_potStartingPositions[i] + Vector3.up * 1.5f, m_pots[i].m_potIndex.ToString());
+        }
+#endif
     }
 }
