@@ -20,6 +20,7 @@ public class CobraHealth : MonoBehaviour
 
     private static CobraMirageBarrage s_barrage;
     private static CobraBoss s_boss;
+    private static CobraShuffle s_shuffle;
 
     // Return the appropriate settings variable based on what health we are on
     public static CobraStateSettings StateSettings
@@ -68,6 +69,7 @@ public class CobraHealth : MonoBehaviour
 
         s_healthIcons = m_healthIcons;
         s_barrage = GetComponent<CobraMirageBarrage>();
+        s_shuffle = GetComponent<CobraShuffle>();
 
         // Initialise variables
         s_settingsFull = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsFull");
@@ -139,6 +141,7 @@ public class CobraHealth : MonoBehaviour
             List<int> possiblePositions = StateSettings.m_barrageAttackPositions;
             int newBossPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
             s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition];
+            s_boss.gameObject.transform.parent.rotation = CobraShuffle.s_potStartingRotations[newBossPosition];
             CobraShuffle.s_bossPotIndex = newBossPosition;
 
             Debug.Log("Boss moved to position " + newBossPosition);
