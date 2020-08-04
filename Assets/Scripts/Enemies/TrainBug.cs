@@ -119,7 +119,11 @@ public class TrainBug : MonoBehaviour
     // Flips the grub either upside down or right side up
     private void Flip(bool _upsideDown)
     {
-        Vector3 rotation = (_upsideDown) ? Vector3.forward * 180.0f : Vector3.forward;
+        Vector3 rotation = transform.rotation.eulerAngles;
+        if (_upsideDown)
+        {
+            rotation.z += 180.0f;
+        }
         m_meshParent.transform.DORotate(rotation, 0.5f);
     }
 
