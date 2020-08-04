@@ -9,6 +9,7 @@ public class CobraGlobalSettings : ScriptableObject
     [Header("General Settings")]
     public int m_maxHealth = 3;
     public int m_arenaLength;
+    public float m_sandDropHeight;
 
     [Header("Mirage Wall Settings")]
     public float m_wallTravelDistance;

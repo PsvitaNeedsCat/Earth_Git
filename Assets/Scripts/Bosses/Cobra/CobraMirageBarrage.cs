@@ -6,6 +6,7 @@ using UnityEngine;
 public class CobraMirageBarrage : CobraBehaviour
 {
     public List<CobraPot> m_pots;
+    public GameObject m_cobraMesh;
 
     private GameObject m_mirageClonePrefab;
     private List<CobraMirageSpit> m_mirageCobras = new List<CobraMirageSpit>();
@@ -49,11 +50,13 @@ public class CobraMirageBarrage : CobraBehaviour
     private void LowerHead()
     {
         CobraHealth.SetCollider(true);
+        MessageBus.TriggerEvent(EMessageType.vulnerableStart);
     }
 
     private void RaiseHead()
     {
         CobraHealth.SetCollider(false);
+        MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
     }
 
     private void GenerateSnakes()
@@ -82,6 +85,8 @@ public class CobraMirageBarrage : CobraBehaviour
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
             mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
         }
+
+        m_cobraMesh.SetActive(true);
 
     }
 

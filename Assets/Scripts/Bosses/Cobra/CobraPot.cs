@@ -30,6 +30,8 @@ public class CobraPot : MonoBehaviour
 
     public void FireProjectile()
     {
+        MessageBus.TriggerEvent(EMessageType.cobraPotFire);
+
         // Create a projectile
         Vector3 spawnPosition = transform.position + transform.forward * m_projectileSpawnDistance;
         GameObject projectile = Instantiate(m_projectilePrefab, spawnPosition, transform.rotation, m_projectileParent);

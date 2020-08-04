@@ -9,6 +9,7 @@ using UnityEditor;
 public class CobraShuffle : CobraBehaviour
 {
     public List<CobraPot> m_pots;
+    public GameObject m_cobraMesh;
 
     public static int s_bossPotIndex = 2;
 
@@ -64,6 +65,8 @@ public class CobraShuffle : CobraBehaviour
     // Pots jump into the center of the arena
     private IEnumerator JumpIn()
     {
+        m_cobraMesh.SetActive(false);
+
         // Start delay
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);
 
@@ -311,6 +314,7 @@ public class CobraShuffle : CobraBehaviour
         {
             yield return new WaitForSeconds(_duration);
             _pot.FireLobProjectiles();
+            MessageBus.TriggerEvent(EMessageType.cobraPotFire);
         }
     }
 
@@ -328,6 +332,7 @@ public class CobraShuffle : CobraBehaviour
         {
             yield return new WaitForSeconds(_duration);
             _pot.FireLobProjectiles();
+            MessageBus.TriggerEvent(EMessageType.cobraPotFire);
         }
     }
     
