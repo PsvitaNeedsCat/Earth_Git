@@ -45,7 +45,10 @@ public class ToadSpit : ToadBehaviour
         ToadBoss.s_eaten = EChunkType.none;
     }
 
-    public void AESpitProjectile() => StartCoroutine(SpitProjectile());
+    public void AESpitProjectile()
+    {
+        StartCoroutine(SpitProjectile());
+    }
 
     IEnumerator SpitProjectile()
     {
@@ -54,6 +57,7 @@ public class ToadSpit : ToadBehaviour
 
         // Create projectile
         GameObject newProjectile = Instantiate(m_projectilePrefab, m_projectileSpawnSocket.position, Quaternion.identity, null);
+        newProjectile.transform.parent = transform.parent;
         ToadSpitProjectile proj = newProjectile.GetComponent<ToadSpitProjectile>();
 
         // Find a tile for it to aim for

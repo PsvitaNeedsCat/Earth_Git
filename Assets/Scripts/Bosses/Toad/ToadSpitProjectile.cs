@@ -23,8 +23,6 @@ public class ToadSpitProjectile : MonoBehaviour
     [HideInInspector] public Rigidbody m_rigidbody;
     [HideInInspector] public Vector3 m_fDir;
 
-    readonly int m_damage = 1;
-
     // Also determines number of fragments
     readonly Vector3[] m_fragmentDirections = { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
     readonly float m_fragmentLifetime = 3.0f;
@@ -54,7 +52,10 @@ public class ToadSpitProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If allowed, split
-        if (m_shouldSplit && !m_isFragment) Split();
+        if (m_shouldSplit && !m_isFragment)
+        {
+            Split();
+        }
 
         HealthComponent playerHealthComp = other.GetComponent<HealthComponent>();
 
@@ -66,7 +67,10 @@ public class ToadSpitProjectile : MonoBehaviour
         }
 
         // If not a fragment, return aimed tile to the spit attack's dictionary
-        if (!m_isFragment) ToadSpit.ProjectileDestroyed(m_aimedTile);
+        if (!m_isFragment)
+        {
+            ToadSpit.ProjectileDestroyed(m_aimedTile);
+        }
 
         MessageBus.TriggerEvent(EMessageType.projectileSplash);
         Destroy(this.gameObject);
@@ -85,6 +89,7 @@ public class ToadSpitProjectile : MonoBehaviour
             fragment.transform.position = pos;
             fragment.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             fragment.transform.DOScale(0.7f, 0.07f).SetEase(Ease.InElastic);
+            fragment.transform.parent = transform.parent;
 
             // Projectile motion
             fragment.m_rigidbody.AddForce(
