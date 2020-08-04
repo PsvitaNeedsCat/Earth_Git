@@ -71,6 +71,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     {
         // Activate the tail section
         m_centipedeHealth.ActivateSection(true, 6);
+        MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         // Fire for a duration
         while (m_timeFiredFor < CentipedeBoss.s_settings.m_firingDuration)
@@ -93,6 +94,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
         // Deactivate the tail section
         m_centipedeHealth.ActivateSection(false, 6);
+        MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
 
         StartCoroutine(BurrowUp());
     }

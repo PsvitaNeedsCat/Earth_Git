@@ -97,6 +97,8 @@ public class CobraBoss : MonoBehaviour
     private IEnumerator StartTileFlip()
     {
         m_playerController.KnockBack(Vector3.up * 2.5f);
+        MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
 
         yield return new WaitForSeconds(0.2f);
 

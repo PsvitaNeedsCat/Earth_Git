@@ -131,6 +131,8 @@ public class CobraHealth : MonoBehaviour
         s_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         s_healthIcons[s_currentHealth].SetActive(false);
 
+        MessageBus.TriggerEvent(EMessageType.cobraDamaged);
+
         s_barrage.CancelAttack();
 
         // If on 0 health, start the chase behaviour

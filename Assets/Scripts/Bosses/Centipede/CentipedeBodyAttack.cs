@@ -29,6 +29,8 @@ public class CentipedeBodyAttack : CentipedeBehaviour
 
     public override void CompleteBehaviour()
     {
+        MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
+
         base.CompleteBehaviour();
 
         // Stop pathfinding
@@ -43,6 +45,8 @@ public class CentipedeBodyAttack : CentipedeBehaviour
 
         // Determine how many times to fire a line of projectiles
         int numAttacks = (m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body)) ? CentipedeBoss.s_settings.m_numBodyAttacksDamaged : CentipedeBoss.s_settings.m_numBodyAttacks;
+
+        MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         // Perform attacks
         for (int i = 0; i < numAttacks; i++)
