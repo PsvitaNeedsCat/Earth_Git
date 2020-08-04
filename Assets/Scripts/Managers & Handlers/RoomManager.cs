@@ -22,14 +22,29 @@ public class RoomManager : MonoBehaviour
     private string m_newScene = "";
 
     private static RoomManager s_instance;
-    public static RoomManager Instance { get { return s_instance; } }
+    public static RoomManager Instance
+    {
+        get
+        {
+            return s_instance; 
+        }
+    }
 
-    public int GetCurrentRoom() { return m_currentRoom; }
+    public int GetCurrentRoom()
+    {
+        return m_currentRoom; 
+    }
 
     private void Awake()
     {
-        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
-        else { s_instance = this; }
+        if (s_instance != null && s_instance != this)
+        {
+            Destroy(this.gameObject); 
+        }
+        else 
+        {
+            s_instance = this; 
+        }
 
         BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
         Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
@@ -65,8 +80,14 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
-    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
+    private void OnEnable()
+    {
+        MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
+    }
+    private void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
+    }
 
     // Changes which room is active - called by blackwall animator
     private void ChangeRooms(string _null)
@@ -155,6 +176,7 @@ public class RoomManager : MonoBehaviour
     }
 
     // Loads the player into a specified room - also teleports player to the room
+    // Skips fade in/out
     public void ForceLoadRoom(int _room)
     {
         // Validate
@@ -187,6 +209,12 @@ public class RoomManager : MonoBehaviour
     }
 
     // Fades to black without the animation calls
-    public void FadeToBlack() => m_blackWall.SetTrigger("QuietFadeToBlack");
-    public void FadeToGame() => m_blackWall.SetTrigger("FadeToGame");
+    public void FadeToBlack()
+    {
+        m_blackWall.SetTrigger("QuietFadeToBlack");
+    }
+    public void FadeToGame()
+    {
+        m_blackWall.SetTrigger("FadeToGame");
+    }
 }

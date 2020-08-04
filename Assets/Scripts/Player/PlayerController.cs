@@ -89,8 +89,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnEnable() => MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);
-    private void OnDisable() => MessageBus.RemoveListener(EMessageType.fadedToBlackQuiet, AfterDeath);
+    private void OnEnable()
+    {
+        MessageBus.AddListener(EMessageType.fadedToBlackQuiet, AfterDeath);
+    }
+    private void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.fadedToBlackQuiet, AfterDeath);
+    }
 
     private void OnHurt()
     {

@@ -268,7 +268,7 @@ public class Chunk : MonoBehaviour
     }
 
     // Pushes the chunk in a specific direction when hit by the player
-    public bool Hit(Vector3 _hitVec)
+    public bool Hit(Vector3 _hitVec, EChunkEffect _effect)
     {
         if (!m_isRaised) { return false; }
 
@@ -283,10 +283,25 @@ public class Chunk : MonoBehaviour
 
         // Enable the correct directional collider
         Vector3 cardinal = _hitVec.normalized;
-        if (cardinal.x >= 0.9f) { m_posXCollider.enabled = true; }
-        else if (cardinal.x <= -0.9f) { m_negXCollider.enabled = true; }
-        else if (cardinal.z >= 0.9f) { m_posZCollider.enabled = true; }
-        else { m_negZCollider.enabled = true; } // else if (cardinal.z <= -1.0f)
+        if (cardinal.x >= 0.9f)
+        {
+            m_posXCollider.enabled = true;
+        }
+        else if (cardinal.x <= -0.9f)
+        {
+            m_negXCollider.enabled = true;
+        }
+        else if (cardinal.z >= 0.9f)
+        {
+            m_posZCollider.enabled = true;
+        }
+        else
+        {
+            m_negZCollider.enabled = true;
+        }
+
+        // Change effect
+        UpdateEffect(_effect, _hitVec);
 
         m_rigidBody.AddForce(_hitVec, ForceMode.Impulse);
 
@@ -417,14 +432,21 @@ public class Chunk : MonoBehaviour
     }
 
     // Changes the effect of the chunk
-    public void UpdateEffect(EChunkEffect _effect)
+    private void UpdateEffect(EChunkEffect _effect, Vector3 _hitDir)
     {
+        // Carapace cannot use powers
+        if (m_chunkType == EChunkType.carapace)
+        {
+            return;
+        }
+
         m_currentEffect = _effect;
 
         // Update mesh
         if (_effect == EChunkEffect.water)
         {
             GetComponentInChildren<MeshRenderer>().gameObject.SetActive(false);
+            m_waterMesh.transform.rotation = Quaternion.LookRotation(_hitDir);
             m_waterMesh.SetActive(true);
         }
     }

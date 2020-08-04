@@ -119,6 +119,15 @@ public class CobraPot : MonoBehaviour
         transform.DORotateQuaternion(m_endRotation, _overSeconds);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Player player = collision.gameObject.GetComponent<Player>();
+        if (player)
+        {
+            player.GetComponent<HealthComponent>().Health -= 1;
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);

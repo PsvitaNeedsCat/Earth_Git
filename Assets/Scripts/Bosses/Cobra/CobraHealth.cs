@@ -76,10 +76,13 @@ public class CobraHealth : MonoBehaviour
         s_settingsHurtOnce = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtOnce");
         s_settingsHurtTwice = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsHurtTwice");
 
-        s_currentHealth = CobraBoss.s_settings.m_maxHealth;
-
         s_boss = GetComponent<CobraBoss>();
         s_collider = GetComponent<BoxCollider>();
+    }
+
+    private void Start()
+    {
+        s_currentHealth = CobraBoss.s_settings.m_maxHealth;
     }
 
     private void OnDestroy()
