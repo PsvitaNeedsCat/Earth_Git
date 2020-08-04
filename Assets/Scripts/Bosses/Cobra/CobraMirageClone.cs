@@ -13,6 +13,7 @@ public class CobraMirageClone : MonoBehaviour
 
     public void Damage()
     {
+        MessageBus.TriggerEvent(EMessageType.cobraMirageDamaged);
         Destroy(this.gameObject);
     }
 }

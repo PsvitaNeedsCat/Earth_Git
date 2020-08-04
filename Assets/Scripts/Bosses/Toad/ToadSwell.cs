@@ -58,6 +58,7 @@ public class ToadSwell : ToadBehaviour
         m_meshTransform.DOKill();
         m_meshTransform.DOScale(m_startingScale * 1.1f, m_toadSettings.m_swellUpOver).SetEase(Ease.OutElastic);
         m_toadRenderer.material = m_swollenMaterial;
+        MessageBus.TriggerEvent(EMessageType.vulnerableStart);
     }
 
     void SwellDown()
@@ -70,5 +71,6 @@ public class ToadSwell : ToadBehaviour
         m_meshTransform.DOKill();
         m_meshTransform.DOScale(m_startingScale, m_toadSettings.m_swellUpOver).SetEase(Ease.OutElastic);
         m_toadRenderer.material = m_normalMaterial;
+        MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
     }
 }

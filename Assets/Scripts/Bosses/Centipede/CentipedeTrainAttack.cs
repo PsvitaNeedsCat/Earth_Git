@@ -27,7 +27,6 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     private int m_chunksHit = 0;
     private CentipedeHealth m_centipedeHealth;
 
-
     private void Awake()
     {
         m_centipedeHealth = GetComponent<CentipedeHealth>();
@@ -146,6 +145,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         CentipedeMovement.s_seekingTarget = false;
         s_charging = false;
         m_centipedeHealth.ActivateSection(true, 0);
+        MessageBus.TriggerEvent(EMessageType.vulnerableStart);
+
         m_animations.Stunned();
         yield return new WaitForSeconds(_forSeconds);
 
@@ -162,6 +163,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         // Complete behaviour
         s_stunned = false;
         m_centipedeHealth.ActivateSection(false, 0);
+        MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
+
         m_head.EnableCollider();
         CompleteBehaviour();
     }

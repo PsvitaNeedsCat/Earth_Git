@@ -19,6 +19,8 @@ public class CobraMirageSpit : MonoBehaviour
 
     public void FireProjectile()
     {
+        MessageBus.TriggerEvent(EMessageType.cobraBarrageFire);
+
         GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
         EChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? EChunkEffect.water : EChunkEffect.fire;
         newBullet.GetComponent<MirageBullet>().Init(chunkEffect, m_playerRef.GetCurrentPower());

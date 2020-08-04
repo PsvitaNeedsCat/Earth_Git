@@ -69,6 +69,22 @@ public enum EMessageType
     toadSpit,
     toadTongue,
 
+    // General
+    vulnerableStart,
+    vulnerableEnd,
+    gameOver,
+
+    // Cobra boss
+    cobraBarrageFire,
+    cobraDamaged,
+    cobraDeath,
+    cobraMirageDamaged,
+    cobraMirageWall,
+    cobraPotBreak,
+    cobraPotFire,
+    cobraPotThud,
+    cobraPotBigThud,
+
     // Added stuff
     fireBugKilled = 400,
     grubKilled,
@@ -83,6 +99,7 @@ public enum EMessageType
     dMusic,
     dCobraMusic,
     oceanMan,
+    overworldMusic
 }
 
 [System.Serializable]

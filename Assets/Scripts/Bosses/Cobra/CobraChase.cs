@@ -48,6 +48,9 @@ public class CobraChase : CobraBehaviour
             yield return null;
         }
 
+        MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+
         // Disable drop shadow
         m_dropShadow.SetActive(false);
         m_stompHurtbox.SetActive(true);
@@ -77,6 +80,8 @@ public class CobraChase : CobraBehaviour
         // Jump after the player for a number of jumps
         for (int i = 0; i < CobraBoss.s_settings.m_jumpsBeforeDeath; i++)
         {
+            ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
+            MessageBus.TriggerEvent(EMessageType.cobraPotThud);
             yield return new WaitForSeconds(CobraBoss.s_settings.m_jumpDuration + CobraBoss.s_settings.m_jumpDelay);
 
             Jump();
@@ -114,6 +119,8 @@ public class CobraChase : CobraBehaviour
 
     private void Death()
     {
+        MessageBus.TriggerEvent(EMessageType.cobraDeath);
+        MessageBus.TriggerEvent(EMessageType.potDestroyed);
         Destroy(transform.parent.parent.gameObject);
     }
 

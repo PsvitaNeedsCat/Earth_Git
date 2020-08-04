@@ -66,6 +66,8 @@ public class CobraMirageWall : CobraBehaviour
             yield break;
         }
 
+        MessageBus.TriggerEvent(EMessageType.cobraMirageWall);
+
         GameObject wall;
 
         // Wall appears
