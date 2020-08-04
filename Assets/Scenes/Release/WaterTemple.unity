@@ -22992,7 +22992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &759238692
 Transform:
   m_ObjectHideFlags: 0
@@ -27950,6 +27950,46 @@ PrefabInstance:
     - target: {fileID: 952351091297283766, guid: 2d107926cf4c1f644af0296c02738a87,
         type: 3}
       propertyPath: m_nextSceneName
+      value: Overworld
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_dialogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1273623084}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4056006330579773636, guid: 2d107926cf4c1f644af0296c02738a87,
+        type: 3}
+      propertyPath: m_endEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Overworld
       objectReference: {fileID: 0}
     - target: {fileID: 5161606003149269729, guid: 2d107926cf4c1f644af0296c02738a87,
@@ -36388,6 +36428,18 @@ PrefabInstance:
       objectReference: {fileID: 759238691}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0277e0aed87da4bb6e5660bdfd2345, type: 3}
+--- !u!114 &1273623084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9017744048456181082, guid: 5e0277e0aed87da4bb6e5660bdfd2345,
+    type: 3}
+  m_PrefabInstance: {fileID: 1273623083}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37dacdcb40b753c409a93184141b83d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1274604062
 GameObject:
   m_ObjectHideFlags: 0
@@ -52280,7 +52332,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.75
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -52304,7 +52356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853937165}
   m_LocalRotation: {x: 0.112219706, y: 0.87601006, z: -0.24624363, w: 0.39922085}
-  m_LocalPosition: {x: -7.4707623, y: 4.7102475, z: 13.699742}
+  m_LocalPosition: {x: -11.61, y: 13.25, z: -33.66001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -61968,7 +62020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2130222999
 Transform:
   m_ObjectHideFlags: 0

@@ -23,8 +23,8 @@ public class Tongue : MonoBehaviour
     private void OnEnable()
     {
         // Reset animator
-        m_animator.ResetTrigger(0);
-        m_animator.ResetTrigger(1);
+        m_animator.ResetTrigger("Extend");
+        m_animator.ResetTrigger("Retract");
         m_animator.SetFloat("ExtendDirection", 1.0f);
     }
 

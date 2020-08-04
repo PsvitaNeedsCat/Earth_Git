@@ -9935,6 +9935,44 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 593658554}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &593658557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 288946922344725396, guid: be376fd587778f34abafb1b9d36918e0,
+    type: 3}
+  m_PrefabInstance: {fileID: 593658554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &593658558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593658557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c432b6348a9dc0845beea064083a65a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_distToPlayer: 3.4028235e+38
+  m_prompt: {fileID: 0}
+  m_characterSprite: {fileID: 0}
+  m_playOnAwake: 0
+  m_dialogue:
+  - 
+  m_endEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1808495984}
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Overworld
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &593943161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39583,6 +39621,18 @@ PrefabInstance:
       objectReference: {fileID: 69638050}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0277e0aed87da4bb6e5660bdfd2345, type: 3}
+--- !u!114 &1808495984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9017744048456181082, guid: 5e0277e0aed87da4bb6e5660bdfd2345,
+    type: 3}
+  m_PrefabInstance: {fileID: 1808495983}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37dacdcb40b753c409a93184141b83d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1808956354
 PrefabInstance:
   m_ObjectHideFlags: 0

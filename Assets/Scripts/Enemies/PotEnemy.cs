@@ -5,14 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PotEnemy : MonoBehaviour
 {
-    private enum States
+    private enum EStates
     {
         floating,
         chasing,
         attacking,
     }
 
-    private States m_state = States.floating;
+    private EStates m_state = EStates.floating;
     private GlobalEnemySettings m_settings;
     private Player m_playerRef = null;
     private Rigidbody m_rigidbody = null;
@@ -32,31 +32,25 @@ public class PotEnemy : MonoBehaviour
         switch (m_state)
         {
             // Float stationary and wait for player
-            case States.floating:
+            case EStates.floating:
                 {
                     if (PlayerIsWithinRadius(m_settings.m_potCheckRadius))
                     {
-                        m_state = States.chasing;
+                        m_state = EStates.chasing;
                     }
                     break;
                 }
 
             // Follow the player in the air until the player is reached
-            case States.chasing:
+            case EStates.chasing:
                 {
                     MoveTowardsPlayer();
                     if (PlayerIsWithinRadius(m_settings.m_potAttackRadius))
                     {
                         m_rigidbody.velocity = Vector3.zero;
-                        m_state = States.attacking;
+                        StartCoroutine(SlamDown());
+                        m_state = EStates.attacking;
                     }
-                    break;
-                }
-
-            // Slam straight down and when collided with something, die
-            case States.attacking:
-                {
-                    StartCoroutine(SlamDown());
                     break;
                 }
         }
@@ -65,7 +59,7 @@ public class PotEnemy : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Only check if in attacking state
-        if (m_state != States.attacking)
+        if (m_state != EStates.attacking)
         {
             return;
         }
@@ -107,7 +101,7 @@ public class PotEnemy : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         // Adjust height
-        //MoveAboveGround();
+        MoveAboveGround();
 
         // Face the player
         Vector3 view = m_playerRef.transform.position - transform.position;
@@ -138,9 +132,12 @@ public class PotEnemy : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, float.MaxValue, m_settings.m_potHoverLayerMask))
         {
             // Move pot enemy
-            Vector3 movePos = hit.transform.position + new Vector3(0.0f, m_settings.m_potHoverHeight, 0.0f);
+            float newY = hit.transform.position.y + m_settings.m_potHoverHeight;
 
-            transform.position = movePos;
+            // Adjust transform
+            Vector3 newPos = transform.position;
+            newPos.y = newY;
+            transform.position = newPos;
         }
     }
 }
