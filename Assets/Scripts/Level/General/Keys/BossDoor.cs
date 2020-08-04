@@ -18,7 +18,7 @@ public class BossDoor : MonoBehaviour
                 // Unlock
                 MessageBus.TriggerEvent(EMessageType.doorUnlocked);
                 player.m_hasKey = false;
-                Destroy(this.gameObject);
+                Destroy(gameObject);
 
                 // Load scene if there is one
                 if (m_sceneToLoadUponUnlock != "")
