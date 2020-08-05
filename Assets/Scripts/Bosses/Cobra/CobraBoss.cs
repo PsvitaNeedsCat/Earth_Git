@@ -30,7 +30,6 @@ public class CobraBoss : MonoBehaviour
 
         m_totalBehaviours = m_behaviourLoop.Count;
         m_playerController = FindObjectOfType<PlayerController>();
-        m_flippableTiles = new List<FlippableTile>(FindObjectsOfType<FlippableTile>());
 
         m_arenaTopLeft = m_arenaCenter.position;
         m_arenaTopLeft += Vector3.forward * 2.0f;
@@ -52,6 +51,8 @@ public class CobraBoss : MonoBehaviour
     // Start the first behaviour after a delay
     private void Start()
     {
+        m_flippableTiles = new List<FlippableTile>(FindObjectsOfType<FlippableTile>());
+
         m_currentBehaviour = m_behaviourLoop[0];
         StartCoroutine(DelayedStart());
     }
@@ -102,9 +103,21 @@ public class CobraBoss : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
+        if (m_flippableTiles == null)
+        {
+            Debug.LogError("Flippable tiles null");
+        }
+        else
+        {
+            Debug.Log("I have " + m_flippableTiles.Count + " flippable tiles");
+        }
+
         for (int i = 0; i < m_flippableTiles.Count; i++)
         {
-            m_flippableTiles[i].Flip();
+            if (m_flippableTiles[i] != null)
+            {
+                m_flippableTiles[i].Flip();
+            }
         }
     }
 

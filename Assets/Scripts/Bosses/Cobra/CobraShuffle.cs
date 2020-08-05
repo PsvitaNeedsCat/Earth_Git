@@ -104,53 +104,6 @@ public class CobraShuffle : CobraBehaviour
             }
         }
 
-        //// Store the indices of the pots that jump in
-        //List<int> potStartIndices = new List<int>();
-        //List<Quaternion> potStartOrientations = new List<Quaternion>();
-
-        //// Do jumping in
-        //for (int i = 0; i < m_activePotDefs.Count; i++)
-        //{
-        //    // Add the indices and orientations of pots that are jumping in to the lists
-        //    potStartIndices.Add(m_activePotDefs[i].m_potIndex);
-        //    potStartOrientations.Add(m_activePots[i].transform.rotation);
-
-        //    Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
-        //    MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
-        //}
-
-        //string potIndicesString = "";
-        //foreach(int index in potStartIndices)
-        //{
-        //    potIndicesString += index.ToString() + " ";
-        //}
-        //Debug.Log("Pot indices: " + potIndicesString);
-
-        //bool bossMoved = false;
-
-        //// Generate final positions for the pots
-        //for (int j = 0; j < m_activePots.Count; j++)
-        //{
-        //    int randomIndexPosition = Random.Range(0, potStartIndices.Count);
-        //    int randomIndex = potStartIndices[randomIndexPosition];
-
-        //    Debug.Log("Pot " + j + " final position is now " + randomIndex);
-
-        //    m_activePots[j].m_finalPosition = s_potStartingPositions[randomIndex];
-        //    m_activePots[j].m_finalOrientation = potStartOrientations[randomIndexPosition];
-        //    m_activePots[j].m_finalIndex = randomIndex;
-
-        //    if (!bossMoved && m_activePots[j].m_isBoss)
-        //    {
-        //        bossMoved = true;
-        //        Debug.Log("Boss was at index " + s_bossPotIndex + ", now moving to index " + potStartIndices[randomIndexPosition]);
-        //        SetBossPot(potStartIndices[randomIndexPosition]);
-        //    }
-
-        //    potStartIndices.RemoveAt(randomIndexPosition);
-        //    potStartOrientations.RemoveAt(randomIndexPosition);
-        //}
-
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
 
         StartCoroutine(MoveSequence());
@@ -160,17 +113,6 @@ public class CobraShuffle : CobraBehaviour
     {
         _target = _target.OrderBy(x => System.Guid.NewGuid()).ToList();
     }
-
-    //public static void PrintList<T>(string _first, List<T> _target)
-    //{
-    //    string s = "";
-    //    foreach(T item in _target)
-    //    {
-    //        s += item.ToString();
-    //    }
-
-    //    Debug.Log(_first + s);
-    //}
 
     // Pots move around the arena
     private IEnumerator MoveSequence()
@@ -226,11 +168,9 @@ public class CobraShuffle : CobraBehaviour
         CompleteBehaviour();
     }
 
-    // Returns how long the attack will take
+    // Executes a move, and returns how long the attack will take
     private float ExecuteMove(EShuffleActionType _actionType, EShuffleMoveType _moveType)
     {
-        // Debug.Log("Executing move " + _actionType + _moveType);
-
         if (_actionType == EShuffleActionType.inOrOut)
         {
             return ExpandContract();
@@ -307,6 +247,7 @@ public class CobraShuffle : CobraBehaviour
         StartCoroutine(StartMovePot(_pot, _moveBy, _jumpHeight, _duration, _fireProjectiles, _easeType));
     }
 
+    // Moves a pot by an amount, and fires projectiles if specified
     private IEnumerator StartMovePot(CobraPot _pot, Vector3 _moveBy, float _jumpHeight, float _duration, bool _fireProjectiles, Ease _easeType)
     {
         _pot.transform.DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalEaseType);
@@ -325,6 +266,7 @@ public class CobraShuffle : CobraBehaviour
         StartCoroutine(StartFakeMovePot(_pot, _moveBy, _jumpHeight, _duration, _fireProjectiles, _easeType));
     }
 
+    // Fakes moving a pot by an amount, and fires projectiles if specified
     private IEnumerator StartFakeMovePot(CobraPot _pot, Vector3 _moveBy, float _jumpHeight, float _duration, bool _fireProjectiles, Ease _easeType)
     {
         _pot.transform.DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalEaseType);
