@@ -180,9 +180,9 @@ public class RoomManager : MonoBehaviour
     public void ForceLoadRoom(int _room)
     {
         // Validate
-        if (_room >= m_rooms.Count)
+        if (_room >= m_rooms.Count || _room < 0)
         {
-            Debug.Log("Room number " + _room + " is larger than total rooms");
+            Debug.Log("Room number " + _room + " is invalid");
             return;
         }
 
@@ -192,19 +192,41 @@ public class RoomManager : MonoBehaviour
             m_rooms[i].SetActive(i == _room);
         }
 
-        // Get spawn point
-        GameObject spawnPoint = GameObject.Find("SpawnPoint");
+        // If first room, leave player position
+        if (_room == 0)
+        {
+            return;
+        }
 
-        if (spawnPoint)
+        // Get spawn point
+        Vector3 spawnPoint = Vector3.zero;
+        bool spawnFound = false;
+        RoomTrigger[] triggers = FindObjectsOfType<RoomTrigger>();
+        foreach (RoomTrigger i in triggers)
+        {
+            if (i.m_spawnPoint)
+            {
+                spawnPoint = i.transform.position;
+                spawnPoint += i.m_spawnOffset;
+                spawnFound = true;
+                break;
+            }
+        }
+
+        if (spawnFound)
         {
             // Set player spawn
-            m_playerInput.transform.position = spawnPoint.transform.position;
+            m_playerInput.transform.position = spawnPoint;
 
             m_currentRoom = _room;
         }
         else
         {
-            Debug.Log("Spawn point was not found when trying to load room " + _room);
+            // No spawn found
+            // Load room prior
+            Debug.Log("No spawn found, loading room prior");
+
+            ForceLoadRoom(_room -= 1);
         }
     }
 

@@ -2,6 +2,10 @@
 
 public class RoomTrigger : MonoBehaviour
 {
+    [Tooltip("Each room needs at least one, sets the position of spawn for the player when loading a save")]
+    public bool m_spawnPoint = false;
+    public Vector3 m_spawnOffset;
+
     [Tooltip("The name of the game object that holds all the room objects")]
     [SerializeField] private string m_roomName;
     [SerializeField] private EMessageType m_musicTrigger = EMessageType.none;
