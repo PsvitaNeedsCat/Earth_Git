@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class HealingCrystal : Interactable
 {
     // Heals the player
@@ -19,6 +21,10 @@ public class HealingCrystal : Interactable
         playerHealth.HealToMax();
 
         // Play sound
-        MessageBus.TriggerEvent(EMessageType.ting);
+        MessageBus.TriggerEvent(EMessageType.crystalHealed);
+
+        // Tween
+        transform.DORewind();
+        transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
     }
 }
