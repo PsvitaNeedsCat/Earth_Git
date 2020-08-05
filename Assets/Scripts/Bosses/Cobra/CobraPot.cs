@@ -21,11 +21,18 @@ public class CobraPot : MonoBehaviour
 
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
+    private Collider m_collider;
     
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
+        m_collider = GetComponentInChildren<Collider>();
+    }
+
+    public void SetCollider(bool _active)
+    {
+        m_collider.enabled = _active;
     }
 
     public void FireProjectile()
@@ -41,14 +48,6 @@ public class CobraPot : MonoBehaviour
         // Temp minor visual feedback for firing
         transform.DOPunchScale(Vector3.one * 0.2f, 0.15f).SetEase(Ease.InOutElastic);
         transform.DOPunchPosition(Vector3.up * 0.2f, 0.2f).SetEase(Ease.InCubic);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            FireAtSurroundingTiles();
-        }
     }
 
     public void FireLobProjectiles()

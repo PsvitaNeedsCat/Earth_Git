@@ -59,7 +59,7 @@ public class CobraShuffle : CobraBehaviour
         {
             // CobraPot 
             m_activePots.Add(m_pots[m_activePotDefs[i].m_potIndex]);
-
+            m_pots[m_activePotDefs[i].m_potIndex].SetCollider(true);
         }
     }
 
@@ -199,6 +199,8 @@ public class CobraShuffle : CobraBehaviour
             m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
+            
+            m_activePots[i].SetCollider(false);
         }
 
         s_nextBossPotIndex = m_pots[s_bossPotIndex].m_endIndex;

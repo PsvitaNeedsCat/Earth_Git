@@ -89,6 +89,8 @@ public class Chunk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Chunk trigger hit " + other.gameObject.name);
+
         // If collider has hit any of these, return
         // Should be refactored further
         if (CollisionHasComponent<Hurtbox>(other, null) ||
