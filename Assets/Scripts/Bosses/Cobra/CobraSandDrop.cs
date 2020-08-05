@@ -10,6 +10,7 @@ public class CobraSandDrop : CobraBehaviour
 
     private Vector3 m_arenaTopLeft;
     private List<int> m_potFiringOrder;
+    private PlayerController m_playerController;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class CobraSandDrop : CobraBehaviour
         m_arenaTopLeft += Vector3.forward * 2.0f;
         m_arenaTopLeft += -Vector3.right * 2.0f;
 
+        m_playerController = FindObjectOfType<PlayerController>();
     }
 
     private void GeneratePotFiringOrder()
@@ -68,6 +70,8 @@ public class CobraSandDrop : CobraBehaviour
     public override void CompleteBehaviour()
     {
         base.CompleteBehaviour();
+
+        m_playerController.m_inSand = false;
     }
 
     public override void Reset()
