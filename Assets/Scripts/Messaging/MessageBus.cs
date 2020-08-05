@@ -55,6 +55,7 @@ public enum EMessageType
     keySpawned,
     pressurePlateOn,
     pressurePlateOff,
+    crystalHealed,
 
     // Blocks
     glassDestroyed,
