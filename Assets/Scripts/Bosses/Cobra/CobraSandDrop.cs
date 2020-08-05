@@ -93,7 +93,7 @@ public class CobraSandDrop : CobraBehaviour
                 char blockType = _layout[i * arenaLength + j];
                 
                 // Find where to spawn the block
-                Vector3 worldPosition = m_arenaTopLeft + i * Vector3.right + j * -Vector3.forward;
+                Vector3 worldPosition = m_arenaTopLeft + i * Vector3.right + j * -Vector3.forward + Vector3.up * CobraBoss.s_settings.m_sandDropHeight;
                 GameObject generatedBlock = null;
 
                 // Based on the character read, spawn a block, or ignore
