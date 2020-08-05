@@ -103,6 +103,7 @@ public class CobraSandDrop : CobraBehaviour
                     case 's':
                         {
                             generatedBlock = Instantiate(m_sandPrefab, worldPosition, Quaternion.identity, transform.parent);
+                            generatedBlock.GetComponent<SandBlock>().Fall();
                             break;
                         }
 
