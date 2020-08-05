@@ -12,6 +12,7 @@ public class CobraShuffle : CobraBehaviour
     public GameObject m_cobraMesh;
 
     public static int s_bossPotIndex = 2;
+    private static int s_nextBossPotIndex = 2;
 
     private List<CobraMoveDef> m_cobraMoves = new List<CobraMoveDef>();
     private List<CobraShufflePotDef> m_activePotDefs = new List<CobraShufflePotDef>();
@@ -58,7 +59,7 @@ public class CobraShuffle : CobraBehaviour
         {
             // CobraPot 
             m_activePots.Add(m_pots[m_activePotDefs[i].m_potIndex]);
-
+            m_pots[m_activePotDefs[i].m_potIndex].SetCollider(true);
         }
     }
 
@@ -198,7 +199,11 @@ public class CobraShuffle : CobraBehaviour
             m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
+            
+            m_activePots[i].SetCollider(false);
         }
+
+        s_nextBossPotIndex = m_pots[s_bossPotIndex].m_endIndex;
 
         for (int i = 0; i < m_activePots.Count; i++)
         {
@@ -210,13 +215,10 @@ public class CobraShuffle : CobraBehaviour
 
         for (int i = 0; i < m_pots.Count; i++)
         {
-            if (m_pots[i].m_potIndex == s_bossPotIndex)
-            {
-                s_bossPotIndex = i;
-            }
-
             m_pots[i].m_potIndex = i;
         }
+
+        s_bossPotIndex = s_nextBossPotIndex;
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
@@ -482,6 +484,8 @@ public class CobraShuffle : CobraBehaviour
         {
             Handles.Label(s_potStartingPositions[i] + Vector3.up * 1.5f, m_pots[i].m_potIndex.ToString());
         }
+
+        Handles.Label(transform.position + Vector3.up * 5.0f, "Boss pot index: " + s_bossPotIndex.ToString());
 #endif
     }
 }

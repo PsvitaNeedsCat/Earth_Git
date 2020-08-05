@@ -5,13 +5,13 @@ using UnityEngine;
 // Cobra mirage barrage attack behaviour
 public class CobraMirageBarrage : CobraBehaviour
 {
-    public List<CobraPot> m_pots;
     public GameObject m_cobraMesh;
 
     private GameObject m_mirageClonePrefab;
     private List<CobraMirageSpit> m_mirageCobras = new List<CobraMirageSpit>();
     private CobraMirageSpit m_spit;
     private CobraBoss m_boss;
+    private CobraShuffle m_shuffle;
 
     private void Awake()
     {
@@ -19,6 +19,7 @@ public class CobraMirageBarrage : CobraBehaviour
         m_mirageClonePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/MirageCobra");
         m_spit = GetComponent<CobraMirageSpit>();
         m_boss = GetComponent<CobraBoss>();
+        m_shuffle = GetComponent<CobraShuffle>();
     }
 
     public override void StartBehaviour()
@@ -66,8 +67,9 @@ public class CobraMirageBarrage : CobraBehaviour
 
         // The pot in which to have the real snake
         int realSpawnPot = CobraShuffle.s_bossPotIndex;
-        transform.parent.position = m_pots[realSpawnPot].transform.position;
-        transform.parent.rotation = m_pots[realSpawnPot].transform.rotation;
+
+        transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position;
+        transform.parent.rotation = m_shuffle.m_pots[realSpawnPot].transform.rotation;
         GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
 
         for (int i = 0; i < spawnPots.Count; i++)
@@ -79,8 +81,8 @@ public class CobraMirageBarrage : CobraBehaviour
             }
 
             // Create a mirage cobra
-            Vector3 spawnPos = m_pots[spawnPots[i]].transform.position;
-            Quaternion spawnRot = m_pots[spawnPots[i]].transform.rotation;
+            Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position;
+            Quaternion spawnRot = m_shuffle.m_pots[spawnPots[i]].transform.rotation;
             GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
             mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
