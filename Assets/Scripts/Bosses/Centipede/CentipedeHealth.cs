@@ -21,6 +21,7 @@ public class CentipedeHealth : MonoBehaviour
     public CentipedeSegmentMaterials[] m_segmentMaterials;
     public GameObject[] m_segmentDamagedEffects;
     public GameObject m_crystal;
+    public List<GameObject> m_healthIcons;
 
     public List<SkinnedMeshRenderer> m_segmentRenderers;
     public GameObject m_bossObject;
@@ -71,6 +72,9 @@ public class CentipedeHealth : MonoBehaviour
         if (m_sectionsDamaged[(int)_type]) return;
 
         Debug.Log("Damaged section " + _type.ToString());
+
+        m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
+        m_healthIcons[(int)_type].SetActive(false);
 
         HitFreezeManager.BeginHitFreeze(0.1f);
 
