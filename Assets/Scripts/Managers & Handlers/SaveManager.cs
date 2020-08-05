@@ -161,8 +161,14 @@ public class SaveManager : MonoBehaviour
 
             // Load the correct health
             PlayerController player = FindObjectOfType<PlayerController>();
-            if (player) { player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health; }
-            else { Debug.LogError("Unable to find player, could not load health"); }
+            if (player)
+            {
+                player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health; 
+            }
+            else
+            {
+                Debug.LogError("Unable to find player, could not load health"); 
+            }
         }
     }
 
