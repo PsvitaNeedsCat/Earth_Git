@@ -29,8 +29,6 @@ public class LevelEntry : Interactable
     // Load level
     public override void Invoke()
     {
-        base.Invoke();
-
         if (m_isLocked) { return; }
 
         m_roomManager.LoadScene(m_levelName);
