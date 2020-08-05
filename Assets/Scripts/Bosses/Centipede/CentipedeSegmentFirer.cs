@@ -7,6 +7,7 @@ using DG.Tweening;
 
 public class CentipedeSegmentFirer : MonoBehaviour
 {
+    public ParticleSystem m_fireEffects;
     private GameObject m_projectilePrefab;
 
     private void Awake()
@@ -17,6 +18,8 @@ public class CentipedeSegmentFirer : MonoBehaviour
     // Fire a projectile left and right
     public void FireProjectiles(float _speed)
     {
+        m_fireEffects.Play();
+
         // Swell up as firing
         transform.DORewind();
         transform.DOPunchScale(Vector3.one * 0.2f, 0.15f);

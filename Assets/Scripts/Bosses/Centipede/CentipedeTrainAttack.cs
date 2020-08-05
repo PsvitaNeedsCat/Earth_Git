@@ -22,6 +22,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     public static bool s_charging = false;
     public static bool s_stunned = false;
     public CentipedeHead m_head;
+    public GameObject m_activeEffects;
 
     private int m_currentTunnelIndex = 0;
     private int m_chunksHit = 0;
@@ -65,6 +66,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         s_charging = true;
         TunnelDef currentTunnel = m_tunnels[m_currentTunnelIndex];
         CentipedeMovement.SetTargets(new List<Transform> { currentTunnel.m_tunnelEnd, currentTunnel.m_tunnelStart, currentTunnel.m_tunnelTarget, currentTunnel.m_nextCorner });
+        m_activeEffects.SetActive(true);
 
         // Wait for centipede to reach a target
         while (!CentipedeMovement.s_atTarget)
@@ -92,6 +94,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     // Move back into the arena
     private IEnumerator ReenterArena()
     {
+        m_activeEffects.SetActive(false);
         m_trainAudio.SetActive(false);
         CentipedeMovement.SetTargets(new List<Transform> { m_tunnels[0].m_tunnelStart});
 
@@ -142,6 +145,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         // Get stunned for a duration
         s_stunned = true;
         m_head.DisableCollider();
+        m_activeEffects.SetActive(false);
         CentipedeMovement.s_seekingTarget = false;
         s_charging = false;
         m_centipedeHealth.ActivateSection(true, 0);

@@ -36,7 +36,7 @@ public class CentipedeHead : MonoBehaviour
 
         // During the train attack, destroy any chunks hit
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk)
+        if (chunk && !other.isTrigger)
         {
             chunk.GetComponent<HealthComponent>().Health = 0;
             MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
