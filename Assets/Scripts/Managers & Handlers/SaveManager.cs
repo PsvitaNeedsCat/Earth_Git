@@ -18,7 +18,8 @@ public class SaveManager : MonoBehaviour
         {
             { EChunkEffect.none, true },
             { EChunkEffect.water, false },
-            { EChunkEffect.fire, false }
+            { EChunkEffect.fire, false },
+            { EChunkEffect.mirage, false }
         };
         public int health = 3;
     }
