@@ -7,19 +7,6 @@ using DG.Tweening;
 public class HealingCrystal : Interactable
 {
     // Heals the player
-    public GameObject m_crystalMesh;
-    public float m_frequency;
-    public float m_amplitude;
-    public float m_rotationSpeed;
-
-    private Vector3 m_startPosition;
-
-    public override void Awake()
-    {
-        base.Awake();
-        m_startPosition = m_crystalMesh.transform.position;
-    }
-
     override public void Invoke()
     {
         // Get player
@@ -37,15 +24,7 @@ public class HealingCrystal : Interactable
         MessageBus.TriggerEvent(EMessageType.crystalHealed);
 
         // Tween
-        m_crystalMesh.transform.DORewind();
-        m_crystalMesh.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        m_crystalMesh.transform.position = m_startPosition + Vector3.up * (m_amplitude * Mathf.Sin(Time.time * m_frequency) - (m_amplitude / 2.0f));
-        m_crystalMesh.transform.rotation = Quaternion.Euler(0.0f, m_rotationSpeed * Time.deltaTime, 0.0f) * m_crystalMesh.transform.rotation;
+        transform.DORewind();
+        transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
     }
 }

@@ -14,8 +14,7 @@ public class Player : MonoBehaviour
     {
         { EChunkEffect.none, true },
         { EChunkEffect.water, false },
-        { EChunkEffect.fire, false },
-        { EChunkEffect.mirage, false }
+        { EChunkEffect.fire, false }
     };
     public static EChunkEffect s_currentEffect = EChunkEffect.none;
 
@@ -179,10 +178,7 @@ public class Player : MonoBehaviour
     public void TryChangeEffect(EChunkEffect _effect)
     {
         // Do not let the player change if the power is not unlocked
-        if (!s_activePowers[_effect])
-        {
-            return; 
-        }
+        if (!s_activePowers[_effect]) { return; }
 
         // Change the player's power
         s_currentEffect = _effect;
@@ -284,10 +280,7 @@ public class Player : MonoBehaviour
         }
 
         bool[] active = new bool[3];
-        for (int i = 0; i < s_activePowers.Count - 1; i++)
-        {
-            active[i] = s_activePowers[(EChunkEffect)i]; 
-        }
+        for (int i = 0; i < s_activePowers.Count; i++) { active[i] = s_activePowers[(EChunkEffect)i]; }
         m_crystalUI.UpdateUnlocked(active);
         m_crystalUI.UpdateSelected((int)s_currentEffect);
     }

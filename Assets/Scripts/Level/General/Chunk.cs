@@ -9,7 +9,6 @@ public enum EChunkEffect
     none,
     water,
     fire,
-    mirage
 }
 
 [RequireComponent(typeof(Rigidbody))]
