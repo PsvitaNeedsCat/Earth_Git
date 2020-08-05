@@ -18,8 +18,7 @@ public class SaveManager : MonoBehaviour
         {
             { EChunkEffect.none, true },
             { EChunkEffect.water, false },
-            { EChunkEffect.fire, false },
-            { EChunkEffect.mirage, false }
+            { EChunkEffect.fire, false }
         };
         public int health = 3;
     }
@@ -43,14 +42,8 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (s_instance != null && s_instance != this)
-        {
-            Destroy(this.gameObject); 
-        }
-        else 
-        {
-            s_instance = this; 
-        }
+        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
+        else { s_instance = this; }
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
 
@@ -73,7 +66,7 @@ public class SaveManager : MonoBehaviour
         }
         else 
         {
-            Debug.LogError("Unable to find player, could not save health"); 
+            Debug.LogError("Unbale to find player, could not save health"); 
         }
 
         // Save to txt file
