@@ -1909,6 +1909,10 @@ PrefabInstance:
       propertyPath: m_trainAudio
       value: 
       objectReference: {fileID: 7600485392049716782}
+    - target: {fileID: 203079661, guid: 15d4f7254b6b84a40b08da24421f9fef, type: 3}
+      propertyPath: m_activeEffects
+      value: 
+      objectReference: {fileID: 8509592279327664699}
     - target: {fileID: 203079662, guid: 15d4f7254b6b84a40b08da24421f9fef, type: 3}
       propertyPath: m_preBurrowPoint
       value: 
@@ -1977,6 +1981,16 @@ PrefabInstance:
       propertyPath: m_crystal
       value: 
       objectReference: {fileID: 8495949935635121291}
+    - target: {fileID: 3518776319155957811, guid: 15d4f7254b6b84a40b08da24421f9fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082324095432534772, guid: 15d4f7254b6b84a40b08da24421f9fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4442217121781493764, guid: 15d4f7254b6b84a40b08da24421f9fef,
         type: 3}
       propertyPath: m_movePoints.Array.data[0]
@@ -1997,6 +2011,11 @@ PrefabInstance:
       propertyPath: m_movePoints.Array.data[3]
       value: 
       objectReference: {fileID: 4575309021961207993}
+    - target: {fileID: 4701920273612242924, guid: 15d4f7254b6b84a40b08da24421f9fef,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8197028944461829073, guid: 15d4f7254b6b84a40b08da24421f9fef,
         type: 3}
       propertyPath: m_Name
@@ -2067,6 +2086,16 @@ PrefabInstance:
       propertyPath: m_pathfinder
       value: 
       objectReference: {fileID: 4575309021942115036}
+    - target: {fileID: 8546367506242111173, guid: 15d4f7254b6b84a40b08da24421f9fef,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795845855127578398, guid: 15d4f7254b6b84a40b08da24421f9fef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15d4f7254b6b84a40b08da24421f9fef, type: 3}
 --- !u!4 &4575309020604355353 stripped
@@ -2078,6 +2107,12 @@ Transform:
 --- !u!4 &6889652911913988090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1234980149416636213, guid: 15d4f7254b6b84a40b08da24421f9fef,
+    type: 3}
+  m_PrefabInstance: {fileID: 5674378528477233359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8509592279327664699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4082324095432534772, guid: 15d4f7254b6b84a40b08da24421f9fef,
     type: 3}
   m_PrefabInstance: {fileID: 5674378528477233359}
   m_PrefabAsset: {fileID: 0}

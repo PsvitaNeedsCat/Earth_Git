@@ -51,6 +51,11 @@ public class CentipedeBodyAttack : CentipedeBehaviour
         // Perform attacks
         for (int i = 0; i < numAttacks; i++)
         {
+            while (!AtBlockCenter(m_segmentFirers[0].transform.position))
+            {
+                yield return null;
+            }
+
             float timeBetween = 0.4f; // Time offset needed to fire projectiles down one row
             StartCoroutine(FireBodyProjectiles(timeBetween));
             
@@ -63,6 +68,16 @@ public class CentipedeBodyAttack : CentipedeBehaviour
         }
 
         CompleteBehaviour();
+    }
+
+    private bool AtBlockCenter(Vector3 _position)
+    {
+        const float lenience = 0.1f;
+
+        float xRemainder = Mathf.Abs(_position.x) % 1.0f;
+        float zRemainder = Mathf.Abs(_position.z) % 1.0f;
+
+        return (xRemainder + zRemainder) < lenience;
     }
 
     private IEnumerator FireBodyProjectiles(float _timeBetween)

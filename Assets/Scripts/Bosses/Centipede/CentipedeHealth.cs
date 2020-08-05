@@ -77,10 +77,12 @@ public class CentipedeHealth : MonoBehaviour
         List<int> segments = m_sectionSegments[(int)_type];
 
         // Change material of segments
-        foreach (int segment in segments)
+        for (int i = 0; i < segments.Count; i++)
         {
-            m_segmentRenderers[segment].material = m_segmentMaterials[(int)_type].m_cooled;
-            m_segmentRenderers[segment].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
+            int segmentIndex = segments[i];
+            m_segmentRenderers[segmentIndex].material = m_segmentMaterials[(int)_type].m_cooled;
+            m_segmentRenderers[segmentIndex].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
+            m_segmentDamagedEffects[i].SetActive(true);
         }
 
         if (_type == ESegmentType.head)
