@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     [HideInInspector] public static Interactable s_closest = null; // Closest to the player
     [HideInInspector] public float m_distToPlayer = float.MaxValue;
 
     private static Player s_playerRef;
-    private bool m_playerIsClose = false;
+    private bool m_isPlayerIsClose = false;
     private GlobalPlayerSettings m_playerSettings;
 
     [SerializeField] protected GameObject m_prompt = null;
@@ -19,7 +19,10 @@ public class Interactable : MonoBehaviour
         if (!s_playerRef)
         {
             Player player = FindObjectOfType<Player>();
-            if (player) { s_playerRef = player; }
+            if (player)
+            {
+                s_playerRef = player; 
+            }
         }
 
         m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
@@ -35,10 +38,7 @@ public class Interactable : MonoBehaviour
         MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
     }
 
-    virtual public void Invoke()
-    {
-
-    }
+    public abstract void Invoke();
 
     // Compares distance to player with the current closest
     public void CheckForClosest(string _null)
@@ -62,22 +62,18 @@ public class Interactable : MonoBehaviour
 
     public virtual void Update()
     {
-        // Check if the player is close enough to trigger the prompt
-        m_playerIsClose = (s_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
+        // True if the player is within range to interact with the object
+        m_isPlayerIsClose = (s_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
 
-        // If there is a prompt
+        // Decides whether to enable or disable the prompt gameobject based on how close the player is
         if (m_prompt)
         {
-            // Player is close enough to interact - prompt is not currently active
-            if (!m_prompt.activeSelf && m_playerIsClose)
+            if (!m_prompt.activeSelf && m_isPlayerIsClose)
             {
-                // Turn prompt on
                 m_prompt.SetActive(true);
             }
-            // Player is not close enough to interact - prompt is currently active
-            else if (m_prompt.activeSelf && !m_playerIsClose)
+            else if (m_prompt.activeSelf && !m_isPlayerIsClose)
             {
-                // Turn off prompt
                 m_prompt.SetActive(false);
             }
         }
