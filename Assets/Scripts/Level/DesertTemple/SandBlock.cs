@@ -11,6 +11,7 @@ public class SandBlock : MonoBehaviour
     private bool m_isFalling = false;
     private GlobalChunkSettings m_chunkSettings;
     private GameObject m_chunkInside = null;
+    private bool m_isPlayerInside = false;
 
     private void Awake()
     {
@@ -21,7 +22,11 @@ public class SandBlock : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player) { player.m_inSand = true; }
+        if (player)
+        {
+            m_isPlayerInside = true;
+            player.m_inSand = true; 
+        }
 
         // If player punched block
         Hurtbox hurtbox = other.GetComponent<Hurtbox>();
@@ -41,7 +46,11 @@ public class SandBlock : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player) { player.m_inSand = false; }
+        if (player)
+        {
+            m_isPlayerInside = false;
+            player.m_inSand = false; 
+        }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
@@ -56,6 +65,15 @@ public class SandBlock : MonoBehaviour
     private void OnDestroy()
     {
         MessageBus.TriggerEvent(EMessageType.glassDestroyed);
+
+        if (m_isPlayerInside && !m_isFalling)
+        {
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player)
+            {
+                player.m_inSand = false;
+            }
+        }
     }
 
     // Called when glass is to break

@@ -119,12 +119,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955846620221267046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.597, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5460611904761810616}
-  m_RootOrder: 0
+  m_Father: {fileID: 7995357210104644965}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &2141875320806801276
 ParticleSystem:
@@ -5025,6 +5025,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_distToPlayer: 3.4028235e+38
   m_prompt: {fileID: 1191316491}
+  m_crystalMesh: {fileID: 3730802587863095984}
+  m_frequency: 0.6
+  m_amplitude: 0.05
+  m_rotationSpeed: 10
 --- !u!1001 &4914978415173300370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5120,9 +5124,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4914978415173300370}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5460611904761810616 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1149120816987061802, guid: d13bf9d82d9f20b42b8bd9d385708ade,
+--- !u!1 &3730802587863095984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8643529169934608930, guid: d13bf9d82d9f20b42b8bd9d385708ade,
     type: 3}
   m_PrefabInstance: {fileID: 4914978415173300370}
   m_PrefabAsset: {fileID: 0}

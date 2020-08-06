@@ -145,7 +145,7 @@ public class CobraHealth : MonoBehaviour
             // Boss chooses a new pot
             List<int> possiblePositions = StateSettings.m_barrageAttackPositions;
             int newBossPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
-            s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition];
+            s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition] + Vector3.up * 0.75f;
             s_boss.gameObject.transform.parent.rotation = CobraShuffle.s_potStartingRotations[newBossPosition];
             CobraShuffle.s_bossPotIndex = newBossPosition;
 

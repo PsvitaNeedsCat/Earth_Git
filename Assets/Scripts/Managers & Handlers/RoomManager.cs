@@ -168,10 +168,13 @@ public class RoomManager : MonoBehaviour
         m_rooms[m_currentRoom].SetActive(true);
 
         // Set camera to look at player
-        CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();
-        if (cam)
+        if (m_currentRoom < m_rooms.Count - 1)
         {
-            cam.Follow = m_camTarget.transform;
+            CinemachineVirtualCamera cam = m_rooms[m_currentRoom].GetComponentInChildren<CinemachineVirtualCamera>();
+            if (cam)
+            {
+                cam.Follow = m_camTarget.transform;
+            }
         }
     }
 

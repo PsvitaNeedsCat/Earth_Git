@@ -19,6 +19,7 @@ public class CentipedeSegmentFirer : MonoBehaviour
     public void FireProjectiles(float _speed)
     {
         m_fireEffects.Play();
+        MessageBus.TriggerEvent(EMessageType.centipedeBodyFire);
 
         // Swell up as firing
         transform.DORewind();
