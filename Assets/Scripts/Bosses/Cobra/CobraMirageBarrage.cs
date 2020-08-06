@@ -67,8 +67,8 @@ public class CobraMirageBarrage : CobraBehaviour
 
         // The pot in which to have the real snake
         int realSpawnPot = CobraShuffle.s_bossPotIndex;
-
-        transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position;
+                                                                                        // Band aid
+        transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position + Vector3.up * 0.75f;
         transform.parent.rotation = m_shuffle.m_pots[realSpawnPot].transform.rotation;
         GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
 
@@ -81,7 +81,7 @@ public class CobraMirageBarrage : CobraBehaviour
             }
 
             // Create a mirage cobra
-            Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position;
+            Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position + Vector3.up * 0.75f;
             Quaternion spawnRot = m_shuffle.m_pots[spawnPots[i]].transform.rotation;
             GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
