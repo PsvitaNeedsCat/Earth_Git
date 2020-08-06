@@ -5,12 +5,16 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     // Public variables
+    public Material m_highlightedMaterial;
 
     // Private variables
     GlobalTileSettings m_globalSettings;
     [SerializeField] EChunkType m_chunkType;
     private Collider m_collider;
     private bool m_ignore = false;
+    private Material m_normalMaterial;
+    private Texture m_normalTexture;
+    private MeshRenderer m_renderer;
 
     // Tiles automatically added to and removed from grid over lifetime
     private void OnEnable()
@@ -26,6 +30,11 @@ public class Tile : MonoBehaviour
     {
         m_globalSettings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
         m_collider = GetComponentInChildren<Collider>();
+        m_renderer = GetComponentInChildren<MeshRenderer>();
+        m_normalMaterial = m_renderer.material;
+        m_highlightedMaterial = new Material(m_highlightedMaterial);
+
+        m_highlightedMaterial.SetTexture("_MainTex", m_normalMaterial.mainTexture);
     }
 
     // Returns null if chunk failed to raise
@@ -97,5 +106,17 @@ public class Tile : MonoBehaviour
     public void SetIgnore(bool _ignore)
     {
         m_ignore = _ignore;
+    }
+
+    public void SetHighlighted(bool _highlighted)
+    {
+        if (_highlighted)
+        {
+            m_renderer.material = m_highlightedMaterial;
+        }
+        else
+        {
+            m_renderer.material = m_normalMaterial;
+        }
     }
 }
