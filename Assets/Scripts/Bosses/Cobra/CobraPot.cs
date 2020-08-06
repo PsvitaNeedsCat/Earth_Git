@@ -9,6 +9,7 @@ public class CobraPot : MonoBehaviour
 {
     public Transform m_projectileParent;
     public float m_projectileSpawnDistance;
+    public float m_projectileSpawnHeight;
     public float m_lobProjectileSpawnHeight;
     public float m_lobVelocity;
     public Vector3 m_lobDir;
@@ -40,7 +41,7 @@ public class CobraPot : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraPotFire);
 
         // Create a projectile
-        Vector3 spawnPosition = transform.position + transform.forward * m_projectileSpawnDistance;
+        Vector3 spawnPosition = transform.position + transform.forward * m_projectileSpawnDistance + Vector3.up * m_projectileSpawnHeight;
         GameObject projectile = Instantiate(m_projectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
         Destroy(projectile, CobraHealth.StateSettings.m_potProjectileLifetime);
         projectile.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_potProjectileSpeed;
@@ -134,10 +135,10 @@ public class CobraPot : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position + transform.forward, transform.position + transform.forward + -Vector3.up * 5.0f);
-        Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
-        Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
-        Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
+        //Gizmos.DrawLine(transform.position + transform.forward, transform.position + transform.forward + -Vector3.up * 5.0f);
+        //Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
+        //Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
+        //Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
 
 
 #if UNITY_EDITOR
