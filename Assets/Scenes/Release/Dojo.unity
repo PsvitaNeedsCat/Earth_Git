@@ -704,7 +704,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &29840001
 MonoBehaviour:
@@ -723,13 +723,13 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: cc050a1d4fa5a474d801e680990ae514, type: 3}
   m_playOnAwake: 1
   m_dialogue:
-  - Great work [protagonist]!
-  - Now I would like you to channel the crystal's force and punch the rock forwards
+  - Great work, Sophia!
+  - Now I would like you to channel the crystal's force and punch the chunk forwards
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 443089690}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2832,6 +2832,139 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 230830611}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &240327138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 240327139}
+  - component: {fileID: 240327142}
+  - component: {fileID: 240327141}
+  - component: {fileID: 240327140}
+  m_Layer: 0
+  m_Name: TextBG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &240327139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240327138}
+  m_LocalRotation: {x: 0.41717872, y: 0.2996232, z: -0.14789467, w: 0.84517163}
+  m_LocalPosition: {x: 4.24, y: 5.14, z: 5.22}
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_Children: []
+  m_Father: {fileID: 1680394409}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 52.542004, y: 39.04, z: 0}
+--- !u!114 &240327140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c432b6348a9dc0845beea064083a65a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_distToPlayer: 3.4028235e+38
+  m_prompt: {fileID: 0}
+  m_characterSprite: {fileID: 0}
+  m_playOnAwake: 1
+  m_dialogue:
+  - Long ago, when the world was nothing, four crystals came together to create life.
+  - Earth, Water, Fire, and the Magic that holds them together.
+  - These four crystals were placed in the care of a people who dedicated their lives
+    and bloodlines to protecting them.
+  - With time, the people were able to harness the powers of the crystals in their
+    day to day lives.
+  - It became ritual for the children of the village to train with them for when
+    they would become guardians.
+  - Should the crystals ever fall into the wrong hands, the world as we know it would
+    be thrown out of balance and into chaos...
+  - It's a good thing that'll never happen lol
+  m_endEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetMovement
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1680394408}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Exterior
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!23 &240327141
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240327138}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a20bed2fbd9842a468661243f6567d31, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &240327142
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240327138}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &241598149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3952,7 +4085,7 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 2087114811840251961, guid: dbf8845e617ce464ab6033620f4ebb20, type: 2}
-    value: {fileID: 1505971326}
+    value: {fileID: 1690884483}
   - key: {fileID: 9025623158455393812, guid: dbf8845e617ce464ab6033620f4ebb20, type: 2}
     value: {fileID: 703079896}
   - key: {fileID: -1817109829552368017, guid: dbf8845e617ce464ab6033620f4ebb20, type: 2}
@@ -4898,7 +5031,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &405339253
 MonoBehaviour:
@@ -4918,13 +5051,13 @@ MonoBehaviour:
   m_playOnAwake: 1
   m_dialogue:
   - Fantastic!
-  - Lastly, I'd like to you to strike the chunk again a couple of times to break
-    it while it's up against this other chunk
+  - Lastly, I'd like you to strike the chunk again a couple of times to break it
+    while it's up against this other chunk
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 443089690}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5645,6 +5778,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: c9ebc180ba22190479affafe8bfddaf1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e27104cb27b224b438593333de59754f, type: 2}
     - target: {fileID: -927199367670048503, guid: c9ebc180ba22190479affafe8bfddaf1,
         type: 3}
       propertyPath: m_Name
@@ -6347,7 +6485,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &495788274
 MonoBehaviour:
@@ -6366,15 +6504,15 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: cc050a1d4fa5a474d801e680990ae514, type: 3}
   m_playOnAwake: 1
   m_dialogue:
-  - This is an element crystal. It is the duty of this village to keep them safe.
+  - This is an elemental crystal. It is the duty of this village to keep them safe.
   - This one here is the earth crystal, which we will be using in our training today.
-  - Now, use the stances we've been practicing to raise a rock chunk from the summoning
+  - Now, use the stances we've been practicing to raise a chunk from the summoning
     tile on the floor in front of you. Go on, then!
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 443089690}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9594,7 +9732,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &726441545
 MonoBehaviour:
@@ -9614,7 +9752,7 @@ MonoBehaviour:
   m_playOnAwake: 0
   m_dialogue:
   - '[bad guys come and take the crystals]'
-  - ... except the earth one!
+  - '[... except the earth one!]'
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -14242,8 +14380,8 @@ MonoBehaviour:
   m_whenRaisedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1928748476}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14251,7 +14389,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 29839999}
         m_MethodName: SetActive
@@ -14300,8 +14438,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1928748476}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14309,7 +14447,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 479824460}
         m_MethodName: SetActive
@@ -14325,8 +14463,8 @@ MonoBehaviour:
   m_whenChunkDestroyed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1928748476}
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1245379409}
+        m_MethodName: SetCombat
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14334,7 +14472,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1934982961}
         m_MethodName: SetActive
@@ -14944,6 +15082,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1507557825}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1245379409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2702329369494989130, guid: e8d870656e681f543b6fbaf6456e019a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1507557825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245379408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6316bcfad3d04034e87aca1979f06134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1251962283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16883,6 +17033,85 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1433214432}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1436734321
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1665026296}
+    m_Modifications:
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88444f50f382ccb42a3c5c4cbc18947a, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 88444f50f382ccb42a3c5c4cbc18947a, type: 2}
+    - target: {fileID: -927199367670048503, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+        type: 3}
+      propertyPath: m_Name
+      value: sensei_MESH
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7cbc325e4ae6784488167fde6ba76d1f, type: 3}
 --- !u!1 &1441533846
 GameObject:
   m_ObjectHideFlags: 0
@@ -17292,7 +17521,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 913cb3fae86ae3b41b40ccb0667a941d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 913cb3fae86ae3b41b40ccb0667a941d,
         type: 3}
@@ -17313,6 +17542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MentorMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 913cb3fae86ae3b41b40ccb0667a941d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 913cb3fae86ae3b41b40ccb0667a941d, type: 3}
@@ -17517,6 +17751,11 @@ PrefabInstance:
     - target: {fileID: 2702329369494989130, guid: e8d870656e681f543b6fbaf6456e019a,
         type: 3}
       propertyPath: m_defaultCombat
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702329369494989130, guid: e8d870656e681f543b6fbaf6456e019a,
+        type: 3}
+      propertyPath: m_defaultMovement
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2702329369494989135, guid: e8d870656e681f543b6fbaf6456e019a,
@@ -18594,7 +18833,7 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: -934048290783343869, guid: 07223b952b4431c4f9d944ff4365e773, type: 2}
-    value: {fileID: 1505971326}
+    value: {fileID: 1690884483}
   - key: {fileID: 8673082034060933303, guid: 07223b952b4431c4f9d944ff4365e773, type: 2}
     value: {fileID: 1766674376}
   m_ExposedReferences:
@@ -19404,6 +19643,7 @@ Transform:
   - {fileID: 1572244418}
   - {fileID: 1346881909}
   - {fileID: 1821215213}
+  - {fileID: 1680394409}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19621,6 +19861,7 @@ Transform:
   m_LocalPosition: {x: -17.06, y: 0.599, z: -2.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1690884480}
   - {fileID: 1505971324}
   - {fileID: 1766674377}
   - {fileID: 495788273}
@@ -19786,6 +20027,68 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1674165643}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1680394408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1680394409}
+  m_Layer: 0
+  m_Name: IntroDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1680394409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680394408}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 240327139}
+  m_Father: {fileID: 1617708523}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1690884479 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1436734321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1690884480 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 7cbc325e4ae6784488167fde6ba76d1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1436734321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1690884483
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690884479}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1696142004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20305,7 +20608,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1766674378
 MonoBehaviour:
@@ -22260,6 +22563,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: c9ebc180ba22190479affafe8bfddaf1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e27104cb27b224b438593333de59754f, type: 2}
     - target: {fileID: -927199367670048503, guid: c9ebc180ba22190479affafe8bfddaf1,
         type: 3}
       propertyPath: m_Name
@@ -22422,7 +22730,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665026296}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1934982963
 MonoBehaviour:
@@ -23209,6 +23517,11 @@ PrefabInstance:
     - target: {fileID: 9017744048456181082, guid: 5e0277e0aed87da4bb6e5660bdfd2345,
         type: 3}
       propertyPath: m_rooms.Array.data[1]
+      value: 
+      objectReference: {fileID: 1230811570}
+    - target: {fileID: 9017744048456181082, guid: 5e0277e0aed87da4bb6e5660bdfd2345,
+        type: 3}
+      propertyPath: m_rooms.Array.data[2]
       value: 
       objectReference: {fileID: 1230811570}
     m_RemovedComponents: []

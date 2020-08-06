@@ -38,7 +38,10 @@ public class Dialogue : Interactable
         base.Awake();
         m_dialoguePrefab = Resources.Load<GameObject>("Prefabs/DialogueCanvas");
         m_player = FindObjectOfType<PlayerInput>();
+    }
 
+    private void Start()
+    {
         if (m_playOnAwake)
         {
             Invoke();
