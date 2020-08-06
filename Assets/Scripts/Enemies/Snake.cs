@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class Snake : MonoBehaviour
         m_playerRef = FindObjectOfType<Player>();
     }
 
+    // Calls FireBullet every 0.3 seconds
+    // Authors: Callum
     private void Update()
     {
         // Countdown fire delay
@@ -30,21 +33,17 @@ public class Snake : MonoBehaviour
         m_delayTimer -= Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Player player = collision.collider.GetComponent<Player>();
-        if (player)
-        {
-            player.GetComponent<HealthComponent>().Health -= 1;
-        }
-    }
-
-    // Spawns a bullet
+    // Instantiates and fires a mirage bullet forwards
+    // Authors: Callum
     private void FireBullet()
     {
         Vector3 spawnPos = transform.position + (transform.forward * m_settings.m_snakeBulletSpawnDist);
+        spawnPos.y += 0.5f;
         MirageBullet bullet = Instantiate(m_bulletRef, spawnPos, transform.rotation).GetComponent<MirageBullet>();
         bullet.Init(m_effectType, m_playerRef.GetCurrentPower());
         bullet.transform.parent = transform;
+        // Tween mesh
+        transform.GetChild(0).transform.DORewind();
+        transform.GetChild(0).transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
     }
 }
