@@ -36,16 +36,21 @@ public class TileTargeter : MonoBehaviour
         // Don't target anything if the player is not moving the LAnalogStick
         if (m_direction == Vector2.zero)
         {
-            m_indicator.SetActive(false);
+            Activate(false);
             m_closestTile = null; 
             return; 
+        }
+
+        if (m_closestTile != null)
+        {
+            m_closestTile.SetHighlighted(false);
         }
 
         m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 
         if (!m_closestTile || m_closestTile.IsOccupied())
         {
-            m_indicator.SetActive(false);
+            Activate(false);
             return; 
         }
 
@@ -55,15 +60,31 @@ public class TileTargeter : MonoBehaviour
         // Check if closest is within maximum range && is not occupied
         if (diff.magnitude < m_settings.m_maxTileRange)
         {
-            m_indicator.SetActive(true);
+            Activate(true);
             m_indicator.transform.position = m_closestTile.transform.position;
             m_indicator.transform.rotation = m_closestTile.transform.rotation;
         }
         else
         {
-            m_indicator.SetActive(false);
+            Activate(false);
             m_closestTile = null;
         }
+    }
+
+    private void OnEnable()
+    {
+        //Activate(true);
+    }
+
+    private void OnDisable()
+    {
+        Activate(false);
+    }
+
+    private void Activate(bool _active)
+    {
+        m_indicator.SetActive(_active);
+        m_closestTile.SetHighlighted(_active);
     }
 
     // Returns the closest tile
