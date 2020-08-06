@@ -84,7 +84,11 @@ public class TileTargeter : MonoBehaviour
     private void Activate(bool _active)
     {
         m_indicator.SetActive(_active);
-        m_closestTile.SetHighlighted(_active);
+
+        if (m_closestTile != null)
+        {
+            m_closestTile.SetHighlighted(_active);
+        }
     }
 
     // Returns the closest tile

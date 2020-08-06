@@ -32,7 +32,9 @@ public class Tile : MonoBehaviour
         m_collider = GetComponentInChildren<Collider>();
         m_renderer = GetComponentInChildren<MeshRenderer>();
         m_normalMaterial = m_renderer.material;
-        m_highlightedMaterial.SetTexture("Texture", m_normalMaterial.mainTexture);
+        m_highlightedMaterial = new Material(m_highlightedMaterial);
+
+        m_highlightedMaterial.SetTexture("_MainTex", m_normalMaterial.mainTexture);
     }
 
     // Returns null if chunk failed to raise
