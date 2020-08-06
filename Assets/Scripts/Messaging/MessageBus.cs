@@ -38,6 +38,7 @@ public enum EMessageType
     centipedeTailFire,
     sandProjectileDestroyed,
     potDestroyed,
+    centipedeBodyFire,
 
     // Player
     playerHurt,
