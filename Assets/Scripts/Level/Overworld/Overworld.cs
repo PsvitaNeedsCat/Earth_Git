@@ -13,11 +13,34 @@ public class Overworld : MonoBehaviour
         false
     };
 
+    [SerializeField] private Transform m_fireTempleLocation;
+    [SerializeField] private Transform m_waterTempleLocation;
+    [SerializeField] private Transform m_desertTempleLocation;
+
     private void Awake()
     {
-        // Only one instance
-        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
-        else { s_instance = this; }
+        if (s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            s_instance = this;
+        }
+
+        // Move the player
+        if (Player.s_activePowers[EChunkEffect.mirage])
+        {
+            FindObjectOfType<Player>().transform.position = m_desertTempleLocation.position;
+        }
+        else if (Player.s_activePowers[EChunkEffect.fire])
+        {
+            FindObjectOfType<Player>().transform.position = m_fireTempleLocation.position;
+        }
+        else if (Player.s_activePowers[EChunkEffect.water])
+        {
+            FindObjectOfType<Player>().transform.position = m_waterTempleLocation.position;
+        }
     }
 
     // Updates and checks if the level is unlocked based off of what powers the player has unlocked
