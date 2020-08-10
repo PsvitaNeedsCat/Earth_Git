@@ -13,9 +13,7 @@ public class CentipedeHealth : MonoBehaviour
     public struct CentipedeSegmentMaterials
     {
         public ESegmentType m_type;
-        public Material m_normal;
-        public Material m_heated;
-        public Material m_cooled;
+        public Texture m_cooled;
     }
 
     public CentipedeSegmentMaterials[] m_segmentMaterials;
@@ -55,7 +53,20 @@ public class CentipedeHealth : MonoBehaviour
         Debug.Log("Activated section " + _sectionIndex);
 
         // Change the segment's material
-        m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
+        // m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
+        if (_activate)
+        {
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 0.0f, 1.0f, 2.5f, true));
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
+        }
+        else
+        {
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 1.0f, 0.0f, -2.5f, false));
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 1.1f, 0.8f, -0.3f, false));
+            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 20.0f, 5.0f, -15.0f, false));
+        }
+        
         
         // Store the new state of this section
         m_sectionsActive[_sectionIndex] = _activate;
@@ -84,7 +95,15 @@ public class CentipedeHealth : MonoBehaviour
         for (int i = 0; i < segments.Count; i++)
         {
             int segmentIndex = segments[i];
-            m_segmentRenderers[segmentIndex].material = m_segmentMaterials[(int)_type].m_cooled;
+            // m_segmentRenderers[segmentIndex].material = m_segmentMaterials[(int)_type].m_cooled;
+
+            StopAllCoroutines();
+
+            m_segmentRenderers[segmentIndex].material.SetTexture("_MainTex", m_segmentMaterials[(int)_type].m_cooled);
+            m_segmentRenderers[segmentIndex].material.SetFloat("_TextureBlend", 0.0f);
+            m_segmentRenderers[segmentIndex].material.SetFloat("_FresnelMultiplier", 1.0f);
+            m_segmentRenderers[segmentIndex].material.SetFloat("_Cutoff", 0.8f);
+
             m_segmentRenderers[segmentIndex].transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
             m_segmentDamagedEffects[i].SetActive(true);
         }
