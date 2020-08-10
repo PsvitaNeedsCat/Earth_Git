@@ -43,7 +43,7 @@ public class Lava : MonoBehaviour
                 // Turn lava to stone
                 TurnToStone();
             }
-            else
+            else if (chunk.m_currentEffect == EChunkEffect.none)
             {
                 // Block cannot handle the heat
                 PrepareToSink(chunk);

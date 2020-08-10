@@ -2,25 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class AudioManager : MonoBehaviour
 {
     // Private variables
     private static AudioManager s_instance = null;
-    public static AudioManager Instance { get { return s_instance; } }
+    public static AudioManager Instance
+    {
+        get 
+        {
+            return s_instance; 
+        }
+    }
     private string m_soundEffectsPath = "Audio";
     private Dictionary<string, AudioClip> m_soundDictionary = new Dictionary<string, AudioClip>();
 
     private void Awake()
     {
-        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
-        else { s_instance = this; }
+        if (s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject); 
+        }
+        else 
+        {
+            s_instance = this; 
+        }
         
+        // Add the audio clips to a dictionary with their name as the key
         AudioClip[] audioClips = Resources.LoadAll(m_soundEffectsPath, typeof(AudioClip)).Cast<AudioClip>().ToArray();
-
         for (int i = 0; i < audioClips.Length; i++)
         {
-            m_soundDictionary.Add(audioClips[i].name, audioClips[i]);
+            char[] name = audioClips[i].name.ToCharArray();
+            name[0] = char.ToLower(name[0]);
+            m_soundDictionary.Add(name.ArrayToString(), audioClips[i]);
         }
     }
 
