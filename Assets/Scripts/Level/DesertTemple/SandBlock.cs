@@ -32,15 +32,36 @@ public class SandBlock : MonoBehaviour
         Hurtbox hurtbox = other.GetComponent<Hurtbox>();
         if (hurtbox)
         {
-            if (m_isGlass) { Break(); } // Break if glass
-            else if (hurtbox.m_effect == EChunkEffect.fire) { TurnToGlass(); } // Turn to glass if currently sand and has fire equipped
+            if (m_isGlass)
+            {
+                Break();
+            } // Break if glass
+            else if (hurtbox.m_effect == EChunkEffect.fire)
+            {
+                TurnToGlass();
+            } // Turn to glass if currently sand and has fire equipped
         }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk && !m_chunkInside) { m_chunkInside = other.gameObject; }
+        if (chunk)
+        {
+            if (chunk.m_currentEffect == EChunkEffect.fire)
+            {
+                chunk.OnDeath();
+                TurnToGlass();
+            }
+
+            if (!m_chunkInside)
+            {
+                m_chunkInside = other.gameObject;
+            }
+        }
 
         // Block is falling and hits the ground
-        if (m_isFalling && other.tag == "Ground") { StopFalling(); }
+        if (m_isFalling && other.tag == "Ground")
+        {
+            StopFalling(); 
+        }
     }
 
     private void OnTriggerExit(Collider other)

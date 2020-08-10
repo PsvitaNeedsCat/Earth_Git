@@ -22,12 +22,6 @@ public class Chunk : MonoBehaviour
         get { return m_currentEffect; }
         set
         {
-            m_waterParticles.SetActive(false);
-            m_fireParticles.SetActive(false);
-
-            if (value == EChunkEffect.water) { m_waterParticles.SetActive(true); }
-            if (value == EChunkEffect.fire) { m_fireParticles.SetActive(true); }
-
             m_currentEffect = value;
         }
     }
@@ -37,9 +31,7 @@ public class Chunk : MonoBehaviour
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
     [SerializeField] private bool m_startOverride = false;
-    [SerializeField] private GameObject m_waterParticles;
-    [SerializeField] private GameObject m_fireParticles;
-    [SerializeField] private GameObject m_waterMesh = null;
+    [SerializeField] private GameObject[] m_meshObjects = new GameObject[3];
 
     // Private variables
     private Rigidbody m_rigidBody;
@@ -57,8 +49,14 @@ public class Chunk : MonoBehaviour
     [SerializeField] private Collider m_mainCollider;
 
     // Chunks automatically added and removed to chunk manager over lifetime
-    private void OnEnable() => ChunkManager.AddChunk(this);
-    private void OnDisable() => ChunkManager.RemoveChunk(this);
+    private void OnEnable()
+    {
+        ChunkManager.AddChunk(this);
+    }
+    private void OnDisable()
+    {
+        ChunkManager.RemoveChunk(this);
+    }
 
     private void Awake()
     {
@@ -81,7 +79,10 @@ public class Chunk : MonoBehaviour
     }
 
     // For the initial chunk
-    private void Start() => transform.parent = RoomManager.Instance.GetActiveRoom().transform;
+    private void Start()
+    {
+        transform.parent = RoomManager.Instance.GetActiveRoom().transform;
+    }
 
     private void OnApplicationQuit()
     {
@@ -249,7 +250,7 @@ public class Chunk : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.chunkDamaged);
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         switch (m_currentEffect)
         {
@@ -267,7 +268,7 @@ public class Chunk : MonoBehaviour
         }
 
 
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     // Pushes the chunk in a specific direction when hit by the player
@@ -361,9 +362,7 @@ public class Chunk : MonoBehaviour
 
             case EChunkEffect.fire:
                 {
-                    CurrentEffect = EChunkEffect.none;
-                    MessageBus.TriggerEvent(EMessageType.chunkHitWall);
-                    SnapChunk();
+                    OnDeath();
                     break;
                 }
 
@@ -434,10 +433,9 @@ public class Chunk : MonoBehaviour
         transform.DOMove(_frogPos, tweenTime);
     }
 
-    // Changes the effect of the chunk
+    // Changes the current effect of the chunk and updates the mesh accordingly
     private void UpdateEffect(EChunkEffect _effect, Vector3 _hitDir)
     {
-        // Carapace cannot use powers
         if (m_chunkType == EChunkType.carapace)
         {
             return;
@@ -445,12 +443,10 @@ public class Chunk : MonoBehaviour
 
         m_currentEffect = _effect;
 
-        // Update mesh
-        if (_effect == EChunkEffect.water)
+        // Changes the active mesh depending on the infused power
+        for (int i = 0; i < m_meshObjects.Length; i++)
         {
-            GetComponentInChildren<MeshRenderer>().gameObject.SetActive(false);
-            m_waterMesh.transform.rotation = Quaternion.LookRotation(_hitDir);
-            m_waterMesh.SetActive(true);
+            m_meshObjects[i].SetActive(i == (int)_effect);
         }
     }
 }
