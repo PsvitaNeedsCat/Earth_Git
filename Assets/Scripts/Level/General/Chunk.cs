@@ -448,5 +448,10 @@ public class Chunk : MonoBehaviour
         {
             m_meshObjects[i].SetActive(i == (int)_effect);
         }
+
+        if (_effect != EChunkEffect.none)
+        {
+            m_meshObjects[(int)_effect].transform.rotation = Quaternion.LookRotation(_hitDir);
+        }
     }
 }
