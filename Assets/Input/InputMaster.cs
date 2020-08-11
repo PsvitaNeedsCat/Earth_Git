@@ -1149,6 +1149,44 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Tutorial"",
+            ""id"": ""e6fd3602-d149-4c76-8dca-ea8a8ad9192a"",
+            ""actions"": [
+                {
+                    ""name"": ""Skip Tutorial"",
+                    ""type"": ""Button"",
+                    ""id"": ""4763e01f-7f8b-4d87-8b52-f22e195a99c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""272cc348-e238-446c-985a-c47c8fd78b1c"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Skip Tutorial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fedc329-78bf-45ec-a66a-d77e43f7a4d0"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Skip Tutorial"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1207,6 +1245,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_Continue = m_Dialogue.FindAction("Continue", throwIfNotFound: true);
+        // Tutorial
+        m_Tutorial = asset.FindActionMap("Tutorial", throwIfNotFound: true);
+        m_Tutorial_SkipTutorial = m_Tutorial.FindAction("Skip Tutorial", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1505,6 +1546,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public DialogueActions @Dialogue => new DialogueActions(this);
+
+    // Tutorial
+    private readonly InputActionMap m_Tutorial;
+    private ITutorialActions m_TutorialActionsCallbackInterface;
+    private readonly InputAction m_Tutorial_SkipTutorial;
+    public struct TutorialActions
+    {
+        private @InputMaster m_Wrapper;
+        public TutorialActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SkipTutorial => m_Wrapper.m_Tutorial_SkipTutorial;
+        public InputActionMap Get() { return m_Wrapper.m_Tutorial; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TutorialActions set) { return set.Get(); }
+        public void SetCallbacks(ITutorialActions instance)
+        {
+            if (m_Wrapper.m_TutorialActionsCallbackInterface != null)
+            {
+                @SkipTutorial.started -= m_Wrapper.m_TutorialActionsCallbackInterface.OnSkipTutorial;
+                @SkipTutorial.performed -= m_Wrapper.m_TutorialActionsCallbackInterface.OnSkipTutorial;
+                @SkipTutorial.canceled -= m_Wrapper.m_TutorialActionsCallbackInterface.OnSkipTutorial;
+            }
+            m_Wrapper.m_TutorialActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @SkipTutorial.started += instance.OnSkipTutorial;
+                @SkipTutorial.performed += instance.OnSkipTutorial;
+                @SkipTutorial.canceled += instance.OnSkipTutorial;
+            }
+        }
+    }
+    public TutorialActions @Tutorial => new TutorialActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -1553,5 +1627,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
     public interface IDialogueActions
     {
         void OnContinue(InputAction.CallbackContext context);
+    }
+    public interface ITutorialActions
+    {
+        void OnSkipTutorial(InputAction.CallbackContext context);
     }
 }
