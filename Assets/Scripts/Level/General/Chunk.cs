@@ -362,7 +362,7 @@ public class Chunk : MonoBehaviour
 
             case EChunkEffect.fire:
                 {
-                    OnDeath();
+                    FireExplosion();
                     break;
                 }
 
@@ -374,6 +374,12 @@ public class Chunk : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    // Makes the fire ball explode, hitting the four tiles around it with the fire ability
+    private void FireExplosion()
+    {
+
     }
 
     // Snaps a chunk to the nearest grid tile
