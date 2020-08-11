@@ -109,7 +109,7 @@ public class CobraBoss : MonoBehaviour
         }
         else
         {
-            Debug.Log("I have " + m_flippableTiles.Count + " flippable tiles");
+            // Debug.Log("I have " + m_flippableTiles.Count + " flippable tiles");
         }
 
         for (int i = 0; i < m_flippableTiles.Count; i++)

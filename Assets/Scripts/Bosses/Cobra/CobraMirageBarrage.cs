@@ -104,8 +104,6 @@ public class CobraMirageBarrage : CobraBehaviour
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
             mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
         }
-
-        m_cobraMesh.SetActive(true);
     }
 
     private IEnumerator FireProjectiles()

@@ -23,12 +23,14 @@ public class CobraPot : MonoBehaviour
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
     private Collider m_collider;
+    private CobraPotAnimations m_potAnimations;
     
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
         m_collider = GetComponentInChildren<Collider>();
+        m_potAnimations = GetComponent<CobraPotAnimations>();
     }
 
     public void SetCollider(bool _active)
@@ -47,8 +49,10 @@ public class CobraPot : MonoBehaviour
         projectile.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_potProjectileSpeed;
 
         // Temp minor visual feedback for firing
-        transform.DOPunchScale(Vector3.one * 0.2f, 0.15f).SetEase(Ease.InOutElastic);
-        transform.DOPunchPosition(Vector3.up * 0.2f, 0.2f).SetEase(Ease.InCubic);
+        //transform.DOPunchScale(Vector3.one * 0.2f, 0.15f).SetEase(Ease.InOutElastic);
+        //transform.DOPunchPosition(Vector3.up * 0.2f, 0.2f).SetEase(Ease.InCubic);
+
+        m_potAnimations.PotFire();
     }
 
     public void FireLobProjectiles()

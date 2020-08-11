@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private GameObject m_pauseMenuPrefab;
     private EventSystem[] m_eventSystems;
     private GameCanvas m_gameCanvas;
+    private PlayerRagdoll m_ragdoll;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
         m_healthBackgroundImages = m_gameCanvas.m_healthBackgroundImages;
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+        m_ragdoll = GetComponent<PlayerRagdoll>();
 
         SetOutlineColour();
 
@@ -122,6 +124,7 @@ public class PlayerController : MonoBehaviour
         // Freeze player
         m_input.SetCombat(false);
         m_input.SetMovement(false);
+        m_ragdoll.SetRagdoll(true);
 
         // Fade to black
         RoomManager.Instance.FadeToBlack();
@@ -145,6 +148,7 @@ public class PlayerController : MonoBehaviour
         // Unfreeze player
         m_input.SetCombat(true);
         m_input.SetMovement(true);
+        m_ragdoll.SetRagdoll(false);
     }
 
     private void OnHealed()
@@ -284,6 +288,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             m_moustache.transform.DOBlendableScaleBy(-Vector3.one * 2.0f, 0.5f).SetEase(Ease.InElastic);
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            m_health.Health -= 1;
         }
     }
 
