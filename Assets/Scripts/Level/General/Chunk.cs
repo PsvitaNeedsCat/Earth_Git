@@ -379,7 +379,7 @@ public class Chunk : MonoBehaviour
     // Makes the fire ball explode, hitting the four tiles around it with the fire ability
     private void FireExplosion()
     {
-
+        OnDeath();
     }
 
     // Snaps a chunk to the nearest grid tile
