@@ -1,8 +1,10 @@
-﻿Shader "Earth/Shield"
+﻿Shader "Earth/ShieldBlend"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+		_MainTexTwo("Texture Two", 2D) = "white" {}
+		_TextureBlend("Texture Blend", Range(0,1)) = 0.0
 		_ShieldColor("Shield Colour", Color) = (1, 1, 1, 1)
 		_ShieldScroll ("Scroll Speed", Float) = 1.0
 		_ShieldTex("Shield Texture", 2D) = "white"{}
@@ -10,11 +12,11 @@
 		_Cutoff("Alpha Cutoff", Range(0.0, 1.1)) = 0.5
 		_FresnelColor("Fresnel Colour", Color) = (1, 1, 1, 1)
 		_FresnelStrength("Fresnel Strength", Range(0.0, 5.0)) = 1.0
+		_FresnelMultiplier("Fresnel Multiplier", Float) = 1.0
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-		Cull Off
         LOD 100
             CGPROGRAM
             #pragma surface surf Flat
@@ -27,15 +29,19 @@
             struct Input
 			{
 				float2 uv_MainTex;
+				float2 uv_MainTexTwo;
 				float3 worldNormal;
 				float3 viewDir;
 				INTERNAL_DATA
 			};
 
             sampler2D _MainTex;
+            sampler2D _MainTexTwo;
 
+			half _TextureBlend;
 			float3 _FresnelColor;
 			float _FresnelStrength;
+			float _FresnelMultiplier;
 
 			void surf(Input IN, inout SurfaceOutput o)
 			{
@@ -44,9 +50,8 @@
 				fresnel = pow(fresnel, _FresnelStrength);
 				float3 fresnelColor = fresnel * _FresnelColor;
 				
-
-				o.Albedo = tex2D(_MainTex, IN.uv_MainTex);
-				o.Emission = fresnelColor;
+				o.Albedo = lerp(tex2D(_MainTex, IN.uv_MainTex), tex2D(_MainTexTwo, IN.uv_MainTexTwo), _TextureBlend);
+				o.Emission = fresnelColor * _FresnelMultiplier;
 			}
 
 		ENDCG

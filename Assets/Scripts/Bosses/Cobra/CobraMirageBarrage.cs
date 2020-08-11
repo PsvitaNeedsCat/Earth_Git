@@ -52,12 +52,29 @@ public class CobraMirageBarrage : CobraBehaviour
     {
         CobraHealth.SetCollider(true);
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
+
+        m_spit.LowerHead();
+
+        foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
+        {
+            mirageCobra.LowerHead();
+        }
     }
 
     private void RaiseHead()
     {
         CobraHealth.SetCollider(false);
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
+
+        m_spit.RaiseHead();
+
+        foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
+        {
+            if (mirageCobra != null)
+            {
+                mirageCobra.RaiseHead();
+            }
+        }
     }
 
     private void GenerateSnakes()
@@ -89,7 +106,6 @@ public class CobraMirageBarrage : CobraBehaviour
         }
 
         m_cobraMesh.SetActive(true);
-
     }
 
     private IEnumerator FireProjectiles()

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bulletType: 0
   m_bulletSpawn: {fileID: 1953854118542877112}
+  m_meshRenderer: {fileID: 3861136497138592532}
 --- !u!65 &4242416870577691648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -146,7 +147,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d9d654ab48dc76645a608347bbf2b3cf, type: 2}
+      objectReference: {fileID: 2100000, guid: bcede8725b75ef94abc94c9c32abe1ef, type: 2}
     - target: {fileID: -8474117220028080085, guid: a202ffae023e6644f8eecf9eb3b2f8f9,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -223,6 +224,12 @@ PrefabInstance:
 --- !u!4 &8257578647905471538 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: a202ffae023e6644f8eecf9eb3b2f8f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4026891831757776680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3861136497138592532 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9045506348268794820, guid: a202ffae023e6644f8eecf9eb3b2f8f9,
     type: 3}
   m_PrefabInstance: {fileID: 4026891831757776680}
   m_PrefabAsset: {fileID: 0}

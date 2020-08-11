@@ -104,53 +104,6 @@ public class CobraShuffle : CobraBehaviour
             }
         }
 
-        //// Store the indices of the pots that jump in
-        //List<int> potStartIndices = new List<int>();
-        //List<Quaternion> potStartOrientations = new List<Quaternion>();
-
-        //// Do jumping in
-        //for (int i = 0; i < m_activePotDefs.Count; i++)
-        //{
-        //    // Add the indices and orientations of pots that are jumping in to the lists
-        //    potStartIndices.Add(m_activePotDefs[i].m_potIndex);
-        //    potStartOrientations.Add(m_activePots[i].transform.rotation);
-
-        //    Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
-        //    MovePot(m_activePots[i], jumpInPos - m_activePots[i].transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true);
-        //}
-
-        //string potIndicesString = "";
-        //foreach(int index in potStartIndices)
-        //{
-        //    potIndicesString += index.ToString() + " ";
-        //}
-        //Debug.Log("Pot indices: " + potIndicesString);
-
-        //bool bossMoved = false;
-
-        //// Generate final positions for the pots
-        //for (int j = 0; j < m_activePots.Count; j++)
-        //{
-        //    int randomIndexPosition = Random.Range(0, potStartIndices.Count);
-        //    int randomIndex = potStartIndices[randomIndexPosition];
-
-        //    Debug.Log("Pot " + j + " final position is now " + randomIndex);
-
-        //    m_activePots[j].m_finalPosition = s_potStartingPositions[randomIndex];
-        //    m_activePots[j].m_finalOrientation = potStartOrientations[randomIndexPosition];
-        //    m_activePots[j].m_finalIndex = randomIndex;
-
-        //    if (!bossMoved && m_activePots[j].m_isBoss)
-        //    {
-        //        bossMoved = true;
-        //        Debug.Log("Boss was at index " + s_bossPotIndex + ", now moving to index " + potStartIndices[randomIndexPosition]);
-        //        SetBossPot(potStartIndices[randomIndexPosition]);
-        //    }
-
-        //    potStartIndices.RemoveAt(randomIndexPosition);
-        //    potStartOrientations.RemoveAt(randomIndexPosition);
-        //}
-
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpInTime);
 
         StartCoroutine(MoveSequence());

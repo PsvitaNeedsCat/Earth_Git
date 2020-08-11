@@ -8,6 +8,7 @@ using DG.Tweening;
 public class CobraHealth : MonoBehaviour
 {
     public List<GameObject> m_healthIcons;
+    public SkinnedMeshRenderer m_meshRenderer;
     private static List<GameObject> s_healthIcons;
 
     private static CobraStateSettings s_settingsFull;
@@ -21,6 +22,8 @@ public class CobraHealth : MonoBehaviour
     private static CobraMirageBarrage s_barrage;
     private static CobraBoss s_boss;
     private static CobraShuffle s_shuffle;
+
+    private static Material s_material;
 
     // Return the appropriate settings variable based on what health we are on
     public static CobraStateSettings StateSettings
@@ -78,6 +81,9 @@ public class CobraHealth : MonoBehaviour
 
         s_boss = GetComponent<CobraBoss>();
         s_collider = GetComponent<BoxCollider>();
+
+        m_meshRenderer.material = new Material(m_meshRenderer.material);
+        s_material = m_meshRenderer.material;
     }
 
     private void Start()
@@ -134,6 +140,9 @@ public class CobraHealth : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraDamaged);
 
         s_barrage.CancelAttack();
+
+        s_material.SetFloat("_FresnelStrength", 5.0f);
+        s_material.SetFloat("_Cutoff", 0.8f);
 
         // If on 0 health, start the chase behaviour
         if (s_currentHealth == 0)
