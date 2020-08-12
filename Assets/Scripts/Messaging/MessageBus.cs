@@ -76,6 +76,8 @@ public enum EMessageType
     vulnerableStart,
     vulnerableEnd,
     gameOver,
+    snapSound,
+    switchSound,
 
     // Cobra boss
     cobraBarrageFire,
