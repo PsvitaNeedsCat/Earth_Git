@@ -91,8 +91,6 @@ public class Chunk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Chunk trigger hit " + other.gameObject.name);
-
         // If collider has hit any of these, return
         // Should be refactored further
         if (CollisionHasComponent<Hurtbox>(other, null) ||
@@ -260,6 +258,13 @@ public class Chunk : MonoBehaviour
                     break;
                 }
 
+            case EChunkEffect.fire:
+                {
+                    FireExplosion();
+                    MessageBus.TriggerEvent(EMessageType.fieryExplosion);
+                    break;
+                }
+
             default:
                 {
                     MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
@@ -352,34 +357,46 @@ public class Chunk : MonoBehaviour
     // Decides what to do when the chunk hits a wall
     private void HitWall()
     {
-        switch (m_currentEffect)
+        if (m_currentEffect == EChunkEffect.none)
         {
-            case EChunkEffect.water:
-                {
-                    OnDeath();
-                    break;
-                }
-
-            case EChunkEffect.fire:
-                {
-                    FireExplosion();
-                    break;
-                }
-
-            default:
-                {
-                    MessageBus.TriggerEvent(EMessageType.chunkHitWall);
-                    ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-                    SnapChunk();
-                    break;
-                }
+            MessageBus.TriggerEvent(EMessageType.chunkHitWall);
+            ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
+            SnapChunk();
+            return;
         }
+
+        OnDeath();
     }
 
     // Makes the fire ball explode, hitting the four tiles around it with the fire ability
     private void FireExplosion()
     {
-        OnDeath();
+        Vector3 moveDir = m_prevVelocity.normalized;
+        Vector3 centrePosition = transform.position - moveDir;
+
+        // Creates 4 raycasts around the centre point, if the raycasts hit sand, they'll be turned to glass
+        Vector3[] cardinalDirections = new Vector3[]
+        {
+            Vector3.forward,
+            Vector3.back,
+            Vector3.right,
+            Vector3.left
+        };
+        foreach (Vector3 direction in cardinalDirections)
+        {
+            Vector3 checkPosition = centrePosition + direction;
+
+            Collider[] colliders = Physics.OverlapBox(checkPosition, new Vector3(0.4f, 0.4f, 0.4f));
+
+            foreach (Collider collision in colliders)
+            {
+                SandBlock sand = collision.GetComponent<SandBlock>();
+                if (sand && !sand.m_isGlass)
+                {
+                    sand.TurnToGlass();
+                }
+            }
+        }
     }
 
     // Snaps a chunk to the nearest grid tile
@@ -403,7 +420,10 @@ public class Chunk : MonoBehaviour
             newPos.y = transform.position.y;
             transform.position = newPos;
         }
-        else { Debug.LogError("Unable to find nearest tile to snap to"); }
+        else
+        {
+            Debug.LogError("Unable to find nearest tile to snap to");
+        }
     }
 
     public void OnStuckToTongue()

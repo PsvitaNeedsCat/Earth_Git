@@ -24,6 +24,7 @@ public enum EMessageType
     sandLand,
     sandDestroyed,
     chunkSinking,
+    fieryExplosion,
 
     // Enemies
     projectileSplash,
