@@ -260,7 +260,7 @@ public class Chunk : MonoBehaviour
 
             case EChunkEffect.fire:
                 {
-                    FireExplosion();
+                    FieryExplosion();
                     MessageBus.TriggerEvent(EMessageType.fieryExplosion);
                     break;
                 }
@@ -369,10 +369,16 @@ public class Chunk : MonoBehaviour
     }
 
     // Makes the fire ball explode, hitting the four tiles around it with the fire ability
-    private void FireExplosion()
+    private void FieryExplosion()
     {
         Vector3 moveDir = m_prevVelocity.normalized;
         Vector3 centrePosition = transform.position - moveDir;
+        SnapChunk();
+
+        Quaternion effectRot = Quaternion.LookRotation(Vector3.down);
+        Vector3 effectScale = Vector3.one * 0.1f;
+        Vector3 effectPos = transform.position;
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, effectPos, effectRot, effectScale, 0.5f);
 
         // Creates 4 raycasts around the centre point, if the raycasts hit sand, they'll be turned to glass
         Vector3[] cardinalDirections = new Vector3[]
@@ -384,7 +390,9 @@ public class Chunk : MonoBehaviour
         };
         foreach (Vector3 direction in cardinalDirections)
         {
-            Vector3 checkPosition = centrePosition + direction;
+            Vector3 checkPosition = transform.position + direction;
+            
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, checkPosition, effectRot, effectScale, 0.5f);
 
             Collider[] colliders = Physics.OverlapBox(checkPosition, new Vector3(0.4f, 0.4f, 0.4f));
 

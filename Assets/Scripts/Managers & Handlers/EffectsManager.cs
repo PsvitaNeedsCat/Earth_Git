@@ -8,6 +8,7 @@ public class EffectsManager : MonoBehaviour
     public enum EEffectType
     {
         rockSummon,
+        fieryExplosion,
     }
 
     private readonly string m_effectsPath = "Effects";
@@ -27,8 +28,14 @@ public class EffectsManager : MonoBehaviour
         }
     }
 
-    private void OnEnable() => s_transform = this.transform;
-    private void OnDisable() => s_transform = null;
+    private void OnEnable()
+    {
+        s_transform = transform;
+    }
+    private void OnDisable()
+    {
+        s_transform = null;
+    }
 
     // Create an instance of the specified type of effect, and returns a reference to the object created
     public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter)
