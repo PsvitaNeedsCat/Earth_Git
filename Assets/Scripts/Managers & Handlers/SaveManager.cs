@@ -177,11 +177,12 @@ public class SaveManager : MonoBehaviour
 
         while (!asyncOp.isDone)
         {
-            m_progressBar.fillAmount = asyncOp.progress;
+            if (m_progressBar)
+            {
+                m_progressBar.fillAmount = asyncOp.progress;
+            }
             yield return null;
         }
-
-        m_progressBar.fillAmount = 1;
     }
 
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)

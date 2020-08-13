@@ -681,6 +681,7 @@ GameObject:
   - component: {fileID: 108054412}
   - component: {fileID: 108054414}
   - component: {fileID: 108054413}
+  - component: {fileID: 108054415}
   m_Layer: 0
   m_Name: DesertTemple
   m_TagString: Untagged
@@ -749,6 +750,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108054411}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &108054415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108054411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6ef8fcf89a28c438d7b8476780bfb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_objectToTeleport: {fileID: 342429017}
+  m_invokeOnStart: 0
 --- !u!1 &122420900
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,6 +2483,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8d870656e681f543b6fbaf6456e019a, type: 3}
+--- !u!1 &342429017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2702329369494989126, guid: e8d870656e681f543b6fbaf6456e019a,
+    type: 3}
+  m_PrefabInstance: {fileID: 342429016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &409165537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10749,6 +10770,7 @@ GameObject:
   - component: {fileID: 1803336216}
   - component: {fileID: 1803336219}
   - component: {fileID: 1803336218}
+  - component: {fileID: 1803336217}
   m_Layer: 0
   m_Name: WaterTemple
   m_TagString: Untagged
@@ -10770,6 +10792,20 @@ Transform:
   m_Father: {fileID: 1632716454}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1803336217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803336215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6ef8fcf89a28c438d7b8476780bfb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_objectToTeleport: {fileID: 342429017}
+  m_invokeOnStart: 0
 --- !u!23 &1803336218
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11238,6 +11274,7 @@ GameObject:
   - component: {fileID: 1886856505}
   - component: {fileID: 1886856507}
   - component: {fileID: 1886856506}
+  - component: {fileID: 1886856508}
   m_Layer: 0
   m_Name: FireTemple
   m_TagString: Untagged
@@ -11306,6 +11343,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1886856504}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1886856508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886856504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6ef8fcf89a28c438d7b8476780bfb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_objectToTeleport: {fileID: 342429017}
+  m_invokeOnStart: 0
 --- !u!1001 &1905193956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12238,6 +12289,48 @@ MonoBehaviour:
   m_fireTempleLocation: {fileID: 1886856505}
   m_waterTempleLocation: {fileID: 1803336216}
   m_desertTempleLocation: {fileID: 108054412}
+  m_startupEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1803336217}
+        m_MethodName: Teleport
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1886856508}
+        m_MethodName: Teleport
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 108054415}
+        m_MethodName: Teleport
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &2033214099
 Transform:
   m_ObjectHideFlags: 0
