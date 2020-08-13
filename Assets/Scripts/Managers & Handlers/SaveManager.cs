@@ -170,11 +170,18 @@ public class SaveManager : MonoBehaviour
             Debug.Log("Loading... " + asyncOp.progress  * 10.0f + "%");
             yield return null;
         }
-
-        Debug.Log("Loading complete");
-        m_progressBar.fillAmount = 1;
+        
+        m_progressBar.fillAmount = asyncOp.progress;
         yield return null;
         asyncOp.allowSceneActivation = true;
+
+        while (!asyncOp.isDone)
+        {
+            m_progressBar.fillAmount = asyncOp.progress;
+            yield return null;
+        }
+
+        m_progressBar.fillAmount = 1;
     }
 
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
