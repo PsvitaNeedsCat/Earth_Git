@@ -78,6 +78,7 @@ public enum EMessageType
     gameOver,
     snapSound,
     switchSound,
+    chainSnap,
 
     // Cobra boss
     cobraBarrageFire,
