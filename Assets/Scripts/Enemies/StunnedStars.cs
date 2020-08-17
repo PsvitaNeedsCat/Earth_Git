@@ -59,4 +59,10 @@ public class StunnedStars : MonoBehaviour
             star.SetActive(false);
         }
     }
+
+    // Stops the particles - can be called from external source
+    public void ForceStop()
+    {
+        TurnStarsOff();
+    }
 }

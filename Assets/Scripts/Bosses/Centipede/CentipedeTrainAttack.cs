@@ -153,7 +153,10 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         m_animations.Stunned();
-        m_stunnedStars.Init(_forSeconds);
+        if (m_stunnedStars)
+        {
+            m_stunnedStars.Init(_forSeconds);
+        }
         yield return new WaitForSeconds(_forSeconds);
 
         // After duration, recover
