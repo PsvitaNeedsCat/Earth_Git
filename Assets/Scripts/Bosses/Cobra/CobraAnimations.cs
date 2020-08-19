@@ -5,6 +5,15 @@ using UnityEngine;
 public class CobraAnimations : MonoBehaviour
 {
     public Animator m_animator;
+    public bool m_isReal = false;
+
+    private void Awake()
+    {
+        if (m_isReal)
+        {
+            m_animator.SetBool("IsReal", true);
+        }
+    }
 
     public void EnterPot()
     {

@@ -31,6 +31,8 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
+
+
         // Flip tiles and destroy chunks
         m_boss.FlipTiles();
 
@@ -39,6 +41,10 @@ public class CobraMirageBarrage : CobraBehaviour
         ChunkManager.DestroyAllChunks();
 
         yield return new WaitForSeconds(1.0f);
+
+        m_animations.ExitPot();
+
+        yield return new WaitForSeconds(0.5f);
 
         // Create mirage clones, and place them around the pots
         GenerateSnakes();

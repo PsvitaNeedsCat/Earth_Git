@@ -68,7 +68,7 @@ public class PlayerRagdoll : MonoBehaviour
             m_input.SetMovement(false);
             EnableRagdoll();
 
-            m_pelvis.AddForce((Vector3.up + Vector3.forward + -Vector3.right) * 25.0f, ForceMode.Impulse);
+            // m_pelvis.AddForce((Vector3.up + Vector3.forward + -Vector3.right) * 25.0f, ForceMode.Impulse);
         }
         else
         {

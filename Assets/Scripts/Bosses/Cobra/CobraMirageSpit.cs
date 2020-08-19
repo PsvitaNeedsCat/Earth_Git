@@ -12,7 +12,7 @@ public class CobraMirageSpit : MonoBehaviour
     private Player m_playerRef;
     private GameObject m_bulletPrefab;
     private Material m_material;
-    private CobraPotAnimations m_potAnimations;
+    private CobraAnimations m_animations;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class CobraMirageSpit : MonoBehaviour
         m_playerRef = FindObjectOfType<Player>();
         m_meshRenderer.material = new Material(m_meshRenderer.material);
         m_material = m_meshRenderer.material;
-        m_potAnimations = GetComponent<CobraPotAnimations>();
+        m_animations = GetComponent<CobraAnimations>();
     }
 
     public void FireProjectile()
@@ -39,23 +39,13 @@ public class CobraMirageSpit : MonoBehaviour
     {
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
-        m_potAnimations.LowerHead();
+        m_animations.LowerHead();
     }
 
     public void RaiseHead()
     {
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
-        m_potAnimations.RaiseHead();
-    }
-
-    public void EnterPot()
-    {
-        m_potAnimations.EnterPot();
-    }
-
-    public void ExitPot()
-    {
-        m_potAnimations.ExitPot();
+        m_animations.RaiseHead();
     }
 }
