@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     // Public variables
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
-    [HideInInspector] public bool m_hasKey = false;
+    [HideInInspector] public bool m_hasKey = false; // To be phased out
+    [HideInInspector] public int m_numKeys = 0;
     public static Dictionary<EChunkEffect, bool> s_activePowers = new Dictionary<EChunkEffect, bool>()
     {
         { EChunkEffect.none, true },
