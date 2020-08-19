@@ -30,8 +30,8 @@ public class CobraShuffle : CobraBehaviour
     {
         for (int i = 0; i < m_pots.Count; i++)
         {
-            s_potStartingPositions.Add(m_pots[i].transform.position);
-            s_potStartingRotations.Add(m_pots[i].transform.rotation);
+            s_potStartingPositions.Add(m_pots[i].GetMoveTransform().position);
+            s_potStartingRotations.Add(m_pots[i].GetMoveTransform().rotation);
             m_pots[i].m_potIndex = i;
         }
     }
@@ -83,7 +83,7 @@ public class CobraShuffle : CobraBehaviour
 
             // This pot jumps in
             Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
-            MovePot(thisPot, jumpInPos - thisPot.transform.position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true, m_verticalEaseType);
+            MovePot(thisPot, jumpInPos - thisPot.GetMoveTransform().position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true, m_verticalEaseType);
         }
 
         bool bossMoved = false;
@@ -262,7 +262,7 @@ public class CobraShuffle : CobraBehaviour
 
     private IEnumerator StartMovePot(CobraPot _pot, Vector3 _moveBy, float _jumpHeight, float _duration, bool _fireProjectiles, Ease _easeType)
     {
-        _pot.transform.DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalEaseType);
+        _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalEaseType);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeType);
 
         if (_fireProjectiles)
@@ -280,7 +280,7 @@ public class CobraShuffle : CobraBehaviour
 
     private IEnumerator StartFakeMovePot(CobraPot _pot, Vector3 _moveBy, float _jumpHeight, float _duration, bool _fireProjectiles, Ease _easeType)
     {
-        _pot.transform.DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalEaseType);
+        _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalEaseType);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeType);
 
         if (_fireProjectiles)
@@ -295,7 +295,7 @@ public class CobraShuffle : CobraBehaviour
     {
         for (int i = 0; i < m_activePots.Count; i++)
         {
-            int potTileIndex = CobraMovementGrid.IndexFromWorldPos(m_activePots[i].transform.position);
+            int potTileIndex = CobraMovementGrid.IndexFromWorldPos(m_activePots[i].GetMoveTransform().position);
 
             if (potTileIndex >= 0)
             {
@@ -313,7 +313,7 @@ public class CobraShuffle : CobraBehaviour
 
     private void RotatePot(CobraPot _pot, bool _clockwise)
     {
-        int potTileIndex = CobraMovementGrid.IndexFromWorldPos(_pot.transform.position);
+        int potTileIndex = CobraMovementGrid.IndexFromWorldPos(_pot.GetMoveTransform().position);
         Vector3 moveDir = CobraBoss.s_settings.m_rotateClockwiseDirections[potTileIndex];
 
         if (!_clockwise)
@@ -337,7 +337,7 @@ public class CobraShuffle : CobraBehaviour
 
     private void SwapPair(CobraPot _potOne, CobraPot _potTwo)
     {
-        Vector3 moveVec = _potTwo.transform.position - _potOne.transform.position;
+        Vector3 moveVec = _potTwo.GetMoveTransform().position - _potOne.GetMoveTransform().position;
         moveVec.y = 0.0f;
 
         MovePot(_potOne, moveVec, 3.0f, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_verticalEaseType);
@@ -356,7 +356,7 @@ public class CobraShuffle : CobraBehaviour
 
     private void FakeOutPair(CobraPot _potOne, CobraPot _potTwo)
     {
-        Vector3 moveVec = _potTwo.transform.position - _potOne.transform.position;
+        Vector3 moveVec = _potTwo.GetMoveTransform().position - _potOne.GetMoveTransform().position;
         moveVec.y = 0.0f;
 
         moveVec /= 2.0f;
@@ -380,7 +380,7 @@ public class CobraShuffle : CobraBehaviour
         for (int i = 0; i < m_activePots.Count; i++)
         {
             CobraPot pot = m_activePots[i];
-            int potTileIndex = CobraMovementGrid.IndexFromWorldPos(pot.transform.position);
+            int potTileIndex = CobraMovementGrid.IndexFromWorldPos(pot.GetMoveTransform().position);
             Vector3 moveDir = CobraBoss.s_settings.m_sideToSideDirections[potTileIndex];
 
             MovePot(m_activePots[i], moveDir, 1.0f, CobraHealth.StateSettings.m_shuffleSideToSideJumpTime, true, m_verticalEaseType);
@@ -395,10 +395,10 @@ public class CobraShuffle : CobraBehaviour
 
         if (m_activePots.Count == 4)
         {
-            Vector3 oneMove = m_activePots[3].transform.position - m_activePots[0].transform.position;
-            Vector3 twoMove = m_activePots[0].transform.position - m_activePots[1].transform.position;
-            Vector3 threeMove = (m_activePots[3].transform.position - m_activePots[2].transform.position) / 2.0f;
-            Vector3 fourMove = m_activePots[1].transform.position - m_activePots[3].transform.position;
+            Vector3 oneMove = m_activePots[3].GetMoveTransform().position - m_activePots[0].GetMoveTransform().position;
+            Vector3 twoMove = m_activePots[0].GetMoveTransform().position - m_activePots[1].GetMoveTransform().position;
+            Vector3 threeMove = (m_activePots[3].GetMoveTransform().position - m_activePots[2].GetMoveTransform().position) / 2.0f;
+            Vector3 fourMove = m_activePots[1].GetMoveTransform().position - m_activePots[3].GetMoveTransform().position;
 
             MovePot(m_activePots[0], oneMove, 1.0f, jumpTime, true, m_verticalEaseType);
             MovePot(m_activePots[1], twoMove, 1.0f, jumpTime, true, m_verticalEaseType);
@@ -407,12 +407,12 @@ public class CobraShuffle : CobraBehaviour
         }
         else
         {
-            Vector3 oneMove = m_activePots[1].transform.position - m_activePots[0].transform.position;
-            Vector3 twoMove = m_activePots[3].transform.position - m_activePots[1].transform.position;
-            Vector3 threeMove = m_activePots[5].transform.position - m_activePots[2].transform.position;
-            Vector3 fourMove = m_activePots[0].transform.position - m_activePots[3].transform.position;
-            Vector3 fiveMove = m_activePots[2].transform.position - m_activePots[4].transform.position;
-            Vector3 sixMove = m_activePots[4].transform.position - m_activePots[5].transform.position;
+            Vector3 oneMove = m_activePots[1].GetMoveTransform().position - m_activePots[0].GetMoveTransform().position;
+            Vector3 twoMove = m_activePots[3].GetMoveTransform().position - m_activePots[1].GetMoveTransform().position;
+            Vector3 threeMove = m_activePots[5].GetMoveTransform().position - m_activePots[2].GetMoveTransform().position;
+            Vector3 fourMove = m_activePots[0].GetMoveTransform().position - m_activePots[3].GetMoveTransform().position;
+            Vector3 fiveMove = m_activePots[2].GetMoveTransform().position - m_activePots[4].GetMoveTransform().position;
+            Vector3 sixMove = m_activePots[4].GetMoveTransform().position - m_activePots[5].GetMoveTransform().position;
 
             MovePot(m_activePots[0], oneMove, 1.0f, jumpTime, true, m_verticalEaseType);
             MovePot(m_activePots[1], twoMove, 1.0f, jumpTime, true, m_verticalEaseType);

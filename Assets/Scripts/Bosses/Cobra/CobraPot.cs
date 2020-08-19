@@ -15,6 +15,7 @@ public class CobraPot : MonoBehaviour
     public Vector3 m_lobDir;
     public LayerMask m_tileLayers;
     public GameObject m_mesh;
+    public Transform m_moveTransform;
 
     public int m_potIndex = -1;
     public int m_endIndex = -1;
@@ -31,6 +32,11 @@ public class CobraPot : MonoBehaviour
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
         m_collider = GetComponentInChildren<Collider>();
         m_animations = GetComponent<CobraAnimations>();
+    }
+
+    public Transform GetMoveTransform()
+    {
+        return m_moveTransform;
     }
 
     public void SetCollider(bool _active)
