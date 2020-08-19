@@ -66,7 +66,7 @@ public class CobraShuffle : CobraBehaviour
     // Pots jump into the center of the arena
     private IEnumerator JumpIn()
     {
-        m_cobraMesh.SetActive(false);
+        // m_cobraMesh.SetActive(false);
 
         // Start delay
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);

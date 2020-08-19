@@ -31,6 +31,8 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
+
+
         // Flip tiles and destroy chunks
         m_boss.FlipTiles();
 
@@ -39,6 +41,10 @@ public class CobraMirageBarrage : CobraBehaviour
         ChunkManager.DestroyAllChunks();
 
         yield return new WaitForSeconds(1.0f);
+
+        m_animations.ExitPot();
+
+        yield return new WaitForSeconds(0.5f);
 
         // Create mirage clones, and place them around the pots
         GenerateSnakes();
@@ -104,8 +110,6 @@ public class CobraMirageBarrage : CobraBehaviour
             m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
             mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
         }
-
-        m_cobraMesh.SetActive(true);
     }
 
     private IEnumerator FireProjectiles()

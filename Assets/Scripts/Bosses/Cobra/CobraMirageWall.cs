@@ -47,8 +47,10 @@ public class CobraMirageWall : CobraBehaviour
             // Check if there is a second wall, and if so, send it
             if (wallDef.m_wallTwoType != ECobraMirageType.none)
             { 
-                StartCoroutine(SendWall(wallDef.m_wallTwoType, wallDef.m_wallTwoFrom)); 
+                StartCoroutine(SendWall(wallDef.m_wallTwoType, wallDef.m_wallTwoFrom));
             }
+
+            m_animations.MirageWall();
 
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_timeBetweenWalls);
         }

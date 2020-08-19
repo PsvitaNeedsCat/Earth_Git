@@ -19,6 +19,7 @@ public class CobraBoss : MonoBehaviour
     private PlayerController m_playerController;
     private List<FlippableTile> m_flippableTiles;
     private static Vector3 m_arenaTopLeft;
+    private CobraAnimations m_animations;
 
     // Initialise variables
     private void Awake()
@@ -30,6 +31,7 @@ public class CobraBoss : MonoBehaviour
 
         m_totalBehaviours = m_behaviourLoop.Count;
         m_playerController = FindObjectOfType<PlayerController>();
+        m_animations = GetComponent<CobraAnimations>();
 
         m_arenaTopLeft = m_arenaCenter.position;
         m_arenaTopLeft += Vector3.forward * 2.0f;
@@ -97,6 +99,10 @@ public class CobraBoss : MonoBehaviour
     // Knocks up the player, and shortly after, flips over all the tiles
     private IEnumerator StartTileFlip()
     {
+        m_animations.CobraJump();
+
+        yield return new WaitForSeconds(1.0f);
+
         m_playerController.KnockBack(Vector3.up * 2.5f);
         MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
@@ -109,7 +115,7 @@ public class CobraBoss : MonoBehaviour
         }
         else
         {
-            Debug.Log("I have " + m_flippableTiles.Count + " flippable tiles");
+            // Debug.Log("I have " + m_flippableTiles.Count + " flippable tiles");
         }
 
         for (int i = 0; i < m_flippableTiles.Count; i++)
