@@ -23,6 +23,7 @@ public class SaveManager : MonoBehaviour
             { EChunkEffect.mirage, false }
         };
         public int health = 3;
+        public List<int> m_collectedKeys = new List<int>();
     }
 
     // 3 player saves
@@ -66,6 +67,7 @@ public class SaveManager : MonoBehaviour
         if (player)
         {
             m_saves[m_currentFile].health = player.GetCurrentHealth();
+            m_saves[m_currentFile].m_collectedKeys = player.GetComponent<Player>().m_collectedKeys;
         }
         else 
         {
@@ -194,15 +196,19 @@ public class SaveManager : MonoBehaviour
             RoomManager.Instance.ForceLoadRoom(m_saves[m_currentFile].room);
 
             // Load the correct health
-            PlayerController player = FindObjectOfType<PlayerController>();
+            Player player = FindObjectOfType<Player>();
             if (player)
             {
-                player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health; 
+                player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health;
+                player.m_collectedKeys = m_saves[m_currentFile].m_collectedKeys;
+                player.InitLoad();
             }
             else
             {
                 Debug.LogError("Unable to find player, could not load health"); 
             }
+
+            MessageBus.TriggerEvent(EMessageType.checkKeyID);
         }
     }
 

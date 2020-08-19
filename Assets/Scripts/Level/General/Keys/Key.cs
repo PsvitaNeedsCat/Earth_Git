@@ -14,6 +14,9 @@ public class Key : MonoBehaviour
         returning
     }
     [HideInInspector] public States m_state = States.waiting;
+    public int m_keyID;
+    [HideInInspector] public bool m_isLoaded = false;
+    [HideInInspector] public float m_animationFrame = 0.0f;
 
     private Animator m_animator = null;
     private Player m_playerRef = null;
@@ -22,6 +25,41 @@ public class Key : MonoBehaviour
     private void Awake()
     {
         m_animator = GetComponentInChildren<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        MessageBus.AddListener(EMessageType.checkKeyID, CheckKeyID);
+        
+        CheckKeyID("");
+    }
+
+    private void OnDisable()
+    {
+        MessageBus.RemoveListener(EMessageType.checkKeyID, CheckKeyID);
+    }
+
+    // Checks if the player has the current key using ID, if they do => destroy this key
+    private void CheckKeyID(string _null)
+    {
+        if (m_isLoaded)
+        {
+            return;
+        }
+
+        if (!m_playerRef)
+        {
+            m_playerRef = FindObjectOfType<Player>();
+        }
+
+        foreach (int i in m_playerRef.m_collectedKeys)
+        {
+            if (i == m_keyID)
+            {
+                Destroy(gameObject);
+                break;
+            }
+        }
     }
 
     private void Update()
@@ -42,9 +80,19 @@ public class Key : MonoBehaviour
         if (m_state == States.waiting && player)
         {
             m_playerRef = player;
-            ++player.m_numKeys;
-            FloatToPlayer();
+            KeyCollected();
         }
+    }
+
+    // Removes the collider, and sets the key to float around the player's head
+    private void KeyCollected()
+    {
+        if (!m_playerRef.m_collectedKeys.Contains(m_keyID))
+        {
+            m_playerRef.m_collectedKeys.Add(m_keyID);
+        }
+        transform.parent = null;
+        FloatToPlayer();
     }
 
     // Called when the key is first collected - tweens the keys to the position where it will float around the player
@@ -66,6 +114,11 @@ public class Key : MonoBehaviour
         m_state = States.collected;
 
         m_animator.SetTrigger("Float");
+
+        if (m_isLoaded)
+        {
+            m_animator.Play("Floating", 0, m_animationFrame);
+        }
     }
 
     // Called by the door - pauses the floating animation

@@ -70,7 +70,7 @@ public class DoorMaster : MonoBehaviour
             // Unlock door
             for (int i = m_locks.Length - 1; i >= 0; i--)
             {
-                --player.m_numKeys;
+                player.m_collectedKeys.Remove(_keys[i].m_keyID);
                 Destroy(_keys[i].gameObject);
                 Destroy(gameObject);
             }
