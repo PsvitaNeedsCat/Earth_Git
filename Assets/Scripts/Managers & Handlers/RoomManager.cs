@@ -50,7 +50,6 @@ public class RoomManager : MonoBehaviour
         Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
         m_blackWall = blackWall.GetComponent<Animator>();
         m_playerInput = FindObjectOfType<PlayerInput>();
-        Debug.Assert(m_playerInput, "Cannot find player input");
 
         // Disbale all rooms
         for (int i = 0; i < m_rooms.Count; i++)

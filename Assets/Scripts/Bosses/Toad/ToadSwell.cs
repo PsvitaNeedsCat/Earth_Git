@@ -16,6 +16,7 @@ public class ToadSwell : ToadBehaviour
     private Material m_material;
     private Texture m_normalTexture;
     private HealthComponent m_toadHealth;
+    private StunnedStars m_stunnedStars = null;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class ToadSwell : ToadBehaviour
         m_normalTexture = m_material.mainTexture;
         m_toadHealth = GetComponent<HealthComponent>();
         m_toadHealth.IsInvincible = true;
+        m_stunnedStars = GetComponentInChildren<StunnedStars>();
     }
 
     public override void StartBehaviour()
@@ -58,6 +60,7 @@ public class ToadSwell : ToadBehaviour
 
     void SwellUp()
     {
+        m_stunnedStars.Init(m_toadSettings.m_staySwelledUpFor);
         m_toadAnimator.SetTrigger("SwellUp");
         m_toadHealth.IsInvincible = false;
         m_meshTransform.DOKill();
@@ -73,6 +76,8 @@ public class ToadSwell : ToadBehaviour
 
     void SwellDown()
     {
+        m_stunnedStars.ForceStop();
+
         m_toadAnimator.SetTrigger("SwellDown");
 
         ToadBoss.s_tookDamage = false;

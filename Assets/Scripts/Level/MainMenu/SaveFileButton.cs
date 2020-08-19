@@ -9,9 +9,18 @@ public class SaveFileButton : MonoBehaviour
     [SerializeField] private int m_saveId;
     [SerializeField] private GameObject m_deleteButton;
 
+    [SerializeField] private GameObject m_mainMenu = null;
+    [SerializeField] private GameObject m_loadingScreen = null;
+
     MainMenu m_menuManager;
 
-    public void TryLoadSave() => m_menuManager.TryLoadSave(m_saveId);
+    public void TryLoadSave()
+    {
+        m_mainMenu.SetActive(false);
+        m_loadingScreen.SetActive(true);
+
+        m_menuManager.TryLoadSave(m_saveId);
+    }
 
     private void Awake()
     {
@@ -31,7 +40,10 @@ public class SaveFileButton : MonoBehaviour
             text = save.scene;
             m_deleteButton.SetActive(true);
         }
-        else { m_deleteButton.SetActive(false); }
+        else
+        {
+            m_deleteButton.SetActive(false);
+        }
 
         GetComponentInChildren<TextMeshProUGUI>().text = text;
     }

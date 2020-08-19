@@ -91,8 +91,6 @@ public class Chunk : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Chunk trigger hit " + other.gameObject.name);
-
         // If collider has hit any of these, return
         // Should be refactored further
         if (CollisionHasComponent<Hurtbox>(other, null) ||
@@ -260,6 +258,13 @@ public class Chunk : MonoBehaviour
                     break;
                 }
 
+            case EChunkEffect.fire:
+                {
+                    FieryExplosion();
+                    MessageBus.TriggerEvent(EMessageType.fieryExplosion);
+                    break;
+                }
+
             default:
                 {
                     MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
@@ -352,27 +357,53 @@ public class Chunk : MonoBehaviour
     // Decides what to do when the chunk hits a wall
     private void HitWall()
     {
-        switch (m_currentEffect)
+        if (m_currentEffect == EChunkEffect.none)
         {
-            case EChunkEffect.water:
-                {
-                    OnDeath();
-                    break;
-                }
+            MessageBus.TriggerEvent(EMessageType.chunkHitWall);
+            ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
+            SnapChunk();
+            return;
+        }
 
-            case EChunkEffect.fire:
-                {
-                    OnDeath();
-                    break;
-                }
+        OnDeath();
+    }
 
-            default:
+    // Makes the fire ball explode, hitting the four tiles around it with the fire ability
+    private void FieryExplosion()
+    {
+        Vector3 moveDir = m_prevVelocity.normalized;
+        Vector3 centrePosition = transform.position - moveDir;
+        SnapChunk();
+
+        Quaternion effectRot = Quaternion.LookRotation(Vector3.down);
+        Vector3 effectScale = Vector3.one * 0.1f;
+        Vector3 effectPos = transform.position;
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, effectPos, effectRot, effectScale, 0.5f);
+
+        // Creates 4 raycasts around the centre point, if the raycasts hit sand, they'll be turned to glass
+        Vector3[] cardinalDirections = new Vector3[]
+        {
+            Vector3.forward,
+            Vector3.back,
+            Vector3.right,
+            Vector3.left
+        };
+        foreach (Vector3 direction in cardinalDirections)
+        {
+            Vector3 checkPosition = transform.position + direction;
+            
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, checkPosition, effectRot, effectScale, 0.5f);
+
+            Collider[] colliders = Physics.OverlapBox(checkPosition, new Vector3(0.4f, 0.4f, 0.4f));
+
+            foreach (Collider collision in colliders)
+            {
+                SandBlock sand = collision.GetComponent<SandBlock>();
+                if (sand && !sand.m_isGlass)
                 {
-                    MessageBus.TriggerEvent(EMessageType.chunkHitWall);
-                    ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-                    SnapChunk();
-                    break;
+                    sand.TurnToGlass();
                 }
+            }
         }
     }
 
@@ -397,7 +428,10 @@ public class Chunk : MonoBehaviour
             newPos.y = transform.position.y;
             transform.position = newPos;
         }
-        else { Debug.LogError("Unable to find nearest tile to snap to"); }
+        else
+        {
+            Debug.LogError("Unable to find nearest tile to snap to");
+        }
     }
 
     public void OnStuckToTongue()
@@ -447,6 +481,11 @@ public class Chunk : MonoBehaviour
         for (int i = 0; i < m_meshObjects.Length; i++)
         {
             m_meshObjects[i].SetActive(i == (int)_effect);
+        }
+
+        if (_effect != EChunkEffect.none)
+        {
+            m_meshObjects[(int)_effect].transform.rotation = Quaternion.LookRotation(_hitDir);
         }
     }
 }

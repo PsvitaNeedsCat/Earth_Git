@@ -27,6 +27,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     private int m_currentTunnelIndex = 0;
     private int m_chunksHit = 0;
     private CentipedeHealth m_centipedeHealth;
+    [SerializeField] private StunnedStars m_stunnedStars = null;
 
     private void Awake()
     {
@@ -152,6 +153,10 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         m_animations.Stunned();
+        if (m_stunnedStars)
+        {
+            m_stunnedStars.Init(_forSeconds);
+        }
         yield return new WaitForSeconds(_forSeconds);
 
         // After duration, recover

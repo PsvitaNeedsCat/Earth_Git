@@ -53,7 +53,7 @@ public class SandBlock : MonoBehaviour
 
             if (!m_chunkInside)
             {
-                m_chunkInside = other.gameObject;
+                m_chunkInside = chunk.gameObject;
             }
         }
 
@@ -97,14 +97,14 @@ public class SandBlock : MonoBehaviour
         }
     }
 
-    // Called when glass is to break
+    // Destroys the object
     private void Break()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
-    // Called when sand is hit by fire
-    private void TurnToGlass()
+    // Makes the sand block glass (changes it to transparent white, makes the collider solid
+    public void TurnToGlass()
     {
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
 
@@ -116,7 +116,7 @@ public class SandBlock : MonoBehaviour
         if (m_chunkInside) { Destroy(m_chunkInside); }
     }
 
-    // Makes the sand block fall - called from external source
+    // Changes some rigidbody settings so that the sand will begin to fall with gravity
     public void Fall()
     {
         // Physics
@@ -124,10 +124,9 @@ public class SandBlock : MonoBehaviour
         m_rigidbody.isKinematic = false;
         m_rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         m_rigidbody.useGravity = true;
-        
     }
 
-    // Called when sand hits the ground
+    // Changes some rigidbody settings so that the sand won't move by gravity or other means
     private void StopFalling()
     {
         // Physics
@@ -148,6 +147,7 @@ public class SandBlock : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.sandLand);
     }
 
+    // Returns if the sand is falling or not. It is grounded if it is not falling
     public bool IsGrounded()
     {
         return !m_isFalling;

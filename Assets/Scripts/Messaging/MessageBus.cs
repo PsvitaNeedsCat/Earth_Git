@@ -24,6 +24,7 @@ public enum EMessageType
     sandLand,
     sandDestroyed,
     chunkSinking,
+    fieryExplosion,
 
     // Enemies
     projectileSplash,
@@ -75,6 +76,9 @@ public enum EMessageType
     vulnerableStart,
     vulnerableEnd,
     gameOver,
+    snapSound,
+    switchSound,
+    chainSnap,
 
     // Cobra boss
     cobraBarrageFire,

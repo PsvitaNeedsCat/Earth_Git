@@ -13,8 +13,14 @@ public class CentipedeHead : MonoBehaviour
         m_damageTrigger = GetComponent<BoxCollider>();
     }
 
-    public void DisableCollider() => m_damageTrigger.enabled = false;
-    public void EnableCollider() => m_damageTrigger.enabled = true;
+    public void DisableCollider()
+    {
+        m_damageTrigger.enabled = false;
+    }
+    public void EnableCollider()
+    {
+        m_damageTrigger.enabled = true;
+    }
 
     // Damage things when hit by the centipede's head
     private void OnTriggerEnter(Collider other)
