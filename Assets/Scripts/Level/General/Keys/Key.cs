@@ -16,6 +16,7 @@ public class Key : MonoBehaviour
     [HideInInspector] public States m_state = States.waiting;
     public int m_keyID;
     [HideInInspector] public bool m_isLoaded = false;
+    [HideInInspector] public GameObject m_beltLocation = null;
 
     private Animator m_animator = null;
     private Player m_playerRef = null;
@@ -68,17 +69,6 @@ public class Key : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (m_state == States.collected && transform.position != m_playerRef.transform.position)
-        {
-            Vector3 newPos = m_playerRef.transform.position;
-            newPos.y += 1.2f;
-
-            transform.DOMove(newPos, 0.1f);
-        }
-    }
-
     // When the key collides with the player while not collected - collects the key
     private void OnTriggerEnter(Collider other)
     {
@@ -97,7 +87,9 @@ public class Key : MonoBehaviour
         {
             m_playerRef.m_collectedKeys.Add(m_keyID);
         }
-        transform.parent = null;
+
+        FindObjectOfType<KeyUI>().UpdateIcons();
+
         FloatToPlayer();
     }
 
@@ -105,42 +97,17 @@ public class Key : MonoBehaviour
     private void FloatToPlayer()
     {
         m_state = States.returning;
-        
-        Vector3 floatPosition = m_playerRef.transform.position;
-        floatPosition.y += 1.2f;
+
+        m_beltLocation = m_playerRef.m_keyBeltLocations[m_playerRef.m_collectedKeys.Count - 1].gameObject;
+        transform.parent = m_beltLocation.transform;
 
         Destroy(GetComponent<Collider>());
-
-        transform.DOLocalMove(floatPosition, 0.5f).OnComplete(() => BeginToFloat());
-    }
-
-    // Called once the key is collected - makes the key float around the player's head
-    private void BeginToFloat()
-    {
-        m_state = States.collected;
-
-        m_animator.SetTrigger("Float");
-
-        float animationFrame = m_animationFrames[m_playerRef.m_collectedKeys.Count - 1];
-
-        m_animator.Play("Floating", 0, animationFrame);
-    }
-
-    // Called by the door - pauses the floating animation
-    public void PauseAnimation()
-    {
-        m_animator.enabled = false;
-        m_animatorPrevLocalPosition = m_animator.transform.localPosition;
         m_animator.transform.localPosition = Vector3.zero;
         m_animator.transform.localRotation = Quaternion.identity;
-        m_state = States.unlocking;
-    }
+        Destroy(m_animator);
 
-    // Called by the door - continues the animation of floating around the player
-    public void ContinueAnimation()
-    {
-        m_animator.transform.localPosition = m_animatorPrevLocalPosition;
-        m_animator.enabled = true;
-        m_state = States.collected;
+        transform.DOScale(0.1f, 0.4f);
+        transform.DOLocalRotateQuaternion(Quaternion.identity, 0.4f);
+        transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() => m_state = States.collected);
     }
 }

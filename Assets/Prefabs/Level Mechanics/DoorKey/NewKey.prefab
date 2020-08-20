@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1851568449289712857}
   - component: {fileID: 3108013813697289291}
   m_Layer: 0
-  m_Name: Key
+  m_Name: NewKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,6 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295f03f6b32feff4cb621f2206aa741d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_state: 0
+  m_keyID: 0
+  m_isLoaded: 0
 --- !u!1 &3678900609355823117
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +238,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: b96b5915a09511447965f543e80a9865,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a5383e55521dc044296edf3f9c3fa995, type: 2}
     - target: {fileID: -927199367670048503, guid: b96b5915a09511447965f543e80a9865,
         type: 3}
       propertyPath: m_Name
