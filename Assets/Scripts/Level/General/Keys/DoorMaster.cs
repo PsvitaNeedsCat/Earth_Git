@@ -51,11 +51,10 @@ public class DoorMaster : MonoBehaviour
             unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(0.5f, 0.4f));
 
             // Unlocking animation
-            Vector3 rotationVector = _keys[i].transform.rotation.eulerAngles;
-            rotationVector.x += 90.0f;
-            Vector3 initRotationVec = _keys[i].transform.rotation.eulerAngles;
-            unlockSeq.Append(_keys[i].transform.DORotate(rotationVector, 1.0f));
-            unlockSeq.Append(_keys[i].transform.DORotate(initRotationVec, 1.0f));
+            Vector3 rotationVector = new Vector3(0.0f, 90.0f, 0.0f);
+            Vector3 returnVector = new Vector3(0.0f, -90.0f, 0.0f);
+            unlockSeq.Append(_keys[i].transform.DORotate(rotationVector, 1.0f, RotateMode.LocalAxisAdd));
+            unlockSeq.Append(_keys[i].transform.DORotate(returnVector, 1.0f, RotateMode.LocalAxisAdd));
 
             // Return
             unlockSeq.OnComplete(() => ++completedTweens);
