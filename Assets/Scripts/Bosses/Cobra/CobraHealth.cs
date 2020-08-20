@@ -9,6 +9,7 @@ public class CobraHealth : MonoBehaviour
 {
     public List<GameObject> m_healthIcons;
     public SkinnedMeshRenderer m_meshRenderer;
+    
     private static List<GameObject> s_healthIcons;
 
     private static CobraStateSettings s_settingsFull;
@@ -22,6 +23,7 @@ public class CobraHealth : MonoBehaviour
     private static CobraMirageBarrage s_barrage;
     private static CobraBoss s_boss;
     private static CobraShuffle s_shuffle;
+    private static CobraAnimations s_animations;
 
     private static Material s_material;
 
@@ -73,6 +75,7 @@ public class CobraHealth : MonoBehaviour
         s_healthIcons = m_healthIcons;
         s_barrage = GetComponent<CobraMirageBarrage>();
         s_shuffle = GetComponent<CobraShuffle>();
+        s_animations = GetComponent<CobraAnimations>();
 
         // Initialise variables
         s_settingsFull = Resources.Load<CobraStateSettings>("ScriptableObjects/CobraBossSettingsFull");
@@ -97,22 +100,8 @@ public class CobraHealth : MonoBehaviour
         s_healthIcons.Clear();
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
-
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Comma))
-        //{
-        //    m_currentHealth--;
-        //}
     }
 
     public void SetCurrentHealth(int _newHealth)
@@ -138,6 +127,8 @@ public class CobraHealth : MonoBehaviour
         s_healthIcons[s_currentHealth].SetActive(false);
 
         MessageBus.TriggerEvent(EMessageType.cobraDamaged);
+
+        s_animations.Damaged();
 
         s_barrage.CancelAttack();
 

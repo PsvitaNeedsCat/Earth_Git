@@ -22,6 +22,7 @@ public class TrainBug : MonoBehaviour
     private AudioSource m_chargingSound;
     private GlobalEnemySettings m_settings;
     private Rigidbody m_rigidbody;
+    private StunnedStars m_stunnedStars = null;
 
     private float m_vulnerableTimer = 0.0f;
 
@@ -32,6 +33,7 @@ public class TrainBug : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         m_chargingSound = GetComponent<AudioSource>();
         m_chargingSound.Play();
+        m_stunnedStars = GetComponentInChildren<StunnedStars>();
     }
 
     private void FixedUpdate()
@@ -165,6 +167,7 @@ public class TrainBug : MonoBehaviour
         Flip(true);
         m_vulnerableTimer = m_settings.m_trainVulernableTime;
         m_state = EStates.vulnerable;
+        m_stunnedStars.Init(m_settings.m_trainVulernableTime);
     }
 
     // Kills the bug

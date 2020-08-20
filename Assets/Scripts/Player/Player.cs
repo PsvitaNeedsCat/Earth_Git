@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     // Public variables
     public Animator m_animator;
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
-    [HideInInspector] public bool m_hasKey = false;
+    [HideInInspector] public bool m_hasKey = false; // To be phased out
+    [HideInInspector] public List<int> m_collectedKeys = new List<int>();
     public static Dictionary<EChunkEffect, bool> s_activePowers = new Dictionary<EChunkEffect, bool>()
     {
         { EChunkEffect.none, true },
@@ -106,6 +107,22 @@ public class Player : MonoBehaviour
         playerVelocity.y = 0.0f;
         float playerSpeed = playerVelocity.magnitude;
         m_animator.SetFloat("Blend", Mathf.Clamp01(playerSpeed / m_maxSpeed));
+    }
+
+    // Called by save manager when the save file is loaded - gives the player keys based on how many they have
+    public void InitLoad()
+    {
+        GameObject keyPrefab = Resources.Load<GameObject>("Prefabs/SpawnedKey");
+        
+        int index = 0;
+        foreach(int i in m_collectedKeys)
+        {
+            Key key = Instantiate(keyPrefab, transform.position, Quaternion.identity).GetComponent<Key>();
+            key.m_keyID = i;
+            key.m_isLoaded = true;
+            key.gameObject.SetActive(true);
+            ++index;
+        }
     }
 
     // Modifies movement - called by PlayerInput

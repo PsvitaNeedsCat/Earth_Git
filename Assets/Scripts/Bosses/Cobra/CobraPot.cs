@@ -23,12 +23,14 @@ public class CobraPot : MonoBehaviour
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
     private Collider m_collider;
+    private CobraAnimations m_animations;
     
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
         m_collider = GetComponentInChildren<Collider>();
+        m_animations = GetComponent<CobraAnimations>();
     }
 
     public void SetCollider(bool _active)
@@ -46,9 +48,8 @@ public class CobraPot : MonoBehaviour
         Destroy(projectile, CobraHealth.StateSettings.m_potProjectileLifetime);
         projectile.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_potProjectileSpeed;
 
-        // Temp minor visual feedback for firing
-        transform.DOPunchScale(Vector3.one * 0.2f, 0.15f).SetEase(Ease.InOutElastic);
-        transform.DOPunchPosition(Vector3.up * 0.2f, 0.2f).SetEase(Ease.InCubic);
+        // Pot firing animation
+        m_animations.PotFire();
     }
 
     public void FireLobProjectiles()
@@ -133,13 +134,6 @@ public class CobraPot : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);
-
-        Gizmos.color = Color.red;
-        //Gizmos.DrawLine(transform.position + transform.forward, transform.position + transform.forward + -Vector3.up * 5.0f);
-        //Gizmos.DrawLine(transform.position + transform.right, transform.position + transform.right + -Vector3.up * 5.0f);
-        //Gizmos.DrawLine(transform.position - transform.forward, transform.position - transform.forward + -Vector3.up * 5.0f);
-        //Gizmos.DrawLine(transform.position - transform.right, transform.position - transform.right + -Vector3.up * 5.0f);
-
 
 #if UNITY_EDITOR
         Handles.Label(transform.position + Vector3.up * 0.5f, "CIndex: " + m_potIndex.ToString());

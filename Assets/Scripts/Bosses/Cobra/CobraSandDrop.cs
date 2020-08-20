@@ -46,11 +46,15 @@ public class CobraSandDrop : CobraBehaviour
 
     private IEnumerator StartScramble()
     {
+        m_animations.EnterPot();
+
         yield return new WaitForSeconds(CobraBoss.s_settings.m_timeBeforeGenerate);
 
         // Choose a random layout from the list and generate it
         int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
         GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
+
+        // 
 
         for (int i = 0; i < CobraHealth.StateSettings.m_numPotsToFire; i++)
         {
@@ -63,6 +67,12 @@ public class CobraSandDrop : CobraBehaviour
 
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPots);
         }
+
+        yield return new WaitForSeconds(5.0f);
+
+        m_animations.ExitPot();
+        m_animations.Roar();
+        m_animations.EnterPot();
 
         CompleteBehaviour();
     }
