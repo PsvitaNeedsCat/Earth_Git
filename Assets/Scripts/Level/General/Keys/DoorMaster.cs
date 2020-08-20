@@ -42,19 +42,22 @@ public class DoorMaster : MonoBehaviour
                 break;
             }
 
-            _keys[i].PauseAnimation();
-
+            // Align with lock
+            _keys[i].transform.parent = null;
             _keys[i].transform.rotation = m_locks[i].transform.rotation;
             _keys[i].transform.rotation = Quaternion.Euler(_keys[i].transform.rotation.eulerAngles + new Vector3(0.0f, 90.0f, 90.0f));
             Sequence unlockSeq = DOTween.Sequence();
             unlockSeq.Append(_keys[i].transform.DOMove(m_locks[i].transform.position, 0.5f));
+            unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(0.5f, 0.4f));
 
+            // Unlocking animation
             Vector3 rotationVector = _keys[i].transform.rotation.eulerAngles;
             rotationVector.x += 90.0f;
             Vector3 initRotationVec = _keys[i].transform.rotation.eulerAngles;
             unlockSeq.Append(_keys[i].transform.DORotate(rotationVector, 1.0f));
             unlockSeq.Append(_keys[i].transform.DORotate(initRotationVec, 1.0f));
 
+            // Return
             unlockSeq.OnComplete(() => ++completedTweens);
             unlockSeq.Play();
         }
@@ -74,17 +77,18 @@ public class DoorMaster : MonoBehaviour
                 Destroy(_keys[i].gameObject);
                 Destroy(gameObject);
             }
+
+            FindObjectOfType<KeyUI>().UpdateIcons();
         }
         else
         {
             // Return keys to player
             for (int i = 0; i < _keys.Count; i++)
             {
-                _keys[i].transform.DORotate(new Vector3(0.0f, 0.0f, 0.0f), 0.5f);
-                Vector3 tweenPos = player.transform.position;
-                tweenPos.y += 1.2f;
-                _keys[i].transform.DOMove(tweenPos, 0.5f);
-                _keys[i].ContinueAnimation();
+                _keys[i].transform.parent = _keys[i].m_beltLocation.transform;
+                _keys[i].transform.DORotateQuaternion(Quaternion.identity, 0.5f);
+                _keys[i].transform.DOScale(0.1f, 0.4f);
+                _keys[i].transform.DOLocalMove(Vector3.zero, 0.5f);
             }
         }
     }
