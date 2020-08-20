@@ -116,13 +116,14 @@ MonoBehaviour:
   m_projectileParent: {fileID: 0}
   m_projectileSpawnDistance: 1
   m_projectileSpawnHeight: 0.5
-  m_lobProjectileSpawnHeight: 0
+  m_lobProjectileSpawnHeight: 0.25
   m_lobVelocity: 5
   m_lobDir: {x: 0, y: 1, z: 0.18}
   m_tileLayers:
     serializedVersion: 2
     m_Bits: 512
   m_mesh: {fileID: 6364217884858845287}
+  m_moveTransform: {fileID: 8963776639094657822}
   m_potIndex: -1
   m_endIndex: -1
   m_endRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -195,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_animator: {fileID: 4449959404218173288}
+  m_isReal: 0
 --- !u!1001 &3131078592708759918
 PrefabInstance:
   m_ObjectHideFlags: 0
