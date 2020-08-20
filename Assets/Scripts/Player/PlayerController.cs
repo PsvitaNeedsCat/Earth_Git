@@ -124,7 +124,10 @@ public class PlayerController : MonoBehaviour
         // Freeze player
         m_input.SetCombat(false);
         m_input.SetMovement(false);
-        m_ragdoll.SetRagdoll(true);
+        if (m_ragdoll)
+        {
+            m_ragdoll.SetRagdoll(true);
+        }
 
         // Fade to black
         RoomManager.Instance.FadeToBlack();
@@ -148,7 +151,10 @@ public class PlayerController : MonoBehaviour
         // Unfreeze player
         m_input.SetCombat(true);
         m_input.SetMovement(true);
-        m_ragdoll.SetRagdoll(false);
+        if (m_ragdoll)
+        {
+            m_ragdoll.SetRagdoll(false);
+        }
     }
 
     private void OnHealed()

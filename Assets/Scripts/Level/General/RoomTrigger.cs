@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using UnityEngine.Events;
+
 public class RoomTrigger : MonoBehaviour
 {
     [Tooltip("Each room needs at least one, sets the position of spawn for the player when loading a save")]
@@ -11,6 +13,7 @@ public class RoomTrigger : MonoBehaviour
     [SerializeField] private EMessageType m_musicTrigger = EMessageType.none;
     [Tooltip("Unlocks this door when the trigger is collidede with")]
     [SerializeField] private GameObject m_unlockDoor = null;
+    [SerializeField] private UnityEvent m_triggerEvent = new UnityEvent();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,21 +21,33 @@ public class RoomTrigger : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player)
         {
-            // Set room manager
-            RoomManager.Instance.PrepareToChangeRoom(m_roomName);
-            RoomManager.Instance.m_respawnLocation = transform.position - new Vector3(0.0f, 0.45f, 0.0f);
+            LoadRoom();
+        }
+    }
 
-            // Set music if applicable
-            if (m_musicTrigger != EMessageType.none)
-            {
-                MessageBus.TriggerEvent(m_musicTrigger);
-            }
+    // Called when the player collides - sends messages to load the next room and calls events when needed
+    private void LoadRoom()
+    {
+        // Set room manager
+        RoomManager.Instance.PrepareToChangeRoom(m_roomName);
+        RoomManager.Instance.m_respawnLocation = transform.position - new Vector3(0.0f, 0.45f, 0.0f);
 
-            // Unlock door if applicable
-            if (m_unlockDoor)
-            {
-                Destroy(m_unlockDoor);
-            }
+        // Set music if applicable
+        if (m_musicTrigger != EMessageType.none)
+        {
+            MessageBus.TriggerEvent(m_musicTrigger);
+        }
+
+        // Unlock door if applicable
+        if (m_unlockDoor)
+        {
+            Destroy(m_unlockDoor);
+        }
+
+        if (m_triggerEvent != null)
+        {
+            m_triggerEvent.Invoke();
+            m_triggerEvent = null;
         }
     }
 }
