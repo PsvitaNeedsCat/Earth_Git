@@ -8,7 +8,6 @@ using UnityEditor;
 
 public class CobraShuffle : CobraBehaviour
 {
-    public List<CobraPot> m_pots;
     public GameObject m_cobraMesh;
 
     public static int s_bossPotIndex = 2;
@@ -26,13 +25,15 @@ public class CobraShuffle : CobraBehaviour
     private readonly Ease m_verticalEaseType = Ease.InOutSine;
     private readonly Ease m_horizontalEaseType = Ease.Linear;
 
-    private void Awake()
+    protected override void Awake()
     {
-        for (int i = 0; i < m_pots.Count; i++)
+        base.Awake();
+
+        for (int i = 0; i < s_boss.m_cobraPots.Count; i++)
         {
-            s_potStartingPositions.Add(m_pots[i].GetMoveTransform().position);
-            s_potStartingRotations.Add(m_pots[i].GetMoveTransform().rotation);
-            m_pots[i].m_potIndex = i;
+            s_potStartingPositions.Add(s_boss.m_cobraPots[i].GetMoveTransform().position);
+            s_potStartingRotations.Add(s_boss.m_cobraPots[i].GetMoveTransform().rotation);
+            s_boss.m_cobraPots[i].m_potIndex = i;
         }
     }
 
@@ -58,16 +59,14 @@ public class CobraShuffle : CobraBehaviour
         for (int i = 0; i < m_activePotDefs.Count; i++)
         {
             // CobraPot 
-            m_activePots.Add(m_pots[m_activePotDefs[i].m_potIndex]);
-            m_pots[m_activePotDefs[i].m_potIndex].SetCollider(true);
+            m_activePots.Add(s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex]);
+            s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex].SetCollider(true);
         }
     }
 
     // Pots jump into the center of the arena
     private IEnumerator JumpIn()
     {
-        // m_cobraMesh.SetActive(false);
-
         // Start delay
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleStartDelay);
 
@@ -156,7 +155,7 @@ public class CobraShuffle : CobraBehaviour
             m_activePots[i].SetCollider(false);
         }
 
-        s_nextBossPotIndex = m_pots[s_bossPotIndex].m_endIndex;
+        s_nextBossPotIndex = s_boss.m_cobraPots[s_bossPotIndex].m_endIndex;
 
         for (int i = 0; i < m_activePots.Count; i++)
         {
@@ -164,11 +163,11 @@ public class CobraShuffle : CobraBehaviour
         }
 
         // Reorder the list of pots
-        m_pots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+        s_boss.m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
 
-        for (int i = 0; i < m_pots.Count; i++)
+        for (int i = 0; i < s_boss.m_cobraPots.Count; i++)
         {
-            m_pots[i].m_potIndex = i;
+            s_boss.m_cobraPots[i].m_potIndex = i;
         }
 
         s_bossPotIndex = s_nextBossPotIndex;
@@ -433,9 +432,9 @@ public class CobraShuffle : CobraBehaviour
             return;
         }
 
-        for (int i = 0; i < m_pots.Count; i++)
+        for (int i = 0; i < s_boss.m_cobraPots.Count; i++)
         {
-            Handles.Label(s_potStartingPositions[i] + Vector3.up * 1.5f, m_pots[i].m_potIndex.ToString());
+            Handles.Label(s_potStartingPositions[i] + Vector3.up * 1.5f, s_boss.m_cobraPots[i].m_potIndex.ToString());
         }
 
         Handles.Label(transform.position + Vector3.up * 5.0f, "Boss pot index: " + s_bossPotIndex.ToString());

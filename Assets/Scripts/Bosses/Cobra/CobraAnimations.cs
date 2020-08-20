@@ -16,6 +16,11 @@ public class CobraAnimations : MonoBehaviour
         }
     }
 
+    public void AECobraFire()
+    {
+        // Fire bullet
+    }
+
     public void EnterPot()
     {
         m_animator.SetTrigger("EnterPot");

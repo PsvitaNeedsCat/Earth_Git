@@ -7,16 +7,16 @@ public class CobraMirageBarrage : CobraBehaviour
 {
     public GameObject m_cobraMesh;
 
-    private GameObject m_mirageClonePrefab;
     private List<CobraMirageSpit> m_mirageCobras = new List<CobraMirageSpit>();
     private CobraMirageSpit m_spit;
     private CobraBoss m_boss;
     private CobraShuffle m_shuffle;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Initialise variables
-        m_mirageClonePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/MirageCobra");
         m_spit = GetComponent<CobraMirageSpit>();
         m_boss = GetComponent<CobraBoss>();
         m_shuffle = GetComponent<CobraShuffle>();
@@ -31,8 +31,6 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
-
-
         // Flip tiles and destroy chunks
         m_boss.FlipTiles();
 
@@ -42,19 +40,42 @@ public class CobraMirageBarrage : CobraBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        m_animations.ExitPot();
+        // Store pots to fire
+        GenerateSnakes();
+
+        ExitPots();
 
         yield return new WaitForSeconds(0.5f);
-
-        // Create mirage clones, and place them around the pots
-        GenerateSnakes();
 
         yield return new WaitForSeconds(2.0f);
 
         StartCoroutine(FireProjectiles());
     }
 
-    private void LowerHead()
+    private void ExitPots()
+    {
+        // m_animations.ExitPot();
+
+        foreach (CobraMirageSpit spit in m_mirageCobras)
+        {
+            spit.ExitPot();
+        }
+    }
+
+    private void EnterPots()
+    {
+        foreach (CobraMirageSpit spit in m_mirageCobras)
+        {
+            if (spit.gameObject == this.gameObject)
+            {
+                continue;
+            }
+
+            spit.EnterPot();
+        }
+    }
+
+    private void LowerHeads()
     {
         CobraHealth.SetCollider(true);
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
@@ -67,7 +88,7 @@ public class CobraMirageBarrage : CobraBehaviour
         }
     }
 
-    private void RaiseHead()
+    private void RaiseHeads()
     {
         CobraHealth.SetCollider(false);
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
@@ -85,37 +106,47 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void GenerateSnakes()
     {
-        // Choose order
-        List<int> spawnPots = CobraHealth.StateSettings.m_barrageAttackPositions;
+        // Store a list of the pots that should fire
+        List<int> firingPots = CobraHealth.StateSettings.m_barrageAttackPositions;
 
-        // The pot in which to have the real snake
-        int realSpawnPot = CobraShuffle.s_bossPotIndex;
-                                                                                        // Band aid
-        transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position + Vector3.up * 0.75f;
-        transform.parent.rotation = m_shuffle.m_pots[realSpawnPot].transform.rotation;
-        GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
+        m_mirageCobras.Clear();
 
-        for (int i = 0; i < spawnPots.Count; i++)
+        foreach (int cobra in firingPots)
         {
-            // The real snake has been spawned here, skip it
-            if (spawnPots[i] == realSpawnPot)
-            {
-                continue;
-            }
-
-            // Create a mirage cobra
-            Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position + Vector3.up * 0.75f;
-            Quaternion spawnRot = m_shuffle.m_pots[spawnPots[i]].transform.rotation;
-            GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
-            m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
-            mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
+            m_mirageCobras.Add(s_boss.m_cobraPots[cobra].GetComponent<CobraMirageSpit>());
         }
+
+        //// Choose order
+        //List<int> spawnPots = CobraHealth.StateSettings.m_barrageAttackPositions;
+
+        //// The pot in which to have the real snake
+        //int realSpawnPot = CobraShuffle.s_bossPotIndex;
+        //                                                                                // Band aid
+        //transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position + Vector3.up * 0.75f;
+        //transform.parent.rotation = m_shuffle.m_pots[realSpawnPot].transform.rotation;
+        //GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
+
+        //for (int i = 0; i < spawnPots.Count; i++)
+        //{
+        //    // The real snake has been spawned here, skip it
+        //    if (spawnPots[i] == realSpawnPot)
+        //    {
+        //        continue;
+        //    }
+
+        //    // Create a mirage cobra
+        //    Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position + Vector3.up * 0.75f;
+        //    Quaternion spawnRot = m_shuffle.m_pots[spawnPots[i]].transform.rotation;
+        //    GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
+        //    m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
+        //    mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
+        //}
     }
 
     private IEnumerator FireProjectiles()
     {
         // Enable collider, can be damaged
-        LowerHead();
+        LowerHeads();
 
         // Fire all heads, at a delay
         for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
@@ -154,7 +185,9 @@ public class CobraMirageBarrage : CobraBehaviour
     private void OnAttackEnd()
     {
         // Disable collider
-        RaiseHead();
+        RaiseHeads();
+
+        EnterPots();
 
         // Destroy mirage cobras
         for (int i = 0; i < m_mirageCobras.Count; i++)

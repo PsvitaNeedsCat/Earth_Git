@@ -6,14 +6,15 @@ public class CobraSandDrop : CobraBehaviour
 {
     public Transform m_arenaCenter;
     public GameObject m_sandPrefab;
-    public List<CobraPot> m_pots;
 
     private Vector3 m_arenaTopLeft;
     private List<int> m_potFiringOrder;
     private PlayerController m_playerController;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Find position of the top left of the arena
         m_arenaTopLeft = m_arenaCenter.position;
         m_arenaTopLeft += Vector3.forward * 2.0f;
@@ -61,7 +62,7 @@ public class CobraSandDrop : CobraBehaviour
             // One pot fires its group of projectiles
             for (int j = 0; j < CobraHealth.StateSettings.m_projectilesPerPot; j++)
             {
-                m_pots[m_potFiringOrder[i]].FireProjectile();
+                s_boss.m_cobraPots[m_potFiringOrder[i]].FireProjectile();
                 yield return new WaitForSeconds(CobraHealth.StateSettings.m_potProjectileInterval);
             }
 
@@ -70,9 +71,10 @@ public class CobraSandDrop : CobraBehaviour
 
         yield return new WaitForSeconds(5.0f);
 
-        m_animations.ExitPot();
         m_animations.Roar();
         m_animations.EnterPot();
+
+        yield return new WaitForSeconds(3.0f);
 
         CompleteBehaviour();
     }

@@ -49,10 +49,10 @@ public class CobraPot : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraPotFire);
 
         // Create a projectile
-        Vector3 spawnPosition = transform.position + transform.forward * m_projectileSpawnDistance + Vector3.up * m_projectileSpawnHeight;
-        GameObject projectile = Instantiate(m_projectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
+        Vector3 spawnPosition = m_moveTransform.position + m_moveTransform.forward * m_projectileSpawnDistance + Vector3.up * m_projectileSpawnHeight;
+        GameObject projectile = Instantiate(m_projectilePrefab, spawnPosition, m_moveTransform.rotation, m_projectileParent);
         Destroy(projectile, CobraHealth.StateSettings.m_potProjectileLifetime);
-        projectile.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_potProjectileSpeed;
+        projectile.GetComponent<Rigidbody>().velocity = m_moveTransform.forward * CobraHealth.StateSettings.m_potProjectileSpeed;
 
         // Pot firing animation
         m_animations.PotFire();
@@ -65,8 +65,8 @@ public class CobraPot : MonoBehaviour
 
     private void LobProjectile(Vector3 _dir)
     {
-        Vector3 spawnPosition = transform.position + transform.up * m_lobProjectileSpawnHeight;
-        GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, transform.rotation, m_projectileParent);
+        Vector3 spawnPosition = m_moveTransform.position + m_moveTransform.up * m_lobProjectileSpawnHeight;
+        GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, m_moveTransform.rotation, m_projectileParent);
         // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
 
         lobProjectile.GetComponent<Rigidbody>().velocity = _dir * m_lobVelocity;
@@ -74,11 +74,10 @@ public class CobraPot : MonoBehaviour
 
     private void FireAtSurroundingTiles()
     {
-        Vector3 lobDir = transform.rotation * m_lobDir.normalized;
-        
+        Vector3 lobDir = m_moveTransform.rotation * m_lobDir.normalized;
 
         // Forward
-        if (CheckForTile(transform.forward))
+        if (CheckForTile(m_moveTransform.forward))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
@@ -86,7 +85,7 @@ public class CobraPot : MonoBehaviour
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Right
-        if (CheckForTile(transform.right))
+        if (CheckForTile(m_moveTransform.right))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
@@ -94,7 +93,7 @@ public class CobraPot : MonoBehaviour
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Back
-        if (CheckForTile(-transform.forward))
+        if (CheckForTile(-m_moveTransform.forward))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
@@ -102,7 +101,7 @@ public class CobraPot : MonoBehaviour
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
 
         // Left
-        if (CheckForTile(-transform.right))
+        if (CheckForTile(-m_moveTransform.right))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
         }
@@ -111,7 +110,7 @@ public class CobraPot : MonoBehaviour
     private bool CheckForTile(Vector3 _dir)
     {
         RaycastHit hitInfo;
-        Ray ray = new Ray(transform.position + _dir, -Vector3.up);
+        Ray ray = new Ray(m_moveTransform.position + _dir, -Vector3.up);
 
         if (Physics.Raycast(ray, out hitInfo, 5.0f, m_tileLayers))
         {
@@ -124,8 +123,8 @@ public class CobraPot : MonoBehaviour
     public void JumpOut(float _overSeconds)
     {
         Vector3 finalPosition = CobraShuffle.s_potStartingPositions[m_endIndex];
-        transform.DOMove(finalPosition, _overSeconds);
-        transform.DORotateQuaternion(m_endRotation, _overSeconds);
+        m_moveTransform.DOMove(finalPosition, _overSeconds);
+        m_moveTransform.DORotateQuaternion(m_endRotation, _overSeconds);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -139,11 +138,11 @@ public class CobraPot : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawLine(transform.position, transform.position + m_lobDir.normalized);
+        Gizmos.DrawLine(m_moveTransform.position, m_moveTransform.position + m_lobDir.normalized);
 
 #if UNITY_EDITOR
-        Handles.Label(transform.position + Vector3.up * 0.5f, "CIndex: " + m_potIndex.ToString());
-        Handles.Label(transform.position + Vector3.up * 0.25f, "EIndex: " + m_endIndex.ToString());
+        Handles.Label(m_moveTransform.position + Vector3.up * 0.5f, "CIndex: " + m_potIndex.ToString());
+        Handles.Label(m_moveTransform.position + Vector3.up * 0.25f, "EIndex: " + m_endIndex.ToString());
 #endif
     }
 }

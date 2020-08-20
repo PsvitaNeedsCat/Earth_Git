@@ -11,6 +11,7 @@ public class CobraBoss : MonoBehaviour
     public List<CobraBehaviour> m_behaviourLoop;
     public CobraBehaviour m_chaseBehaviour;
     public float m_startDelay = 3.0f;
+    public List<CobraPot> m_cobraPots;
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;

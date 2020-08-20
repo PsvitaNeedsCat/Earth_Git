@@ -12,8 +12,10 @@ public class CobraMirageWall : CobraBehaviour
     private Vector3[] m_wallDirections;
     private CobraBoss m_boss;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         m_wallDirections = new Vector3[] { transform.forward, transform.right, -transform.forward, -transform.right };
         m_boss = GetComponent<CobraBoss>();
     }

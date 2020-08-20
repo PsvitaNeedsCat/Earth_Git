@@ -9,6 +9,20 @@ public class CobraBehaviour : MonoBehaviour
 
     [HideInInspector] public EBehaviourState m_currentState = EBehaviourState.fresh;
     public CobraAnimations m_animations;
+    protected static CobraBoss s_boss = null;
+
+    protected virtual void Awake()
+    {
+        if (s_boss == null)
+        {
+            s_boss = GetComponent<CobraBoss>();
+        }
+    }
+
+    private void OnDisable()
+    {
+        s_boss = null;
+    }
 
     public virtual void StartBehaviour()
     {
