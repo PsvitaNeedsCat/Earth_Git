@@ -16,11 +16,17 @@ public class Key : MonoBehaviour
     [HideInInspector] public States m_state = States.waiting;
     public int m_keyID;
     [HideInInspector] public bool m_isLoaded = false;
-    [HideInInspector] public float m_animationFrame = 0.0f;
 
     private Animator m_animator = null;
     private Player m_playerRef = null;
     private Vector3 m_animatorPrevLocalPosition = Vector3.zero;
+
+    private float[] m_animationFrames = new float[]
+    {
+        0.0f,
+        0.35f,
+        0.75f
+    };
 
     private void Awake()
     {
@@ -115,10 +121,9 @@ public class Key : MonoBehaviour
 
         m_animator.SetTrigger("Float");
 
-        if (m_isLoaded)
-        {
-            m_animator.Play("Floating", 0, m_animationFrame);
-        }
+        float animationFrame = m_animationFrames[m_playerRef.m_collectedKeys.Count - 1];
+
+        m_animator.Play("Floating", 0, animationFrame);
     }
 
     // Called by the door - pauses the floating animation

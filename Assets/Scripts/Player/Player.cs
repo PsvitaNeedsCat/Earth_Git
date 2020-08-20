@@ -113,21 +113,13 @@ public class Player : MonoBehaviour
     public void InitLoad()
     {
         GameObject keyPrefab = Resources.Load<GameObject>("Prefabs/SpawnedKey");
-
-        float[] animationFrames = new float[]
-        {
-            0.0f,
-            0.35f,
-            0.75f
-        };
-
+        
         int index = 0;
         foreach(int i in m_collectedKeys)
         {
             Key key = Instantiate(keyPrefab, transform.position, Quaternion.identity).GetComponent<Key>();
             key.m_keyID = i;
             key.m_isLoaded = true;
-            key.m_animationFrame = animationFrames[index];
             key.gameObject.SetActive(true);
             ++index;
         }
