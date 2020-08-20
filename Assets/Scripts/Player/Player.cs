@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public Vector2 m_moveDirection = Vector2.zero;
     [HideInInspector] public bool m_hasKey = false; // To be phased out
     [HideInInspector] public List<int> m_collectedKeys = new List<int>();
+    public Transform[] m_keyBeltLocations = new Transform[3];
     public static Dictionary<EChunkEffect, bool> s_activePowers = new Dictionary<EChunkEffect, bool>()
     {
         { EChunkEffect.none, true },
