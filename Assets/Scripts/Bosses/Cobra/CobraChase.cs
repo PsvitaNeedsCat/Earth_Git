@@ -16,8 +16,10 @@ public class CobraChase : CobraBehaviour
     private Player m_playerRef;
     private Transform m_moveTransform; // Use this transform to move the cobra
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Initialise variables
         m_playerRef = FindObjectOfType<Player>();
         m_moveTransform = transform.parent;

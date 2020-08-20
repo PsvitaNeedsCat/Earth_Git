@@ -48,4 +48,14 @@ public class CobraMirageSpit : MonoBehaviour
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
         m_animations.RaiseHead();
     }
+
+    public void ExitPot()
+    {
+        m_animations.ExitPot();
+    }
+
+    public void EnterPot()
+    {
+        m_animations.EnterPot();
+    }
 }
