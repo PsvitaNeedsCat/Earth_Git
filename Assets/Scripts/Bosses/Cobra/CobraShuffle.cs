@@ -163,12 +163,14 @@ public class CobraShuffle : CobraBehaviour
         }
 
         // Reorder the list of pots
-        s_boss.m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+        s_boss.SortPotList();
 
-        for (int i = 0; i < s_boss.m_cobraPots.Count; i++)
-        {
-            s_boss.m_cobraPots[i].m_potIndex = i;
-        }
+        //s_boss.m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+
+        //for (int i = 0; i < s_boss.m_cobraPots.Count; i++)
+        //{
+        //    s_boss.m_cobraPots[i].m_potIndex = i;
+        //}
 
         s_bossPotIndex = s_nextBossPotIndex;
 
@@ -428,6 +430,11 @@ public class CobraShuffle : CobraBehaviour
     {
 #if UNITY_EDITOR
         if (s_potStartingPositions.Count <= 0)
+        {
+            return;
+        }
+
+        if (s_boss == null)
         {
             return;
         }

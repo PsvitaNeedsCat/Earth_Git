@@ -129,6 +129,7 @@ public class CobraHealth : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraDamaged);
 
         s_animations.Damaged();
+        Debug.Log("Set cobra damaged trigger");
 
         s_barrage.CancelAttack();
 
@@ -145,12 +146,39 @@ public class CobraHealth : MonoBehaviour
             // Boss chooses a new pot
             List<int> possiblePositions = StateSettings.m_barrageAttackPositions;
             int newBossPosition = possiblePositions[Random.Range(0, possiblePositions.Count)];
-            s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition] + Vector3.up * 0.75f;
-            s_boss.gameObject.transform.parent.rotation = CobraShuffle.s_potStartingRotations[newBossPosition];
+
+            CobraPot bossPot = s_health.GetComponent<CobraPot>();
+            CobraPot swapPot = s_boss.m_cobraPots[newBossPosition];
+
+            SwapPots(bossPot, bossPot.gameObject.transform.parent, swapPot, swapPot.transform);
+
+            // s_boss.gameObject.transform.parent.position = CobraShuffle.s_potStartingPositions[newBossPosition];
+            // s_boss.gameObject.transform.parent.rotation = CobraShuffle.s_potStartingRotations[newBossPosition];
+
+            s_boss.SortPotList();
+
             CobraShuffle.s_bossPotIndex = newBossPosition;
 
             Debug.Log("Boss moved to position " + newBossPosition);
         }
+    }
+
+    private static void SwapPots(CobraPot _potOne, Transform _potOneTransform, CobraPot _potTwo, Transform _potTwoTransform)
+    {
+        // Store pot one variables
+        int potOneIndex = _potOne.m_potIndex;
+        Vector3 potOnePosition = _potOneTransform.position;
+        Quaternion potOneRotation = _potOneTransform.rotation;
+
+        // Copy pot two variables onto pot one
+        _potOne.m_potIndex = _potTwo.m_potIndex;
+        _potOneTransform.position = _potTwoTransform.position;
+        _potOneTransform.rotation = _potTwoTransform.rotation;
+
+        // Copy stored pot one variables onto pot two
+        _potTwo.m_potIndex = potOneIndex;
+        _potTwoTransform.position = potOnePosition;
+        _potTwoTransform.rotation = potOneRotation;
     }
 
     public static int GetCurrentHealth()

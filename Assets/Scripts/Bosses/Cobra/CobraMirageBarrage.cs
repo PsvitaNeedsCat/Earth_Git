@@ -7,6 +7,8 @@ public class CobraMirageBarrage : CobraBehaviour
 {
     public GameObject m_cobraMesh;
 
+    public static int s_shotsFired = 0;
+
     private List<CobraMirageSpit> m_mirageCobras = new List<CobraMirageSpit>();
     private CobraMirageSpit m_spit;
     private CobraBoss m_boss;
@@ -25,6 +27,8 @@ public class CobraMirageBarrage : CobraBehaviour
     public override void StartBehaviour()
     {
         base.StartBehaviour();
+
+        s_shotsFired = 0;
 
         StartCoroutine(StartSpawning());        
     }
@@ -148,13 +152,18 @@ public class CobraMirageBarrage : CobraBehaviour
         // Enable collider, can be damaged
         LowerHeads();
 
-        // Fire all heads, at a delay
-        for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
+        while (s_shotsFired < CobraHealth.StateSettings.m_barrageProjectilesPerHead)
         {
-            FireAllHeads();
-
-            yield return new WaitForSeconds(CobraHealth.StateSettings.m_barrageProjectileInterval);
+            yield return null;
         }
+
+        //// Fire all heads, at a delay
+        //for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
+        //{
+        //    FireAllHeads();
+
+        //    yield return new WaitForSeconds(CobraHealth.StateSettings.m_barrageProjectileInterval);
+        //}
 
         yield return new WaitForSeconds(0.5f);
 
@@ -188,17 +197,6 @@ public class CobraMirageBarrage : CobraBehaviour
         RaiseHeads();
 
         EnterPots();
-
-        // Destroy mirage cobras
-        for (int i = 0; i < m_mirageCobras.Count; i++)
-        {
-            if (m_mirageCobras[i] != null)
-            {
-                Destroy(m_mirageCobras[i].gameObject);
-            }
-        }
-
-        m_mirageCobras.Clear();
     }
 
     public override void CompleteBehaviour()

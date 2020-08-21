@@ -8,6 +8,7 @@ public class CobraMirageSpit : MonoBehaviour
     [HideInInspector] public ECobraMirageType m_bulletType;
     public Transform m_bulletSpawn;
     public SkinnedMeshRenderer m_meshRenderer;
+    public bool m_isReal = false;
 
     private Player m_playerRef;
     private GameObject m_bulletPrefab;
@@ -26,6 +27,11 @@ public class CobraMirageSpit : MonoBehaviour
     public void FireProjectile()
     {
         MessageBus.TriggerEvent(EMessageType.cobraBarrageFire);
+
+        if (m_isReal)
+        {
+            CobraMirageBarrage.s_shotsFired++;
+        }
 
         GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
         EChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? EChunkEffect.water : EChunkEffect.fire;

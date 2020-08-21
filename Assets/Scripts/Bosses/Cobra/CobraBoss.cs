@@ -128,6 +128,17 @@ public class CobraBoss : MonoBehaviour
         }
     }
 
+    public void SortPotList()
+    {
+        m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+
+        for (int i = 0; i < m_cobraPots.Count; i++)
+        {
+            m_cobraPots[i].m_potIndex = i;
+        }
+    }
+
+
     // Tile layout
     // 0 1 2 3 4
     // 5 6 7 8 9    etc

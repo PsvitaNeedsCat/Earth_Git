@@ -71,7 +71,7 @@ public class CobraChase : CobraBehaviour
     // Returns the direction from the cobra to the player (ignoring changes on the y axis)
     private Vector3 DirToPlayer()
     {
-        Vector3 toPlayer = m_playerRef.transform.position - transform.position;
+        Vector3 toPlayer = m_playerRef.transform.position - m_moveTransform.position;
         toPlayer.y = 0.0f;
         return Vector3.ClampMagnitude(toPlayer, 1.0f);
     }
@@ -106,7 +106,7 @@ public class CobraChase : CobraBehaviour
 
         // Look at the player
         Vector3 playerPos = m_playerRef.transform.position;
-        playerPos.y = transform.position.y;
+        playerPos.y = m_moveTransform.position.y;
         m_moveTransform.LookAt(playerPos);
     }
 
@@ -115,7 +115,9 @@ public class CobraChase : CobraBehaviour
     {
         Vector3 dir = DirToPlayer();
 
-        m_moveTransform.DOMove(transform.position + dir, CobraBoss.s_settings.m_jumpDuration);
+        Debug.Log("Cobra chase moving to player: " + dir);
+
+        m_moveTransform.DOMove(m_moveTransform.position + dir, CobraBoss.s_settings.m_jumpDuration);
         m_mesh.DOPunchPosition(Vector3.up * 1.0f, CobraBoss.s_settings.m_jumpDuration).SetEase(Ease.InOutElastic);
     }
 

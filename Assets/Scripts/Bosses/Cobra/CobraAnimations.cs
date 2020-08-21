@@ -12,7 +12,6 @@ public class CobraAnimations : MonoBehaviour
         if (m_isReal)
         {
             m_animator.SetBool("IsReal", true);
-            Debug.Log("Set animator value to true");
         }
     }
 
