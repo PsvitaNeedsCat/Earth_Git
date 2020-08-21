@@ -81,10 +81,17 @@ public class Lava : MonoBehaviour
         _chunk.transform.DOMove(sinkPosition, 1.0f).OnComplete(() => Destroy(_chunk));
     }
 
+    // Plays sound then turns the lava to stone
     private void TurnToStone()
     {
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
 
+        TurnToStoneSilent();
+    }
+
+    // Turns the lava to stone without sound - making it walkable
+    public void TurnToStoneSilent()
+    {
         m_lavaTrigger.enabled = false;
         m_lavaCollider.enabled = false;
         m_meshRenderer.material = m_stoneMat;

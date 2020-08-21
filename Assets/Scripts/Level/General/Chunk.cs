@@ -27,6 +27,7 @@ public class Chunk : MonoBehaviour
     }
     [HideInInspector] public EChunkType m_chunkType = EChunkType.none;
     [HideInInspector] public bool m_isRaised = false;
+    [HideInInspector] public bool m_isBeingDestoyed = false;
 
     // Serialized variables
     [SerializeField] private ChunkSettings m_settings;
@@ -250,6 +251,8 @@ public class Chunk : MonoBehaviour
 
     public void OnDeath()
     {
+        m_isBeingDestoyed = true;
+
         switch (m_currentEffect)
         {
             case EChunkEffect.water:

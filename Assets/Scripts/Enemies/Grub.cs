@@ -123,6 +123,7 @@ public class Grub : MonoBehaviour
 
         // Init
         Projectile proj = Instantiate(m_projPrefab, m_projSpawn.position, m_projSpawn.rotation).GetComponent<Projectile>();
+        proj.transform.parent = transform.parent;
         proj.Init(m_settings.m_grubProjDamage);
         proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * m_settings.m_grubProjSpeed, ForceMode.Impulse);
 

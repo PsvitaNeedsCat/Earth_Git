@@ -29,31 +29,58 @@ public class PressurePlate : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.GetComponent<Player>();
-        if (player) { AddObject(other.gameObject); return; }
+        if (player)
+        {
+            AddObject(other.gameObject);
+            return;
+        }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk) { AddObject(other.gameObject); return; }
+        if (chunk)
+        {
+            AddObject(other.gameObject);
+            return;
+        }
 
         SandBlock sand = other.GetComponent<SandBlock>();
-        if (sand) { AddObject(other.gameObject); return; }
+        if (sand)
+        {
+            AddObject(other.gameObject);
+            return;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         Player player = other.GetComponent<Player>();
-        if (player) { RemoveObject(other.gameObject); return; }
+        if (player)
+        {
+            RemoveObject(other.gameObject);
+            return;
+        }
 
         Chunk chunk = other.GetComponentInParent<Chunk>();
-        if (chunk) { RemoveObject(other.gameObject); return; }
+        if (chunk)
+        {
+            RemoveObject(other.gameObject);
+            return;
+        }
 
         SandBlock sand = other.GetComponent<SandBlock>();
-        if (sand) { RemoveObject(other.gameObject); return; }
+        if (sand)
+        {
+            RemoveObject(other.gameObject);
+            return;
+        }
     }
 
     // Called when a chunk/player goes on the preasure plate
     private void AddObject(GameObject _go)
     {
-        if (m_objects.Count == 0) { m_activatedEvent.Invoke(); }
+        if (m_objects.Count == 0)
+        {
+            m_activatedEvent.Invoke();
+        }
 
         m_objects.Add(_go);
     }
@@ -66,16 +93,19 @@ public class PressurePlate : MonoBehaviour
             m_objects.Remove(_go);
         }
 
-        if (m_objects.Count == 0) { m_deactivatedEvent.Invoke(); }
+        if (m_objects.Count == 0)
+        {
+            m_deactivatedEvent.Invoke();
+        }
     }
 
     // Called when a chunk is destroyed - checks if it was on the preasure plate
     private void ChunkWasDestroyed(string _null)
     {
-        // Check that all the chunks are still valid
         foreach (GameObject go in m_objects)
         {
-            if (go.GetComponentInParent<Chunk>())
+            Chunk chunk = go.GetComponentInParent<Chunk>();
+            if (chunk && chunk.m_isBeingDestoyed)
             {
                 RemoveObject(go);
                 return;
