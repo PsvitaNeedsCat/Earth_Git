@@ -26,6 +26,11 @@ public class Tongue : MonoBehaviour
         m_animator.ResetTrigger("Extend");
         m_animator.ResetTrigger("Retract");
         m_animator.SetFloat("ExtendDirection", 1.0f);
+        if (m_attachedChunk)
+        {
+            Destroy(m_attachedChunk.gameObject);
+            m_attachedChunk = null;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
