@@ -85,11 +85,11 @@ public class DoorMaster : MonoBehaviour
             // Return keys to player
             for (int i = 0; i < _keys.Count; i++)
             {
-                _keys[i].m_state = Key.States.returning;
+                _keys[i].m_state = Key.States.collected;
                 _keys[i].transform.parent = _keys[i].m_beltLocation.transform;
                 _keys[i].transform.DORotateQuaternion(Quaternion.identity, 0.5f);
                 _keys[i].transform.DOScale(0.1f, 0.4f);
-                _keys[i].transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() => _keys[i].m_state = Key.States.collected);
+                _keys[i].transform.DOLocalMove(Vector3.zero, 0.5f);
             }
         }
     }

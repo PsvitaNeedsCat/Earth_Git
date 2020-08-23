@@ -125,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98b850f10e620a498890b9dd85f310d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_destroyedSignal: 15
+  m_damage: 1
 --- !u!1001 &3155927598137155047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,6 +134,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5115994267885184362}
     m_Modifications:
+    - target: {fileID: -2099018410883424026, guid: e28d88819488d344dadcab954a5b7288,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6076032215545789230, guid: e28d88819488d344dadcab954a5b7288,
         type: 3}
       propertyPath: m_LocalPosition.x

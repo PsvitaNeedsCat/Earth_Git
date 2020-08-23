@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private EMessageType m_destroyedSignal = EMessageType.projectileSplash;
+    [HideInInspector] public EMessageType m_destroyedSignal = EMessageType.projectileSplash;
 
     public int m_damage = 1;
 
-    public void Init(int _damage) => m_damage = _damage;
+    public void Init(int _damage)
+    {
+        m_damage = _damage;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
