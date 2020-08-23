@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class DropShadow_SCR : MonoBehaviour
 {
-    [SerializeField] private LayerMask groundMask = 0;
-    private float yOffset = 0.1f;
+    [SerializeField] private LayerMask m_groundMask = 0;
+    private float m_yOffset = 0.01f;
+    private float m_initY = 0.0f;
+
+    private void Awake()
+    {
+        m_initY = transform.position.y;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        Ray ray;
         RaycastHit hit;
+        Vector3 centre = new Vector3(transform.position.x, m_initY, transform.position.z);
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, groundMask))
+        if (Physics.Raycast(centre, Vector3.down, out hit, Mathf.Infinity, m_groundMask))
         {
-            Vector3 newPos = new Vector3(hit.point.x, hit.point.y + yOffset, hit.point.z);
+            Vector3 newPos = new Vector3(hit.point.x, hit.point.y + m_yOffset, hit.point.z);
 
             transform.position = newPos;
         }
