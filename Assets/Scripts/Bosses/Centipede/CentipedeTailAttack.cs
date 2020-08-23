@@ -10,6 +10,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public List<Transform> m_burrowDownPoints;
     public List<Transform> m_burrowUpPoints;
     public Transform m_mesh;
+    public GameObject m_shields;
 
     private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
@@ -24,6 +25,12 @@ public class CentipedeTailAttack : CentipedeBehaviour
     {
         base.StartBehaviour();
         StartCoroutine(BurrowDown());
+
+        // Reactivate disabled shields
+        foreach (Transform child in m_shields.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
 
     private IEnumerator BurrowDown()
@@ -47,15 +54,19 @@ public class CentipedeTailAttack : CentipedeBehaviour
         m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
 
         // Rotate the firing object
-        m_firer.transform.DOBlendableLocalRotateBy(Vector3.up * CentipedeBoss.s_settings.m_rotationSpeed * 100.0f, CentipedeBoss.s_settings.m_firingDuration);
+        m_firer.transform.DOBlendableLocalRotateBy(Vector3.forward * CentipedeBoss.s_settings.m_rotationSpeed * 10.0f, CentipedeBoss.s_settings.m_firingDuration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+
+        m_shields.SetActive(true);
         StartCoroutine(FireProjectiles());
     }
 
     private IEnumerator BurrowUp()
     {
         m_animations.TailAttackEnd();
-        
+
         // Burrow up
+        m_shields.SetActive(false);
+        m_firer.transform.localRotation = Quaternion.identity;
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
         while (CentipedeMovement.s_burrowing) yield return null;
 

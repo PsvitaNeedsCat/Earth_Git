@@ -50,7 +50,7 @@ public class CentipedeHealth : MonoBehaviour
             return;
         }
 
-        Debug.Log("Activated section " + _sectionIndex);
+        // Debug.Log("Activated section " + _sectionIndex);
 
         // Change the segment's material
         // m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;

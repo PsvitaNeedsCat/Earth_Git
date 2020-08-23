@@ -156,6 +156,14 @@ public class Chunk : MonoBehaviour
             return;
         }
 
+        CentipedeShield centipedeShield = other.GetComponent<CentipedeShield>();
+        if (centipedeShield)
+        {
+            Destroy(this.gameObject);
+            centipedeShield.Break();
+            return;
+        }
+
         // If the other is a trigger, don't look into snapping
         if (other.isTrigger)
         {

@@ -23,7 +23,7 @@ public class CentipedeTailFirer : MonoBehaviour
         Fire(transform.localRotation * Vector3.back, _tailDamaged);
     }
 
-    // Fire a signle projectile in a direction
+    // Fire a single projectile in a direction
     private void Fire(Vector3 _dir, bool _tailDamaged)
     {
         float projectileSpeed = (_tailDamaged) ? CentipedeBoss.s_settings.m_projectileSpeedDamaged : CentipedeBoss.s_settings.m_projectileSpeed;
