@@ -35,8 +35,16 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private IEnumerator StartSpawning()
     {
+        // Store pots to fire
+        GenerateSnakes();
+
         // Flip tiles and destroy chunks
         m_boss.FlipTiles();
+
+        foreach (CobraMirageSpit spit in m_mirageCobras)
+        {
+            spit.CobraJump();
+        }
 
         yield return new WaitForSeconds(0.2f);
 
@@ -44,9 +52,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // Store pots to fire
-        GenerateSnakes();
-
+        
         ExitPots();
 
         yield return new WaitForSeconds(0.5f);
@@ -119,32 +125,6 @@ public class CobraMirageBarrage : CobraBehaviour
         {
             m_mirageCobras.Add(s_boss.m_cobraPots[cobra].GetComponent<CobraMirageSpit>());
         }
-
-        //// Choose order
-        //List<int> spawnPots = CobraHealth.StateSettings.m_barrageAttackPositions;
-
-        //// The pot in which to have the real snake
-        //int realSpawnPot = CobraShuffle.s_bossPotIndex;
-        //                                                                                // Band aid
-        //transform.parent.position = m_shuffle.m_pots[realSpawnPot].transform.position + Vector3.up * 0.75f;
-        //transform.parent.rotation = m_shuffle.m_pots[realSpawnPot].transform.rotation;
-        //GetComponent<CobraMirageSpit>().m_bulletType = (realSpawnPot % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
-
-        //for (int i = 0; i < spawnPots.Count; i++)
-        //{
-        //    // The real snake has been spawned here, skip it
-        //    if (spawnPots[i] == realSpawnPot)
-        //    {
-        //        continue;
-        //    }
-
-        //    // Create a mirage cobra
-        //    Vector3 spawnPos = m_shuffle.m_pots[spawnPots[i]].transform.position + Vector3.up * 0.75f;
-        //    Quaternion spawnRot = m_shuffle.m_pots[spawnPots[i]].transform.rotation;
-        //    GameObject mirageCobra = Instantiate(m_mirageClonePrefab, spawnPos, spawnRot, transform.parent.parent);
-        //    m_mirageCobras.Add(mirageCobra.GetComponent<CobraMirageSpit>());
-        //    mirageCobra.GetComponent<CobraMirageSpit>().m_bulletType = (i % 2 == 0) ? ECobraMirageType.blue : ECobraMirageType.red;
-        //}
     }
 
     private IEnumerator FireProjectiles()

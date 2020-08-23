@@ -64,4 +64,9 @@ public class CobraMirageSpit : MonoBehaviour
     {
         m_animations.EnterPot();
     }
+
+    public void CobraJump()
+    {
+        m_animations.CobraJump();
+    }
 }
