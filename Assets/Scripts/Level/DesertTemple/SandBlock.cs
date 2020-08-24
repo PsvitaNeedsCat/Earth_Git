@@ -5,6 +5,7 @@ using UnityEngine;
 public class SandBlock : MonoBehaviour
 {
     [HideInInspector] public bool m_isGlass = false;
+    [HideInInspector] public bool m_isDestroyed = false;
 
     [SerializeField] private Material m_glassMat;
     private Rigidbody m_rigidbody;
@@ -85,6 +86,8 @@ public class SandBlock : MonoBehaviour
 
     private void OnDestroy()
     {
+        m_isDestroyed = true;
+
         MessageBus.TriggerEvent(EMessageType.glassDestroyed);
 
         if (m_isPlayerInside && !m_isFalling)
