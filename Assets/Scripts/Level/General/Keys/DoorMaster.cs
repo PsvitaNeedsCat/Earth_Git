@@ -49,7 +49,7 @@ public class DoorMaster : MonoBehaviour
             _keys[i].transform.rotation = Quaternion.Euler(_keys[i].transform.rotation.eulerAngles + new Vector3(0.0f, 90.0f, 90.0f));
             Sequence unlockSeq = DOTween.Sequence();
             unlockSeq.Append(_keys[i].transform.DOMove(m_locks[i].transform.position, 0.5f));
-            unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(0.5f, 0.4f));
+            unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(1.0f, 0.4f));
 
             // Unlocking animation
             Vector3 rotationVector = new Vector3(0.0f, 90.0f, 0.0f);
