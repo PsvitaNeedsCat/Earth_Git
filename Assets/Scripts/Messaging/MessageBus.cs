@@ -59,6 +59,7 @@ public enum EMessageType
     pressurePlateOff,
     crystalHealed,
     checkKeyID,
+    unlocking,
 
     // Blocks
     glassDestroyed,

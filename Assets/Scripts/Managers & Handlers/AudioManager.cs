@@ -61,23 +61,33 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySoundVaried(string soundName)
+    // Called by the message bus - cannot have a second parameter
+    public void PlaySoundVaried(string _soundName)
     {
-        AudioClip clip = m_soundDictionary[soundName];
-        
+        PlaySound(_soundName, true);
+    }
+
+    // Plays a sound with the option of being varied slightly
+    public void PlaySound(string _soundName, bool _varied = false)
+    {
+        AudioClip clip = m_soundDictionary[_soundName];
+
         if (!clip)
         {
-            Debug.LogError("Sound effect could not be found with name: " + soundName);
+            Debug.LogError("Sound effect could not be found with name: " + _soundName);
             return;
         }
 
         GameObject soundEffectPlayer = new GameObject("SoundEffectPlayer");
         if (soundEffectPlayer)
         {
-            soundEffectPlayer.transform.parent = this.transform;
+            soundEffectPlayer.transform.parent = transform;
             AudioSource audioSource = soundEffectPlayer.AddComponent<AudioSource>();
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.volume = Random.Range(0.8f, 1.0f);
+            if (_varied)
+            {
+                audioSource.pitch = Random.Range(0.9f, 1.1f);
+                audioSource.volume = Random.Range(0.8f, 1.0f);
+            }
             audioSource.PlayOneShot(clip);
             Destroy(soundEffectPlayer, clip.length);
         }

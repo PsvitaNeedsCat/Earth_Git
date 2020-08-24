@@ -90,6 +90,12 @@ public class Key : MonoBehaviour
 
         FindObjectOfType<KeyUI>().UpdateIcons();
 
+        if (!m_isLoaded)
+        {
+            MessageBus.TriggerEvent(EMessageType.keyCollected);
+            MessageBus.TriggerEvent(EMessageType.keySpawned);
+        }
+
         FloatToPlayer();
     }
 

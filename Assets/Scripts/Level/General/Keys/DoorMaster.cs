@@ -32,6 +32,11 @@ public class DoorMaster : MonoBehaviour
     // Takes the player's keys, performs an animation, and checks if the door can unlock
     private IEnumerator CheckKeyValidity(List<Key> _keys)
     {
+        if (_keys.Count <= 0)
+        {
+            yield break;
+        }
+
         bool valid = _keys.Count >= m_locks.Length;
         int completedTweens = 0;
 
@@ -48,7 +53,7 @@ public class DoorMaster : MonoBehaviour
             _keys[i].transform.rotation = m_locks[i].transform.rotation;
             _keys[i].transform.rotation = Quaternion.Euler(_keys[i].transform.rotation.eulerAngles + new Vector3(0.0f, 90.0f, 90.0f));
             Sequence unlockSeq = DOTween.Sequence();
-            unlockSeq.Append(_keys[i].transform.DOMove(m_locks[i].transform.position, 0.5f));
+            unlockSeq.Append(_keys[i].transform.DOMove(m_locks[i].transform.position, 0.5f).OnComplete(() => AudioManager.Instance.PlaySound("unlocking")));
             unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(1.0f, 0.4f));
 
             // Unlocking animation
@@ -79,6 +84,8 @@ public class DoorMaster : MonoBehaviour
             }
 
             FindObjectOfType<KeyUI>().UpdateIcons();
+
+            MessageBus.TriggerEvent(EMessageType.doorUnlocked);
         }
         else
         {
@@ -91,6 +98,8 @@ public class DoorMaster : MonoBehaviour
                 _keys[i].transform.DOScale(0.1f, 0.4f);
                 _keys[i].transform.DOLocalMove(Vector3.zero, 0.5f);
             }
+
+            MessageBus.TriggerEvent(EMessageType.doorLocked);
         }
     }
 }
