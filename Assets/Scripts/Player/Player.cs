@@ -327,6 +327,20 @@ public class Player : MonoBehaviour
         m_playerController.Interact();
     }
 
+    // Checks the belt slots on the character and returns the first one that is free
+    public GameObject GetFreeBeltSlot()
+    {
+        foreach (Transform slot in m_keyBeltLocations)
+        {
+            if (slot.childCount <= 0)
+            {
+                return slot.gameObject;
+            }
+        }
+
+        return null;
+    }
+
     // Debug - remove on build
     private void Update()
     {

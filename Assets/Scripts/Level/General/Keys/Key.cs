@@ -83,6 +83,12 @@ public class Key : MonoBehaviour
     // Removes the collider, and sets the key to float around the player's head
     private void KeyCollected()
     {
+        m_beltLocation = m_playerRef.GetFreeBeltSlot();
+        if (!m_beltLocation)
+        {
+            return;
+        }
+
         if (!m_playerRef.m_collectedKeys.Contains(m_keyID))
         {
             m_playerRef.m_collectedKeys.Add(m_keyID);
@@ -104,7 +110,6 @@ public class Key : MonoBehaviour
     {
         m_state = States.returning;
 
-        m_beltLocation = m_playerRef.m_keyBeltLocations[m_playerRef.m_collectedKeys.Count - 1].gameObject;
         transform.parent = m_beltLocation.transform;
 
         Destroy(GetComponent<Collider>());

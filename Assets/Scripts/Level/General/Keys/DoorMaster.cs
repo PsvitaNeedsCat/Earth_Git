@@ -39,6 +39,7 @@ public class DoorMaster : MonoBehaviour
 
         bool valid = _keys.Count >= m_locks.Length;
         int completedTweens = 0;
+        int keysRequired = 0;
 
         // Animation
         for (int i = 0; i < m_locks.Length; i++)
@@ -47,6 +48,8 @@ public class DoorMaster : MonoBehaviour
             {
                 break;
             }
+
+            ++keysRequired;
 
             // Align with lock
             _keys[i].transform.parent = null;
@@ -67,7 +70,7 @@ public class DoorMaster : MonoBehaviour
             unlockSeq.Play();
         }
 
-        while (completedTweens < _keys.Count)
+        while (completedTweens < keysRequired)
         {
             yield return null;
         }
