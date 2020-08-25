@@ -8,6 +8,7 @@ public class SandBlock : MonoBehaviour
     [HideInInspector] public bool m_isDestroyed = false;
 
     [SerializeField] private Material m_glassMat;
+    [SerializeField] private bool m_glassOverride = false;
     private Rigidbody m_rigidbody;
     private bool m_isFalling = false;
     private GlobalChunkSettings m_chunkSettings;
@@ -18,6 +19,11 @@ public class SandBlock : MonoBehaviour
     {
         m_rigidbody = GetComponent<Rigidbody>();
         m_chunkSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
+
+        if (m_glassOverride)
+        {
+            TurnToGlass(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -107,16 +113,22 @@ public class SandBlock : MonoBehaviour
     }
 
     // Makes the sand block glass (changes it to transparent white, makes the collider solid
-    public void TurnToGlass()
+    public void TurnToGlass(bool _silent = false)
     {
-        MessageBus.TriggerEvent(EMessageType.lavaToStone);
+        if (!_silent)
+        {
+            MessageBus.TriggerEvent(EMessageType.lavaToStone);
+        }
 
         m_isGlass = true;
         GetComponent<Collider>().isTrigger = false;
         GetComponent<MeshRenderer>().material = m_glassMat;
 
         // Break chunk inside
-        if (m_chunkInside) { Destroy(m_chunkInside); }
+        if (m_chunkInside)
+        {
+            Destroy(m_chunkInside);
+        }
     }
 
     // Changes some rigidbody settings so that the sand will begin to fall with gravity
