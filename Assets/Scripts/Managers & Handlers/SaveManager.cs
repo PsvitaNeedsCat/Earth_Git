@@ -15,7 +15,7 @@ public class SaveManager : MonoBehaviour
     {
         public string scene = "Dojo";
         public int room = 0;
-        public Dictionary<EChunkEffect, bool> unlockedPowers = new Dictionary<EChunkEffect, bool>()
+        public Dictionary<EChunkEffect, bool> m_unlockedPowers = new Dictionary<EChunkEffect, bool>()
         {
             { EChunkEffect.none, true },
             { EChunkEffect.water, false },
@@ -23,7 +23,9 @@ public class SaveManager : MonoBehaviour
             { EChunkEffect.mirage, false }
         };
         public int health = 3;
-        public List<int> m_collectedKeys = new List<int>();
+        public List<int> m_curCollectedKeys = new List<int>(); // Currently collected keys
+        public bool[] m_unlockedDoors = null;
+        public Dictionary<int, bool> m_prevCollectedKeys = new Dictionary<int, bool>(); // Previously collected keys
     }
 
     // 3 player saves
@@ -62,16 +64,26 @@ public class SaveManager : MonoBehaviour
         // Save to array
         m_saves[m_currentFile].scene = SceneManager.GetActiveScene().name;
         m_saves[m_currentFile].room = (RoomManager.Instance) ? RoomManager.Instance.GetCurrentRoom() : 0;
-        m_saves[m_currentFile].unlockedPowers = Player.s_activePowers;
+        m_saves[m_currentFile].m_unlockedPowers = Player.s_activePowers;
         PlayerController player = FindObjectOfType<PlayerController>();
         if (player)
         {
             m_saves[m_currentFile].health = player.GetCurrentHealth();
-            m_saves[m_currentFile].m_collectedKeys = player.GetComponent<Player>().m_collectedKeys;
+            m_saves[m_currentFile].m_curCollectedKeys = player.GetComponent<Player>().m_collectedKeys;
         }
         else 
         {
             Debug.LogError("Unbale to find player, could not save health"); 
+        }
+        DoorManager doorManager = FindObjectOfType<DoorManager>();
+        if (doorManager)
+        {
+            m_saves[m_currentFile].m_unlockedDoors = doorManager.m_isDoorUnlocked;
+            m_saves[m_currentFile].m_prevCollectedKeys = doorManager.m_collectedKeys;
+        }
+        else
+        {
+            m_saves[m_currentFile].m_unlockedDoors = null;
         }
 
         // Save to txt file
@@ -153,7 +165,7 @@ public class SaveManager : MonoBehaviour
         StartCoroutine(LoadSceneAsync(m_saves[m_currentFile].scene));
 
         // Load the unlocked powers
-        Player.s_activePowers = m_saves[m_currentFile].unlockedPowers;
+        Player.s_activePowers = m_saves[m_currentFile].m_unlockedPowers;
         Player.s_currentEffect = EChunkEffect.none;
     }
 
@@ -200,12 +212,17 @@ public class SaveManager : MonoBehaviour
             if (player)
             {
                 player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health;
-                player.m_collectedKeys = m_saves[m_currentFile].m_collectedKeys;
+                player.m_collectedKeys = m_saves[m_currentFile].m_curCollectedKeys;
                 player.InitLoad();
             }
             else
             {
                 Debug.LogError("Unable to find player, could not load health"); 
+            }
+            if (m_saves[m_currentFile].m_unlockedDoors != null)
+            {
+                DoorManager doorManager = FindObjectOfType<DoorManager>();
+                doorManager.Init(m_saves[m_currentFile].m_unlockedDoors, m_saves[m_currentFile].m_prevCollectedKeys);
             }
 
             MessageBus.TriggerEvent(EMessageType.checkKeyID);

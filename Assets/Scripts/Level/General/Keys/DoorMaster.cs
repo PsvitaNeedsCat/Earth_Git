@@ -83,7 +83,8 @@ public class DoorMaster : MonoBehaviour
             {
                 player.m_collectedKeys.Remove(_keys[i].m_keyID);
                 Destroy(_keys[i].gameObject);
-                Destroy(gameObject);
+                FindObjectOfType<DoorManager>().UnlockDoor(gameObject.GetInstanceID());
+                gameObject.SetActive(false);
             }
 
             FindObjectOfType<KeyUI>().UpdateIcons();

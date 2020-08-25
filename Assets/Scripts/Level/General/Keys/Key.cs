@@ -17,54 +17,26 @@ public class Key : MonoBehaviour
     public int m_keyID;
     [HideInInspector] public bool m_isLoaded = false;
     [HideInInspector] public GameObject m_beltLocation = null;
+    private DoorManager m_doorManager = null;
 
     private Animator m_animator = null;
     private Player m_playerRef = null;
-    private Vector3 m_animatorPrevLocalPosition = Vector3.zero;
-
-    private float[] m_animationFrames = new float[]
-    {
-        0.0f,
-        0.35f,
-        0.75f
-    };
 
     private void Awake()
     {
         m_animator = GetComponentInChildren<Animator>();
+        m_doorManager = FindObjectOfType<DoorManager>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        MessageBus.AddListener(EMessageType.checkKeyID, CheckKeyID);
-        
-        CheckKeyID("");
-    }
-
-    private void OnDisable()
-    {
-        MessageBus.RemoveListener(EMessageType.checkKeyID, CheckKeyID);
-    }
-
-    // Checks if the player has the current key using ID, if they do => destroy this key
-    private void CheckKeyID(string _null)
-    {
-        if (m_isLoaded)
+        if (m_doorManager)
         {
-            return;
-        }
+            m_doorManager.AddKey(m_keyID);
 
-        if (!m_playerRef)
-        {
-            m_playerRef = FindObjectOfType<Player>();
-        }
-
-        foreach (int i in m_playerRef.m_collectedKeys)
-        {
-            if (i == m_keyID)
+            if (!m_isLoaded && m_doorManager.HasKeyBeenCollected(m_keyID))
             {
-                Destroy(gameObject);
-                break;
+                gameObject.SetActive(false);
             }
         }
     }
@@ -101,6 +73,8 @@ public class Key : MonoBehaviour
             MessageBus.TriggerEvent(EMessageType.keyCollected);
             MessageBus.TriggerEvent(EMessageType.keySpawned);
         }
+
+        m_doorManager.CollectedKey(m_keyID);
 
         FloatToPlayer();
     }
