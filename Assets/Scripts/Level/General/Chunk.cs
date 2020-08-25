@@ -107,7 +107,7 @@ public class Chunk : MonoBehaviour
         if (boss)
         {
             boss.OnHit();
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
         
@@ -152,16 +152,27 @@ public class Chunk : MonoBehaviour
         if (fireBug && !other.isTrigger)
         {
             fireBug.Hit(m_currentEffect);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
 
         CentipedeShield centipedeShield = other.GetComponent<CentipedeShield>();
         if (centipedeShield)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             centipedeShield.Break();
             return;
+        }
+        
+        if (m_currentEffect == EChunkEffect.water)
+        {
+            Torch torch = other.GetComponent<Torch>();
+            if (torch)
+            {
+                torch.AttemptToDeactivate();
+                OnDeath();
+                return;
+            }
         }
 
         // If the other is a trigger, don't look into snapping
@@ -435,6 +446,12 @@ public class Chunk : MonoBehaviour
         if (sand && !sand.m_isGlass)
         {
             sand.TurnToGlass();
+        }
+
+        Torch torch = _collision.GetComponent<Torch>();
+        if (torch)
+        {
+            torch.AttemptToActivate();
         }
     }
 
