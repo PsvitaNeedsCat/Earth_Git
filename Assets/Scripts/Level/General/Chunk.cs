@@ -271,7 +271,6 @@ public class Chunk : MonoBehaviour
 
             case EChunkEffect.fire:
                 {
-                    FieryExplosion();
                     MessageBus.TriggerEvent(EMessageType.fieryExplosion);
                     break;
                 }
@@ -290,7 +289,17 @@ public class Chunk : MonoBehaviour
     // Pushes the chunk in a specific direction when hit by the player
     public bool Hit(Vector3 _hitVec, EChunkEffect _effect)
     {
-        if (!m_isRaised) { return false; }
+        if (!m_isRaised)
+        {
+            return false;
+        }
+
+        if (m_chunkType != EChunkType.carapace && _effect == EChunkEffect.fire)
+        {
+            m_currentEffect = _effect;
+            FieryExplosion(_hitVec);
+            return true;
+        }
 
         if (IsAgainstWall(_hitVec))
         {
@@ -380,7 +389,7 @@ public class Chunk : MonoBehaviour
     }
 
     // Makes the fire ball explode, hitting the four tiles around it with the fire ability
-    private void FieryExplosion()
+    private void FieryExplosion(Vector3 _hitDir)
     {
         Vector3 moveDir = m_prevVelocity.normalized;
         Vector3 centrePosition = transform.position - moveDir;
@@ -389,15 +398,18 @@ public class Chunk : MonoBehaviour
         Quaternion effectRot = Quaternion.LookRotation(Vector3.down);
         Vector3 effectScale = Vector3.one * 0.1f;
         Vector3 effectPos = transform.position;
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, effectPos, effectRot, effectScale, 0.5f);
 
         // Creates 4 raycasts around the centre point, if the raycasts hit sand, they'll be turned to glass
+        Vector3 forward = _hitDir.normalized;
+        Vector3 right = new Vector3((_hitDir.x != 0.0f) ? 0.0f : 1.0f, 0.0f, (_hitDir.z != 0.0f) ? 0.0f : 1.0f);
         Vector3[] cardinalDirections = new Vector3[]
         {
-            Vector3.forward,
-            Vector3.back,
-            Vector3.right,
-            Vector3.left
+            forward,
+            right,
+            -right,
+            (forward + right).normalized,
+            (forward - right).normalized,
+            new Vector3(0.0f, 0.0f, 0.0f),
         };
         foreach (Vector3 direction in cardinalDirections)
         {
@@ -409,12 +421,20 @@ public class Chunk : MonoBehaviour
 
             foreach (Collider collision in colliders)
             {
-                SandBlock sand = collision.GetComponent<SandBlock>();
-                if (sand && !sand.m_isGlass)
-                {
-                    sand.TurnToGlass();
-                }
+                FieryExplosionCollision(collision);
             }
+        }
+
+        OnDeath();
+    }
+
+    // Called when the fiery explosion collides with something
+    private void FieryExplosionCollision(Collider _collision)
+    {
+        SandBlock sand = _collision.GetComponent<SandBlock>();
+        if (sand && !sand.m_isGlass)
+        {
+            sand.TurnToGlass();
         }
     }
 
