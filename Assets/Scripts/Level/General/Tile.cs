@@ -46,10 +46,10 @@ public class Tile : MonoBehaviour
         Chunk newChunk = null;
 
         // Cannot raise a type of none
-        if (m_chunkType == EChunkType.none || m_chunkType == EChunkType.lava) { return newChunk; }
-
-        // Cannot raise an occupied tile
-        if (IsOccupied()) { return newChunk; }
+        if (m_chunkType == EChunkType.none || m_chunkType == EChunkType.lava || IsOccupied())
+        {
+            return newChunk;
+        }
 
         // Spawn new chunk and raise it
         GameObject chunkPrefab = m_globalSettings.m_chunkPrefabs[(int)m_chunkType];
