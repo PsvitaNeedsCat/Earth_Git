@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4517039438988045784}
   - component: {fileID: 4064414667502118001}
   - component: {fileID: 6903583175909139294}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LShake_PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4927,7 +4927,7 @@ GameObject:
   - component: {fileID: 6689501037126022452}
   - component: {fileID: 8902186452224152035}
   - component: {fileID: 7689255219064592854}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RShake_PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9841,7 +9841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1542813694589506351}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: AttackWindup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9873,7 +9873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6164606810611220582}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9908,7 +9908,7 @@ GameObject:
   - component: {fileID: 4956062636466781902}
   - component: {fileID: 4956062636466781904}
   - component: {fileID: 4956062636466781901}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Pot Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9985,7 +9985,7 @@ GameObject:
   - component: {fileID: 3597935816499247229}
   - component: {fileID: 3597935816499247228}
   - component: {fileID: 3597935816499247227}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PotMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11178,7 +11178,7 @@ GameObject:
   - component: {fileID: 1114690807032945985}
   - component: {fileID: 6345056326393134541}
   - component: {fileID: 8237886195658366095}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: spotted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11272,7 +11272,7 @@ GameObject:
   - component: {fileID: 5731944732249053443}
   - component: {fileID: 6355048695360893094}
   - component: {fileID: 783272634616418651}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11352,6 +11352,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2099018410883424026, guid: e28d88819488d344dadcab954a5b7288,
+        type: 3}
+      propertyPath: m_groundMask.m_Bits
+      value: 768
+      objectReference: {fileID: 0}
     - target: {fileID: 6076032215545789230, guid: e28d88819488d344dadcab954a5b7288,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11360,7 +11365,7 @@ PrefabInstance:
     - target: {fileID: 6076032215545789230, guid: e28d88819488d344dadcab954a5b7288,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.524
       objectReference: {fileID: 0}
     - target: {fileID: 6076032215545789230, guid: e28d88819488d344dadcab954a5b7288,
         type: 3}
@@ -11411,6 +11416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388170576581503431, guid: e28d88819488d344dadcab954a5b7288,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e28d88819488d344dadcab954a5b7288, type: 3}

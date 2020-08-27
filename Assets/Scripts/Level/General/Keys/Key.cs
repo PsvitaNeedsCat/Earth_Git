@@ -6,6 +6,14 @@ using DG.Tweening;
 
 public class Key : MonoBehaviour
 {
+    public enum Type
+    {
+        basic,
+        waterBoss,
+        fireBoss,
+        sandBoss
+    }
+    public Type m_type = Type.basic;
     public enum States
     {
         waiting,
@@ -41,6 +49,11 @@ public class Key : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        FindObjectOfType<KeyUI>().KeyRemoved(m_type);
+    }
+
     // When the key collides with the player while not collected - collects the key
     private void OnTriggerEnter(Collider other)
     {
@@ -65,8 +78,8 @@ public class Key : MonoBehaviour
         {
             m_playerRef.m_collectedKeys.Add(m_keyID);
         }
-
-        FindObjectOfType<KeyUI>().UpdateIcons();
+        
+        FindObjectOfType<KeyUI>().KeyCollected(m_type);
 
         if (!m_isLoaded)
         {

@@ -101,7 +101,7 @@ public class PotEnemy : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         // Adjust height
-        MoveAboveGround();
+        //MoveAboveGround();
 
         // Face the player
         Vector3 view = m_playerRef.transform.position - transform.position;
