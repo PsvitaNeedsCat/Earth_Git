@@ -94,10 +94,12 @@ public class DoorMaster : MonoBehaviour
         for (int i = m_locks.Length - 1; i >= 0; i--)
         {
             _player.m_collectedKeys.Remove(_keys[i].m_keyID);
+            _keys[i].RemoveFromUI();
             Destroy(_keys[i].gameObject);
             FindObjectOfType<DoorManager>().UnlockDoor(gameObject.GetInstanceID());
-            gameObject.SetActive(false);
         }
+
+        gameObject.SetActive(false);
 
         MessageBus.TriggerEvent(EMessageType.doorUnlocked);
     }

@@ -49,7 +49,8 @@ public class Key : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    // Called by door master - removes the key visually
+    public void RemoveFromUI()
     {
         FindObjectOfType<KeyUI>().KeyRemoved(m_type);
     }
