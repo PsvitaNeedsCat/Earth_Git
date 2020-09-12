@@ -15,6 +15,7 @@ public class CobraBoss : MonoBehaviour
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
+    private int m_behaviourLoopCount = 0;
     private CobraBehaviour m_currentBehaviour;
     private CobraHealth m_cobraHealth;
     private PlayerController m_playerController;
@@ -88,6 +89,23 @@ public class CobraBoss : MonoBehaviour
 
         // Move to next behaviour and start it
         m_currentBehaviourIndex = (m_currentBehaviourIndex + 1) % m_totalBehaviours;
+
+        // Check if behaviours have looped
+        if (m_currentBehaviourIndex == 0)
+        {
+            m_behaviourLoopCount++;
+        }
+
+        // If behaviour loop count is even, skip the sand drop attack, otherwise skip the mirage wall attack
+        if ((m_behaviourLoopCount % 2) == 0 && m_currentBehaviourIndex == 1)
+        {
+            m_currentBehaviourIndex++;
+        }
+        else if ((m_behaviourLoopCount % 2) == 1 && m_currentBehaviourIndex == 0)
+        {
+            m_currentBehaviourIndex++;
+        }
+
         m_currentBehaviour = m_behaviourLoop[m_currentBehaviourIndex];
         m_currentBehaviour.StartBehaviour();
     }
