@@ -312,7 +312,7 @@ public class Chunk : MonoBehaviour
             return true;
         }
 
-        if (IsAgainstWall(_hitVec))
+        if (_effect != EChunkEffect.water && IsAgainstWall(_hitVec))
         {
             // Play sound
             m_healthComp.Health -= 1;
