@@ -453,6 +453,12 @@ public class Chunk : MonoBehaviour
         {
             torch.AttemptToActivate();
         }
+
+        CobraHealth cobraHealth = _collision.GetComponent<CobraHealth>();
+        if (cobraHealth)
+        {
+            CobraHealth.Damage();
+        }
     }
 
     // Snaps a chunk to the nearest grid tile

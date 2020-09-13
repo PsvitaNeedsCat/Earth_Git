@@ -10,6 +10,7 @@ public class CobraSandDrop : CobraBehaviour
     private Vector3 m_arenaTopLeft;
     private List<int> m_potFiringOrder;
     private PlayerController m_playerController;
+    private CobraBoss m_boss;
 
     protected override void Awake()
     {
@@ -21,6 +22,7 @@ public class CobraSandDrop : CobraBehaviour
         m_arenaTopLeft += -Vector3.right * 2.0f;
 
         m_playerController = FindObjectOfType<PlayerController>();
+        m_boss = GetComponent<CobraBoss>();
     }
 
     private void GeneratePotFiringOrder()
@@ -42,11 +44,16 @@ public class CobraSandDrop : CobraBehaviour
         base.StartBehaviour();
 
         GeneratePotFiringOrder();
+
         StartCoroutine(StartScramble());
     }
 
     private IEnumerator StartScramble()
     {
+        m_boss.FlipTiles();
+
+        yield return new WaitForSeconds(0.2f);
+
         m_animations.EnterPot();
 
         yield return new WaitForSeconds(CobraBoss.s_settings.m_timeBeforeGenerate);
