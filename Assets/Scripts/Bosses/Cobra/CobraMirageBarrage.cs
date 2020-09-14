@@ -87,7 +87,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void LowerHeads()
     {
-        CobraHealth.SetCollider(true);
+        // CobraHealth.SetCollider(true);
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         m_spit.LowerHead();
@@ -100,7 +100,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void RaiseHeads()
     {
-        CobraHealth.SetCollider(false);
+        //CobraHealth.SetCollider(false);
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
 
         m_spit.RaiseHead();
