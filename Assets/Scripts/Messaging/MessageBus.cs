@@ -40,6 +40,8 @@ public enum EMessageType
     sandProjectileDestroyed,
     potDestroyed,
     centipedeBodyFire,
+    playerSpotted,
+    chargingUp,
 
     // Player
     playerHurt,
