@@ -62,18 +62,24 @@ public class CobraSandDrop : CobraBehaviour
         int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
         GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
 
-        // 
+        // num pot groups to fire
 
-        for (int i = 0; i < CobraHealth.StateSettings.m_numPotsToFire; i++)
+        // num pots at once
+
+        for (int i = 0; i < CobraHealth.StateSettings.m_sandDropNumPotGroups; i++)
         {
-            // One pot fires its group of projectiles
             for (int j = 0; j < CobraHealth.StateSettings.m_projectilesPerPot; j++)
             {
-                s_boss.m_cobraPots[m_potFiringOrder[i]].FireProjectile();
+                for (int k = 0; k < CobraHealth.StateSettings.m_sandDropPotsPerGroup; k++)
+                {
+                    int potIndex = (i * CobraHealth.StateSettings.m_sandDropPotsPerGroup + k) % m_potFiringOrder.Count;
+                    s_boss.m_cobraPots[m_potFiringOrder[potIndex]].FireProjectile();
+                }
+
                 yield return new WaitForSeconds(CobraHealth.StateSettings.m_potProjectileInterval);
             }
 
-            yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPots);
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPotGroups);
         }
 
         yield return new WaitForSeconds(5.0f);
@@ -141,7 +147,7 @@ public class CobraSandDrop : CobraBehaviour
                 if (generatedBlock != null)
                 {
                     CobraStateSettings settings = CobraHealth.StateSettings;
-                    float lifetime = settings.m_numPotsToFire * settings.m_delayBetweenPots + settings.m_numPotsToFire * settings.m_projectilesPerPot * settings.m_potProjectileInterval;
+                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval;
                     Destroy(generatedBlock, lifetime);
                 }
             }
