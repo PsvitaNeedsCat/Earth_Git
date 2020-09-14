@@ -92,8 +92,12 @@ public class CobraMirageBarrage : CobraBehaviour
 
         m_spit.LowerHead();
 
+        bool fireRed = true;
+
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
+            mirageCobra.m_bulletType = (fireRed) ? ECobraMirageType.red : ECobraMirageType.blue;
+            fireRed = !fireRed;
             mirageCobra.LowerHead();
         }
     }
@@ -136,14 +140,6 @@ public class CobraMirageBarrage : CobraBehaviour
         {
             yield return null;
         }
-
-        //// Fire all heads, at a delay
-        //for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
-        //{
-        //    FireAllHeads();
-
-        //    yield return new WaitForSeconds(CobraHealth.StateSettings.m_barrageProjectileInterval);
-        //}
 
         yield return new WaitForSeconds(0.5f);
 
