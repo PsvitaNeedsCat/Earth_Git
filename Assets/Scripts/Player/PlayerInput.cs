@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour
         if (s_instance != null && s_instance != this)
         {
             Debug.LogError("A second instance of 'PlayerInput.cs' wasinstantiated");
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
