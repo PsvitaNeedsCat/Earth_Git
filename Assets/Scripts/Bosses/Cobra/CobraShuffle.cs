@@ -113,16 +113,6 @@ public class CobraShuffle : CobraBehaviour
         _target = _target.OrderBy(x => System.Guid.NewGuid()).ToList();
     }
 
-    //public static void PrintList<T>(string _first, List<T> _target)
-    //{
-    //    string s = "";
-    //    foreach(T item in _target)
-    //    {
-    //        s += item.ToString();
-    //    }
-
-    //    Debug.Log(_first + s);
-    //}
 
     // Pots move around the arena
     private IEnumerator MoveSequence()

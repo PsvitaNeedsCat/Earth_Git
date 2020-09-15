@@ -148,7 +148,7 @@ public class CobraBoss : MonoBehaviour
 
     public void SortPotList()
     {
-        m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+        m_cobraPots.Sort((potOne, potTwo) => potOne.m_potIndex.CompareTo(potTwo.m_potIndex));
 
         for (int i = 0; i < m_cobraPots.Count; i++)
         {
