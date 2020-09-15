@@ -109,10 +109,10 @@ public class CobraHealth : MonoBehaviour
         s_currentHealth = _newHealth;
     }
 
-    public static void SetCollider(bool _active)
-    {
-        s_collider.enabled = _active;
-    }
+    //public static void SetCollider(bool _active)
+    //{
+    //    s_collider.enabled = _active;
+    //}
 
     public static void Damage()
     {

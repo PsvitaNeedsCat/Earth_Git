@@ -33,13 +33,22 @@ public class SpittingEnemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Chunk>())
+        Chunk chunk = other.GetComponent<Chunk>();
+        if (chunk && chunk.m_currentEffect == EChunkEffect.none)
         {
             // Destroy chunk
             other.GetComponent<HealthComponent>().Health = 0;
-            // Destroy itself
-            Destroy(this.gameObject);
+
+            Dead();
         }
+    }
+
+    // Kills the spitting enemy - called when chunk collides with statue
+    private void Dead()
+    {
+        Destroy(gameObject);
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
     }
 
     private void FireProjectile()

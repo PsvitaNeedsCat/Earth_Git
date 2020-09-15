@@ -174,8 +174,9 @@ public class TrainBug : MonoBehaviour
     private void Dead()
     {
         MessageBus.TriggerEvent(EMessageType.grubKilled);
-        Flip(true);
+
         m_state = EStates.dead;
-        Destroy(transform.parent.gameObject);
+
+        m_meshParent.transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
     }
 }

@@ -18,6 +18,9 @@ public class ToadSwell : ToadBehaviour
     private HealthComponent m_toadHealth;
     private StunnedStars m_stunnedStars = null;
 
+    private Coroutine m_cutoffCoroutine;
+    private Coroutine m_fresnelCoroutine;
+
     private void Awake()
     {
         m_toadSettings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
@@ -68,8 +71,8 @@ public class ToadSwell : ToadBehaviour
         // m_toadRenderer.material = m_swollenMaterial;
         m_material.SetTexture("_MainTex", m_swollenTexture);
 
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
+        m_cutoffCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
+        m_fresnelCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
 
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
     }
@@ -88,8 +91,18 @@ public class ToadSwell : ToadBehaviour
         // m_toadRenderer.material = m_normalMaterial;
         m_material.SetTexture("_MainTex", m_normalTexture);
 
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
+        if (m_cutoffCoroutine != null)
+        {
+            StopCoroutine(m_cutoffCoroutine);
+        }
+        
+        if (m_fresnelCoroutine != null)
+        {
+            StopCoroutine(m_fresnelCoroutine);
+        }
+
+        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.3f, false));
+        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -15.0f, false));
 
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
     }
