@@ -272,6 +272,8 @@ public class Chunk : MonoBehaviour
     {
         m_isBeingDestoyed = true;
 
+        
+
         switch (m_currentEffect)
         {
             case EChunkEffect.water:
@@ -288,11 +290,11 @@ public class Chunk : MonoBehaviour
 
             default:
                 {
+                    EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
                     MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
                     break;
                 }
         }
-
 
         Destroy(gameObject);
     }
