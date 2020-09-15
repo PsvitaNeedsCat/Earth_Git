@@ -39,7 +39,10 @@ public class LevelEntry : Interactable
     {
         base.Invoke();
 
-        if (m_isLocked) { return; }
+        if (m_isLocked) 
+        {
+            return; 
+        }
 
         m_roomManager.LoadScene(m_levelName);
     }
