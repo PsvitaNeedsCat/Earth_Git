@@ -18,6 +18,7 @@ public class PotEnemy : MonoBehaviour
     private GlobalEnemySettings m_settings;
     private Player m_playerRef = null;
     private Rigidbody m_rigidbody = null;
+    private Animator m_animator = null;
 
     [SerializeField] private GameObject m_spottedEffect = null;
     [SerializeField] private GameObject m_windupEffect = null;
@@ -28,6 +29,7 @@ public class PotEnemy : MonoBehaviour
         m_playerRef = FindObjectOfType<Player>();
         Debug.Assert(m_playerRef, "Couldn't find player in pot enemy");
         m_rigidbody = GetComponent<Rigidbody>();
+        m_animator = GetComponentInChildren<Animator>();
 
         MoveAboveGround();
     }
@@ -126,6 +128,10 @@ public class PotEnemy : MonoBehaviour
     // Slams the pot downstairs quite fast
     private IEnumerator SlamDown()
     {
+        m_animator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(0.1f);
+
         while (true)
         {
             m_rigidbody.AddForce(Vector3.down * m_settings.m_potSlamSpeed, ForceMode.Impulse);
