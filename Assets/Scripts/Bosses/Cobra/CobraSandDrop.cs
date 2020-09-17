@@ -62,6 +62,8 @@ public class CobraSandDrop : CobraBehaviour
         int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
         GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
 
+        yield return new WaitForSeconds(CobraHealth.StateSettings.m_waitAfterSandDrop);
+
         // num pot groups to fire
 
         // num pots at once
