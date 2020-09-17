@@ -50,9 +50,9 @@ public class CobraSandDrop : CobraBehaviour
 
     private IEnumerator StartScramble()
     {
-        m_boss.FlipTiles();
+        m_boss.StartFlipTiles();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(3.0f);
 
         m_animations.EnterPot();
 

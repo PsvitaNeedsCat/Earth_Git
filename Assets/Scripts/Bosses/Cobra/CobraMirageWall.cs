@@ -30,7 +30,7 @@ public class CobraMirageWall : CobraBehaviour
     // Handles the sequencing of all walls
     private IEnumerator WallSequence()
     {
-        m_boss.FlipTiles();
+        // m_boss.StartFlipTiles();
 
         yield return new WaitForSeconds(0.2f);
 
