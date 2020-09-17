@@ -10,7 +10,7 @@ public class KillBox : MonoBehaviour
 
         if (healthComp && healthComp.m_type == HealthComponent.EHealthType.player)
         {
-            healthComp.Health = 0;
+            healthComp.ForceKill();
         }
     }
 }
