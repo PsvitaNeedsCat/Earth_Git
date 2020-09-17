@@ -8,24 +8,39 @@ public class HealthComponent : MonoBehaviour
     private System.Action OnHealed;
     private System.Action OnDeath;
 
-    public enum EHealthType { player, enemy, boss }
+    public enum EHealthType
+    {
+        player,
+        enemy,
+        boss 
+    }
     public EHealthType m_type;
 
     private int m_maxHealth = int.MaxValue;
 
     private bool m_isDead = false;
-    public bool IsInvincible { get; set; } = false;
+    public bool IsInvincible
+    {
+        get;
+        set;
+    } = false;
     private bool m_timerActive = false;
     private float m_invincibleTimer = 0.0f;
 
     private int m_curHealth = 1;
     public int Health
     {
-        get { return m_curHealth; }
+        get
+        {
+            return m_curHealth; 
+        }
         set
         {
             // Disable set behaviour once dead
-            if (m_isDead) return;
+            if (m_isDead)
+            {
+                return;
+            }
 
             // Check if health changed, and call appropriate callbacks
             int delta = value - m_curHealth;
@@ -36,12 +51,14 @@ public class HealthComponent : MonoBehaviour
                 delta = 0; 
             }
 
-
             // Update health, and check for death
             m_curHealth += delta;
             m_curHealth = Mathf.Clamp(m_curHealth, 0, m_maxHealth);
 
-            if (delta < 0) OnHurt?.Invoke();
+            if (delta < 0)
+            {
+                OnHurt?.Invoke();
+            }
 
             if (m_curHealth == 0)
             {
@@ -110,5 +127,13 @@ public class HealthComponent : MonoBehaviour
         _newMax = Mathf.Clamp(_newMax, 1, int.MaxValue);
         m_maxHealth = _newMax;
         Health = Mathf.Clamp(Health, 0, m_maxHealth);
+    }
+
+    // Sets the health component to 0 regardless of invincibility
+    public void ForceKill()
+    {
+        m_curHealth = 0;
+        m_isDead = true;
+        OnDeath?.Invoke();
     }
 }
