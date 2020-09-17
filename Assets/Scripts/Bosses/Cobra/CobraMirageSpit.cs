@@ -45,6 +45,7 @@ public class CobraMirageSpit : MonoBehaviour
 
     public void LowerHead()
     {
+        StopAllCoroutines();
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
         m_animations.LowerHead();
@@ -53,6 +54,7 @@ public class CobraMirageSpit : MonoBehaviour
 
     public void RaiseHead()
     {
+        StopAllCoroutines();
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
         m_animations.RaiseHead();

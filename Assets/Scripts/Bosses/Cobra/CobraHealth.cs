@@ -167,7 +167,6 @@ public class CobraHealth : MonoBehaviour
             CobraShuffle.s_bossPotIndex = newBossPosition;
         }
     }
-    
 
     private static void SwapPots(CobraPot _potOne, Transform _potOneTransform, CobraPot _potTwo, Transform _potTwoTransform)
     {
