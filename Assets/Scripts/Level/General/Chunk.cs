@@ -97,7 +97,8 @@ public class Chunk : MonoBehaviour
         if (CollisionHasComponent<Hurtbox>(other, null) ||
             CollisionHasComponent<Projectile>(other, null) ||
             CollisionHasComponent<PressurePlate>(other, null) ||
-            CollisionHasComponent<MirageBullet>(other, null))
+            CollisionHasComponent<MirageBullet>(other, null) ||
+            CollisionHasComponent<ChunkKillBox>(other, null))
         {
             return;
         }
