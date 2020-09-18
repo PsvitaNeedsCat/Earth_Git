@@ -4,29 +4,27 @@ using UnityEngine;
 
 using DG.Tweening;
 
-public class DoorMaster : MonoBehaviour
+public class DoorMaster : Interactable
 {
     [SerializeField] private GameObject[] m_locks;
 
-    // When the player collides with the door, take all their keys and pass it to a function to check if the door can unlock
-    private void OnCollisionEnter(Collision collision)
-    {
-        Player player = collision.collider.GetComponent<Player>();
-        if (player)
-        {
-            Key[] keys = FindObjectsOfType<Key>();
-            List<Key> keysToCheck = new List<Key>();
-            for (int i = 0; i < keys.Length; i++)
-            {
-                if (keys[i].m_state == Key.States.collected)
-                {
-                    keys[i].m_state = Key.States.unlocking;
-                    keysToCheck.Add(keys[i]);
-                }
-            }
+    private bool m_unlocking = false;
 
-            StartCoroutine(CheckKeyValidity(keysToCheck));
+    // Begins the setup for attempting to unlock the door - called when the player interacts with the door
+    public override void Invoke()
+    {
+        Key[] keys = FindObjectsOfType<Key>();
+        List<Key> keysToCheck = new List<Key>();
+        for (int i = 0; i < keys.Length; i++)
+        {
+            if (keys[i].m_state == Key.States.collected)
+            {
+                keys[i].m_state = Key.States.unlocking;
+                keysToCheck.Add(keys[i]);
+            }
         }
+
+        StartCoroutine(CheckKeyValidity(keysToCheck));
     }
 
     // Takes the player's keys, performs an animation, and checks if the door can unlock
@@ -34,8 +32,15 @@ public class DoorMaster : MonoBehaviour
     {
         if (_keys.Count <= 0)
         {
+            MessageBus.TriggerEvent(EMessageType.doorLocked);
             yield break;
         }
+
+        // Init changes
+        m_unlocking = true;
+        m_prompt.SetActive(false);
+        Player player = FindObjectOfType<Player>();
+        player.GetComponent<PlayerInput>().SetMovement(false);
 
         bool valid = _keys.Count >= m_locks.Length;
         int completedTweens = 0;
@@ -75,7 +80,7 @@ public class DoorMaster : MonoBehaviour
             yield return null;
         }
 
-        Player player = FindObjectOfType<Player>();
+        
         if (valid)
         {
             // Unlock door
@@ -86,6 +91,10 @@ public class DoorMaster : MonoBehaviour
             // Return keys to player
             ReturnKeysToPlayer(ref _keys);
         }
+
+        // Ending changes
+        m_unlocking = false;
+        player.GetComponent<PlayerInput>().SetMovement(true);
     }
 
     // Removes the keys from the player and unlocks (destroys) the door
@@ -117,5 +126,14 @@ public class DoorMaster : MonoBehaviour
         }
 
         MessageBus.TriggerEvent(EMessageType.doorLocked);
+    }
+
+    // Makes sure not to update the sprite while unlocking the door
+    public override void Update()
+    {
+        if (!m_unlocking)
+        {
+            base.Update();
+        }
     }
 }
