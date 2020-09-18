@@ -84,7 +84,7 @@ public class CobraSandDrop : CobraBehaviour
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPotGroups);
         }
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(1.0f);
 
         m_animations.Roar();
         m_animations.EnterPot();
@@ -149,7 +149,7 @@ public class CobraSandDrop : CobraBehaviour
                 if (generatedBlock != null)
                 {
                     CobraStateSettings settings = CobraHealth.StateSettings;
-                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval;
+                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval + settings.m_waitAfterSandDrop;
                     Destroy(generatedBlock, lifetime);
                 }
             }
