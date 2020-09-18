@@ -34,6 +34,10 @@ public class CobraChase : CobraBehaviour
     // Performs the jump up behaviour in order to start the chase attack
     private IEnumerator JumpUp()
     {
+        m_animations.ExitPot();
+
+        yield return new WaitForSeconds(2.0f);
+
         // Turn on the drop shadow
         m_dropShadow.SetActive(true);
         
