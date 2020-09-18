@@ -37,6 +37,9 @@ public class DoorMaster : MonoBehaviour
             yield break;
         }
 
+        Player player = FindObjectOfType<Player>();
+        player.GetComponent<PlayerInput>().SetMovement(false);
+
         bool valid = _keys.Count >= m_locks.Length;
         int completedTweens = 0;
         int keysRequired = 0;
@@ -75,7 +78,7 @@ public class DoorMaster : MonoBehaviour
             yield return null;
         }
 
-        Player player = FindObjectOfType<Player>();
+        
         if (valid)
         {
             // Unlock door
@@ -86,6 +89,8 @@ public class DoorMaster : MonoBehaviour
             // Return keys to player
             ReturnKeysToPlayer(ref _keys);
         }
+
+        player.GetComponent<PlayerInput>().SetMovement(true);
     }
 
     // Removes the keys from the player and unlocks (destroys) the door
