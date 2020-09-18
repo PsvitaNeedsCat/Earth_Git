@@ -41,7 +41,7 @@ public class Hurtbox : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject); 
+            Destroy(gameObject); 
         }
     }
 

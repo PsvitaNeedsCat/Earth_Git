@@ -10,6 +10,7 @@
         _Dist("Distortion", Float) = 0.1
         _Scroll("Scroll Speed", Float) = 0.1
         _BlendTex ("Blend Texture (Noise)", 2D) = "white"{}
+		_Overlay("Overlay Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -71,5 +72,29 @@
         }
 
         ENDCG
+
+		CGPROGRAM
+
+		#pragma surface surf Flat alphatest:_Cutoff
+
+		half4 LightingFlat(SurfaceOutput o, half3 lightDir, half atten)
+		{
+			return half4(o.Albedo, 1);
+		}
+
+		struct Input
+		{
+			float2 uv_Overlay;
+		};
+
+		sampler2D _Overlay;
+
+		void surf(Input IN, inout SurfaceOutput o)
+		{
+			o.Albedo = tex2D(_Overlay, IN.uv_Overlay).rgb;
+			o.Alpha = tex2D(_Overlay, IN.uv_Overlay).a;
+		}
+
+		ENDCG
     }
 }
