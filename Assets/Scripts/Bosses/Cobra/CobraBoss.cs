@@ -64,6 +64,8 @@ public class CobraBoss : MonoBehaviour
     // Waits for a delay, and then starts the first behaviour
     private IEnumerator DelayedStart()
     {
+        StartFlipTiles();
+
         yield return new WaitForSeconds(m_startDelay);
         m_currentBehaviour.StartBehaviour();
     }
@@ -110,18 +112,19 @@ public class CobraBoss : MonoBehaviour
         m_currentBehaviour.StartBehaviour();
     }
 
+    public void StartFlipTiles()
+    {
+        m_animations.CobraJump();
+    }
+
     public void FlipTiles()
     {
-        StartCoroutine(StartTileFlip());        
+        StartCoroutine(OnJumpImpact());
     }
 
     // Knocks up the player, and shortly after, flips over all the tiles
-    private IEnumerator StartTileFlip()
+    private IEnumerator OnJumpImpact()
     {
-        m_animations.CobraJump();
-
-        yield return new WaitForSeconds(1.0f);
-
         m_playerController.KnockBack(Vector3.up * 2.5f);
         MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
@@ -144,6 +147,8 @@ public class CobraBoss : MonoBehaviour
                 m_flippableTiles[i].Flip();
             }
         }
+
+        Debug.Log("Flipping tiles");
     }
 
     public void SortPotList()

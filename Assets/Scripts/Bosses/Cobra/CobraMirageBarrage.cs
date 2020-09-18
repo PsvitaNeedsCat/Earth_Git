@@ -39,8 +39,6 @@ public class CobraMirageBarrage : CobraBehaviour
         GenerateSnakes();
 
         // Flip tiles and destroy chunks
-        m_boss.FlipTiles();
-
         foreach (CobraMirageSpit spit in m_mirageCobras)
         {
             spit.CobraJump();
@@ -154,23 +152,12 @@ public class CobraMirageBarrage : CobraBehaviour
         CompleteBehaviour();
     }
 
-    private void FireAllHeads()
-    {
-        foreach(CobraMirageSpit spit in m_mirageCobras)
-        {
-            if (spit != null)
-            {
-                spit.FireProjectile();
-            }
-        }
-
-        m_spit.FireProjectile();
-    }
-
     private void OnAttackEnd()
     {
         // Disable collider
         RaiseHeads();
+
+        m_boss.StartFlipTiles();
 
         EnterPots();
     }

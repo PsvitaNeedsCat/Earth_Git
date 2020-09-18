@@ -181,8 +181,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     // If damaged, exit out of stunned animation
     public void OnDamaged()
     {
+        m_stunnedStars.ForceStop();
         StopAllCoroutines();
         StartCoroutine(Recover());
     }
-
 }

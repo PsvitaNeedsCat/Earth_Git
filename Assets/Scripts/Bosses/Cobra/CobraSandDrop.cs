@@ -50,9 +50,9 @@ public class CobraSandDrop : CobraBehaviour
 
     private IEnumerator StartScramble()
     {
-        m_boss.FlipTiles();
+        m_boss.StartFlipTiles();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(3.0f);
 
         m_animations.EnterPot();
 
@@ -61,6 +61,8 @@ public class CobraSandDrop : CobraBehaviour
         // Choose a random layout from the list and generate it
         int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
         GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
+
+        yield return new WaitForSeconds(CobraHealth.StateSettings.m_waitAfterSandDrop);
 
         // num pot groups to fire
 

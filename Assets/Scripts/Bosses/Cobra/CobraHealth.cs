@@ -126,6 +126,11 @@ public class CobraHealth : MonoBehaviour
         s_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         s_healthIcons[s_currentHealth].SetActive(false);
 
+        s_health.StartCoroutine(s_health.OnDamaged());
+    }
+
+    private IEnumerator OnDamaged()
+    {
         MessageBus.TriggerEvent(EMessageType.cobraDamaged);
 
         s_animations.Damaged();
@@ -135,6 +140,8 @@ public class CobraHealth : MonoBehaviour
 
         s_material.SetFloat("_FresnelStrength", 5.0f);
         s_material.SetFloat("_Cutoff", 0.8f);
+
+        yield return new WaitForSeconds(1.0f);
 
         // If on 0 health, start the chase behaviour
         if (s_currentHealth == 0)
@@ -158,8 +165,6 @@ public class CobraHealth : MonoBehaviour
             s_boss.SortPotList();
 
             CobraShuffle.s_bossPotIndex = newBossPosition;
-
-            Debug.Log("Boss moved to position " + newBossPosition);
         }
     }
 
