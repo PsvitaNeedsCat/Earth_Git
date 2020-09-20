@@ -278,7 +278,7 @@ public class CobraShuffle : CobraBehaviour
         _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
-        _pot.EnablePotIndicator(_pot.m_moveTransform.position + _moveBy);
+        _pot.EnablePotIndicator(_pot.m_moveTransform.position);
 
         yield return new WaitForSeconds(_duration);
 
