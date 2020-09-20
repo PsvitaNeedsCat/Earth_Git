@@ -73,6 +73,8 @@
 
         ENDCG
 
+        //Overlay
+            /*
 		CGPROGRAM
 
 		#pragma surface surf Flat alphatest:_Cutoff
@@ -95,6 +97,6 @@
 			o.Alpha = tex2D(_Overlay, IN.uv_Overlay).a;
 		}
 
-		ENDCG
+		ENDCG*/
     }
 }
