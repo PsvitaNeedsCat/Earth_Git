@@ -255,12 +255,17 @@ public class CobraShuffle : CobraBehaviour
         _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalMovementCurve);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
+        _pot.EnablePotIndicator(_pot.m_moveTransform.position + _moveBy);
+
+        yield return new WaitForSeconds(_duration);
+
         if (_fireProjectiles)
         {
-            yield return new WaitForSeconds(_duration);
             _pot.FireLobProjectiles();
             MessageBus.TriggerEvent(EMessageType.cobraPotFire);
         }
+
+        _pot.DisablePotIndicator();
     }
 
     private void FakeMovePot(CobraPot _pot, Vector3 _moveBy, float _jumpHeight, float _duration, bool _fireProjectiles, AnimationCurve _easeCurve)
@@ -273,12 +278,17 @@ public class CobraShuffle : CobraBehaviour
         _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
+        _pot.EnablePotIndicator(_pot.m_moveTransform.position);
+
+        yield return new WaitForSeconds(_duration);
+
         if (_fireProjectiles)
         {
-            yield return new WaitForSeconds(_duration);
             _pot.FireLobProjectiles();
             MessageBus.TriggerEvent(EMessageType.cobraPotFire);
         }
+
+        _pot.DisablePotIndicator();
     }
     
     private float ExpandContract()
