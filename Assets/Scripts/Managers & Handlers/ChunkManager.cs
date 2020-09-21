@@ -40,13 +40,18 @@ public class ChunkManager : MonoBehaviour
 
     public static void DestroyAllChunks()
     {
-        for (int i = 0; i < s_chunks.Count; i++)
+        for (int i = 0; i < s_chunks.Count;)
         {
             Chunk chunk = s_chunks[i];
 
             if (chunk != null)
             {
-                Destroy(chunk.gameObject);
+                //Destroy(chunk.gameObject);
+                chunk.GetComponent<HealthComponent>().Health = 0;
+            }
+            else
+            {
+                i++;
             }
         }
 

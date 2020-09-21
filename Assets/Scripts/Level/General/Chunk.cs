@@ -277,8 +277,6 @@ public class Chunk : MonoBehaviour
     {
         m_isBeingDestoyed = true;
 
-        
-
         switch (m_currentEffect)
         {
             case EChunkEffect.water:
@@ -373,6 +371,12 @@ public class Chunk : MonoBehaviour
             // Ignore sand
             foreach (Collider i in hits)
             {
+                // Ignore self-collision
+                if (i.gameObject == gameObject || i.transform.parent.gameObject == gameObject)
+                {
+                    continue;
+                }
+
                 SandBlock sand = i.transform.GetComponent<SandBlock>();
                 if (!sand || (sand && sand.m_isGlass)) 
                 { 
