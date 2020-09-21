@@ -61,7 +61,7 @@ public class Hurtbox : MonoBehaviour
 
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         WallButton button = other.GetComponent<WallButton>();
