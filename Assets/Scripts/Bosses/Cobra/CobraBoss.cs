@@ -150,6 +150,7 @@ public class CobraBoss : MonoBehaviour
             }
         }
 
+        ChunkManager.DestroyAllChunks();
         yield return new WaitForSeconds(1.0f);
         ChunkManager.DestroyAllChunks();
     }

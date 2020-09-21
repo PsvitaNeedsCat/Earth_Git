@@ -277,8 +277,6 @@ public class Chunk : MonoBehaviour
     {
         m_isBeingDestoyed = true;
 
-        
-
         switch (m_currentEffect)
         {
             case EChunkEffect.water:
