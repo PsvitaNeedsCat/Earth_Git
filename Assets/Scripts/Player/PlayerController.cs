@@ -300,6 +300,11 @@ public class PlayerController : MonoBehaviour
         {
             m_health.Health -= 1;
         }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            m_health.Health = 0;
+        }
     }
 
     // Pauses the game

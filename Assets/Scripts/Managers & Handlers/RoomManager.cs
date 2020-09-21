@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviour
     private PlayerInput m_playerInput;
     private GameObject[] m_roomCopies;
     private GameObject m_camTarget;
+    private bool m_movePlayer = true;
 
     private bool m_loadScene = false;
     private string m_newScene = "";
@@ -81,15 +82,36 @@ public class RoomManager : MonoBehaviour
 
     private void OnEnable()
     {
-        MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRooms);
+        MessageBus.AddListener(EMessageType.fadedToBlack, ChangeRoomsSplit);
     }
     private void OnDisable()
     {
-        MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRooms);
+        MessageBus.RemoveListener(EMessageType.fadedToBlack, ChangeRoomsSplit);
     }
 
-    // Changes which room is active - called by blackwall animator
-    private void ChangeRooms(string _null)
+    // Called by blackwall animator - decides whether to move the player or not
+    private void ChangeRoomsSplit(string _null)
+    {
+        if (m_movePlayer)
+        {
+            ChangeRoomsMovePlayer();
+        }
+        else
+        {
+            ChangeRooms();
+        }
+    }
+
+    // Changes which room is active, & teleports the player - called by blackwall animator
+    private void ChangeRoomsMovePlayer()
+    {
+        ChangeRooms();
+
+        m_playerInput.transform.position = m_respawnLocation;
+    }
+
+    // Changes rooms without moving the player
+    private void ChangeRooms()
     {
         // Change scene
         if (m_loadScene)
@@ -105,16 +127,34 @@ public class RoomManager : MonoBehaviour
             // Activate new room
             m_currentRoom = m_newRoom;
             m_rooms[m_currentRoom].SetActive(true);
-            m_playerInput.transform.position = m_respawnLocation;
 
             m_blackWall.SetTrigger("FadeToGame");
             m_playerInput.SetMovement(true);
+
+            // Set a new respawn point if teleporting
+            if (!m_movePlayer)
+            {
+                RoomTrigger[] roomTriggers = FindObjectsOfType<RoomTrigger>();
+                for (int i = 0; i < roomTriggers.Length; i++)
+                {
+                    if (roomTriggers[i].m_spawnPoint)
+                    {
+                        m_respawnLocation = roomTriggers[i].transform.position;
+                        m_respawnLocation.y -= 0.45f;
+                        break;
+                    }
+                }
+                MessageBus.TriggerEvent(EMessageType.teleportPlayer);
+                m_movePlayer = true;
+            }
         }
     }
 
     // Sets the room ready to change to
-    public void PrepareToChangeRoom(string _roomName)
+    public void PrepareToChangeRoom(string _roomName, bool _teleportPlayer = true)
     {
+        m_movePlayer = _teleportPlayer;
+
         // Check the room is valid
         for (int i = 0; i < m_rooms.Count; i++)
         {
