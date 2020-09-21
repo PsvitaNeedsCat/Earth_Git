@@ -9,6 +9,13 @@ public class MirageBlock : MirageParent
     private bool m_isPlayerInside = false;
     private bool m_attemptToSolidify = false;
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        m_isPlayerInside = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // Check if player has entered the block
