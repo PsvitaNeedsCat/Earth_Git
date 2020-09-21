@@ -6,7 +6,7 @@ public class CentipedeHead : MonoBehaviour
 {
     public BoxCollider m_damageTrigger;
     private CentipedeTrainAttack m_trainAttack;
-    private CentipedeHealth m_health;
+    [HideInInspector] public CentipedeHealth m_health;
 
     private void Awake()
     {

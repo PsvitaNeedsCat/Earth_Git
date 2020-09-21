@@ -11,6 +11,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public List<Transform> m_burrowUpPoints;
     public Transform m_mesh;
     public GameObject m_shields;
+    public SphereCollider m_tailCollider;
 
     private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
@@ -53,6 +54,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
         // Move mesh to undo animation position and rotation changes
         m_mesh.transform.localRotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
         m_mesh.transform.localPosition -= Vector3.forward * 1.5f;
+        m_tailCollider.center += new Vector3(0.0f, 0.25f, -0.75f);
 
         // Rotate the firing object
         m_firer.transform.localPosition = new Vector3(0.0f, 1.0f, -1.0f);
@@ -75,14 +77,18 @@ public class CentipedeTailAttack : CentipedeBehaviour
         m_mesh.transform.localPosition += Vector3.forward * 3.0f;
         m_firer.transform.localRotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
         m_mesh.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        
+        m_tailCollider.center -= new Vector3(0.0f, 0.25f, -0.75f);
+
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
 
         yield return new WaitForSeconds(3.0f);
 
         m_mesh.transform.localPosition -= Vector3.forward * 1.5f;
 
-        while (CentipedeMovement.s_burrowing) yield return null;
+        while (CentipedeMovement.s_burrowing)
+        {
+            yield return null;
+        }
 
         CentipedeMovement.s_burrowing = false;
 
