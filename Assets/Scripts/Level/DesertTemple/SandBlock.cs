@@ -109,6 +109,8 @@ public class SandBlock : MonoBehaviour
     // Destroys the object
     private void Break()
     {
+        MessageBus.TriggerEvent(EMessageType.glassDestroyed);
+
         Destroy(gameObject);
     }
 
