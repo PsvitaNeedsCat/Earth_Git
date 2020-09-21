@@ -521,11 +521,12 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = false;
 
         // Tween to tongue
-        transform.DOMove(_tonguePos, 0.2f);
+        transform.DOMove(_tonguePos, 0.1f);
         Vector3 distance = _frogPos - transform.position;
         distance.y = 0.0f;
         float tweenTime = distance.magnitude / 3.0f;
         transform.DOMove(_frogPos, tweenTime);
+        transform.DOScale(0.1f, tweenTime);
     }
 
     // Changes the current effect of the chunk and updates the mesh accordingly
