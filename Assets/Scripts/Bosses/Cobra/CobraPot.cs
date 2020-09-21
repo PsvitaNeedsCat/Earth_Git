@@ -17,6 +17,9 @@ public class CobraPot : MonoBehaviour
     public GameObject m_mesh;
     public Transform m_moveTransform;
 
+    public GameObject m_potLandIndicator;
+    public List<GameObject> m_potProjectileLandIndicators;
+
     public int m_potIndex = -1;
     public int m_endIndex = -1;
     public Quaternion m_endRotation;
@@ -32,6 +35,12 @@ public class CobraPot : MonoBehaviour
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
         m_collider = GetComponentInChildren<Collider>();
         m_animations = GetComponent<CobraAnimations>();
+
+        m_potLandIndicator.SetActive(false);
+        for (int i = 0; i < m_potProjectileLandIndicators.Count; i++)
+        {
+            m_potProjectileLandIndicators[i].SetActive(false);
+        }
     }
 
     public Transform GetMoveTransform()
@@ -72,6 +81,34 @@ public class CobraPot : MonoBehaviour
         lobProjectile.GetComponent<Rigidbody>().velocity = _dir * m_lobVelocity;
     }
 
+    public void EnablePotProjectileIndicator(GameObject _projectileIndicator, Vector3 _destination)
+    {
+        _projectileIndicator.transform.position = _destination;
+        
+        _projectileIndicator.SetActive(true);
+    }
+
+    public IEnumerator DisablePotProjectileIndicatorsAfter(float _seconds)
+    {
+        yield return new WaitForSeconds(_seconds);
+
+        for (int i = 0; i < m_potProjectileLandIndicators.Count; i++)
+        {
+            m_potProjectileLandIndicators[i].SetActive(false);
+        }
+    }
+
+    public void EnablePotIndicator(Vector3 _destination)
+    {
+        m_potLandIndicator.transform.position = _destination;
+        m_potLandIndicator.SetActive(true);
+    }
+
+    public void DisablePotIndicator()
+    {
+        m_potLandIndicator.SetActive(false);
+    }
+
     private void FireAtSurroundingTiles()
     {
         Vector3 lobDir = m_moveTransform.rotation * m_lobDir.normalized;
@@ -80,6 +117,7 @@ public class CobraPot : MonoBehaviour
         if (CheckForTile(m_moveTransform.forward))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+            EnablePotProjectileIndicator(m_potProjectileLandIndicators[0], m_moveTransform.position + m_moveTransform.forward);
         }
 
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
@@ -88,6 +126,7 @@ public class CobraPot : MonoBehaviour
         if (CheckForTile(m_moveTransform.right))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+            EnablePotProjectileIndicator(m_potProjectileLandIndicators[1], m_moveTransform.position + m_moveTransform.right);
         }
 
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
@@ -96,6 +135,7 @@ public class CobraPot : MonoBehaviour
         if (CheckForTile(-m_moveTransform.forward))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+            EnablePotProjectileIndicator(m_potProjectileLandIndicators[2], m_moveTransform.position - m_moveTransform.forward);
         }
 
         lobDir = Quaternion.Euler(0.0f, 90.0f, 0.0f) * lobDir;
@@ -104,7 +144,10 @@ public class CobraPot : MonoBehaviour
         if (CheckForTile(-m_moveTransform.right))
         {
             LobProjectile(new Vector3(lobDir.x, lobDir.y, lobDir.z));
+            EnablePotProjectileIndicator(m_potProjectileLandIndicators[3], m_moveTransform.position - m_moveTransform.right);
         }
+
+        StartCoroutine(DisablePotProjectileIndicatorsAfter(1.0f));
     }
 
     private bool CheckForTile(Vector3 _dir)
