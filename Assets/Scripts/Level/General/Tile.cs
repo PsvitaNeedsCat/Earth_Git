@@ -106,6 +106,7 @@ public class Tile : MonoBehaviour
         }
 
         Vector3 centre = transform.position + new Vector3(0.0f, 0.5f, 0.0f);
+
         return Physics.CheckBox(centre, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, m_globalSettings.m_raycastMask);
     }
 
