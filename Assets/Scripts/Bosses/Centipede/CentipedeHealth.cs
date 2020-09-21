@@ -105,14 +105,14 @@ public class CentipedeHealth : MonoBehaviour
     // Damages a section of the centipede, storing the new state, and changing the materials
     public void DamageSection(ESegmentType _type)
     {
-        Debug.Log("Trying to damage section " + _type.ToString());
+        // Debug.Log("Trying to damage section " + _type.ToString());
         
 
         // If the section is not active, or has already been damaged, it can't be damaged
         if (!m_sectionsActive[SegmentTypeToIndex(_type)]) return;
         if (m_sectionsDamaged[(int)_type]) return;
 
-        Debug.Log("Damaged section " + _type.ToString());
+        // Debug.Log("Damaged section " + _type.ToString());
 
         m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         m_healthIcons[(int)_type].SetActive(false);

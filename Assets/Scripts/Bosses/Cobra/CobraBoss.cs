@@ -129,6 +129,8 @@ public class CobraBoss : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
 
+        
+
         yield return new WaitForSeconds(0.2f);
 
         if (m_flippableTiles == null)
@@ -148,7 +150,8 @@ public class CobraBoss : MonoBehaviour
             }
         }
 
-        Debug.Log("Flipping tiles");
+        yield return new WaitForSeconds(1.0f);
+        ChunkManager.DestroyAllChunks();
     }
 
     public void SortPotList()
