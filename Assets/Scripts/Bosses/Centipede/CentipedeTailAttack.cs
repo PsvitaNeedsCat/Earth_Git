@@ -51,11 +51,12 @@ public class CentipedeTailAttack : CentipedeBehaviour
         m_animations.TailAttackStart();
 
         // Move mesh to undo animation position and rotation changes
-        m_mesh.transform.localPosition = m_mesh.transform.localPosition + Vector3.up;
-        m_oldRotation = m_mesh.transform.rotation;
-        m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
+        m_mesh.transform.localRotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
+        m_mesh.transform.localPosition -= Vector3.forward * 1.5f;
 
         // Rotate the firing object
+        m_firer.transform.localPosition = new Vector3(0.0f, 1.0f, -1.0f);
+        m_firer.transform.localRotation = Quaternion.identity;
         m_firer.transform.DOBlendableLocalRotateBy(Vector3.forward * CentipedeBoss.s_settings.m_rotationSpeed * 10.0f, CentipedeBoss.s_settings.m_firingDuration, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
 
         m_shields.SetActive(true);
@@ -69,15 +70,20 @@ public class CentipedeTailAttack : CentipedeBehaviour
         // Burrow up
         m_shields.SetActive(false);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.8f);
 
-        m_firer.transform.localRotation = Quaternion.Euler(180.0f, 0.0f, 0.0f);
+        m_mesh.transform.localPosition += Vector3.forward * 3.0f;
+        m_firer.transform.localRotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
+        m_mesh.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
+
+        yield return new WaitForSeconds(3.0f);
+
+        m_mesh.transform.localPosition -= Vector3.forward * 1.5f;
+
         while (CentipedeMovement.s_burrowing) yield return null;
 
-        // Undo the position and rotation changes from the tail
-        m_mesh.transform.rotation = m_oldRotation;
-        m_mesh.transform.localPosition = m_mesh.transform.localPosition - Vector3.up;
         CentipedeMovement.s_burrowing = false;
 
         CompleteBehaviour();
