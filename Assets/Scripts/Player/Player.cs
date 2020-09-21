@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
+    private bool m_inTutorial = false;
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -149,7 +150,7 @@ public class Player : MonoBehaviour
     {
         if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
-            if (m_rStickDir != Vector3.zero && m_moveDirection == Vector2.zero)
+            if (!m_inTutorial && m_rStickDir != Vector3.zero && m_moveDirection == Vector2.zero)
             {
                 transform.forward = m_rStickDir;
             }
@@ -338,6 +339,12 @@ public class Player : MonoBehaviour
         }
 
         return null;
+    }
+
+    // Sets the inTutorial variable - used to disable turning
+    public void InTutorial(bool _newValue)
+    {
+        m_inTutorial = _newValue;
     }
 
     // Debug - remove on build
