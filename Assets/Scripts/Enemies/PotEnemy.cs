@@ -10,12 +10,18 @@ public class PotEnemy : MonoBehaviour
         floating,
         chasing,
         attacking,
+
+        spotting,
     }
 
     private EStates m_state = EStates.floating;
     private GlobalEnemySettings m_settings;
     private Player m_playerRef = null;
     private Rigidbody m_rigidbody = null;
+    private Animator m_animator = null;
+
+    [SerializeField] private GameObject m_spottedEffect = null;
+    [SerializeField] private GameObject m_windupEffect = null;
 
     private void Awake()
     {
@@ -23,6 +29,7 @@ public class PotEnemy : MonoBehaviour
         m_playerRef = FindObjectOfType<Player>();
         Debug.Assert(m_playerRef, "Couldn't find player in pot enemy");
         m_rigidbody = GetComponent<Rigidbody>();
+        m_animator = GetComponentInChildren<Animator>();
 
         MoveAboveGround();
     }
@@ -36,7 +43,9 @@ public class PotEnemy : MonoBehaviour
                 {
                     if (PlayerIsWithinRadius(m_settings.m_potCheckRadius))
                     {
-                        m_state = EStates.chasing;
+                        m_state = EStates.spotting;
+
+                        StartCoroutine(SpawnSpottedEffect());
                     }
                     break;
                 }
@@ -47,9 +56,11 @@ public class PotEnemy : MonoBehaviour
                     MoveTowardsPlayer();
                     if (PlayerIsWithinRadius(m_settings.m_potAttackRadius))
                     {
-                        m_rigidbody.velocity = Vector3.zero;
-                        StartCoroutine(SlamDown());
                         m_state = EStates.attacking;
+
+                        m_rigidbody.velocity = Vector3.zero;
+
+                        StartCoroutine(SpawnWindupEffect());
                     }
                     break;
                 }
@@ -79,6 +90,8 @@ public class PotEnemy : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.potDestroyed);
         StopAllCoroutines();
         Destroy(gameObject);
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
     }
 
     // Checks the distance between the player and the enemy
@@ -115,7 +128,9 @@ public class PotEnemy : MonoBehaviour
     // Slams the pot downstairs quite fast
     private IEnumerator SlamDown()
     {
-        yield return new WaitForSeconds(0.25f);
+        m_animator.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(0.1f);
 
         while (true)
         {
@@ -139,5 +154,33 @@ public class PotEnemy : MonoBehaviour
             newPos.y = newY;
             transform.position = newPos;
         }
+    }
+
+    // Spawns the spotted effect for a set amount of time
+    private IEnumerator SpawnSpottedEffect()
+    {
+        m_spottedEffect.SetActive(true);
+
+        MessageBus.TriggerEvent(EMessageType.playerSpotted);
+
+        yield return new WaitForSeconds(0.5f);
+
+        m_state = EStates.chasing;
+
+        m_spottedEffect.SetActive(false);
+    }
+
+    // Spawns the winding up effect for a set amount of time
+    private IEnumerator SpawnWindupEffect()
+    {
+        m_windupEffect.SetActive(true);
+
+        MessageBus.TriggerEvent(EMessageType.chargingUp);
+
+        yield return new WaitForSeconds(0.5f);
+
+        m_windupEffect.SetActive(false);
+
+        StartCoroutine(SlamDown());
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     [HideInInspector] public static Interactable s_closest = null; // Closest to the player
     [HideInInspector] public float m_distToPlayer = float.MaxValue;
@@ -35,10 +35,7 @@ public class Interactable : MonoBehaviour
         MessageBus.RemoveListener(EMessageType.interact, CheckForClosest);
     }
 
-    virtual public void Invoke()
-    {
-
-    }
+    public abstract void Invoke();
 
     // Compares distance to player with the current closest
     public void CheckForClosest(string _null)

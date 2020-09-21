@@ -7,17 +7,26 @@ public class CobraAnimations : MonoBehaviour
     public Animator m_animator;
     public bool m_isReal = false;
 
+    private CobraBoss m_boss;
+
     private void Awake()
     {
         if (m_isReal)
         {
             m_animator.SetBool("IsReal", true);
         }
+
+        m_boss = GetComponent<CobraBoss>();
     }
 
-    public void AECobraFire()
+    public void AEFlipTiles()
     {
-        // Fire bullet
+        if (!m_isReal)
+        {
+            return;
+        }
+
+        m_boss.FlipTiles();
     }
 
     public void EnterPot()

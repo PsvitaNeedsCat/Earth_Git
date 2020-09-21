@@ -15,6 +15,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
     private float m_timeSinceLastFire = 0.0f;
+    private Quaternion m_oldRotation;
 
     private void Awake()
     {
@@ -51,6 +52,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
         // Move mesh to undo animation position and rotation changes
         m_mesh.transform.localPosition = m_mesh.transform.localPosition + Vector3.up;
+        m_oldRotation = m_mesh.transform.rotation;
         m_mesh.transform.Rotate(m_mesh.transform.right, -90.0f);
 
         // Rotate the firing object
@@ -66,12 +68,15 @@ public class CentipedeTailAttack : CentipedeBehaviour
 
         // Burrow up
         m_shields.SetActive(false);
-        m_firer.transform.localRotation = Quaternion.identity;
+
+        yield return new WaitForSeconds(1.0f);
+
+        m_firer.transform.localRotation = Quaternion.Euler(180.0f, 0.0f, 0.0f);
         CentipedeMovement.BurrowUp(m_burrowUpPoints);
         while (CentipedeMovement.s_burrowing) yield return null;
 
         // Undo the position and rotation changes from the tail
-        m_mesh.transform.Rotate(m_mesh.transform.right, 90.0f);
+        m_mesh.transform.rotation = m_oldRotation;
         m_mesh.transform.localPosition = m_mesh.transform.localPosition - Vector3.up;
         CentipedeMovement.s_burrowing = false;
 

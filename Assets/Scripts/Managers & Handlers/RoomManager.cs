@@ -121,7 +121,10 @@ public class RoomManager : MonoBehaviour
             if (m_rooms[i].name == _roomName)
             {
                 // Cannot load the same room
-                if (i == m_currentRoom) { return; }
+                if (i == m_currentRoom)
+                {
+                    return; 
+                }
 
                 // Room is valid
                 m_playerInput.SetMovement(false);

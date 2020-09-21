@@ -39,8 +39,6 @@ public class CobraMirageBarrage : CobraBehaviour
         GenerateSnakes();
 
         // Flip tiles and destroy chunks
-        m_boss.FlipTiles();
-
         foreach (CobraMirageSpit spit in m_mirageCobras)
         {
             spit.CobraJump();
@@ -87,20 +85,24 @@ public class CobraMirageBarrage : CobraBehaviour
 
     private void LowerHeads()
     {
-        CobraHealth.SetCollider(true);
+        // CobraHealth.SetCollider(true);
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
         m_spit.LowerHead();
 
+        bool fireRed = true;
+
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
+            mirageCobra.m_bulletType = (fireRed) ? ECobraMirageType.red : ECobraMirageType.blue;
+            fireRed = !fireRed;
             mirageCobra.LowerHead();
         }
     }
 
     private void RaiseHeads()
     {
-        CobraHealth.SetCollider(false);
+        //CobraHealth.SetCollider(false);
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
 
         m_spit.RaiseHead();
@@ -137,14 +139,6 @@ public class CobraMirageBarrage : CobraBehaviour
             yield return null;
         }
 
-        //// Fire all heads, at a delay
-        //for (int i = 0; i < CobraHealth.StateSettings.m_barrageProjectilesPerHead; i++)
-        //{
-        //    FireAllHeads();
-
-        //    yield return new WaitForSeconds(CobraHealth.StateSettings.m_barrageProjectileInterval);
-        //}
-
         yield return new WaitForSeconds(0.5f);
 
         OnAttackEnd();
@@ -158,23 +152,12 @@ public class CobraMirageBarrage : CobraBehaviour
         CompleteBehaviour();
     }
 
-    private void FireAllHeads()
-    {
-        foreach(CobraMirageSpit spit in m_mirageCobras)
-        {
-            if (spit != null)
-            {
-                spit.FireProjectile();
-            }
-        }
-
-        m_spit.FireProjectile();
-    }
-
     private void OnAttackEnd()
     {
         // Disable collider
         RaiseHeads();
+
+        m_boss.StartFlipTiles();
 
         EnterPots();
     }

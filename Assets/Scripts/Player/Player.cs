@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         if (m_instance != null && m_instance != this)
         {
             Debug.LogError("A second instance of Player.cs was instantiated");
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {

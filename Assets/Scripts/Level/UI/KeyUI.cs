@@ -53,7 +53,7 @@ public class KeyUI : MonoBehaviour
 
                 case Key.Type.waterBoss:
                     {
-                        m_fireKeySprites[i].SetActive(true);
+                        m_waterKeySprites[i].SetActive(true);
                         break;
                     }
 

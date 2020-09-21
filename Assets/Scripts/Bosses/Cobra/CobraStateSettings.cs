@@ -51,9 +51,11 @@ public class CobraStateSettings : ScriptableObject
 
     [Header("Sand Drop Settings")]
     public float m_potProjectileSpeed; // How fast the bullets of the pot should go
-    public float m_numPotsToFire; // How many pots should fire during one attack sequence
-    public float m_delayBetweenPots; // How much time will pass inbetween pots firing
+    public int m_sandDropPotsPerGroup; // How many pots will be firing at once
+    public float m_sandDropNumPotGroups; // How many groups of pots should fire during one attack sequence
+    public float m_delayBetweenPotGroups; // How much time will pass inbetween pots firing
 
+    public float m_waitAfterSandDrop;
     public int m_projectilesPerPot; // How many projectiles each pot will fire
     public float m_potProjectileInterval; // Time between firing projectiles by a pot
     public float m_potProjectileLifetime; // How long before the projectiles are despawned

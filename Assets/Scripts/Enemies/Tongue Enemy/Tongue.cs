@@ -93,4 +93,13 @@ public class Tongue : MonoBehaviour
 
         return type;
     }
+
+    // Destroys any chunks connected to the tongue
+    public void ForceDestroyAttached()
+    {
+        if (m_attachedChunk)
+        {
+            Destroy(m_attachedChunk.gameObject);
+        }
+    }
 }

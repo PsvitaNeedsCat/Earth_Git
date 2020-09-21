@@ -17,15 +17,17 @@ public class CentipedeTailFirer : MonoBehaviour
         m_tailObject.transform.DOPunchScale(Vector3.one * 0.2f, 0.1f);
         MessageBus.TriggerEvent(EMessageType.centipedeTailFire);
 
-        Fire(transform.localRotation * Vector3.right, _tailDamaged);
-        Fire(transform.localRotation * Vector3.left, _tailDamaged);
-        Fire(transform.localRotation * Vector3.forward, _tailDamaged);
-        Fire(transform.localRotation * Vector3.back, _tailDamaged);
+        Fire(transform.rotation * Vector3.right, _tailDamaged);
+        Fire(transform.rotation * Vector3.left, _tailDamaged);
+        Fire(transform.rotation * Vector3.up, _tailDamaged);
+        Fire(transform.rotation * Vector3.down, _tailDamaged);
     }
 
     // Fire a single projectile in a direction
     private void Fire(Vector3 _dir, bool _tailDamaged)
     {
+        Debug.Log("Firing tail " + _dir);
+
         float projectileSpeed = (_tailDamaged) ? CentipedeBoss.s_settings.m_projectileSpeedDamaged : CentipedeBoss.s_settings.m_projectileSpeed;
 
         GameObject newProjectile = Instantiate(m_projectilePrefab, transform.position + m_spawnDistance * _dir + Vector3.up * m_spawnHeight, Quaternion.identity, m_projectileParent);

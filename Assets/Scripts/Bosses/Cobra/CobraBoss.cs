@@ -15,6 +15,7 @@ public class CobraBoss : MonoBehaviour
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
+    private int m_behaviourLoopCount = 0;
     private CobraBehaviour m_currentBehaviour;
     private CobraHealth m_cobraHealth;
     private PlayerController m_playerController;
@@ -63,6 +64,8 @@ public class CobraBoss : MonoBehaviour
     // Waits for a delay, and then starts the first behaviour
     private IEnumerator DelayedStart()
     {
+        StartFlipTiles();
+
         yield return new WaitForSeconds(m_startDelay);
         m_currentBehaviour.StartBehaviour();
     }
@@ -88,22 +91,40 @@ public class CobraBoss : MonoBehaviour
 
         // Move to next behaviour and start it
         m_currentBehaviourIndex = (m_currentBehaviourIndex + 1) % m_totalBehaviours;
+
+        // Check if behaviours have looped
+        if (m_currentBehaviourIndex == 0)
+        {
+            m_behaviourLoopCount++;
+        }
+
+        // If behaviour loop count is even, skip the sand drop attack, otherwise skip the mirage wall attack
+        if ((m_behaviourLoopCount % 2) == 0 && m_currentBehaviourIndex == 1)
+        {
+            m_currentBehaviourIndex++;
+        }
+        else if ((m_behaviourLoopCount % 2) == 1 && m_currentBehaviourIndex == 0)
+        {
+            m_currentBehaviourIndex++;
+        }
+
         m_currentBehaviour = m_behaviourLoop[m_currentBehaviourIndex];
         m_currentBehaviour.StartBehaviour();
     }
 
+    public void StartFlipTiles()
+    {
+        m_animations.CobraJump();
+    }
+
     public void FlipTiles()
     {
-        StartCoroutine(StartTileFlip());        
+        StartCoroutine(OnJumpImpact());
     }
 
     // Knocks up the player, and shortly after, flips over all the tiles
-    private IEnumerator StartTileFlip()
+    private IEnumerator OnJumpImpact()
     {
-        m_animations.CobraJump();
-
-        yield return new WaitForSeconds(1.0f);
-
         m_playerController.KnockBack(Vector3.up * 2.5f);
         MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
@@ -126,11 +147,13 @@ public class CobraBoss : MonoBehaviour
                 m_flippableTiles[i].Flip();
             }
         }
+
+        Debug.Log("Flipping tiles");
     }
 
     public void SortPotList()
     {
-        m_cobraPots.Sort((pOne, pTwo) => pOne.m_potIndex.CompareTo(pTwo.m_potIndex));
+        m_cobraPots.Sort((potOne, potTwo) => potOne.m_potIndex.CompareTo(potTwo.m_potIndex));
 
         for (int i = 0; i < m_cobraPots.Count; i++)
         {

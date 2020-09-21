@@ -10,6 +10,7 @@ public class CobraSandDrop : CobraBehaviour
     private Vector3 m_arenaTopLeft;
     private List<int> m_potFiringOrder;
     private PlayerController m_playerController;
+    private CobraBoss m_boss;
 
     protected override void Awake()
     {
@@ -21,6 +22,7 @@ public class CobraSandDrop : CobraBehaviour
         m_arenaTopLeft += -Vector3.right * 2.0f;
 
         m_playerController = FindObjectOfType<PlayerController>();
+        m_boss = GetComponent<CobraBoss>();
     }
 
     private void GeneratePotFiringOrder()
@@ -42,11 +44,16 @@ public class CobraSandDrop : CobraBehaviour
         base.StartBehaviour();
 
         GeneratePotFiringOrder();
+
         StartCoroutine(StartScramble());
     }
 
     private IEnumerator StartScramble()
     {
+        m_boss.StartFlipTiles();
+
+        yield return new WaitForSeconds(3.0f);
+
         m_animations.EnterPot();
 
         yield return new WaitForSeconds(CobraBoss.s_settings.m_timeBeforeGenerate);
@@ -55,21 +62,29 @@ public class CobraSandDrop : CobraBehaviour
         int layoutIndex = Random.Range(0, CobraBoss.s_settings.m_blockLayouts.Count);
         GenerateBlockScramble(CobraBoss.s_settings.m_blockLayouts[layoutIndex]);
 
-        // 
+        yield return new WaitForSeconds(CobraHealth.StateSettings.m_waitAfterSandDrop);
 
-        for (int i = 0; i < CobraHealth.StateSettings.m_numPotsToFire; i++)
+        // num pot groups to fire
+
+        // num pots at once
+
+        for (int i = 0; i < CobraHealth.StateSettings.m_sandDropNumPotGroups; i++)
         {
-            // One pot fires its group of projectiles
             for (int j = 0; j < CobraHealth.StateSettings.m_projectilesPerPot; j++)
             {
-                s_boss.m_cobraPots[m_potFiringOrder[i]].FireProjectile();
+                for (int k = 0; k < CobraHealth.StateSettings.m_sandDropPotsPerGroup; k++)
+                {
+                    int potIndex = (i * CobraHealth.StateSettings.m_sandDropPotsPerGroup + k) % m_potFiringOrder.Count;
+                    s_boss.m_cobraPots[m_potFiringOrder[potIndex]].FireProjectile();
+                }
+
                 yield return new WaitForSeconds(CobraHealth.StateSettings.m_potProjectileInterval);
             }
 
-            yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPots);
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_delayBetweenPotGroups);
         }
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(1.0f);
 
         m_animations.Roar();
         m_animations.EnterPot();
@@ -134,7 +149,7 @@ public class CobraSandDrop : CobraBehaviour
                 if (generatedBlock != null)
                 {
                     CobraStateSettings settings = CobraHealth.StateSettings;
-                    float lifetime = settings.m_numPotsToFire * settings.m_delayBetweenPots + settings.m_numPotsToFire * settings.m_projectilesPerPot * settings.m_potProjectileInterval;
+                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval + settings.m_waitAfterSandDrop;
                     Destroy(generatedBlock, lifetime);
                 }
             }

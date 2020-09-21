@@ -41,6 +41,36 @@ public class CentipedeHealth : MonoBehaviour
         return m_sectionsDamaged[(int)_type];
     }
 
+    public int GetHealth()
+    {
+        int currentHealth = 0;
+
+        for (int i = 0; i < m_sectionsDamaged.Length; i++)
+        {
+            if (!m_sectionsDamaged[i])
+            {
+                currentHealth++;
+            }    
+        }
+
+        return currentHealth;
+    }
+
+    public List<int> GetDamagedSegments()
+    {
+        List<int> damagedSegments = new List<int>();
+
+        for (int i = 0; i < m_sectionsDamaged.Length; i++)
+        {
+            if (m_sectionsDamaged[i])
+            {
+                damagedSegments.Add(i);
+            }
+        }
+
+        return damagedSegments;
+    }
+
     // Activate (or deactivate) a section of the body, changing all materials
     public void ActivateSection(bool _activate, int _sectionIndex)
     {
@@ -167,4 +197,6 @@ public class CentipedeHealth : MonoBehaviour
 
         return ESegmentType.body;
     }
+
+    
 }

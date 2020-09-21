@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,12 +70,24 @@ public class TongueEnemy : MonoBehaviour
 
         if (typeSwallowed == EChunkType.poison)
         {
-            MessageBus.TriggerEvent(EMessageType.tongueEnemyKilled);
-            Destroy(this.gameObject);
+            Dead();
         }
 
-        if (typeSwallowed != EChunkType.none) { MessageBus.TriggerEvent(EMessageType.enemySwallow); }
+        if (typeSwallowed != EChunkType.none)
+        {
+            MessageBus.TriggerEvent(EMessageType.enemySwallow); 
+        }
 
         m_tongue.gameObject.SetActive(false);
+    }
+
+    // Kills the enemy - called when swallowed poison chunk
+    private void Dead()
+    {
+        MessageBus.TriggerEvent(EMessageType.tongueEnemyKilled);
+
+        Destroy(gameObject);
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
     }
 }

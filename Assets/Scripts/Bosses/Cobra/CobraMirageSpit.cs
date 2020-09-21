@@ -14,6 +14,7 @@ public class CobraMirageSpit : MonoBehaviour
     private GameObject m_bulletPrefab;
     private Material m_material;
     private CobraAnimations m_animations;
+    private Collider m_hitBox;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class CobraMirageSpit : MonoBehaviour
         m_meshRenderer.material = new Material(m_meshRenderer.material);
         m_material = m_meshRenderer.material;
         m_animations = GetComponent<CobraAnimations>();
+        m_hitBox = GetComponent<Collider>();
     }
 
     public void FireProjectile()
@@ -43,16 +45,20 @@ public class CobraMirageSpit : MonoBehaviour
 
     public void LowerHead()
     {
+        StopAllCoroutines();
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
         m_animations.LowerHead();
+        m_hitBox.enabled = true;
     }
 
     public void RaiseHead()
     {
+        StopAllCoroutines();
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
         StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
         m_animations.RaiseHead();
+        m_hitBox.enabled = false;
     }
 
     public void ExitPot()

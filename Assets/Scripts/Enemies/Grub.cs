@@ -93,7 +93,7 @@ public class Grub : MonoBehaviour
     private void Dead()
     {
         transform.DOKill();
-        transform.DOScale(0.5f, 0.1f).OnComplete(() => Destroy(transform.parent.gameObject));
+        transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
         m_dead = true;
         MessageBus.TriggerEvent(EMessageType.grubKilled);
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
@@ -126,13 +126,12 @@ public class Grub : MonoBehaviour
         proj.transform.parent = transform.parent;
         proj.Init(m_settings.m_grubProjDamage);
         proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * m_settings.m_grubProjSpeed, ForceMode.Impulse);
+        proj.transform.parent = transform.parent;
 
         // Tween
         Vector3 projScale = proj.transform.localScale;
         proj.transform.localScale = projScale * 0.1f;
         proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic).OnComplete(() => m_invincible = true);
-
-        proj.transform.parent = RoomManager.Instance.GetActiveRoom().transform;
 
         m_moving = false;
     }

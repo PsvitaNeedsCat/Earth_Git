@@ -97,7 +97,8 @@ public class Chunk : MonoBehaviour
         if (CollisionHasComponent<Hurtbox>(other, null) ||
             CollisionHasComponent<Projectile>(other, null) ||
             CollisionHasComponent<PressurePlate>(other, null) ||
-            CollisionHasComponent<MirageBullet>(other, null))
+            CollisionHasComponent<MirageBullet>(other, null) ||
+            CollisionHasComponent<ChunkKillBox>(other, null))
         {
             return;
         }
@@ -272,6 +273,8 @@ public class Chunk : MonoBehaviour
     {
         m_isBeingDestoyed = true;
 
+        
+
         switch (m_currentEffect)
         {
             case EChunkEffect.water:
@@ -288,11 +291,11 @@ public class Chunk : MonoBehaviour
 
             default:
                 {
+                    EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
                     MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
                     break;
                 }
         }
-
 
         Destroy(gameObject);
     }
@@ -312,7 +315,7 @@ public class Chunk : MonoBehaviour
             return true;
         }
 
-        if (_effect != EChunkEffect.water && IsAgainstWall(_hitVec))
+        if ((_effect != EChunkEffect.water || m_chunkType == EChunkType.carapace) && IsAgainstWall(_hitVec))
         {
             // Play sound
             m_healthComp.Health -= 1;
@@ -452,6 +455,12 @@ public class Chunk : MonoBehaviour
         if (torch)
         {
             torch.AttemptToActivate();
+        }
+
+        CobraHealth cobraHealth = _collision.GetComponent<CobraHealth>();
+        if (cobraHealth)
+        {
+            CobraHealth.Damage();
         }
     }
 
