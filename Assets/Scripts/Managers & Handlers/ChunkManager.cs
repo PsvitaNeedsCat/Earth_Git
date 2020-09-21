@@ -40,7 +40,6 @@ public class ChunkManager : MonoBehaviour
 
     public static void DestroyAllChunks()
     {
-        Debug.Log("Destroying all chunks");
         for (int i = 0; i < s_chunks.Count;)
         {
             Chunk chunk = s_chunks[i];
