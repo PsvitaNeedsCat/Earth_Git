@@ -13,6 +13,7 @@ public enum EMessageType
     fadedToBlack,
     fadedToBlackQuiet,
     continueDialogue,
+    teleportPlayer,
 
     // Chunk
     chunkDamaged,
