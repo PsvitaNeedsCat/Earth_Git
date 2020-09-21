@@ -41,9 +41,14 @@ public class StunnedStars : MonoBehaviour
         m_stunnedTimer = _stunnedTime;
         m_stunnedTimerInit = _stunnedTime;
 
+        float startTime = 0.0f;
         foreach (GameObject star in m_stars)
         {
             star.SetActive(true);
+            ParticleSystem ps = star.GetComponent<ParticleSystem>();
+            ps.Simulate(startTime);
+            ps.Play();
+            startTime += 2.0f;
         }
 
         m_areStarsActive = true;

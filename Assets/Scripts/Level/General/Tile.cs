@@ -10,6 +10,8 @@ public class Tile : MonoBehaviour
     // Private variables
     GlobalTileSettings m_globalSettings;
     [SerializeField] EChunkType m_chunkType;
+    [Tooltip("True if this is the tile the player should spawn at when teleporting")]
+    [SerializeField] private bool m_teleportTile = false;
     private Collider m_collider;
     private bool m_ignore = false;
     private Material m_normalMaterial;
@@ -20,10 +22,20 @@ public class Tile : MonoBehaviour
     private void OnEnable()
     {
         Grid.AddTile(this);
+
+        if (m_teleportTile)
+        {
+            MessageBus.AddListener(EMessageType.teleportPlayer, TeleportPlayerHere);
+        }
     }
     private void OnDisable()
     {
         Grid.RemoveTile(this);
+
+        if (m_teleportTile)
+        {
+            MessageBus.RemoveListener(EMessageType.teleportPlayer, TeleportPlayerHere);
+        }
     }
 
     private void Awake()
@@ -38,6 +50,13 @@ public class Tile : MonoBehaviour
 
             m_highlightedMaterial.SetTexture("_MainTex", m_normalMaterial.mainTexture);
         }
+    }
+
+    // Moves the player to this tile - called when teleporter is used
+    private void TeleportPlayerHere(string _null)
+    {
+        FindObjectOfType<Player>().transform.position = transform.position;
+        Debug.Log("Teleporting player");
     }
 
     // Returns null if chunk failed to raise

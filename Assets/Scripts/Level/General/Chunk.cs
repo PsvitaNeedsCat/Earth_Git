@@ -230,11 +230,15 @@ public class Chunk : MonoBehaviour
     // Called when this chunk collides with a centipede segment
     private void HitCentipedeSegment(Collider _collider)
     {
-        if (CentipedeTrainAttack.s_charging && m_currentEffect == EChunkEffect.none && !CentipedeTrainAttack.s_stunned)
+        CentipedeHead head = _collider.GetComponent<CentipedeHead>();
+        if (head)
         {
-            _collider.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
-            Destroy(this.gameObject);
-            return;
+            if (CentipedeTrainAttack.s_charging && m_currentEffect == EChunkEffect.none && !CentipedeTrainAttack.s_stunned && !head.m_health.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
+            {
+                _collider.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
+                Destroy(this.gameObject);
+                return;
+            }
         }
 
         if (m_currentEffect == EChunkEffect.water)

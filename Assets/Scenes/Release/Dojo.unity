@@ -6482,6 +6482,17 @@ MonoBehaviour:
           m_StringArgument: Overworld
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1507557826}
+        m_MethodName: InTutorial
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &729322304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12749,6 +12760,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8d870656e681f543b6fbaf6456e019a, type: 3}
+--- !u!114 &1507557826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2702329369494989131, guid: e8d870656e681f543b6fbaf6456e019a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1507557825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245379408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf413133fc15b8428beb63efb08a003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1522952857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15021,6 +15044,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
         type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
       propertyPath: m_musicTrigger
       value: 0
       objectReference: {fileID: 0}
@@ -15028,6 +15056,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_roomName
       value: Interior
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1507557826}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 25315128445751922, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
+        type: 3}
+      propertyPath: m_triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6111287442835949463, guid: 9a996e912f9b9aa42b4d7eb1c4cc8ed2,
         type: 3}
