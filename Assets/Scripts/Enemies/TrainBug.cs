@@ -23,6 +23,7 @@ public class TrainBug : MonoBehaviour
     private GlobalEnemySettings m_settings;
     private Rigidbody m_rigidbody;
     private StunnedStars m_stunnedStars = null;
+    private Vector3 m_stunnedLocation = Vector3.zero;
 
     private float m_vulnerableTimer = 0.0f;
 
@@ -49,6 +50,7 @@ public class TrainBug : MonoBehaviour
                         m_chargingSound.Play();
                         m_state = EStates.charging;
                         Flip(false);
+                        transform.DOMove(m_stunnedLocation, 0.1f);
                     }
                     break;
                 }
@@ -64,8 +66,6 @@ public class TrainBug : MonoBehaviour
     // Called when hit player or stationary chunk
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision with: " + collision.gameObject.name);
-
         // Hit Chunk
         Chunk chunk = collision.collider.GetComponentInParent<Chunk>();
         if (chunk)
@@ -94,8 +94,6 @@ public class TrainBug : MonoBehaviour
     // Called when hit moving chunk
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Triggered with: " + other.gameObject.name);
-
         // Hit chunk
         Chunk chunk = other.GetComponentInParent<Chunk>();
         if (chunk)
@@ -160,7 +158,23 @@ public class TrainBug : MonoBehaviour
     // Stuns the bug
     private void Stun()
     {
-        // Stunned
+        // Snap to tile
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + new Vector3(0.0f, 0.1f, 0.0f), Vector3.down, out hit, 0.5f))
+        {
+            Debug.Log("Raycast hit: " + hit.transform.gameObject.name);
+
+            if (hit.transform.GetComponent<Tile>() || hit.transform.parent.GetComponent<Tile>())
+            {
+                Vector3 newPos = transform.position;
+                newPos.x = hit.transform.position.x;
+                newPos.z = hit.transform.position.z;
+                transform.DOMove(newPos, 0.2f);
+            }
+        }
+
+        m_stunnedLocation = transform.position;
+
         MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
         m_chargingSound.Stop();
         m_rigidbody.velocity = Vector3.zero;
