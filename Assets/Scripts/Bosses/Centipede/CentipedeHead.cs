@@ -6,11 +6,13 @@ public class CentipedeHead : MonoBehaviour
 {
     public BoxCollider m_damageTrigger;
     private CentipedeTrainAttack m_trainAttack;
+    private CentipedeHealth m_health;
 
     private void Awake()
     {
         m_trainAttack = GetComponentInParent<CentipedeTrainAttack>();
         m_damageTrigger = GetComponent<BoxCollider>();
+        m_health = m_trainAttack.gameObject.GetComponent<CentipedeHealth>();
     }
 
     public void DisableCollider()
@@ -47,10 +49,9 @@ public class CentipedeHead : MonoBehaviour
             chunk.GetComponent<HealthComponent>().Health = 0;
             MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
 
-            if (m_trainAttack.m_currentState == CentipedeBehaviour.EBehaviourState.running && !CentipedeTrainAttack.s_stunned)
+            if (m_trainAttack.m_currentState == CentipedeBehaviour.EBehaviourState.running && !CentipedeTrainAttack.s_stunned && !m_health.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
             {
                 m_trainAttack.HitByChunk();
-                chunk.GetComponent<HealthComponent>().Health = 0;
             }
         }
     }
