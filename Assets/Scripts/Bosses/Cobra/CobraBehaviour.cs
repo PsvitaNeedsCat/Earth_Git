@@ -19,6 +19,14 @@ public class CobraBehaviour : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (s_boss == null)
+        {
+            s_boss = GetComponent<CobraBoss>();
+        }
+    }
+
     private void OnDisable()
     {
         s_boss = null;

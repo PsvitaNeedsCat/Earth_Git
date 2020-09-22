@@ -277,8 +277,6 @@ public class Chunk : MonoBehaviour
     {
         m_isBeingDestoyed = true;
 
-        
-
         switch (m_currentEffect)
         {
             case EChunkEffect.water:
@@ -373,6 +371,12 @@ public class Chunk : MonoBehaviour
             // Ignore sand
             foreach (Collider i in hits)
             {
+                // Ignore self-collision
+                if (i.gameObject == gameObject || i.transform.parent.gameObject == gameObject)
+                {
+                    continue;
+                }
+
                 SandBlock sand = i.transform.GetComponent<SandBlock>();
                 if (!sand || (sand && sand.m_isGlass)) 
                 { 
@@ -521,11 +525,12 @@ public class Chunk : MonoBehaviour
         m_mainCollider.enabled = false;
 
         // Tween to tongue
-        transform.DOMove(_tonguePos, 0.2f);
+        transform.DOMove(_tonguePos, 0.1f);
         Vector3 distance = _frogPos - transform.position;
         distance.y = 0.0f;
         float tweenTime = distance.magnitude / 3.0f;
         transform.DOMove(_frogPos, tweenTime);
+        transform.DOScale(0.1f, tweenTime);
     }
 
     // Changes the current effect of the chunk and updates the mesh accordingly

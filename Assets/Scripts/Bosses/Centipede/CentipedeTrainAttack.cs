@@ -125,7 +125,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         m_currentTunnelIndex = 0;
         m_chunksHit = 0;
         s_stunned = false;
-        Debug.Log("Stunned is false");
+        // Debug.Log("Stunned is false");
     }
 
     // When hit by a chunk during the train attack

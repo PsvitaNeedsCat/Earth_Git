@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button m_playButton;
     [SerializeField] private Button m_quitButton;
+    [SerializeField] private GameObject m_title = null;
+
     [SerializeField] private Button[] m_saveButtons = new Button[3];
     [SerializeField] private Button[] m_deleteButtons = new Button[3];
     [SerializeField] private Button m_returnButton;
@@ -23,8 +26,14 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
-        else { s_instance = this; }
+        if (s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject); 
+        }
+        else
+        {
+            s_instance = this; 
+        }
 
         // Disable splash screen
         if (s_splashSeen)
@@ -51,6 +60,11 @@ public class MainMenu : MonoBehaviour
         // Remove play and quit buttons - display save files
         FadeButton(m_playButton, false);
         FadeButton(m_quitButton, false);
+
+        // Tween out title
+        Vector3 newPos = m_title.transform.position;
+        newPos.x -= 12.0f;
+        m_title.transform.DOMove(newPos, 0.5f);
 
         for (int i = 0; i < m_saveButtons.Length; i++)
         {
@@ -79,14 +93,30 @@ public class MainMenu : MonoBehaviour
         colour.a = (_fadeIn) ? 0.0f : 1.0f;
         _button.image.color = colour;
 
+        // Fade in/out text
+        if (_button.transform.childCount > 0)
+        {
+            TextMeshProUGUI tmpro = _button.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmpro)
+            {
+                Color newColour = tmpro.color;
+                newColour.a = (_fadeIn) ? 1.0f : 0.0f;
+                tmpro.DOColor(newColour, 0.5f);
+            }
+        }
+
         // Fade in/out
         if (_fadeIn)
         {
             _button.gameObject.SetActive(true);
             if (_setFocus)
-            { _button.image.DOFade(1.0f, 0.5f).OnComplete(() => m_eventSystem.SetSelectedGameObject(_button.gameObject)); }
+            { 
+                _button.image.DOFade(1.0f, 0.5f).OnComplete(() => m_eventSystem.SetSelectedGameObject(_button.gameObject));
+            }
             else
-            { _button.image.DOFade(1.0f, 0.5f); }
+            {
+                _button.image.DOFade(1.0f, 0.5f);
+            }
         }
         else
         {
@@ -117,6 +147,11 @@ public class MainMenu : MonoBehaviour
         // Activate play and quit buttons
         FadeButton(m_playButton, true, true);
         FadeButton(m_quitButton, true);
+
+        // Fade in title
+        Vector3 newPos = m_title.transform.position;
+        newPos.x += 12.0f;
+        m_title.transform.DOMove(newPos, 0.5f);
     }
 
     // Tries to load a save, otherwise it will create a save

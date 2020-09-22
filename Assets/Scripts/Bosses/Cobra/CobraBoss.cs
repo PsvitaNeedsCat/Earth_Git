@@ -45,13 +45,6 @@ public class CobraBoss : MonoBehaviour
         StopAllCoroutines();
     }
 
-    // Switch to the chase behaviour, and start chasing the player
-    public void StartChase()
-    {
-        m_currentBehaviour = m_chaseBehaviour;
-        m_currentBehaviour.StartBehaviour();
-    }
-
     // Start the first behaviour after a delay
     private void Start()
     {
@@ -59,6 +52,14 @@ public class CobraBoss : MonoBehaviour
 
         m_currentBehaviour = m_behaviourLoop[0];
         StartCoroutine(DelayedStart());
+    }
+
+    // Switch to the chase behaviour, and start chasing the player
+    public void StartChase()
+    {
+        m_currentBehaviour.CompleteBehaviour();
+        m_currentBehaviour = m_chaseBehaviour;
+        m_currentBehaviour.StartBehaviour();
     }
 
     // Waits for a delay, and then starts the first behaviour
@@ -127,7 +128,7 @@ public class CobraBoss : MonoBehaviour
     {
         m_playerController.KnockBack(Vector3.up * 2.5f);
         MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
-        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);       
 
         yield return new WaitForSeconds(0.2f);
 
@@ -148,7 +149,9 @@ public class CobraBoss : MonoBehaviour
             }
         }
 
-        Debug.Log("Flipping tiles");
+        ChunkManager.DestroyAllChunks();
+        yield return new WaitForSeconds(1.0f);
+        ChunkManager.DestroyAllChunks();
     }
 
     public void SortPotList()
