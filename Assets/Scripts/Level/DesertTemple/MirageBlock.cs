@@ -48,7 +48,7 @@ public class MirageBlock : MirageParent
         if (m_attemptToSolidify && !m_isPlayerInside)
         {
             m_attemptToSolidify = false;
-            CanWalkThrough(true);
+            CanWalkThrough(false);
         }
     }
 

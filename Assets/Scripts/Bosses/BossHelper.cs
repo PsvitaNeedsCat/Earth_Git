@@ -6,6 +6,8 @@ public static class BossHelper
 {
     public static IEnumerator ChangeMaterialFloatProperty(Material _material, string _property, float _currentValue, float _endValue, float _rate, bool _increase)
     {
+        // Debug.Log("Changing material properties: " + _property + "   " + _currentValue + " " + _endValue + " " + _increase);
+
         float curValue = _currentValue;
 
         if (_increase)
