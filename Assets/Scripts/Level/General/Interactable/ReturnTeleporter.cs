@@ -10,6 +10,8 @@ public class ReturnTeleporter : Interactable
     // Stops the player moving and teleports them back to a specified room
     public override void Invoke()
     {
+        MessageBus.TriggerEvent(EMessageType.crystalHealed);
+
         PlayerInput player = FindObjectOfType<PlayerInput>();
 
         player.SetMovement(false);
