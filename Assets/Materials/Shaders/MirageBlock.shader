@@ -14,37 +14,37 @@
 			Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
 			LOD 100
 
-			ZWrite Off
-			Blend SrcAlpha OneMinusSrcAlpha
+		//Transparency
+			
+		Lighting Off
+		ZWrite Off
+		Cull Back
+		Blend SrcAlpha OneMinusSrcAlpha
+		//Tags {"Queue"="Transparent"}
+		Color[_Color2]
+		Pass
+		{
+			Stencil{
+				Ref 1	//Ref value
+				Comp Greater	//If value greater
+				Pass IncrSat	//Increase saturation
+			}
+		}
 
+		//Solid Overlay
 
-			CGPROGRAM
-		#pragma surface surf Standard alphatest:fade
+		ZWrite Off
+		Cull Back
 
+		CGPROGRAM
+		#pragma surface surf Flat alphatest:_Cutoff
 
-					struct Input
-					{
-						float2 uv_MainTex;
-					};
+			
 
-					sampler2D _MainTex;
-					fixed4 _Color2;
-
-					void surf(Input IN, inout SurfaceOutputStandard o)
-					{
-
-						o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * _Color2.rgb;
-						o.Alpha = _Color2.a;
-					}
-
-						ENDCG
-
-				CGPROGRAM
-				#pragma surface surf Flat alphatest:_Cutoff
-			half4 LightingFlat(SurfaceOutput o, half3 lightDir, half atten)
-				{
-					return half4(o.Albedo, 1);
-				}
+		half4 LightingFlat(SurfaceOutput o, half3 lightDir, half atten)
+		{
+			return half4(o.Albedo, 1);
+		}
 
 		struct Input
 		{
@@ -64,9 +64,7 @@
 		}
 
 		ENDCG
-						
 
-		
 		}
+			FallBack "Unlit/Transparent"
 }
-
