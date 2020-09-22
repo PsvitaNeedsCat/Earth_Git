@@ -96,6 +96,8 @@ public class CobraMirageWall : CobraBehaviour
         m_animations.EnterPot();
 
         base.CompleteBehaviour();
+
+        StopAllCoroutines();
     }
 
     public override void Reset()
