@@ -98,6 +98,8 @@ public class CobraSandDrop : CobraBehaviour
     {
         base.CompleteBehaviour();
 
+        StopAllCoroutines();
+
         m_playerController.m_inSand = false;
     }
 

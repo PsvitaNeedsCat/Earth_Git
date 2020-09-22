@@ -7,10 +7,11 @@ using DG.Tweening;
 public class CobraChase : CobraBehaviour
 {
     public Transform m_mesh;
-    public GameObject m_dropShadow;
+    public GameObject m_fallingDropShadow;
     public Transform m_arenaCenter;
     public GameObject m_stompHurtbox;
     public GameObject m_crystal;
+    public GameObject m_chasingDropShadow;
 
     private int m_timesJumped = 0;
     private Player m_playerRef;
@@ -39,7 +40,7 @@ public class CobraChase : CobraBehaviour
         yield return new WaitForSeconds(2.0f);
 
         // Turn on the drop shadow
-        m_dropShadow.SetActive(true);
+        m_fallingDropShadow.SetActive(true);
         
         bool landed = false;
 
@@ -58,8 +59,9 @@ public class CobraChase : CobraBehaviour
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
 
         // Disable drop shadow
-        m_dropShadow.SetActive(false);
+        m_fallingDropShadow.SetActive(false);
         m_stompHurtbox.SetActive(true);
+        m_chasingDropShadow.SetActive(true);
 
         StartCoroutine(Chase());
     }
@@ -69,7 +71,7 @@ public class CobraChase : CobraBehaviour
         // Update scale of drop shadow based on distance to the cobra
         float dist = Mathf.Abs(m_mesh.transform.position.y - m_arenaCenter.position.y);
         float quot = Mathf.Clamp01(dist / CobraBoss.s_settings.m_bigJumpHeight);
-        m_dropShadow.transform.localScale = Vector3.one * Mathf.Lerp(CobraBoss.s_settings.m_dropShadowMaxScale, CobraBoss.s_settings.m_dropShadowMinScale, quot);
+        m_fallingDropShadow.transform.localScale = Vector3.one * Mathf.Lerp(CobraBoss.s_settings.m_dropShadowMaxScale, CobraBoss.s_settings.m_dropShadowMinScale, quot);
     }
 
     // Returns the direction from the cobra to the player (ignoring changes on the y axis)
@@ -129,7 +131,8 @@ public class CobraChase : CobraBehaviour
     {
         MessageBus.TriggerEvent(EMessageType.cobraDeath);
         MessageBus.TriggerEvent(EMessageType.potDestroyed);
-        Destroy(transform.parent.parent.gameObject);
+        // Destroy(transform.parent.parent.gameObject);
+        transform.parent.gameObject.SetActive(false);
     }
 
     public override void CompleteBehaviour()
