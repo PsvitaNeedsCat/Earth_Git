@@ -7,7 +7,8 @@ public class Snake : MonoBehaviour
 {
     [SerializeField] private EChunkEffect m_effectType = EChunkEffect.none;
 
-    private GameObject m_bulletRef = null;
+    private GameObject m_redBulletRef = null;
+    private GameObject m_blueBulletRef = null;
     private GlobalEnemySettings m_settings;
     private Player m_playerRef = null;
     private float m_delayTimer = 0.0f;
@@ -15,7 +16,8 @@ public class Snake : MonoBehaviour
     private void Awake()
     {
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");
-        m_bulletRef = Resources.Load<GameObject>("Prefabs/Enemies/MirageBullet");
+        m_redBulletRef = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletRed");
+        m_blueBulletRef = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletBlue");
         m_playerRef = FindObjectOfType<Player>();
     }
 
@@ -39,7 +41,8 @@ public class Snake : MonoBehaviour
     {
         Vector3 spawnPos = transform.position + (transform.forward * m_settings.m_snakeBulletSpawnDist);
         spawnPos.y += 0.5f;
-        MirageBullet bullet = Instantiate(m_bulletRef, spawnPos, transform.rotation).GetComponent<MirageBullet>();
+        GameObject bulletRef = (m_effectType == EChunkEffect.water) ? m_blueBulletRef : m_redBulletRef;
+        MirageBullet bullet = Instantiate(bulletRef, spawnPos, transform.rotation).GetComponent<MirageBullet>();
         bullet.Init(m_effectType, m_playerRef.GetCurrentPower());
         bullet.transform.parent = transform;
         // Tween mesh

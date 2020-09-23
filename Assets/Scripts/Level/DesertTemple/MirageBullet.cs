@@ -59,7 +59,7 @@ public class MirageBullet : MirageParent
         m_effectType = _bulletEffect;
 
         // Update the material
-        GetComponent<MeshRenderer>().material = m_materials[(int)m_effectType];
+        // GetComponent<MeshRenderer>().material = m_materials[(int)m_effectType];
 
         // Update the current power
         PowerChanged(_playerEffect.ToString());
