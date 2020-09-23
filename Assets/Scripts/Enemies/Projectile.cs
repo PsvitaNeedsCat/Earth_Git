@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [HideInInspector] public EMessageType m_destroyedSignal = EMessageType.projectileSplash;
+    public EMessageType m_destroyedSignal = EMessageType.projectileSplash;
 
     public int m_damage = 1;
 
@@ -35,6 +35,6 @@ public class Projectile : MonoBehaviour
         }
 
         MessageBus.TriggerEvent(m_destroyedSignal);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
