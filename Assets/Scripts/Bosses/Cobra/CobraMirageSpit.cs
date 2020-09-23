@@ -11,14 +11,16 @@ public class CobraMirageSpit : MonoBehaviour
     public bool m_isReal = false;
 
     private Player m_playerRef;
-    private GameObject m_bulletPrefab;
+    private GameObject m_redBulletPrefab;
+    private GameObject m_blueBulletPrefab;
     private Material m_material;
     private CobraAnimations m_animations;
     private Collider m_hitBox;
 
     private void Awake()
     {
-        m_bulletPrefab = Resources.Load<GameObject>("Prefabs/Enemies/MirageBullet");
+        m_redBulletPrefab = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletRed");
+        m_blueBulletPrefab = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletBlue");
         m_playerRef = FindObjectOfType<Player>();
         m_meshRenderer.material = new Material(m_meshRenderer.material);
         m_material = m_meshRenderer.material;
@@ -35,7 +37,8 @@ public class CobraMirageSpit : MonoBehaviour
             CobraMirageBarrage.s_shotsFired++;
         }
 
-        GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
+        GameObject bulletPrefab = (m_bulletType == ECobraMirageType.blue) ? m_blueBulletPrefab : m_redBulletPrefab;
+        GameObject newBullet = Instantiate(bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
         EChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? EChunkEffect.water : EChunkEffect.fire;
         newBullet.GetComponent<MirageBullet>().Init(chunkEffect, m_playerRef.GetCurrentPower());
 

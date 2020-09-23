@@ -13,23 +13,18 @@ public class CobraBehaviour : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (s_boss == null)
-        {
-            s_boss = GetComponent<CobraBoss>();
-        }
+        s_boss = GetComponent<CobraBoss>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
-        if (s_boss == null)
-        {
-            s_boss = GetComponent<CobraBoss>();
-        }
+        s_boss = GetComponent<CobraBoss>();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
-        s_boss = null;
+        // s_boss = null;
+        StopAllCoroutines();
     }
 
     public virtual void StartBehaviour()
