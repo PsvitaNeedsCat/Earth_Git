@@ -9,13 +9,14 @@ public class MirageParent : MonoBehaviour
     public EChunkEffect m_effectType = EChunkEffect.none;
 
     protected EChunkEffect m_currentEffect = EChunkEffect.none;
-    private MeshRenderer m_renderer = null;
+    protected MeshRenderer m_renderer = null;
     private Collider m_collider = null;
 
     protected virtual void Awake()
     {
         m_collider = GetComponent<Collider>();
         m_renderer = GetComponent<MeshRenderer>();
+        m_renderer.material = new Material(m_renderer.material);
     }
 
     protected virtual void OnEnable()
@@ -81,9 +82,12 @@ public class MirageParent : MonoBehaviour
         // Update collider
         m_collider.isTrigger = (m_currentEffect == m_effectType);
 
-        // Update alpha
-        Color colour = m_renderer.material.color;
-        colour.a = (m_currentEffect == m_effectType) ? 0.8f : 1.0f;
-        m_renderer.material.color = colour;
+        StopAllCoroutines();
+
+        float currentValue = (_canWalkThrough) ? 0.0f : 1.0f;
+        float endValue = (_canWalkThrough) ? 1.0f : 0.0f;
+        float changeRate = (_canWalkThrough) ? 2.0f : -2.0f;
+
+        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_renderer.material, "_Cutoff", currentValue, endValue, changeRate, _canWalkThrough));
     }
 }
