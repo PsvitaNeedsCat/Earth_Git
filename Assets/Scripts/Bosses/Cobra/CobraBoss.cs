@@ -65,9 +65,12 @@ public class CobraBoss : MonoBehaviour
     // Waits for a delay, and then starts the first behaviour
     private IEnumerator DelayedStart()
     {
+        yield return new WaitForSeconds(m_startDelay);
+
         StartFlipTiles();
 
-        yield return new WaitForSeconds(m_startDelay);
+        yield return new WaitForSeconds(2.0f);
+        
         m_currentBehaviour.StartBehaviour();
     }
 
