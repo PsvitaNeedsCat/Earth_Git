@@ -12,4 +12,9 @@ public class DisableScreenShakeListener : MonoBehaviour
     {
         GetComponent<CinemachineImpulseListener>().m_Gain = 0.0f;
     }
+
+    public void ResumeScreenShake()
+    {
+        GetComponent<CinemachineImpulseListener>().m_Gain = 1.0f;
+    }
 }

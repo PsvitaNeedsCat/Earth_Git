@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 104298319}
   - component: {fileID: 104298318}
   - component: {fileID: 104298321}
+  - component: {fileID: 104298322}
   m_Layer: 0
   m_Name: VCam
   m_TagString: Untagged
@@ -420,8 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ChannelMask: 1
-  m_Gain: 1
+  m_ChannelMask: 2
+  m_Gain: 0
   m_Use2DDistance: 0
 --- !u!114 &104298319
 MonoBehaviour:
@@ -485,6 +486,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6698df4360eb9c542a02559c442dda1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &104298322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104298317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 453843f9e754ccf42b57767a62313453, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 104298321}
+          m_MethodName: ResumeScreenShake
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &112462250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1866,8 +1896,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344457148}
-  m_LocalRotation: {x: 0.18525015, y: -0.37459084, z: 0.07781232, w: 0.9051571}
-  m_LocalPosition: {x: 6.4897676, y: 4.440424, z: -7.4862137}
+  m_LocalRotation: {x: 0.18474543, y: -0.37507987, z: 0.07739391, w: 0.9050936}
+  m_LocalPosition: {x: 6.483883, y: 4.424816, z: -7.4861183}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3054,6 +3084,8 @@ PlayableDirector:
     value: {fileID: 1458961582}
   - key: {fileID: -1069614372720963879, guid: 61fda1b1f6d96724d9bdeacea3ffc628, type: 2}
     value: {fileID: 1342923110}
+  - key: {fileID: -5881886197567122375, guid: 61fda1b1f6d96724d9bdeacea3ffc628, type: 2}
+    value: {fileID: 104298322}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &589318239
@@ -7458,7 +7490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ImpulseDefinition:
-    m_ImpulseChannel: 1
+    m_ImpulseChannel: 2
     m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
     m_AmplitudeGain: 1
     m_FrequencyGain: 1
