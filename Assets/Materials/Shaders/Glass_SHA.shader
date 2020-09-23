@@ -2,108 +2,74 @@
 
 Shader "Earth/Glass"
 {
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
-        _Color ("Colour", Color) = (1, 1, 1, 1)
-            [Space]
-        [Header(DISTORTION)]
-        _Strength("Distortion Strength", Float) = 1.0
-    }
-    SubShader
-    {
-        Tags
-        { "RenderType"="Transparent"
-            "DisableBatching" = "True"
-        }
-
-        LOD 100
-
-		GrabPass{}
-
-			/*Pass
-        {
-            CGPROGRAM
-
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
-
-            struct appdata {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-        struct v2f {
-            float2 uv: TEXCOORD0;
-			UNITY_FOG_COORDS(1)
-            float4 vertex : SV_POSITION;
-            float4 screenUV : TEXCOORD1;
-        };
-
-		sampler2D _MainTex;
-		float4 _MainTex_ST;
-
-		sampler2D _GrabTexture
-			;
-
-		v2f vert(appdata v)
+	Properties
+	{
+		_MainTex("Main Texure", 2D) = "white"{}
+		_Color("Base Colour", Color) = (1, 1, 1, 1)
+			_Color2("Texture Color", Color) = (1, 1, 1 ,1)
+	}
+		SubShader
 		{
-			v2f o;
-			o.vertex = UnityObjectToClipPos(v.vertex);
-			o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-			UNITY_TRANSFER_FOG(o, o.vertex);
+			Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+			LOD 100
 
-			o.screenUV = ComputeGrabScreenPos(o.vertex);
-			return o;
-		}
+			//Transparency
 
-		fixed4 frag(v2f i) : SV_Target{
-			fixed grab = tex2Dproj(_GrabTexture, i.screenUV);
-		return grab;
-		}
-        
+			Lighting Off
+			ZWrite Off
+			Cull Back
+			Blend SrcAlpha OneMinusSrcAlpha
+			//Tags {"Queue"="Transparent"}
+			Color[_Color]
+			Pass
+			{
+				Stencil{
+					Ref 1	//Ref value
+					Comp Greater	//If value greater
+					Pass IncrSat	//Increase saturation
+				}
+			}
 
-            ENDCG
-        }*/
-
-		Pass
+			Pass
 		{
 			CGPROGRAM
-#pragma vertex vert
-#pragma fragment frag
+			#pragma vertex vert
+			#pragma fragment frag
 
-#include "UnityCG.cginc"
+			#include "UnityCG.cginc"
 
 			struct appdata
-		{
-			float4 vertex : POSITION;
-			float2 uv : TEXCOORD0;
-};
+			{
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
 
-		struct v2f
-		{
-			float4 uv : TEXCOORD0;
-			float4 vertex : SV_POSITION;
-		};
+			struct v2f
+			{
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+			};
 
-		v2f vert(appdata v)
-		{
-			v2f o;
-			o.vertex = UnityObjectToClipPos(v.vertex);
-			o.uv = ComputeGrabScreenPos(o.vertex);
-			return o;
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
+			fixed4 _Color2;
+
+			v2f vert(appdata v)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				return o;
+			}
+
+			fixed4 frag(v2f i) : SV_Target
+			{
+				// sample the texture
+				fixed4 col = tex2D(_MainTex, i.uv) * _Color2;
+			return col;
 		}
+		ENDCG
+	}
 
-		sampler2D _GrabTexture;
-
-		fixed4 frag(v2f i) : SV_Target
-		{
-			fixed4 col = tex2Dproj(_GrabTexture, i.uv);
-		return col;
 		}
-
-			ENDCG
-}
-    }
 }

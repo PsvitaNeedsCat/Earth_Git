@@ -4,7 +4,7 @@
 	{
 		_MainTex("Main Texure", 2D) = "white"{}
 		_Color("Start Colour", Color) = (1, 1, 1, 1)
-		_Color2("End Colour", Color) = (1, 1, 1, 1)
+		[HDR]_Color2("End Colour", Color) = (1, 1, 1, 1)
 		_Noise("Noise Blend", 2D) = "white" {}
 		_NoisePow("Noise Softness", Float) = 1
 		_Cutoff("dissolve Cutoff", Range(0.0, 1.0)) = 0.0
