@@ -26,14 +26,13 @@ public class CobraPot : MonoBehaviour
 
     private GameObject m_projectilePrefab;
     private GameObject m_lobProjectilePrefab;
-    private Collider m_collider;
+    public Collider m_collider;
     private CobraAnimations m_animations;
     
     private void Awake()
     {
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
-        m_collider = GetComponentInChildren<Collider>();
         m_animations = GetComponent<CobraAnimations>();
 
         m_potLandIndicator.SetActive(false);
@@ -100,12 +99,14 @@ public class CobraPot : MonoBehaviour
 
     public void EnablePotIndicator(Vector3 _destination)
     {
+        Debug.Log("Enabling pot indicator" + gameObject.name);
         m_potLandIndicator.transform.position = _destination;
         m_potLandIndicator.SetActive(true);
     }
 
     public void DisablePotIndicator()
     {
+        Debug.Log("Disabling pot indicator" + gameObject.name);
         m_potLandIndicator.SetActive(false);
     }
 
@@ -168,6 +169,17 @@ public class CobraPot : MonoBehaviour
         Vector3 finalPosition = CobraShuffle.s_potStartingPositions[m_endIndex];
         m_moveTransform.DOMove(finalPosition, _overSeconds);
         m_moveTransform.DORotateQuaternion(m_endRotation, _overSeconds);
+
+        StartCoroutine(DisableColliderFor(_overSeconds));
+    }
+
+    private IEnumerator DisableColliderFor(float _seconds)
+    {
+        m_collider.enabled = false;
+
+        yield return new WaitForSeconds(_seconds);
+
+        m_collider.enabled = true;
     }
 
     private void OnCollisionEnter(Collision collision)

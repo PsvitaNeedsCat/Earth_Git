@@ -60,18 +60,8 @@ public class CobraHealth : MonoBehaviour
 
     private void Awake()
     {
-        // If there is already a cobra health, destroy this
-        //if (s_health != null)
-        //{
-        //    Destroy(transform.parent.parent.gameObject);
-        //}
-        //// Otherwise, assign this as the instance
-        //else
-        //{
-        //    s_health = this;
-        //}
         s_health = this;
-
+         
         s_healthIcons = m_healthIcons;
         s_barrage = GetComponent<CobraMirageBarrage>();
         s_shuffle = GetComponent<CobraShuffle>();
@@ -96,8 +86,8 @@ public class CobraHealth : MonoBehaviour
 
     private void OnDestroy()
     {
-        s_health = null;
-        s_healthIcons.Clear();
+        // s_health = null;
+        // s_healthIcons.Clear();
     }
 
     private void Update()
