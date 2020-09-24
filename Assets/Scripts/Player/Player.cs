@@ -306,8 +306,11 @@ public class Player : MonoBehaviour
         {
             active[i] = s_activePowers[(EChunkEffect)i]; 
         }
-        m_crystalUI.UpdateUnlocked(active);
-        m_crystalUI.UpdateSelected((int)s_currentEffect);
+        if (m_crystalUI)
+        {
+            m_crystalUI.UpdateUnlocked(active);
+            m_crystalUI.UpdateSelected((int)s_currentEffect);
+        }
     }
 
     // Will try to interact with whatever is closest

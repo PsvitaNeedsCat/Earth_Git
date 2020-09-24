@@ -25,7 +25,7 @@ public class ChunkManager : MonoBehaviour
     {
         if (s_chunks.Count > 0)
         {
-            Destroy(s_chunks[0].gameObject);
+            s_chunks[0].OnDeath();
         }
     }
 
