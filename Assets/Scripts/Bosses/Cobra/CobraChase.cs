@@ -46,7 +46,7 @@ public class CobraChase : CobraBehaviour
 
         // Jump up in the air
         m_mesh.transform.DOPunchPosition(Vector3.up * CobraBoss.s_settings.m_bigJumpHeight, CobraBoss.s_settings.m_bigJumpDuration, vibrato: 0, elasticity: 0).SetEase(Ease.OutCubic);
-        m_moveTransform.DOMove(m_arenaCenter.position, CobraBoss.s_settings.m_bigJumpDuration).OnComplete(() => landed = true);
+        m_moveTransform.DOMove(m_arenaCenter.position - Vector3.up * 0.49f, CobraBoss.s_settings.m_bigJumpDuration).OnComplete(() => landed = true);
 
         // Update the drop shadow until we've landed
         while (!landed)
