@@ -47,9 +47,8 @@ public class CentipedeHead : MonoBehaviour
         if (chunk && !other.isTrigger)
         {
             chunk.GetComponent<HealthComponent>().Health = 0;
-            MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
 
-            if (m_trainAttack.m_currentState == CentipedeBehaviour.EBehaviourState.running && !CentipedeTrainAttack.s_stunned && !m_health.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
+            if (CentipedeTrainAttack.s_charging && !CentipedeTrainAttack.s_stunned && !m_health.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
             {
                 m_trainAttack.HitByChunk();
             }
