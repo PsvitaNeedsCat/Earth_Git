@@ -15,8 +15,14 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        if (s_instance != null && s_instance != this) { Destroy(this.gameObject); }
-        else { s_instance = this; }
+        if (s_instance != null && s_instance != this) 
+        {
+            Destroy(gameObject); 
+        }
+        else 
+        {
+            s_instance = this; 
+        }
 
         // Get music
         AudioClip[] audioClips = Resources.LoadAll<AudioClip>(m_musicPath);
