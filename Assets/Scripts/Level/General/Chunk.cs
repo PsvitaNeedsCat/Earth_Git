@@ -271,6 +271,12 @@ public class Chunk : MonoBehaviour
     private void OnHurt()
     {
         MessageBus.TriggerEvent(EMessageType.chunkDamaged);
+
+        // Switch to cracked texture
+        if (m_healthComp.Health == 1)
+        {
+            m_meshObjects[0].GetComponent<MeshRenderer>().material.SetFloat("_Crack", 1.0f);
+        }
     }
 
     public void OnDeath()
