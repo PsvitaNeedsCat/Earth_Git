@@ -236,7 +236,7 @@ public class Chunk : MonoBehaviour
             if (CentipedeTrainAttack.s_charging && m_currentEffect == EChunkEffect.none && !CentipedeTrainAttack.s_stunned && !head.m_health.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
             {
                 _collider.GetComponentInParent<CentipedeTrainAttack>().HitByChunk();
-                Destroy(this.gameObject);
+                m_healthComp.Health = 0;
                 return;
             }
         }
@@ -245,7 +245,7 @@ public class Chunk : MonoBehaviour
         {
             _collider.GetComponent<CentipedeSegmentMover>().Damaged();
         }
-        Destroy(this.gameObject);
+        m_healthComp.Health = 0;
     }
 
     // Called when chunk is to be raised
