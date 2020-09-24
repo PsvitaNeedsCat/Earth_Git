@@ -11,12 +11,15 @@ public class CobraAnimations : MonoBehaviour
 
     private void Awake()
     {
+        m_boss = GetComponent<CobraBoss>();
+    }
+
+    private void OnEnable()
+    {
         if (m_isReal)
         {
             m_animator.SetBool("IsReal", true);
         }
-
-        m_boss = GetComponent<CobraBoss>();
     }
 
     public void AEFlipTiles()
