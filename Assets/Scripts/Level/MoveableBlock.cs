@@ -39,6 +39,11 @@ public class MoveableBlock : MonoBehaviour
     // Called when the block is moved
     private void Moved(Vector3 _centre)
     {
+        if (!m_chunkSettings)
+        {
+            m_chunkSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
+        }
+
         // Check if there is a chunk in the tile space
         float halfExtents = m_chunkSettings.m_chunkHeight * 0.4f;
         Collider[] hits = Physics.OverlapBox(_centre, new Vector3(halfExtents, halfExtents, halfExtents));
@@ -51,11 +56,17 @@ public class MoveableBlock : MonoBehaviour
             {
                 // Check the parent exists
                 Transform parent = hits[i].transform.parent;
-                if (!parent) { continue; }
+                if (!parent) 
+                {
+                    continue; 
+                }
 
                 // Check parent is a chunk
                 Chunk chunk = hits[i].transform.parent.GetComponent<Chunk>();
-                if (!chunk) { continue; }
+                if (!chunk) 
+                {
+                    continue; 
+                }
 
                 // Hit the chunk
                 Vector3 dir = chunk.transform.position - transform.position;
