@@ -48,6 +48,7 @@ public class DoorMaster : Interactable
 
         int completedTweens = 0;
         int keysRequired = 0;
+        bool animationFinished = false;
 
         // Animation
         for (int i = 0; i < m_locks.Length; i++)
@@ -74,11 +75,11 @@ public class DoorMaster : Interactable
             unlockSeq.Append(_keys[i].transform.DORotate(returnVector, 1.0f, RotateMode.LocalAxisAdd));
 
             // Return
-            unlockSeq.OnComplete(() => ++completedTweens);
+            unlockSeq.OnComplete(() => animationFinished = true);
             unlockSeq.Play();
         }
 
-        while (completedTweens < keysRequired)
+        while (!animationFinished)
         {
             yield return null;
         }
