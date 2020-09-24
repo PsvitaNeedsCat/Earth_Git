@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     // Initial values
     [SerializeField] private bool m_defaultMovement = true;
     [SerializeField] private bool m_defaultCombat = true;
+    [SerializeField] private bool m_allowPowerSelection = true;
 
     // Only one instance
     private static PlayerInput s_instance;
@@ -58,8 +59,11 @@ public class PlayerInput : MonoBehaviour
         s_controls.PlayerCombat.KeyboardTarget.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         s_controls.PlayerCombat.KeyboardTarget.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
         // Change powers
-        s_controls.PlayerCombat.PowerSelection.performed += ctx => m_player.TryChangeEffect(ctx.ReadValue<Vector2>());
-        s_controls.PlayerCombat.PowerRotation.performed += ctx => m_player.RotateCurrentPower(ctx.ReadValue<float>());
+        if (m_allowPowerSelection)
+        {
+            s_controls.PlayerCombat.PowerSelection.performed += ctx => m_player.TryChangeEffect(ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.PowerRotation.performed += ctx => m_player.RotateCurrentPower(ctx.ReadValue<float>());
+        }
         // Pause
         s_controls.PlayerMovement.Pause.performed += _ => m_player.Pause();
         s_controls.Pause.UnPause.performed += _ => m_player.UnPause();
@@ -71,6 +75,9 @@ public class PlayerInput : MonoBehaviour
         SetCombat(m_defaultCombat);
         s_controls.Pause.Disable();
         s_controls.Dialogue.Disable();
+
+        // Init power
+        m_player.TryChangeEffect(EChunkEffect.none);
     }
 
     private void OnDestroy()
