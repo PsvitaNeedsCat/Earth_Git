@@ -169,6 +169,7 @@ public class CobraPot : MonoBehaviour
         Vector3 finalPosition = CobraShuffle.s_potStartingPositions[m_endIndex];
         m_moveTransform.DOMove(finalPosition, _overSeconds);
         m_moveTransform.DORotateQuaternion(m_endRotation, _overSeconds);
+        m_mesh.transform.DOPunchPosition(Vector3.up * 1.5f, _overSeconds);
 
         StartCoroutine(DisableColliderFor(_overSeconds));
     }
