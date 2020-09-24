@@ -35,7 +35,6 @@ public class SaveManager : MonoBehaviour
     private GlobalPlayerSettings m_settings;
     BinaryFormatter m_formatter = new BinaryFormatter();
     private bool m_initLoad = false;
-    [SerializeField] private Image m_progressBar = null;
 
     private static SaveManager s_instance;
     public static SaveManager Instance
@@ -162,41 +161,13 @@ public class SaveManager : MonoBehaviour
 
         // Load the correct scene
         //SceneManager.LoadScene(m_saves[m_currentFile].scene);
-        StartCoroutine(LoadSceneAsync(m_saves[m_currentFile].scene));
+        //StartCoroutine(LoadSceneAsync(m_saves[m_currentFile].scene));
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
+        SceneManager.LoadSceneAsync(m_saves[m_currentFile].scene);
 
         // Load the unlocked powers
         Player.s_activePowers = m_saves[m_currentFile].m_unlockedPowers;
         Player.s_currentEffect = EChunkEffect.none;
-    }
-
-    // Continuously updates the progress bar while the scene loads in the background
-    private IEnumerator LoadSceneAsync(string _sceneName)
-    {
-        AsyncOperation asyncOp = SceneManager.LoadSceneAsync(_sceneName);
-        asyncOp.allowSceneActivation = false;
-
-        while (asyncOp.progress < 0.9f)
-        {
-            if (m_progressBar)
-            {
-                m_progressBar.fillAmount = asyncOp.progress;
-            }
-            Debug.Log("Loading... " + asyncOp.progress  * 10.0f + "%");
-            yield return null;
-        }
-        
-        m_progressBar.fillAmount = asyncOp.progress;
-        yield return null;
-        asyncOp.allowSceneActivation = true;
-
-        while (!asyncOp.isDone)
-        {
-            if (m_progressBar)
-            {
-                m_progressBar.fillAmount = asyncOp.progress;
-            }
-            yield return null;
-        }
     }
 
     private void SceneLoaded(Scene _scene, LoadSceneMode _mode)
