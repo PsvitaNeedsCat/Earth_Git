@@ -23,15 +23,19 @@ public class DoorMaster : Interactable
                 keysToCheck.Add(keys[i]);
             }
         }
-
+        Debug.Log("Keys to check: " + keysToCheck.Count);
         StartCoroutine(CheckKeyValidity(keysToCheck));
     }
 
     // Takes the player's keys, performs an animation, and checks if the door can unlock
     private IEnumerator CheckKeyValidity(List<Key> _keys)
     {
-        if (_keys.Count <= 0)
+        if (_keys.Count <= 0 || _keys.Count < m_locks.Length)
         {
+            foreach (Key key in _keys)
+            {
+                key.m_state = Key.States.collected;
+            }
             MessageBus.TriggerEvent(EMessageType.doorLocked);
             yield break;
         }
@@ -42,7 +46,6 @@ public class DoorMaster : Interactable
         Player player = FindObjectOfType<Player>();
         player.GetComponent<PlayerInput>().SetMovement(false);
 
-        bool valid = _keys.Count >= m_locks.Length;
         int completedTweens = 0;
         int keysRequired = 0;
 
@@ -81,16 +84,8 @@ public class DoorMaster : Interactable
         }
 
         
-        if (valid)
-        {
-            // Unlock door
-            UnlockDoor(ref _keys, ref player);
-        }
-        else
-        {
-            // Return keys to player
-            ReturnKeysToPlayer(ref _keys);
-        }
+        // Unlock door
+        UnlockDoor(ref _keys, ref player);
 
         // Ending changes
         m_unlocking = false;

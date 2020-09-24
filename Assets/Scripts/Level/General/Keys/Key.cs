@@ -91,6 +91,9 @@ public class Key : MonoBehaviour
         m_doorManager.CollectedKey(m_keyID);
 
         FloatToPlayer();
+
+        Debug.Log(m_playerRef.m_collectedKeys.Count);
+
     }
 
     // Called when the key is first collected - tweens the keys to the position where it will float around the player
