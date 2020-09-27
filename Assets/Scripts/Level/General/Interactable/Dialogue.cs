@@ -93,7 +93,7 @@ public class Dialogue : Interactable
 
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
-        m_active = true;
+        StartCoroutine(ActivateDialogue());
         if (m_prompt)
         {
             m_prompt.SetActive(false); 
@@ -102,7 +102,11 @@ public class Dialogue : Interactable
 
     public override void Update()
     {
-        if (!m_active) { base.Update(); return; }
+        if (!m_active)
+        {
+            base.Update(); 
+            return; 
+        }
 
         // Go through current dialogue
         if (m_timer <= 0.0f)
@@ -120,12 +124,18 @@ public class Dialogue : Interactable
                 m_charIndex += 1;
             }
         }
-        else { m_timer -= Time.deltaTime; }
+        else 
+        {
+            m_timer -= Time.deltaTime; 
+        }
     }
 
     public void ContinueDialogue(string _null)
     {
-        if (!m_active) { return; }
+        if (!m_active)
+        {
+            return; 
+        }
 
         // If text is still being 'typed'
         if (m_charIndex < m_curDialogue.Length)
@@ -177,5 +187,13 @@ public class Dialogue : Interactable
     public bool IsRunning()
     {
         return m_active;
+    }
+
+    // Counts for a few milliseconds, then activates the dialogue variable
+    private IEnumerator ActivateDialogue()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        m_active = true;
     }
 }
