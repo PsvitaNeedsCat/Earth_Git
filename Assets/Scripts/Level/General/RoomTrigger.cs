@@ -17,7 +17,7 @@ public class RoomTrigger : MonoBehaviour
     {
         // Collided with player
         Player player = other.GetComponent<Player>();
-        if (player)
+        if (player && player.GetComponent<HealthComponent>().Health > 0)
         {
             LoadRoom();
         }
