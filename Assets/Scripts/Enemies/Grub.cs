@@ -28,6 +28,11 @@ public class Grub : MonoBehaviour
 
     private bool m_dead = false;
 
+    private void OnEnable()
+    {
+        CheckForStationaryProjectiles();
+    }
+
     private void Awake()
     {
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");
@@ -162,5 +167,20 @@ public class Grub : MonoBehaviour
         m_currentTarget = (m_currentTarget == m_startPos) ? m_endPos : m_startPos;
         m_moveTimer = m_settings.m_grubMaxMoveTime;
         m_moving = false;
+    }
+
+    // Checks if 'GrubParent' has any stationary projectiles - if so, give them force
+    private void CheckForStationaryProjectiles()
+    {
+        Projectile[] projectiles = transform.parent.GetComponentsInChildren<Projectile>();
+
+        for (int i = 0; i < projectiles.Length; i++)
+        {
+            Rigidbody rigidBody = projectiles[i].GetComponent<Rigidbody>();
+            if (rigidBody.velocity.magnitude <= Vector3.zero.magnitude)
+            {
+                rigidBody.AddForce(projectiles[i].transform.forward * m_settings.m_grubProjSpeed, ForceMode.Impulse);
+            }
+        }
     }
 }
