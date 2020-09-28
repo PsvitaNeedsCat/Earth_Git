@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class Key : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Key : MonoBehaviour
     public int m_keyID;
     [HideInInspector] public bool m_isLoaded = false;
     [HideInInspector] public GameObject m_beltLocation = null;
+    [SerializeField] private UnityEvent m_collectedEvent = new UnityEvent();
     private DoorManager m_doorManager = null;
 
     private Animator m_animator = null;
@@ -45,6 +47,7 @@ public class Key : MonoBehaviour
             if (!m_isLoaded && m_doorManager.HasKeyBeenCollected(m_keyID))
             {
                 gameObject.SetActive(false);
+                m_collectedEvent.Invoke();
             }
         }
     }
@@ -92,8 +95,7 @@ public class Key : MonoBehaviour
 
         FloatToPlayer();
 
-        Debug.Log(m_playerRef.m_collectedKeys.Count);
-
+        m_collectedEvent.Invoke();
     }
 
     // Called when the key is first collected - tweens the keys to the position where it will float around the player
