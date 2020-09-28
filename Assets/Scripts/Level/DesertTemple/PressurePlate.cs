@@ -14,6 +14,8 @@ public class PressurePlate : MonoBehaviour
     private void OnEnable()
     {
         MessageBus.AddListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.AddListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
+        MessageBus.AddListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.AddListener(EMessageType.glassDestroyed, GlassWasDestroyed);
         m_activatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
@@ -21,6 +23,8 @@ public class PressurePlate : MonoBehaviour
     private void OnDisable()
     {
         MessageBus.RemoveListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.RemoveListener(EMessageType.glassDestroyed, GlassWasDestroyed);
         m_activatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
