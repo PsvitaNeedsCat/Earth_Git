@@ -14,6 +14,8 @@ public class PressurePlate : MonoBehaviour
     private void OnEnable()
     {
         MessageBus.AddListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.AddListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
+        MessageBus.AddListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.AddListener(EMessageType.glassDestroyed, GlassWasDestroyed);
         m_activatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
@@ -21,6 +23,8 @@ public class PressurePlate : MonoBehaviour
     private void OnDisable()
     {
         MessageBus.RemoveListener(EMessageType.chunkDestroyed, ChunkWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.RemoveListener(EMessageType.glassDestroyed, GlassWasDestroyed);
         m_activatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
@@ -104,6 +108,12 @@ public class PressurePlate : MonoBehaviour
     {
         foreach (GameObject go in m_objects)
         {
+            if (!go)
+            {
+                RemoveObject(go);
+                return;
+            }
+
             Chunk chunk = go.GetComponentInParent<Chunk>();
             if (chunk && chunk.m_isBeingDestoyed)
             {
@@ -119,7 +129,7 @@ public class PressurePlate : MonoBehaviour
         // Check that all the sand is still valid
         foreach (GameObject go in m_objects)
         {
-            if (go.GetComponent<SandBlock>())
+            if (!go || go.GetComponent<SandBlock>())
             {
                 RemoveObject(go);
                 return;

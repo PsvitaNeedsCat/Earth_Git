@@ -88,10 +88,21 @@ public class MainMenu : MonoBehaviour
     // Fades a given button in or out
     private void FadeButton(Button _button, bool _fadeIn, bool _setFocus = false)
     {
-        // Set alpha
-        Color colour = _button.image.color;
-        colour.a = (_fadeIn) ? 0.0f : 1.0f;
-        _button.image.color = colour;
+        if (_fadeIn)
+        {
+            _button.gameObject.SetActive(true);
+        }
+
+        // Fade in/out image
+        if (_button.image)
+        {
+            Color colour = _button.image.color;
+            colour.a = (_fadeIn) ? 0.0f : 1.0f;
+            _button.image.color = colour;
+
+            // Fade in/out
+            _button.image.DOFade((_fadeIn) ? 1.0f : 0.0f, 0.5f);
+        }
 
         // Fade in/out text
         if (_button.transform.childCount > 0)
@@ -105,22 +116,22 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        // Fade in/out
-        if (_fadeIn)
+        // Set focus
+        StartCoroutine(TimedFadeInOut(_fadeIn,_setFocus, _button));
+    }
+
+    private IEnumerator TimedFadeInOut(bool _fadeIn, bool _setFocus, Button _button)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (_setFocus)
         {
-            _button.gameObject.SetActive(true);
-            if (_setFocus)
-            { 
-                _button.image.DOFade(1.0f, 0.5f).OnComplete(() => m_eventSystem.SetSelectedGameObject(_button.gameObject));
-            }
-            else
-            {
-                _button.image.DOFade(1.0f, 0.5f);
-            }
+            m_eventSystem.SetSelectedGameObject(_button.gameObject);
         }
-        else
+
+        if (!_fadeIn)
         {
-            _button.image.DOFade(0.0f, 0.5f).OnComplete(() => _button.gameObject.SetActive(false));
+            _button.gameObject.SetActive(false);
         }
     }
 
