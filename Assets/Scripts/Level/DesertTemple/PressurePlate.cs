@@ -108,6 +108,12 @@ public class PressurePlate : MonoBehaviour
     {
         foreach (GameObject go in m_objects)
         {
+            if (!go)
+            {
+                RemoveObject(go);
+                return;
+            }
+
             Chunk chunk = go.GetComponentInParent<Chunk>();
             if (chunk && chunk.m_isBeingDestoyed)
             {
@@ -123,7 +129,7 @@ public class PressurePlate : MonoBehaviour
         // Check that all the sand is still valid
         foreach (GameObject go in m_objects)
         {
-            if (go.GetComponent<SandBlock>())
+            if (!go || go.GetComponent<SandBlock>())
             {
                 RemoveObject(go);
                 return;
