@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
         { EChunkEffect.mirage, false }
     };
     public static EChunkEffect s_currentEffect = EChunkEffect.none;
+    [HideInInspector] public static int m_lastTempleEntered = 0;
 
     // Private variables
     private GlobalPlayerSettings m_settings;

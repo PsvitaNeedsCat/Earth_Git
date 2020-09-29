@@ -8,9 +8,7 @@ public class Overworld : MonoBehaviour
 {
     private static Overworld s_instance;
 
-    [SerializeField] private Transform m_fireTempleLocation;
-    [SerializeField] private Transform m_waterTempleLocation;
-    [SerializeField] private Transform m_desertTempleLocation;
+    [SerializeField] private TeleportToHere[] m_spawns = new TeleportToHere[] { };
     
     [SerializeField] private UnityEvent[] m_startupEvents = new UnityEvent[4];
 
@@ -38,6 +36,9 @@ public class Overworld : MonoBehaviour
 
     private void Start()
     {
+        // Check player's last entered temple - decides spawn
+        m_spawns[Player.m_lastTempleEntered].Teleport();
+
         // Call a different event depending on how many powers the player has unlocked
         int numPowersUnlocked = -1;
         foreach (KeyValuePair<EChunkEffect, bool> i in Player.s_activePowers)
@@ -48,12 +49,10 @@ public class Overworld : MonoBehaviour
             }
         }
 
-        m_startupEvents[numPowersUnlocked].Invoke();
-    }
-
-    // Updates and checks if the level is unlocked based off of what powers the player has unlocked
-    public bool IsLevelUnlocked(int _id)
-    {
-        return Player.s_activePowers[(EChunkEffect)_id];
+        // Only call startup event if the player has come from another temple
+        if (Player.m_lastTempleEntered != (numPowersUnlocked + 1))
+        {
+            m_startupEvents[numPowersUnlocked].Invoke();
+        }
     }
 }
