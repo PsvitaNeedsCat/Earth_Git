@@ -13,13 +13,18 @@ public class GreyscaleCameraScript : MonoBehaviour
 
     private void Update()
     {
-        if (turnGrey)
+        if (Input.GetKeyDown(KeyCode.V))
         {
-            mat.SetFloat("_Power", 1.0f);
-        }
-        else
-        {
-            mat.SetFloat("_Power", 0.0f);
+            if (!turnGrey)
+            {
+                mat.SetFloat("_Power", 1.0f);
+                turnGrey = true;
+            }
+            else
+            {
+                mat.SetFloat("_Power", 0.0f);
+                turnGrey = false;
+            }
         }
     }
 
