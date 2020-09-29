@@ -326,6 +326,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ToggleDebug"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dec2b40-f258-40bc-add2-09d2e6d89949"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""f047e416-c0af-4609-9a12-8d95b62b4d76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -438,6 +454,28 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""KeyboardMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af34065e-a500-4c5b-b209-fab33483f3fb"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleDebug"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cb3c154-5e86-4c0d-a895-e48ead23a674"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1229,6 +1267,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerMovement_KeyboardMovement = m_PlayerMovement.FindAction("KeyboardMovement", throwIfNotFound: true);
         m_PlayerMovement_Interact = m_PlayerMovement.FindAction("Interact", throwIfNotFound: true);
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerMovement_ToggleDebug = m_PlayerMovement.FindAction("ToggleDebug", throwIfNotFound: true);
+        m_PlayerMovement_Return = m_PlayerMovement.FindAction("Return", throwIfNotFound: true);
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
         m_PlayerCombat_Punch = m_PlayerCombat.FindAction("Punch", throwIfNotFound: true);
@@ -1342,6 +1382,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMovement_KeyboardMovement;
     private readonly InputAction m_PlayerMovement_Interact;
     private readonly InputAction m_PlayerMovement_Pause;
+    private readonly InputAction m_PlayerMovement_ToggleDebug;
+    private readonly InputAction m_PlayerMovement_Return;
     public struct PlayerMovementActions
     {
         private @InputMaster m_Wrapper;
@@ -1350,6 +1392,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @KeyboardMovement => m_Wrapper.m_PlayerMovement_KeyboardMovement;
         public InputAction @Interact => m_Wrapper.m_PlayerMovement_Interact;
         public InputAction @Pause => m_Wrapper.m_PlayerMovement_Pause;
+        public InputAction @ToggleDebug => m_Wrapper.m_PlayerMovement_ToggleDebug;
+        public InputAction @Return => m_Wrapper.m_PlayerMovement_Return;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1371,6 +1415,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
+                @ToggleDebug.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
+                @ToggleDebug.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
+                @ToggleDebug.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
+                @Return.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
+                @Return.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
+                @Return.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -1387,6 +1437,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @ToggleDebug.started += instance.OnToggleDebug;
+                @ToggleDebug.performed += instance.OnToggleDebug;
+                @ToggleDebug.canceled += instance.OnToggleDebug;
+                @Return.started += instance.OnReturn;
+                @Return.performed += instance.OnReturn;
+                @Return.canceled += instance.OnReturn;
             }
         }
     }
@@ -1608,6 +1664,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnKeyboardMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnToggleDebug(InputAction.CallbackContext context);
+        void OnReturn(InputAction.CallbackContext context);
     }
     public interface IPlayerCombatActions
     {
