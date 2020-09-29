@@ -11,7 +11,7 @@ public class CheatCommandBase
 
     public CheatCommandBase(string _id, string _description, string _format)
     {
-        m_commandDescription = _id;
+        m_commandId = _id;
         m_commandDescription = _description;
         m_commandFormat = _format;
     }
@@ -30,5 +30,20 @@ public class CheatCommand : CheatCommandBase
     public void Invoke()
     {
         m_command.Invoke();
+    }
+}
+
+public class CheatCommand<T1> : CheatCommandBase
+{
+    private Action<T1> m_command;
+
+    public CheatCommand(string _id, string _description, string _format, Action<T1> _command) : base(_id, _description, _format)
+    {
+        this.m_command = _command;
+    }
+
+    public void Invoke(T1 _value)
+    {
+        m_command.Invoke(_value);
     }
 }

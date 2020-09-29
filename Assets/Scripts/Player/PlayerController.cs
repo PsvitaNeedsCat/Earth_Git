@@ -408,6 +408,13 @@ public class PlayerController : MonoBehaviour
 
         UpdateHealthSprites();
     }
+
+    public void SetCurrentHealth(int _newValue)
+    {
+        m_health.Health = _newValue;
+        UpdateHealthSprites();
+    }
+
     public int GetCurrentHealth()
     {
         return m_health.Health; 

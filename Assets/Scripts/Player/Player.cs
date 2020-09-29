@@ -350,27 +350,10 @@ public class Player : MonoBehaviour
         m_inTutorial = _newValue;
     }
 
-    // Debug - remove on build
-    private void Update()
+    public void TogglePower(EChunkEffect _effect)
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            s_activePowers[EChunkEffect.water] = !s_activePowers[EChunkEffect.water];
-            if (s_activePowers[EChunkEffect.water]) { TryChangeEffect(EChunkEffect.water); }
-            else { TryChangeEffect(EChunkEffect.none); }
-            Debug.Log("Water power: " + s_activePowers[EChunkEffect.water]);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            s_activePowers[EChunkEffect.fire] = !s_activePowers[EChunkEffect.fire];
-            if (s_activePowers[EChunkEffect.fire]) { TryChangeEffect(EChunkEffect.fire); }
-            else { TryChangeEffect(EChunkEffect.none); }
-            Debug.Log("Fire power: " + s_activePowers[EChunkEffect.fire]);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            MessageBus.TriggerEvent(EMessageType.oceanMan);
-        }
+        s_activePowers[_effect] = !s_activePowers[_effect];
+        if (s_activePowers[_effect]) { TryChangeEffect(_effect); }
+        else { TryChangeEffect(EChunkEffect.none); }
     }
 }

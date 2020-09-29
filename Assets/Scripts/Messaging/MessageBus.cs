@@ -51,6 +51,7 @@ public enum EMessageType
     powerWater,
     powerFire,
     interact,
+    aaaa,
 
     // Level
     doorUnlocked,

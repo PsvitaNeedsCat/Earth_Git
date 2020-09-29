@@ -74,6 +74,7 @@ public class PlayerInput : MonoBehaviour
 
         // Cheat console
         s_controls.PlayerMovement.ToggleDebug.performed += _ => m_cheatConsole.OnToggleDebug();
+        s_controls.PlayerMovement.Return.performed += _ => m_cheatConsole.OnReturn();
 
         // Set init values
         SetMovement(m_defaultMovement);
