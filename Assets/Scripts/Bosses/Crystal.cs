@@ -33,19 +33,37 @@ public class Crystal : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player && !m_collected)
         {
-            m_collected = true;
-
-            // If it is the endgame crystal, reset the powers, otherwise unlock one
-            player.PowerUnlocked(m_crystalType);
-
-            player.GetComponent<PlayerController>().SetMaxHealth(m_setMaxHealth);
-            PlayerController.s_saveOnAwake = true;
-
-            transform.DOMove(transform.position + Vector3.up, 1.0f).SetEase(Ease.OutSine);
-            transform.DORotate(new Vector3(0.0f, 720.0f, 0.0f), 1.0f, RotateMode.LocalAxisAdd);
-
-            // Init dialogue
-            m_dialogue.Invoke();
+            Collected(player);
         }
+    }
+
+    // Called when the player collects the crystal
+    private void Collected(Player _player)
+    {
+        StartCoroutine(FindObjectOfType<MusicManager>().FadeMusicOut(1.0f));
+        MessageBus.TriggerEvent(EMessageType.crystalCollected);
+
+        m_collected = true;
+
+        // If it is the endgame crystal, reset the powers, otherwise unlock one
+        _player.PowerUnlocked(m_crystalType);
+
+        _player.GetComponent<PlayerController>().SetMaxHealth(m_setMaxHealth);
+        PlayerController.s_saveOnAwake = true;
+
+        // Move to camera
+        Vector3 tweenPos = Camera.main.transform.position;
+        Vector3 camForward = Camera.main.transform.forward;
+        camForward = Quaternion.AngleAxis(-10.0f, Camera.main.transform.right) * camForward;
+        tweenPos += camForward * 2.0f;
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOMove(tweenPos, 1.0f));
+        seq.Insert(0.0f, transform.DOScale(Camera.main.orthographicSize * 0.01f, 1.0f));
+        seq.Play();
+        // Rotate
+        transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 3.0f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
+
+        // Init dialogue
+        m_dialogue.Invoke();
     }
 }

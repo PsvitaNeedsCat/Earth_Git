@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
         { EChunkEffect.mirage, false }
     };
     public static EChunkEffect s_currentEffect = EChunkEffect.none;
+    [HideInInspector] public static int m_lastTempleEntered = 0;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
@@ -193,23 +194,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    // If the given power is unlocked, it selects it
+    // If the given power is unlocked, it selects it. Plays with sound
     public void TryChangeEffect(EChunkEffect _effect)
     {
-        // Do not let the player change if the power is not unlocked
-        if (!s_activePowers[_effect])
-        {
-            return; 
-        }
-
-        // Change the player's power
-        s_currentEffect = _effect;
-
-        // Update display sprite
-        UpdateUI();
-
-        // Particles
-        m_powerParticles[(int)_effect].Play();
+        ChangeEffectSilent(_effect);
 
         switch (_effect)
         {
@@ -231,6 +219,25 @@ public class Player : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    // Changes the effect without any sound
+    public void ChangeEffectSilent(EChunkEffect _effect)
+    {
+        // Do not let the player change if the power is not unlocked
+        if (!s_activePowers[_effect])
+        {
+            return;
+        }
+
+        // Change the player's power
+        s_currentEffect = _effect;
+
+        // Update display sprite
+        UpdateUI();
+
+        // Particles
+        m_powerParticles[(int)_effect].Play();
     }
 
     // Checks if the power in the given d-pad direction is unlocked and selects it
@@ -350,27 +357,10 @@ public class Player : MonoBehaviour
         m_inTutorial = _newValue;
     }
 
-    // Debug - remove on build
-    private void Update()
+    public void TogglePower(EChunkEffect _effect)
     {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            s_activePowers[EChunkEffect.water] = !s_activePowers[EChunkEffect.water];
-            if (s_activePowers[EChunkEffect.water]) { TryChangeEffect(EChunkEffect.water); }
-            else { TryChangeEffect(EChunkEffect.none); }
-            Debug.Log("Water power: " + s_activePowers[EChunkEffect.water]);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            s_activePowers[EChunkEffect.fire] = !s_activePowers[EChunkEffect.fire];
-            if (s_activePowers[EChunkEffect.fire]) { TryChangeEffect(EChunkEffect.fire); }
-            else { TryChangeEffect(EChunkEffect.none); }
-            Debug.Log("Fire power: " + s_activePowers[EChunkEffect.fire]);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            MessageBus.TriggerEvent(EMessageType.oceanMan);
-        }
+        s_activePowers[_effect] = !s_activePowers[_effect];
+        if (s_activePowers[_effect]) { TryChangeEffect(_effect); }
+        else { TryChangeEffect(EChunkEffect.none); }
     }
 }

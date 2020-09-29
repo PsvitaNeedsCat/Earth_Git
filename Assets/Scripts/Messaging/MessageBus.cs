@@ -51,6 +51,7 @@ public enum EMessageType
     powerWater,
     powerFire,
     interact,
+    aaaa,
 
     // Level
     doorUnlocked,
@@ -63,6 +64,7 @@ public enum EMessageType
     crystalHealed,
     checkKeyID,
     unlocking,
+    crystalCollected,
 
     // Blocks
     glassDestroyed,
