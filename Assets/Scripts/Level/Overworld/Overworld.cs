@@ -34,7 +34,10 @@ public class Overworld : MonoBehaviour
         {
             s_instance = this;
         }
+    }
 
+    private void Start()
+    {
         // Call a different event depending on how many powers the player has unlocked
         int numPowersUnlocked = -1;
         foreach (KeyValuePair<EChunkEffect, bool> i in Player.s_activePowers)
