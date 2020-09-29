@@ -11,6 +11,7 @@ public class Dialogue : Interactable
 {
     // Variables
     [SerializeField] private Sprite m_characterSprite;
+    [SerializeField] private string m_name = "";
     [SerializeField] private bool m_playOnAwake = false;
     [TextArea(5, 5)]
     public string[] m_dialogue;
@@ -65,7 +66,11 @@ public class Dialogue : Interactable
 
         // Instantiate dialogue
         m_dialogueObj = Instantiate(m_dialoguePrefab, Vector3.zero, Quaternion.identity);
-        m_dialogueText = m_dialogueObj.GetComponentInChildren<TextMeshProUGUI>();
+
+        // Second text is always the correct one
+        TextMeshProUGUI[] textMeshes = m_dialogueObj.GetComponentsInChildren<TextMeshProUGUI>();
+        m_dialogueText = textMeshes[1];
+
         if (m_characterSprite != null)
         {
             // Character sprite assign
@@ -91,13 +96,25 @@ public class Dialogue : Interactable
             secondTMPro.margin = margin;
         }
 
+        // Assign nameplate
+        if (m_name != "")
+        {
+            // Enable image & set text
+            for (int i = 0; i < m_dialogueObj.transform.childCount; i++)
+            {
+                GameObject nameplate = m_dialogueObj.transform.GetChild(i).gameObject;
+                if (nameplate.name == "Nameplate")
+                {
+                    nameplate.GetComponent<Image>().enabled = true;
+                    nameplate.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = m_name;
+                    break;
+                }
+            }
+        }
+
         m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
 
         StartCoroutine(ActivateDialogue());
-        if (m_prompt)
-        {
-            m_prompt.SetActive(false); 
-        }
     }
 
     public override void Update()
@@ -195,5 +212,10 @@ public class Dialogue : Interactable
         yield return new WaitForSeconds(0.1f);
 
         m_active = true;
+
+        if (m_prompt)
+        {
+            m_prompt.SetActive(false);
+        }
     }
 }
