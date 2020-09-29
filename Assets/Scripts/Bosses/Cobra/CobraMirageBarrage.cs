@@ -109,7 +109,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
-            if (mirageCobra != null)
+            if (mirageCobra != null && mirageCobra.m_headRaised == false)
             {
                 mirageCobra.RaiseHead();
             }
