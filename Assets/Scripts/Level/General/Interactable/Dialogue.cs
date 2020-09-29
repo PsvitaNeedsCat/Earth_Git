@@ -51,12 +51,18 @@ public class Dialogue : Interactable
 
     public override void OnEnable()
     {
-        base.OnEnable();
+        if (m_prompt)
+        {
+            base.OnEnable();
+        }
         MessageBus.AddListener(EMessageType.continueDialogue, ContinueDialogue);
     }
     public override void OnDisable()
     {
-        base.OnDisable();
+        if (m_prompt)
+        {
+            base.OnDisable();
+        }
         MessageBus.RemoveListener(EMessageType.continueDialogue, ContinueDialogue);
     }
 
@@ -121,7 +127,7 @@ public class Dialogue : Interactable
     {
         if (!m_active)
         {
-            base.Update(); 
+            base.Update();
             return; 
         }
 
