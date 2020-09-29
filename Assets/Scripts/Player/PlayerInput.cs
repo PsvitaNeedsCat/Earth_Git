@@ -83,7 +83,7 @@ public class PlayerInput : MonoBehaviour
         s_controls.Dialogue.Disable();
 
         // Init power
-        m_player.TryChangeEffect(EChunkEffect.none);
+        m_player.ChangeEffectSilent(EChunkEffect.none);
     }
 
     private void OnDestroy()

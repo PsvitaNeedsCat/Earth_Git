@@ -26,6 +26,7 @@ public class SaveManager : MonoBehaviour
         public List<int> m_curCollectedKeys = new List<int>(); // Currently collected keys
         public bool[] m_unlockedDoors = null;
         public Dictionary<int, bool> m_prevCollectedKeys = new Dictionary<int, bool>(); // Previously collected keys
+        public int m_lastTempleEntered = 0;
     }
 
     // 3 player saves
@@ -69,6 +70,7 @@ public class SaveManager : MonoBehaviour
         {
             m_saves[m_currentFile].health = player.GetCurrentHealth();
             m_saves[m_currentFile].m_curCollectedKeys = player.GetComponent<Player>().m_collectedKeys;
+            m_saves[m_currentFile].m_lastTempleEntered = Player.m_lastTempleEntered;
         }
         else 
         {
@@ -138,7 +140,10 @@ public class SaveManager : MonoBehaviour
 
                 m_saves[i] = save;
             }
-            else { m_saves[i] = null; }
+            else
+            {
+                m_saves[i] = null; 
+            }
         }
     }
 
@@ -184,6 +189,7 @@ public class SaveManager : MonoBehaviour
             {
                 player.GetComponent<HealthComponent>().Health = m_saves[m_currentFile].health;
                 player.m_collectedKeys = m_saves[m_currentFile].m_curCollectedKeys;
+                Player.m_lastTempleEntered = m_saves[m_currentFile].m_lastTempleEntered;
                 player.InitLoad();
             }
             else

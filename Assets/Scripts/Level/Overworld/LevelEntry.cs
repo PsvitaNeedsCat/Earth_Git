@@ -28,6 +28,8 @@ public class LevelEntry : Interactable
     // Load level
     public override void Invoke()
     {
+        Player.m_lastTempleEntered = m_id + 1;
+
         m_roomManager.LoadScene(m_levelName);
     }
 }
