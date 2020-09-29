@@ -63,6 +63,7 @@ public enum EMessageType
     crystalHealed,
     checkKeyID,
     unlocking,
+    crystalCollected,
 
     // Blocks
     glassDestroyed,

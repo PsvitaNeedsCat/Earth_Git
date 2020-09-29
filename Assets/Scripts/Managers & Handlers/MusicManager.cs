@@ -75,7 +75,10 @@ public class MusicManager : MonoBehaviour
         if (m_audioSource.isPlaying)
         {
             // If the clip playing is the one wanted to be played, return
-            if (m_audioSource.clip.name == _name) { return; }
+            if (m_audioSource.clip.name == _name)
+            {
+                return; 
+            }
 
             // If the clip playing is not the one wanted, stop it playing
             m_audioSource.Stop();
@@ -86,8 +89,25 @@ public class MusicManager : MonoBehaviour
         m_audioSource.Play();
     }
 
-    private void StopMusic(string _nul)
+    private void StopMusic(string _null)
     {
         m_audioSource.Stop();
+    }
+    
+    // Fades the music out over a duration
+    public IEnumerator FadeMusicOut(float _duration)
+    {
+        float timer = 0.0f;
+        float startVolume = m_audioSource.volume;
+
+        while (timer < _duration)
+        {
+            timer += Time.deltaTime;
+            m_audioSource.volume = Mathf.Lerp(startVolume, 0.0f, timer / _duration);
+            yield return null;
+        }
+
+        m_audioSource.Stop();
+        m_audioSource.volume = startVolume;
     }
 }
