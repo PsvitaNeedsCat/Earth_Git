@@ -23,6 +23,13 @@ public class PotEnemy : MonoBehaviour
     [SerializeField] private GameObject m_spottedEffect = null;
     [SerializeField] private GameObject m_windupEffect = null;
 
+    private void OnEnable()
+    {
+        MoveAboveGround();
+
+        m_state = EStates.floating;
+    }
+
     private void Awake()
     {
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");

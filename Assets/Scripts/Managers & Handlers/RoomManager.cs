@@ -168,6 +168,7 @@ public class RoomManager : MonoBehaviour
 
                 // Room is valid
                 m_playerInput.SetMovement(false);
+                m_playerInput.GetComponent<HealthComponent>().SetInvincibleTimer(2.0f);
                 m_newRoom = i;
                 m_blackWall.SetTrigger("FadeToBlack");
                 return;

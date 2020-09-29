@@ -14,6 +14,8 @@ public class TongueEnemy : MonoBehaviour
     public State m_state = State.idle;
 
     [SerializeField] private Tongue m_tongue;
+    [SerializeField] private bool m_autoStart = true;
+    private bool m_activated = false;
 
     private GlobalEnemySettings m_settings;
     private float m_tongueTimer = 0.0f;
@@ -24,6 +26,8 @@ public class TongueEnemy : MonoBehaviour
         m_settings = Resources.Load<GlobalEnemySettings>("ScriptableObjects/GlobalEnemySettings");
 
         m_tongueTimer = m_settings.m_TongueCooldown;
+
+        m_activated = m_autoStart;
     }
 
     private void OnEnable()
@@ -36,6 +40,11 @@ public class TongueEnemy : MonoBehaviour
 
     private void Update()
     {
+        if (!m_activated)
+        {
+            return;
+        }
+
         if (m_state == State.idle)
         {
             m_tongueTimer -= Time.deltaTime;
@@ -89,5 +98,18 @@ public class TongueEnemy : MonoBehaviour
         Destroy(gameObject);
 
         EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
+    }
+
+    // Begins the toad's motion - sets the timer to 0 so it immediately extends its tongue
+    public void ActivateToad()
+    {
+        if (m_activated)
+        {
+            return;
+        }
+
+        m_tongueTimer = 0.0f;
+
+        m_activated = true;
     }
 }

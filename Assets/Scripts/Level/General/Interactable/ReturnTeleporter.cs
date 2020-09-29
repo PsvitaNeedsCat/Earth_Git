@@ -21,6 +21,7 @@ public class ReturnTeleporter : Interactable
         PlayerInput player = FindObjectOfType<PlayerInput>();
 
         player.SetMovement(false);
+        player.GetComponent<HealthComponent>().SetInvincibleTimer(2.0f);
 
         FindObjectOfType<RoomManager>().PrepareToChangeRoom(m_destinationRoom, false);
     }

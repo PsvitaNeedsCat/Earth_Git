@@ -35,6 +35,6 @@ public class ChunkKillBox : MonoBehaviour
     {
         Vector3 sinkPosition = transform.position;
         sinkPosition.y -= 5.0f;
-        _chunk.transform.DOMove(sinkPosition, 1.4f).SetEase(Ease.InExpo).OnComplete(() => Destroy(_chunk));
+        _chunk.transform.DOMove(sinkPosition, 0.4f).SetEase(Ease.InCirc).OnComplete(() => Destroy(_chunk));
     }
 }
