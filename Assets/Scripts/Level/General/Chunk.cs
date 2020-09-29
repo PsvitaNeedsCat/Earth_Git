@@ -497,7 +497,8 @@ public class Chunk : MonoBehaviour
         {
             Vector3 newPos = nearest.transform.position;
             newPos.y = transform.position.y;
-            transform.position = newPos;
+            //transform.position = newPos;
+            transform.DOMove(newPos, 0.1f);
         }
         else
         {
