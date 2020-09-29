@@ -46,11 +46,19 @@ public class CobraMirageSpit : MonoBehaviour
         newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
     }
 
+    public void Fade(bool _in)
+    {
+        float endValue = (_in) ? 0.0f : 1.0f;
+        StopAllCoroutines();
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_Cutoff", endValue, 1.5f));
+    }
+
     public void LowerHead()
     {
+
         StopAllCoroutines();
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
         m_animations.LowerHead();
         m_hitBox.enabled = true;
     }
@@ -58,8 +66,14 @@ public class CobraMirageSpit : MonoBehaviour
     public void RaiseHead()
     {
         StopAllCoroutines();
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
+        
+        if (!m_isReal)
+        {
+            Fade(_in: false);
+        }
+
         m_animations.RaiseHead();
         m_hitBox.enabled = false;
     }
