@@ -27,6 +27,7 @@ public class Key : MonoBehaviour
     [HideInInspector] public bool m_isLoaded = false;
     [HideInInspector] public GameObject m_beltLocation = null;
     [SerializeField] private UnityEvent m_collectedEvent = new UnityEvent();
+    [SerializeField] private ParticleSystem[] m_particles = new ParticleSystem[] { };
     private DoorManager m_doorManager = null;
 
     private Animator m_animator = null;
@@ -109,6 +110,11 @@ public class Key : MonoBehaviour
         m_animator.transform.localPosition = Vector3.zero;
         m_animator.transform.localRotation = Quaternion.identity;
         Destroy(m_animator);
+        for (int i = 0; i < m_particles.Length; i++)
+        {
+            m_particles[i].Stop();
+            Destroy(m_particles[i]);
+        }
 
         transform.DOScale(0.1f, 0.4f);
         transform.DOLocalRotateQuaternion(Quaternion.identity, 0.4f);
