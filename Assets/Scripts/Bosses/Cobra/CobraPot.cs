@@ -99,14 +99,12 @@ public class CobraPot : MonoBehaviour
 
     public void EnablePotIndicator(Vector3 _destination)
     {
-        Debug.Log("Enabling pot indicator" + gameObject.name);
         m_potLandIndicator.transform.position = _destination;
         m_potLandIndicator.SetActive(true);
     }
 
     public void DisablePotIndicator()
     {
-        Debug.Log("Disabling pot indicator" + gameObject.name);
         m_potLandIndicator.SetActive(false);
     }
 

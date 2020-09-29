@@ -168,7 +168,7 @@ public class CobraShuffle : CobraBehaviour
     // Returns how long the attack will take
     private float ExecuteMove(EShuffleActionType _actionType, EShuffleMoveType _moveType)
     {
-        Debug.Log("Executing move " + _actionType + _moveType);
+        // Debug.Log("Executing move " + _actionType + _moveType);
 
         if (_actionType == EShuffleActionType.inOrOut)
         {

@@ -109,7 +109,7 @@ public class CobraMirageBarrage : CobraBehaviour
 
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
-            if (mirageCobra != null)
+            if (mirageCobra != null && mirageCobra.m_headRaised == false)
             {
                 mirageCobra.RaiseHead();
             }
@@ -126,6 +126,14 @@ public class CobraMirageBarrage : CobraBehaviour
         foreach (int cobra in firingPots)
         {
             m_mirageCobras.Add(s_boss.m_cobraPots[cobra].GetComponent<CobraMirageSpit>());
+        }
+
+        for(int i = 0; i < m_mirageCobras.Count; i++)
+        {
+            if (!m_mirageCobras[i].m_isReal)
+            {
+                m_mirageCobras[i].Fade(_in: true);
+            }
         }
     }
 

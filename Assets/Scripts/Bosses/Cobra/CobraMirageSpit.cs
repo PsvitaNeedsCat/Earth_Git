@@ -9,6 +9,7 @@ public class CobraMirageSpit : MonoBehaviour
     public Transform m_bulletSpawn;
     public SkinnedMeshRenderer m_meshRenderer;
     public bool m_isReal = false;
+    public bool m_headRaised = true;
 
     private Player m_playerRef;
     private GameObject m_redBulletPrefab;
@@ -46,20 +47,35 @@ public class CobraMirageSpit : MonoBehaviour
         newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
     }
 
+    public void Fade(bool _in)
+    {
+        float endValue = (_in) ? 0.0f : 1.0f;
+        StopAllCoroutines();
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_Cutoff", endValue, 2.5f));
+    }
+
     public void LowerHead()
     {
+        m_headRaised = false;
         StopAllCoroutines();
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.15f, true));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 7.5f, true));
         m_animations.LowerHead();
         m_hitBox.enabled = true;
     }
 
     public void RaiseHead()
     {
+        m_headRaised = true;
         StopAllCoroutines();
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.15f, false));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -7.5f, false));
+        
+        if (!m_isReal)
+        {
+            Fade(_in: false);
+        }
+
         m_animations.RaiseHead();
         m_hitBox.enabled = false;
     }

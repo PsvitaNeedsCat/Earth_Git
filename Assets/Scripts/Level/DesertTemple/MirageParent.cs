@@ -84,10 +84,12 @@ public class MirageParent : MonoBehaviour
 
         StopAllCoroutines();
 
-        float currentValue = (_canWalkThrough) ? 0.0f : 1.0f;
+        // float currentValue = (_canWalkThrough) ? 0.0f : 1.0f;
         float endValue = (_canWalkThrough) ? 1.0f : 0.0f;
-        float changeRate = (_canWalkThrough) ? 2.0f : -2.0f;
+        // float changeRate = (_canWalkThrough) ? 2.0f : -2.0f;
 
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_renderer.material, "_Cutoff", currentValue, endValue, changeRate, _canWalkThrough));
+        // StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_renderer.material, "_Cutoff", currentValue, endValue, changeRate, _canWalkThrough));
+        StopAllCoroutines();
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_renderer.material, "_Cutoff", endValue, 0.5f));
     }
 }
