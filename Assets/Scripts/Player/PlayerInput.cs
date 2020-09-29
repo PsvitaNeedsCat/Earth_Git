@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     // Private variables
     public static InputMaster s_controls;
     private Player m_player;
+    private CheatConsole m_cheatConsole;
 
     private bool m_prevMovement;
     private bool m_prevCombat;
@@ -38,6 +39,7 @@ public class PlayerInput : MonoBehaviour
         // Init
         s_controls = new InputMaster();
         m_player = GetComponent<Player>();
+        m_cheatConsole = GetComponent<CheatConsole>();
         Debug.Assert(m_player, "No Player.cs found on player object");
 
         // Controls //
@@ -69,6 +71,10 @@ public class PlayerInput : MonoBehaviour
         s_controls.Pause.UnPause.performed += _ => m_player.UnPause();
         // Dialogue
         s_controls.Dialogue.Continue.performed += _ => m_player.ContinueDialogue();
+
+        // Cheat console
+        s_controls.PlayerMovement.ToggleDebug.performed += _ => m_cheatConsole.OnToggleDebug();
+        s_controls.PlayerMovement.Return.performed += _ => m_cheatConsole.OnReturn();
 
         // Set init values
         SetMovement(m_defaultMovement);
