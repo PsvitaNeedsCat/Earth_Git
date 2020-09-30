@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class TutorialTile : MonoBehaviour
 {
+    [SerializeField] private bool m_enabled = true;
+
     [SerializeField] private UnityEvent m_whenRaisedEvent = new UnityEvent();
     [SerializeField] private UnityEvent m_whenChunkPunched = new UnityEvent();
     [SerializeField] private UnityEvent m_whenChunkDestroyed = new UnityEvent();
@@ -22,9 +24,34 @@ public class TutorialTile : MonoBehaviour
     // Calls the event when a chunk is raised
     private void ChunkRaised(string _null)
     {
-        m_whenRaisedEvent.Invoke();
+        if (!m_enabled)
+        {
+            return;
+        }
 
-        Chunk chunk = FindObjectOfType<Chunk>();
+        // Check that this was the correct tile
+        Vector3 centre = transform.position;
+        centre.y += 0.5f;
+        Collider[] colliders = Physics.OverlapBox(centre, Vector3.one * 0.45f, Quaternion.identity);
+        if (colliders.Length <= 0)
+        {
+            return;
+        }
+        Chunk chunk = null;
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            chunk = colliders[i].transform.parent.GetComponent<Chunk>();
+            if (chunk)
+            {
+                break;
+            }
+        }
+        if (!chunk)
+        {
+            return;
+        }
+
+        m_whenRaisedEvent.Invoke();
 
         // Add script
         TutorialChunk tChunk = chunk.gameObject.AddComponent<TutorialChunk>();
@@ -33,5 +60,10 @@ public class TutorialTile : MonoBehaviour
         tChunk.m_chunkDestroyedEvent = m_whenChunkDestroyed;
 
         Destroy(this);
+    }
+
+    public void SetActive(bool _active)
+    {
+        m_enabled = _active;
     }
 }

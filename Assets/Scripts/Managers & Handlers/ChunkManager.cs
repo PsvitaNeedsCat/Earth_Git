@@ -57,4 +57,15 @@ public class ChunkManager : MonoBehaviour
 
         s_chunks.Clear();
     }
+
+    // A non-static version of DestroyAllChunks
+    public void DestroyAllCurrentChunks()
+    {
+        Chunk[] chunks = FindObjectsOfType<Chunk>();
+
+        foreach (Chunk chunk in chunks)
+        {
+            chunk.GetComponent<HealthComponent>().Health = 0;
+        }
+    }
 }

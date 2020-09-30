@@ -9,6 +9,11 @@ public class FlippableTile : MonoBehaviour
     public Tile m_bottomTile;
     public float m_flipTime;
 
+    private void Start()
+    {
+        m_bottomTile.SetIgnore(true);
+    }
+
     public void Flip()
     {
         StartCoroutine(StartFlip());
