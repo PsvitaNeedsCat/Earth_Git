@@ -216,7 +216,7 @@ public class CobraShuffle : CobraBehaviour
 
         for (int i = 0; i < stateSettings.m_shuffleNumMoves; i++)
         {
-            EShuffleActionType actionType = (i % 4 == 0) ? EShuffleActionType.inOrOut : EShuffleActionType.move;
+            EShuffleActionType actionType = (i % 3 == 0) ? EShuffleActionType.inOrOut : EShuffleActionType.move;
             EShuffleMoveType moveType = GetRandomMove();
 
             CobraMoveDef moveDef = new CobraMoveDef(actionType, moveType);
