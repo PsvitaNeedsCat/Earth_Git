@@ -326,22 +326,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""ToggleDebug"",
-                    ""type"": ""Button"",
-                    ""id"": ""0dec2b40-f258-40bc-add2-09d2e6d89949"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Return"",
-                    ""type"": ""Button"",
-                    ""id"": ""f047e416-c0af-4609-9a12-8d95b62b4d76"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -454,28 +438,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""KeyboardMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""af34065e-a500-4c5b-b209-fab33483f3fb"",
-                    ""path"": ""<Keyboard>/backquote"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ToggleDebug"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9cb3c154-5e86-4c0d-a895-e48ead23a674"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Return"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1225,6 +1187,52 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Cheats"",
+            ""id"": ""d6146dda-97a3-4089-ab25-3cef74b7adeb"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""d977e2c5-2354-47cb-84a6-33a75cc55e0f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""d859a87a-aa66-4f79-9737-24c046ea3e52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""618331d4-329f-498e-bb7f-5d33faed5ddc"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2b80c23-339c-4d84-83fc-63b3e9646f65"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1267,8 +1275,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PlayerMovement_KeyboardMovement = m_PlayerMovement.FindAction("KeyboardMovement", throwIfNotFound: true);
         m_PlayerMovement_Interact = m_PlayerMovement.FindAction("Interact", throwIfNotFound: true);
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
-        m_PlayerMovement_ToggleDebug = m_PlayerMovement.FindAction("ToggleDebug", throwIfNotFound: true);
-        m_PlayerMovement_Return = m_PlayerMovement.FindAction("Return", throwIfNotFound: true);
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
         m_PlayerCombat_Punch = m_PlayerCombat.FindAction("Punch", throwIfNotFound: true);
@@ -1288,6 +1294,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
         // Tutorial
         m_Tutorial = asset.FindActionMap("Tutorial", throwIfNotFound: true);
         m_Tutorial_SkipTutorial = m_Tutorial.FindAction("Skip Tutorial", throwIfNotFound: true);
+        // Cheats
+        m_Cheats = asset.FindActionMap("Cheats", throwIfNotFound: true);
+        m_Cheats_ToggleConsole = m_Cheats.FindAction("ToggleConsole", throwIfNotFound: true);
+        m_Cheats_Return = m_Cheats.FindAction("Return", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1382,8 +1392,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMovement_KeyboardMovement;
     private readonly InputAction m_PlayerMovement_Interact;
     private readonly InputAction m_PlayerMovement_Pause;
-    private readonly InputAction m_PlayerMovement_ToggleDebug;
-    private readonly InputAction m_PlayerMovement_Return;
     public struct PlayerMovementActions
     {
         private @InputMaster m_Wrapper;
@@ -1392,8 +1400,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @KeyboardMovement => m_Wrapper.m_PlayerMovement_KeyboardMovement;
         public InputAction @Interact => m_Wrapper.m_PlayerMovement_Interact;
         public InputAction @Pause => m_Wrapper.m_PlayerMovement_Pause;
-        public InputAction @ToggleDebug => m_Wrapper.m_PlayerMovement_ToggleDebug;
-        public InputAction @Return => m_Wrapper.m_PlayerMovement_Return;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1415,12 +1421,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
-                @ToggleDebug.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
-                @ToggleDebug.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
-                @ToggleDebug.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnToggleDebug;
-                @Return.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
-                @Return.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
-                @Return.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnReturn;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -1437,12 +1437,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @ToggleDebug.started += instance.OnToggleDebug;
-                @ToggleDebug.performed += instance.OnToggleDebug;
-                @ToggleDebug.canceled += instance.OnToggleDebug;
-                @Return.started += instance.OnReturn;
-                @Return.performed += instance.OnReturn;
-                @Return.canceled += instance.OnReturn;
             }
         }
     }
@@ -1635,6 +1629,47 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public TutorialActions @Tutorial => new TutorialActions(this);
+
+    // Cheats
+    private readonly InputActionMap m_Cheats;
+    private ICheatsActions m_CheatsActionsCallbackInterface;
+    private readonly InputAction m_Cheats_ToggleConsole;
+    private readonly InputAction m_Cheats_Return;
+    public struct CheatsActions
+    {
+        private @InputMaster m_Wrapper;
+        public CheatsActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleConsole => m_Wrapper.m_Cheats_ToggleConsole;
+        public InputAction @Return => m_Wrapper.m_Cheats_Return;
+        public InputActionMap Get() { return m_Wrapper.m_Cheats; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CheatsActions set) { return set.Get(); }
+        public void SetCallbacks(ICheatsActions instance)
+        {
+            if (m_Wrapper.m_CheatsActionsCallbackInterface != null)
+            {
+                @ToggleConsole.started -= m_Wrapper.m_CheatsActionsCallbackInterface.OnToggleConsole;
+                @ToggleConsole.performed -= m_Wrapper.m_CheatsActionsCallbackInterface.OnToggleConsole;
+                @ToggleConsole.canceled -= m_Wrapper.m_CheatsActionsCallbackInterface.OnToggleConsole;
+                @Return.started -= m_Wrapper.m_CheatsActionsCallbackInterface.OnReturn;
+                @Return.performed -= m_Wrapper.m_CheatsActionsCallbackInterface.OnReturn;
+                @Return.canceled -= m_Wrapper.m_CheatsActionsCallbackInterface.OnReturn;
+            }
+            m_Wrapper.m_CheatsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ToggleConsole.started += instance.OnToggleConsole;
+                @ToggleConsole.performed += instance.OnToggleConsole;
+                @ToggleConsole.canceled += instance.OnToggleConsole;
+                @Return.started += instance.OnReturn;
+                @Return.performed += instance.OnReturn;
+                @Return.canceled += instance.OnReturn;
+            }
+        }
+    }
+    public CheatsActions @Cheats => new CheatsActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -1664,8 +1699,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnKeyboardMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnToggleDebug(InputAction.CallbackContext context);
-        void OnReturn(InputAction.CallbackContext context);
     }
     public interface IPlayerCombatActions
     {
@@ -1689,5 +1722,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
     public interface ITutorialActions
     {
         void OnSkipTutorial(InputAction.CallbackContext context);
+    }
+    public interface ICheatsActions
+    {
+        void OnToggleConsole(InputAction.CallbackContext context);
+        void OnReturn(InputAction.CallbackContext context);
     }
 }
