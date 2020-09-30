@@ -88,13 +88,22 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (s_instance == this) { s_controls.Disable(); }
+        if (s_instance == this)
+        {
+            s_controls.Disable(); 
+        }
     }
 
     public void SetMovement(bool _active)
     {
-        if (_active) { s_controls.PlayerMovement.Enable(); }
-        else { s_controls.PlayerMovement.Disable(); }
+        if (_active)
+        {
+            s_controls.PlayerMovement.Enable(); 
+        }
+        else
+        {
+            s_controls.PlayerMovement.Disable(); 
+        }
     }
     
     public bool HasMovement()
@@ -104,8 +113,14 @@ public class PlayerInput : MonoBehaviour
 
     public void SetCombat(bool _active)
     {
-        if (_active) { s_controls.PlayerCombat.Enable(); }
-        else { s_controls.PlayerCombat.Disable(); }
+        if (_active)
+        {
+            s_controls.PlayerCombat.Enable(); 
+        }
+        else
+        {
+            s_controls.PlayerCombat.Disable(); 
+        }
     }
 
     public void SetPause(bool _active)
@@ -143,5 +158,17 @@ public class PlayerInput : MonoBehaviour
             SetCombat(m_prevCombat);
             s_controls.Dialogue.Disable();
         }
+    }
+
+    // Used in tutorial to disable only punching
+    public void OverridePunching(bool _active)
+    {
+        if (_active)
+        {
+            s_controls.PlayerCombat.Punch.Enable();
+            return;
+        }
+
+        s_controls.PlayerCombat.Punch.Disable();
     }
 }
