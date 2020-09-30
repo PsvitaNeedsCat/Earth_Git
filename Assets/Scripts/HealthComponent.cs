@@ -117,6 +117,11 @@ public class HealthComponent : MonoBehaviour
     // Sets the component as invincible for a set time
     public void SetInvincibleTimer(float _time)
     {
+        if (!m_timerActive && IsInvincible)
+        {
+            return;
+        }
+
         m_invincibleTimer = _time;
         IsInvincible = true;
         m_timerActive = true;

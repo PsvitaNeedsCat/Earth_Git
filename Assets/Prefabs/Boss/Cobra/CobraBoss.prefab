@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661ed91e2120958409b6ed31f8591516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bossPot: {fileID: 7578372427707371512}
 --- !u!114 &9078088134024331556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1232,6 +1233,8 @@ MonoBehaviour:
   m_bulletSpawn: {fileID: 6764861329650579425}
   m_meshRenderer: {fileID: 6931382166602389163}
   m_isReal: 1
+  m_headRaised: 1
+  m_fadeMaterial: {fileID: 0}
 --- !u!114 &2661657704115674916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,6 +1354,7 @@ MonoBehaviour:
     m_Bits: 512
   m_mesh: {fileID: 1254038829874709406}
   m_moveTransform: {fileID: 2661657702741872941}
+  m_damagePlayer: 0
   m_potLandIndicator: {fileID: 6503047986791677302}
   m_potProjectileLandIndicators:
   - {fileID: 1425863812605939934}

@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private EventSystem[] m_eventSystems;
     private GameCanvas m_gameCanvas;
     private PlayerRagdoll m_ragdoll;
+    private CheatConsole m_cheats;
 
     private void Awake()
     {
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
         m_ragdoll = GetComponent<PlayerRagdoll>();
+        m_cheats = GetComponent<CheatConsole>();
 
         SetOutlineColour();
 
@@ -270,17 +272,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Toggles invincibility
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            m_health.IsInvincible = !m_health.IsInvincible;
-            Debug.Log("Invincibility set to: " + m_health.IsInvincible);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            // Jump
-            m_rigidBody.AddForce(Vector3.up * 15.0f, ForceMode.Impulse);
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    m_health.IsInvincible = !m_health.IsInvincible;
+        //    Debug.Log("Invincibility set to: " + m_health.IsInvincible);
+        //}
 
         if (Input.GetKeyDown(KeyCode.J))
         {
@@ -305,6 +301,22 @@ public class PlayerController : MonoBehaviour
         {
             m_health.Health = 0;
         }
+    }
+
+    public void Jump()
+    {
+        if (m_cheats.ConsoleOpen())
+        {
+            return;
+        }
+
+        m_rigidBody.AddForce(Vector3.up * 15.0f, ForceMode.Impulse);
+    }
+
+    public void ToggleInvincibility()
+    {
+        m_health.IsInvincible = !m_health.IsInvincible;
+        Debug.Log("Invincibility set to: " + m_health.IsInvincible);
     }
 
     // Pauses the game

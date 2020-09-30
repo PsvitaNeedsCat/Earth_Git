@@ -16,6 +16,7 @@ public class CobraPot : MonoBehaviour
     public LayerMask m_tileLayers;
     public GameObject m_mesh;
     public Transform m_moveTransform;
+    public bool m_damagePlayer = false;
 
     public GameObject m_potLandIndicator;
     public List<GameObject> m_potProjectileLandIndicators;
@@ -28,6 +29,7 @@ public class CobraPot : MonoBehaviour
     private GameObject m_lobProjectilePrefab;
     public Collider m_collider;
     private CobraAnimations m_animations;
+    
     
     private void Awake()
     {
@@ -47,9 +49,9 @@ public class CobraPot : MonoBehaviour
         return m_moveTransform;
     }
 
-    public void SetCollider(bool _active)
+    public void SetColliderDamage(bool _damagePlayer)
     {
-        m_collider.enabled = _active;
+        m_damagePlayer = _damagePlayer;
     }
 
     public void FireProjectile()
@@ -168,8 +170,6 @@ public class CobraPot : MonoBehaviour
         m_moveTransform.DOMove(finalPosition, _overSeconds);
         m_moveTransform.DORotateQuaternion(m_endRotation, _overSeconds);
         m_mesh.transform.DOPunchPosition(Vector3.up * 1.5f, _overSeconds, 0, 0);
-
-        StartCoroutine(DisableColliderFor(_overSeconds));
     }
 
     private IEnumerator DisableColliderFor(float _seconds)
@@ -184,7 +184,7 @@ public class CobraPot : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Player player = collision.gameObject.GetComponent<Player>();
-        if (player)
+        if (player && m_damagePlayer)
         {
             player.GetComponent<HealthComponent>().Health -= 1;
         }

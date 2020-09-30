@@ -18,6 +18,9 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<EChunkEffect> TOGGLE_POWER;
     public static CheatCommand HELP;
     public static CheatCommand<float> SET_TIME_SCALE;
+    public static CheatCommand DEV_MODE;
+    public static CheatCommand GOD_MODE;
+    public static CheatCommand JUMP;
 
     public List<object> m_commandList;
 
@@ -26,6 +29,11 @@ public class CheatConsole : MonoBehaviour
     private PlayerInput m_playerInput;
 
     private bool m_justOpened = false;
+
+    public bool ConsoleOpen()
+    {
+        return m_showConsole;
+    }
 
     public void OnReturn()
     {
@@ -93,6 +101,26 @@ public class CheatConsole : MonoBehaviour
             Time.timeScale = x;
         });
 
+        DEV_MODE = new CheatCommand("dev_mode", "Max health, all powers, invincibility", "dev_mode", () =>
+        {
+            m_playerController.SetMaxHealth(6);
+            m_playerController.SetCurrentHealth(6);
+            m_player.TogglePower(EChunkEffect.water);
+            m_player.TogglePower(EChunkEffect.fire);
+            m_playerController.ToggleInvincibility();
+            m_playerInput.ToggleJump();
+        });
+
+        GOD_MODE = new CheatCommand("god_mode", "Toggles invincibility", "god_mode", () =>
+        {
+            m_playerController.ToggleInvincibility();
+        });
+
+        JUMP = new CheatCommand("jump", "Toggles jump ability", "jump", () =>
+        {
+            m_playerInput.ToggleJump();
+        });
+
         m_commandList = new List<object>
         {
             AAAA,
@@ -101,7 +129,10 @@ public class CheatConsole : MonoBehaviour
             SET_MAX_HEALTH,
             TOGGLE_POWER,
             HELP,
-            SET_TIME_SCALE
+            SET_TIME_SCALE,
+            DEV_MODE,
+            GOD_MODE,
+            JUMP
         };
     }
 

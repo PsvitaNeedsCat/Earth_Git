@@ -20,6 +20,8 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private bool m_defaultCombat = true;
     [SerializeField] private bool m_allowPowerSelection = true;
 
+    private bool m_canJump = false;
+
     // Only one instance
     private static PlayerInput s_instance;
 
@@ -49,6 +51,9 @@ public class PlayerInput : MonoBehaviour
         s_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
         s_controls.PlayerMovement.KeyboardMovement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
         s_controls.PlayerMovement.KeyboardMovement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
+
+        s_controls.PlayerMovement.Jump.performed += _ => m_player.Jump();
+
         // Interact
         s_controls.PlayerMovement.Interact.performed += _ => m_player.TryInteract();
         // Punch
@@ -96,6 +101,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (_active) { s_controls.PlayerMovement.Enable(); }
         else { s_controls.PlayerMovement.Disable(); }
+
+        UpdateJump();
     }
     
     public bool HasMovement()
@@ -107,6 +114,25 @@ public class PlayerInput : MonoBehaviour
     {
         if (_active) { s_controls.PlayerCombat.Enable(); }
         else { s_controls.PlayerCombat.Disable(); }
+    }
+
+    // Disables / enables jump based on bool status
+    private void UpdateJump()
+    {
+        if (m_canJump)
+        {
+            s_controls.PlayerMovement.Jump.Enable();
+        }
+        else
+        {
+            s_controls.PlayerMovement.Jump.Disable();
+        }
+    }
+
+    public void ToggleJump()
+    {
+        m_canJump = !m_canJump;
+        UpdateJump();
     }
 
     public void SetPause(bool _active)

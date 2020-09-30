@@ -62,7 +62,7 @@ public class CobraShuffle : CobraBehaviour
         {
             // CobraPot 
             m_activePots.Add(s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex]);
-            s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex].SetCollider(true);
+            s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex].SetColliderDamage(true);
         }
     }
 
@@ -143,8 +143,6 @@ public class CobraShuffle : CobraBehaviour
             m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay + CobraHealth.StateSettings.m_shuffleIndicatorShowTime);
-            
-            m_activePots[i].SetCollider(false);
         }
 
         s_nextBossPotIndex = s_boss.m_cobraPots[s_bossPotIndex].m_endIndex;
@@ -161,6 +159,10 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
+        for (int i = 0; i < m_activePots.Count; i++)
+        {
+            m_activePots[i].SetColliderDamage(true);
+        }
         // Complete behaviour
         CompleteBehaviour();
     }
@@ -252,10 +254,14 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleIndicatorShowTime);
 
+        _pot.SetColliderDamage(true);
+
         _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalMovementCurve);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
         yield return new WaitForSeconds(_duration);
+
+        _pot.SetColliderDamage(false);
 
         if (_fireProjectiles)
         {
@@ -277,10 +283,14 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleIndicatorShowTime);
 
+        _pot.SetColliderDamage(true);
+
         _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
         _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
         yield return new WaitForSeconds(_duration);
+
+        _pot.SetColliderDamage(false);
 
         if (_fireProjectiles)
         {

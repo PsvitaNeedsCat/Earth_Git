@@ -61,6 +61,11 @@ public class Player : MonoBehaviour
         return s_currentEffect;
     }
 
+    public void Jump()
+    {
+        m_playerController.Jump();
+    }
+
     public void Pause()
     {
         m_playerController.Pause();
