@@ -313,22 +313,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "ToggleDebug",
-                    "type": "Button",
-                    "id": "0dec2b40-f258-40bc-add2-09d2e6d89949",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Return",
-                    "type": "Button",
-                    "id": "f047e416-c0af-4609-9a12-8d95b62b4d76",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -441,28 +425,6 @@
                     "action": "KeyboardMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "af34065e-a500-4c5b-b209-fab33483f3fb",
-                    "path": "<Keyboard>/backquote",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleDebug",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9cb3c154-5e86-4c0d-a895-e48ead23a674",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Return",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1208,6 +1170,52 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Skip Tutorial",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Cheats",
+            "id": "d6146dda-97a3-4089-ab25-3cef74b7adeb",
+            "actions": [
+                {
+                    "name": "ToggleConsole",
+                    "type": "Button",
+                    "id": "d977e2c5-2354-47cb-84a6-33a75cc55e0f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "d859a87a-aa66-4f79-9737-24c046ea3e52",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "618331d4-329f-498e-bb7f-5d33faed5ddc",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2b80c23-339c-4d84-83fc-63b3e9646f65",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

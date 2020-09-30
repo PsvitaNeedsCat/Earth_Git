@@ -22,6 +22,7 @@ public class CheatConsole : MonoBehaviour
 
     private PlayerController m_playerController;
     private Player m_player;
+    private PlayerInput m_playerInput;
 
     private bool m_justOpened = false;
 
@@ -31,6 +32,8 @@ public class CheatConsole : MonoBehaviour
         {
             HandleInput();
             m_input = "";
+
+            OnToggleDebug();
         }
     }
 
@@ -43,12 +46,16 @@ public class CheatConsole : MonoBehaviour
             m_justOpened = true;
             m_input = "";
         }
+
+        m_playerInput.SetMovement(!m_showConsole);
+        m_playerInput.SetCombat(!m_showConsole);
     }
 
     private void Awake()
     {
         m_playerController = GetComponent<PlayerController>();
         m_player = GetComponent<Player>();
+        m_playerInput = GetComponent<PlayerInput>();
 
         AAAA = new CheatCommand("aaaa", "A hunk of hunk of burnin' love", "aaaa", () =>
         {
