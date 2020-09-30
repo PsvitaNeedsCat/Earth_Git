@@ -17,6 +17,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<int> SET_MAX_HEALTH;
     public static CheatCommand<EChunkEffect> TOGGLE_POWER;
     public static CheatCommand HELP;
+    public static CheatCommand<float> SET_TIME_SCALE;
 
     public List<object> m_commandList;
 
@@ -87,6 +88,11 @@ public class CheatConsole : MonoBehaviour
             m_showHelp = !m_showHelp;
         });
 
+        SET_TIME_SCALE = new CheatCommand<float>("set_time_scale", "Sets the game's time scale", "set_time_scale <scale>", (x) =>
+        {
+            Time.timeScale = x;
+        });
+
         m_commandList = new List<object>
         {
             AAAA,
@@ -94,7 +100,8 @@ public class CheatConsole : MonoBehaviour
             SET_CUR_HEALTH,
             SET_MAX_HEALTH,
             TOGGLE_POWER,
-            HELP    
+            HELP,
+            SET_TIME_SCALE
         };
     }
 
@@ -155,6 +162,7 @@ public class CheatConsole : MonoBehaviour
             {
                 CheatCommand command = (m_commandList[i] as CheatCommand);
                 CheatCommand<int> intCommand = (m_commandList[i] as CheatCommand<int>);
+                CheatCommand<float> floatCommand = (m_commandList[i] as CheatCommand<float>);
                 CheatCommand<EChunkEffect> effectCommand = (m_commandList[i] as CheatCommand<EChunkEffect>);
                 if (command != null)
                 {
@@ -163,6 +171,10 @@ public class CheatConsole : MonoBehaviour
                 else if (intCommand != null)
                 {
                     intCommand.Invoke(int.Parse(properties[1]));
+                }
+                else if (floatCommand != null)
+                {
+                    floatCommand.Invoke(float.Parse(properties[1]));
                 }
                 else if (effectCommand != null)
                 {
