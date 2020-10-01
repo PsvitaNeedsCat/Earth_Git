@@ -220,7 +220,7 @@ public class CheatConsole : MonoBehaviour
         {
             CheatCommandBase commandBase = m_commandList[i] as CheatCommandBase;
 
-            if (m_input.Contains(commandBase.m_commandId))
+            if (m_input == commandBase.m_commandId)
             {
                 CheatCommand command = (m_commandList[i] as CheatCommand);
                 CheatCommand<int> intCommand = (m_commandList[i] as CheatCommand<int>);
