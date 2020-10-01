@@ -121,7 +121,7 @@ public class CobraChase : CobraBehaviour
     {
         Vector3 dir = DirToPlayer();
 
-        Debug.Log("Cobra chase moving to player: " + dir);
+        // Debug.Log("Cobra chase moving to player: " + dir);
 
         m_moveTransform.DOMove(m_moveTransform.position + dir, CobraBoss.s_settings.m_jumpDuration);
         m_mesh.DOPunchPosition(Vector3.up * 1.0f, CobraBoss.s_settings.m_jumpDuration).SetEase(Ease.InOutElastic);
