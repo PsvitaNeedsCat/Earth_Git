@@ -12,7 +12,7 @@ public class CobraMirageSpit : MonoBehaviour
     public bool m_headRaised = true;
     public Material m_fadeMaterial;
 
-    [SerializeField] private ParticleSystem[] m_shieldParticles = new ParticleSystem[2];
+    [SerializeField] private ParticleSystem[] m_shieldParticles;// = new ParticleSystem[2];
 
     private Player m_playerRef;
     private GameObject m_redBulletPrefab;
@@ -51,12 +51,12 @@ public class CobraMirageSpit : MonoBehaviour
         newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
     }
 
-    public void Fade(bool _in)
-    {
-        float endValue = (_in) ? 0.0f : 1.0f;
-        StopAllCoroutines();
-        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_fadeMaterial, "_Cutoff", endValue, 2.0f));
-    }
+    //public void Fade(bool _in)
+    //{
+    //    float endValue = (_in) ? 0.0f : 1.0f;
+    //    StopAllCoroutines();
+    //    StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_fadeMaterial, "_Cutoff", endValue, 2.0f));
+    //}
 
     public void LowerHead()
     {
@@ -76,10 +76,10 @@ public class CobraMirageSpit : MonoBehaviour
 
         SetShieldMaterial(true);
 
-        if (!m_isReal)
-        {
-            Fade(_in: false);
-        }
+        //if (!m_isReal)
+        //{
+        //    Fade(_in: false);
+        //}
 
         m_animations.RaiseHead();
         m_hitBox.enabled = false;
