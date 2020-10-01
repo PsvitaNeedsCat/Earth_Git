@@ -260,7 +260,10 @@ public class CheatConsole : MonoBehaviour
 
     private void HandleInput()
     {
-        m_previousEntries.Add(m_input);
+        if (m_previousEntries.Count <= 0 || m_previousEntries[m_previousEntries.Count - 1] != m_input)
+        {
+            m_previousEntries.Add(m_input);
+        }
         string[] properties = m_input.Split(' ');
 
         for (int i = 0; i < m_commandList.Count; i++)
