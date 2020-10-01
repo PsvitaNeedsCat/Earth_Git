@@ -85,6 +85,11 @@ public class CheatConsole : MonoBehaviour
         HELP = new CheatCommand("help", "Shows a list of commands", "help", () =>
         {
             m_showHelp = !m_showHelp;
+
+            if (m_showHelp)
+            {
+                OnToggleDebug();
+            }
         });
 
         SET_TIME_SCALE = new CheatCommand<float>("set_time_scale", "Sets the game's time scale", "set_time_scale <scale>", (x) =>
