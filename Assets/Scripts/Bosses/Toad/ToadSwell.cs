@@ -9,6 +9,7 @@ public class ToadSwell : ToadBehaviour
     // public Material m_swollenMaterial;
     public Transform m_meshTransform;
     public Texture m_swollenTexture;
+    public GameObject m_poisonedEffect;
 
     private ToadBossSettings m_toadSettings;
     private float m_swelledTimer = 0.0f;
@@ -63,6 +64,7 @@ public class ToadSwell : ToadBehaviour
 
     void SwellUp()
     {
+        m_poisonedEffect.SetActive(true);
         m_stunnedStars.Init(m_toadSettings.m_staySwelledUpFor);
         m_toadAnimator.SetTrigger("SwellUp");
         m_toadHealth.IsInvincible = false;
@@ -79,6 +81,7 @@ public class ToadSwell : ToadBehaviour
 
     void SwellDown()
     {
+        m_poisonedEffect.SetActive(false);
         m_stunnedStars.ForceStop();
 
         m_toadAnimator.SetTrigger("SwellDown");
