@@ -11,6 +11,8 @@ public class ToadSwell : ToadBehaviour
     public Texture m_swollenTexture;
     public GameObject m_poisonedEffect;
 
+    [SerializeField] private ParticleSystem[] m_shieldParticles = new ParticleSystem[2];
+
     private ToadBossSettings m_toadSettings;
     private float m_swelledTimer = 0.0f;
     private float m_startingScale;
@@ -72,6 +74,7 @@ public class ToadSwell : ToadBehaviour
         m_meshTransform.DOScale(m_startingScale * 1.1f, m_toadSettings.m_swellUpOver).SetEase(Ease.OutElastic);
         // m_toadRenderer.material = m_swollenMaterial;
         m_material.SetTexture("_MainTex", m_swollenTexture);
+        m_shieldParticles[0].Play();
 
         m_cutoffCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
         m_fresnelCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
@@ -93,6 +96,7 @@ public class ToadSwell : ToadBehaviour
         m_meshTransform.DOScale(m_startingScale, m_toadSettings.m_swellUpOver).SetEase(Ease.OutElastic);
         // m_toadRenderer.material = m_normalMaterial;
         m_material.SetTexture("_MainTex", m_normalTexture);
+        m_shieldParticles[1].Play();
 
         if (m_cutoffCoroutine != null)
         {

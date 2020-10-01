@@ -24,6 +24,9 @@ public class CentipedeHealth : MonoBehaviour
     public List<SkinnedMeshRenderer> m_segmentRenderers;
     public GameObject m_bossObject;
 
+    [SerializeField] private ParticleSystem[] m_shieldBreakParticles = new ParticleSystem[7];
+    [SerializeField] private ParticleSystem[] m_shieldRepairParticles = new ParticleSystem[7];
+
     private bool[] m_sectionsActive = { false, false, false, false, false, false, false };
     private bool[] m_sectionsDamaged = { false, false, false};
     private CentipedeTrainAttack m_trainAttack;
@@ -89,12 +92,14 @@ public class CentipedeHealth : MonoBehaviour
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 0.0f, 1.0f, 2.5f, true));
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
+            m_shieldBreakParticles[_sectionIndex].Play();
         }
         else
         {
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 1.0f, 0.0f, -2.5f, false));
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 1.1f, 0.8f, -0.3f, false));
             StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 20.0f, 5.0f, -15.0f, false));
+            m_shieldRepairParticles[_sectionIndex].Play();
         }
         
         

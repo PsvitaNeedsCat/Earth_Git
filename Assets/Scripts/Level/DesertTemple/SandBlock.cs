@@ -110,6 +110,7 @@ public class SandBlock : MonoBehaviour
     private void Break()
     {
         MessageBus.TriggerEvent(EMessageType.glassDestroyed);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.glassBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
 
         Destroy(gameObject);
     }

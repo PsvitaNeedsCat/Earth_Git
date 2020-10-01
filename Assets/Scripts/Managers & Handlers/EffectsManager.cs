@@ -10,6 +10,8 @@ public class EffectsManager : MonoBehaviour
         rockSummon,
         fieryExplosion,
         rockBreak,
+        waveDestroyed,
+        glassBreak,
     }
 
     private readonly string m_effectsPath = "Effects";

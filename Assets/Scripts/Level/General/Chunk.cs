@@ -288,6 +288,7 @@ public class Chunk : MonoBehaviour
             case EChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
+                    EffectsManager.SpawnEffect(EffectsManager.EEffectType.waveDestroyed, transform.position, Quaternion.Euler(transform.forward), Vector3.one, 1.0f);
                     break;
                 }
 
