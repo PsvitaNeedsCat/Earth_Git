@@ -20,6 +20,8 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand GOD_MODE;
     public static CheatCommand JUMP;
     public static CheatCommand<string> PLAY_SOUND;
+    public static CheatCommand KILL_PLAYER;
+    public static CheatCommand<float> SET_MOUSTACHE;
 
     public List<object> m_commandList;
 
@@ -120,6 +122,16 @@ public class CheatConsole : MonoBehaviour
             }
         });
 
+        KILL_PLAYER = new CheatCommand("kill_player", "Instantly kills the player", "kill_player", () =>
+        {
+            m_player.GetComponent<HealthComponent>().ForceKill();
+        });
+
+        SET_MOUSTACHE = new CheatCommand<float>("set_moustache", "Sets the moustache's scale", "set_moustache <scale value>", (x) =>
+        {
+            m_playerController.SetMoustacheScale(x);
+        });
+
         m_commandList = new List<object>
         {
             SET_CUR_HEALTH,
@@ -130,7 +142,9 @@ public class CheatConsole : MonoBehaviour
             DEV_MODE,
             GOD_MODE,
             JUMP,
-            PLAY_SOUND
+            PLAY_SOUND,
+            KILL_PLAYER,
+            SET_MOUSTACHE,
         };
     }
 
