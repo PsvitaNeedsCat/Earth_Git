@@ -107,6 +107,7 @@ public class CheatConsole : MonoBehaviour
             m_playerController.SetCurrentHealth(6);
             m_player.TogglePower(EChunkEffect.water);
             m_player.TogglePower(EChunkEffect.fire);
+            m_player.TogglePower(EChunkEffect.mirage);
             m_playerController.ToggleInvincibility();
             m_playerInput.ToggleJump();
         });
