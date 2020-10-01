@@ -268,38 +268,17 @@ public class PlayerController : MonoBehaviour
         Interactable.s_closest.Invoke();
     }
 
-    // Debug - remove on build
-    private void Update()
+    // Sets the moustache's scale and turns it off if 0
+    public void SetMoustacheScale(float _scale)
     {
-        // Toggles invincibility
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    m_health.IsInvincible = !m_health.IsInvincible;
-        //    Debug.Log("Invincibility set to: " + m_health.IsInvincible);
-        //}
-
-        if (Input.GetKeyDown(KeyCode.J))
+        if (_scale != 0.0f)
         {
-            // Moustache
-            // m_moustache.enabled = !m_moustache.enabled;
             m_moustache.SetActive(true);
-            // m_moustache.transform.DOScale(m_moustache.transform.localScale.x * 1.1f, 0.5f).SetEase(Ease.InElastic);
-            m_moustache.transform.DOBlendableScaleBy(Vector3.one * 2.0f, 0.5f).SetEase(Ease.InElastic);
+            m_moustache.transform.DOScale(Vector3.one * _scale, 0.5f).SetEase(Ease.InElastic);
         }
-
-        if (Input.GetKeyDown(KeyCode.L))
+        else
         {
-            m_moustache.transform.DOBlendableScaleBy(-Vector3.one * 2.0f, 0.5f).SetEase(Ease.InElastic);
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            m_health.Health -= 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            m_health.Health = 0;
+            m_moustache.transform.DOScale(Vector3.one * _scale, 0.5f).SetEase(Ease.InElastic).OnComplete(() => m_moustache.SetActive(false));
         }
     }
 
