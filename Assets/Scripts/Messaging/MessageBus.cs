@@ -52,6 +52,8 @@ public enum EMessageType
     powerFire,
     interact,
     aaaa,
+    wahoo,
+    moveYourBody,
 
     // Level
     doorUnlocked,

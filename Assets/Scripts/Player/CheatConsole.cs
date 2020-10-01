@@ -11,8 +11,6 @@ public class CheatConsole : MonoBehaviour
 
     string m_input = "";
 
-    public static CheatCommand AAAA;
-    public static CheatCommand OCEAN_MAN;
     public static CheatCommand<int> SET_CUR_HEALTH;
     public static CheatCommand<int> SET_MAX_HEALTH;
     public static CheatCommand<EChunkEffect> TOGGLE_POWER;
@@ -21,6 +19,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand DEV_MODE;
     public static CheatCommand GOD_MODE;
     public static CheatCommand JUMP;
+    public static CheatCommand<string> PLAY_SOUND;
 
     public List<object> m_commandList;
 
@@ -65,16 +64,6 @@ public class CheatConsole : MonoBehaviour
         m_playerController = GetComponent<PlayerController>();
         m_player = GetComponent<Player>();
         m_playerInput = GetComponent<PlayerInput>();
-
-        AAAA = new CheatCommand("aaaa", "A hunk of hunk of burnin' love", "aaaa", () =>
-        {
-            MessageBus.TriggerEvent(EMessageType.aaaa);
-        });
-
-        OCEAN_MAN = new CheatCommand("ocean_man", "Take me by the hand", "ocean_man", () =>
-        {
-            MessageBus.TriggerEvent(EMessageType.oceanMan);
-        });
 
         SET_CUR_HEALTH = new CheatCommand<int>("set_cur_health", "Sets the player's current health", "set_cur_health <health_amount>", (x) =>
         {
@@ -121,10 +110,17 @@ public class CheatConsole : MonoBehaviour
             m_playerInput.ToggleJump();
         });
 
+        PLAY_SOUND = new CheatCommand<string>("play_sound", "Plays a sound effect", "play_sound <sound name>", (x) =>
+        {
+            EMessageType soundType;
+            if (System.Enum.TryParse(x, out soundType))
+            {
+                MessageBus.TriggerEvent(soundType);
+            }
+        });
+
         m_commandList = new List<object>
         {
-            AAAA,
-            OCEAN_MAN,
             SET_CUR_HEALTH,
             SET_MAX_HEALTH,
             TOGGLE_POWER,
@@ -132,7 +128,8 @@ public class CheatConsole : MonoBehaviour
             SET_TIME_SCALE,
             DEV_MODE,
             GOD_MODE,
-            JUMP
+            JUMP,
+            PLAY_SOUND
         };
     }
 
@@ -194,6 +191,7 @@ public class CheatConsole : MonoBehaviour
                 CheatCommand command = (m_commandList[i] as CheatCommand);
                 CheatCommand<int> intCommand = (m_commandList[i] as CheatCommand<int>);
                 CheatCommand<float> floatCommand = (m_commandList[i] as CheatCommand<float>);
+                CheatCommand<string> stringCommand = (m_commandList[i] as CheatCommand<string>);
                 CheatCommand<EChunkEffect> effectCommand = (m_commandList[i] as CheatCommand<EChunkEffect>);
                 if (command != null)
                 {
@@ -206,6 +204,10 @@ public class CheatConsole : MonoBehaviour
                 else if (floatCommand != null)
                 {
                     floatCommand.Invoke(float.Parse(properties[1]));
+                }
+                else if (stringCommand != null)
+                {
+                    stringCommand.Invoke(properties[1]);
                 }
                 else if (effectCommand != null)
                 {
