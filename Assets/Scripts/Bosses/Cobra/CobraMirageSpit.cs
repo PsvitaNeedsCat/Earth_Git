@@ -12,6 +12,8 @@ public class CobraMirageSpit : MonoBehaviour
     public bool m_headRaised = true;
     public Material m_fadeMaterial;
 
+    [SerializeField] private ParticleSystem[] m_shieldParticles = new ParticleSystem[2];
+
     private Player m_playerRef;
     private GameObject m_redBulletPrefab;
     private GameObject m_blueBulletPrefab;
@@ -91,6 +93,15 @@ public class CobraMirageSpit : MonoBehaviour
 
         StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_Cutoff", cutoffEndValue, transitionDuration));
         StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_FresnelStrength", fresnelEndValue, transitionDuration));
+
+        if (_on)
+        {
+            m_shieldParticles[1].Play();
+        }
+        else
+        {
+            m_shieldParticles[0].Play();
+        }
     }
 
     public void ExitPot()
