@@ -11,12 +11,13 @@ public class CheatConsole : MonoBehaviour
 
     string m_input = "";
 
-    public static CheatCommand<int> SET_CUR_HEALTH;
-    public static CheatCommand<int> SET_MAX_HEALTH;
+    public static CheatCommand<int> CUR_HEALTH;
+    public static CheatCommand<int> MAX_HEALTH;
     public static CheatCommand<EChunkEffect> TOGGLE_POWER;
     public static CheatCommand HELP;
-    public static CheatCommand<float> SET_TIME_SCALE;
+    public static CheatCommand<float> TIME_SCALE;
     public static CheatCommand DEV_MODE;
+    public static CheatCommand DEV_MODE_FAST;
     public static CheatCommand GOD_MODE;
     public static CheatCommand JUMP;
     public static CheatCommand<string> PLAY_SOUND;
@@ -67,12 +68,12 @@ public class CheatConsole : MonoBehaviour
         m_player = GetComponent<Player>();
         m_playerInput = GetComponent<PlayerInput>();
 
-        SET_CUR_HEALTH = new CheatCommand<int>("set_cur_health", "Sets the player's current health", "set_cur_health <health_amount>", (x) =>
+        CUR_HEALTH = new CheatCommand<int>("cur_health", "Sets the player's current health", "cur_health <health_amount>", (x) =>
         {
             m_playerController.SetCurrentHealth(x);
         });
 
-        SET_MAX_HEALTH = new CheatCommand<int>("set_max_health", "Sets the player's max health", "set_max_health <new_max>", (x) =>
+        MAX_HEALTH = new CheatCommand<int>("max_health", "Sets the player's max health", "max_health <new_max>", (x) =>
         {
             m_playerController.SetMaxHealth(x);
         });
@@ -92,7 +93,7 @@ public class CheatConsole : MonoBehaviour
             }
         });
 
-        SET_TIME_SCALE = new CheatCommand<float>("set_time_scale", "Sets the game's time scale", "set_time_scale <scale>", (x) =>
+        TIME_SCALE = new CheatCommand<float>("time_scale", "Sets the game's time scale", "time_scale <scale>", (x) =>
         {
             Time.timeScale = x;
         });
@@ -106,6 +107,18 @@ public class CheatConsole : MonoBehaviour
             m_player.TogglePower(EChunkEffect.mirage);
             m_playerController.ToggleInvincibility();
             m_playerInput.ToggleJump();
+        });
+
+        DEV_MODE_FAST = new CheatCommand("dev_mode_fast", "Max health, all powers, invincibility, speed up time", "dev_mode_fast", () =>
+        {
+            m_playerController.SetMaxHealth(6);
+            m_playerController.SetCurrentHealth(6);
+            m_player.TogglePower(EChunkEffect.water);
+            m_player.TogglePower(EChunkEffect.fire);
+            m_player.TogglePower(EChunkEffect.mirage);
+            m_playerController.ToggleInvincibility();
+            m_playerInput.ToggleJump();
+            Time.timeScale = 3.0f;
         });
 
         GOD_MODE = new CheatCommand("god_mode", "Toggles invincibility", "god_mode", () =>
@@ -139,17 +152,18 @@ public class CheatConsole : MonoBehaviour
 
         m_commandList = new List<object>
         {
-            SET_CUR_HEALTH,
-            SET_MAX_HEALTH,
+            CUR_HEALTH,
+            MAX_HEALTH,
             TOGGLE_POWER,
             HELP,
-            SET_TIME_SCALE,
+            TIME_SCALE,
             DEV_MODE,
             GOD_MODE,
             JUMP,
             PLAY_SOUND,
             KILL_PLAYER,
             SET_MOUSTACHE,
+            DEV_MODE_FAST
         };
     }
 
