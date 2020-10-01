@@ -242,7 +242,10 @@ public class Player : MonoBehaviour
         UpdateUI();
 
         // Particles
-        m_powerParticles[(int)_effect].Play();
+        if ((int)_effect > m_powerParticles.Length)
+        {
+            m_powerParticles[(int)_effect].Play();
+        }
     }
 
     // Checks if the power in the given d-pad direction is unlocked and selects it
@@ -313,8 +316,8 @@ public class Player : MonoBehaviour
             }
         }
 
-        bool[] active = new bool[3];
-        for (int i = 0; i < s_activePowers.Count - 1; i++)
+        bool[] active = new bool[4];
+        for (int i = 0; i < s_activePowers.Count; i++)
         {
             active[i] = s_activePowers[(EChunkEffect)i]; 
         }
@@ -365,7 +368,15 @@ public class Player : MonoBehaviour
     public void TogglePower(EChunkEffect _effect)
     {
         s_activePowers[_effect] = !s_activePowers[_effect];
-        if (s_activePowers[_effect]) { TryChangeEffect(_effect); }
-        else { TryChangeEffect(EChunkEffect.none); }
+        if (s_activePowers[_effect] && _effect != EChunkEffect.mirage)
+        {
+            TryChangeEffect(_effect); 
+        }
+        else
+        {
+            TryChangeEffect(EChunkEffect.none); 
+        }
+
+        UpdateUI();
     }
 }
