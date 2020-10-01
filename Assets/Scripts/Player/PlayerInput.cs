@@ -80,6 +80,8 @@ public class PlayerInput : MonoBehaviour
         // Cheat console
         s_controls.Cheats.ToggleConsole.performed += _ => m_cheatConsole.OnToggleDebug();
         s_controls.Cheats.Return.performed += _ => m_cheatConsole.OnReturn();
+        s_controls.Cheats.PreviousEntry.performed += _ => m_cheatConsole.PreviousEntry();
+        s_controls.Cheats.NextEntry.performed += _ => m_cheatConsole.NextEntry();
         s_controls.Cheats.Enable();
 
         // Set init values

@@ -12,6 +12,7 @@ public class EffectsManager : MonoBehaviour
         rockBreak,
         waveDestroyed,
         glassBreak,
+        potBreak,
     }
 
     private readonly string m_effectsPath = "Effects";
