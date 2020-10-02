@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     [Tooltip("True if this is the tile the player should spawn at when teleporting")]
     [SerializeField] private bool m_teleportTile = false;
     private Collider m_collider;
-    private bool m_ignore = false;
+    [HideInInspector] public bool m_ignore = false;
     private Material m_normalMaterial;
     private Texture m_normalTexture;
     private MeshRenderer m_renderer;
