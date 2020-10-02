@@ -46,7 +46,7 @@ public class Snake : MonoBehaviour
         bullet.Init(m_effectType, m_playerRef.GetCurrentPower());
         bullet.transform.parent = transform;
         // Tween mesh
-        transform.GetChild(0).transform.DORewind();
-        transform.GetChild(0).transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
+        //transform.GetChild(0).transform.DORewind();
+        //transform.GetChild(0).transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
     }
 }
