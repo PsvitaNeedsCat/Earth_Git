@@ -17,6 +17,7 @@ public class PressurePlate : MonoBehaviour
         MessageBus.AddListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
         MessageBus.AddListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.AddListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+        MessageBus.AddListener(EMessageType.chunkHit, CheckChunkForMovement);
         m_activatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.AddListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
     }
@@ -26,6 +27,7 @@ public class PressurePlate : MonoBehaviour
         MessageBus.RemoveListener(EMessageType.waterChunkDestroyed, ChunkWasDestroyed);
         MessageBus.RemoveListener(EMessageType.fieryExplosion, ChunkWasDestroyed);
         MessageBus.RemoveListener(EMessageType.glassDestroyed, GlassWasDestroyed);
+        MessageBus.RemoveListener(EMessageType.chunkHit, CheckChunkForMovement);
         m_activatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
     }
@@ -133,6 +135,23 @@ public class PressurePlate : MonoBehaviour
             {
                 RemoveObject(go);
                 return;
+            }
+        }
+    }
+
+    private void CheckChunkForMovement(string _null)
+    {
+        Vector3 centre = transform.position + new Vector3(0.0f, 0.5f, 0.0f);
+        Collider[] colliders = Physics.OverlapBox(centre, new Vector3(0.45f, 0.45f, 0.45f));
+        foreach (Collider collider in colliders)
+        {
+            Chunk chunk = collider.GetComponent<Chunk>();
+            if (chunk)
+            {
+                if (!chunk.GetComponent<Rigidbody>().isKinematic)
+                {
+                    RemoveObject(chunk.transform.GetChild(0).gameObject);
+                }
             }
         }
     }
