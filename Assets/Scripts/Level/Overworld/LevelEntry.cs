@@ -19,7 +19,7 @@ public class LevelEntry : Interactable
         m_roomManager = FindObjectOfType<RoomManager>();
         m_overworldManager = FindObjectOfType<Overworld>();
 
-        if (Player.s_activePowers[(EChunkEffect)m_id + 1])
+        if (m_id + 1 < Player.s_activePowers.Count && Player.s_activePowers[(EChunkEffect)m_id + 1])
         {
             m_completedIcon.SetActive(true);
         }
