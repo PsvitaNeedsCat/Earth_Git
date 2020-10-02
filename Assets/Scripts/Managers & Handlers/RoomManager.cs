@@ -106,8 +106,10 @@ public class RoomManager : MonoBehaviour
     private void ChangeRoomsMovePlayer()
     {
         ChangeRooms();
-
-        m_playerInput.transform.position = m_respawnLocation;
+        if (m_playerInput)
+        {
+            m_playerInput.transform.position = m_respawnLocation;
+        }
     }
 
     // Changes rooms without moving the player
