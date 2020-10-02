@@ -24,6 +24,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand KILL_PLAYER;
     public static CheatCommand<float> SET_MOUSTACHE;
     public static CheatCommand TOGGLE_JUMP;
+    public static CheatCommand ERROR;
 
     public List<object> m_commandList;
 
@@ -187,6 +188,12 @@ public class CheatConsole : MonoBehaviour
             m_playerInput.ToggleJump();
         });
 
+        ERROR = new CheatCommand("error", "Throws a null reference error.", "error", () =>
+        {
+            GameObject errorObj = GameObject.Find("ObjectThatIsn'tReal");
+            errorObj.SetActive(true);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -202,6 +209,7 @@ public class CheatConsole : MonoBehaviour
             SET_MOUSTACHE,
             DEV_MODE_FAST,
             TOGGLE_JUMP,
+            ERROR,
         };
     }
 

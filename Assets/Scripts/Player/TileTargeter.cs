@@ -48,6 +48,8 @@ public class TileTargeter : MonoBehaviour
 
         m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
 
+        // Debug.LogError(m_closestTile);
+
         if (!m_closestTile || m_closestTile.IsOccupied())
         {
             Activate(false);
@@ -63,6 +65,7 @@ public class TileTargeter : MonoBehaviour
             Activate(true);
             m_indicator.transform.position = m_closestTile.transform.position;
             m_indicator.transform.rotation = m_closestTile.transform.rotation;
+            // Debug.LogError("Targeting tile with transform: " + m_closestTile.transform.rotation);
         }
         else
         {
