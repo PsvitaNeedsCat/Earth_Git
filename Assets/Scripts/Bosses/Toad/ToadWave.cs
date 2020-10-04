@@ -19,22 +19,17 @@ public class ToadWave : MonoBehaviour
 
     void WaveEnd()
     {
-        this.gameObject.SetActive(false);
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<ToadWaveSegment>().Disable();
+        }
     }
 
     void ActivateChildren()
     {
-        foreach (Transform child in this.transform)
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
-        }
-    }
-
-    void DeactivateChildren()
-    {
-        foreach(Transform child  in this.transform)
-        {
-            child.gameObject.SetActive(false);
         }
     }
 }
