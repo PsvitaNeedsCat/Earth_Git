@@ -125,6 +125,7 @@ public class Grub : MonoBehaviour
         {
             m_renderer.materials[i].SetFloat("_Blend", 0.0f);
         }
+        m_invincible = true;
 
         // Init
         Projectile proj = Instantiate(m_projPrefab, m_projSpawn.position, m_projSpawn.rotation).GetComponent<Projectile>();
@@ -136,7 +137,7 @@ public class Grub : MonoBehaviour
         // Tween
         Vector3 projScale = proj.transform.localScale;
         proj.transform.localScale = projScale * 0.1f;
-        proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic).OnComplete(() => m_invincible = true);
+        proj.transform.DOScale(projScale, 0.5f).SetEase(Ease.OutElastic);
 
         m_moving = false;
     }
