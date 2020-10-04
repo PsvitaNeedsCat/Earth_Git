@@ -215,7 +215,7 @@ public class Dialogue : Interactable
     // Counts for a few milliseconds, then activates the dialogue variable
     private IEnumerator ActivateDialogue()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
 
         m_active = true;
 
