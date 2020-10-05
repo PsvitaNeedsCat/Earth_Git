@@ -204,6 +204,12 @@ public class Player : MonoBehaviour
     // If the given power is unlocked, it selects it. Plays with sound
     public void TryChangeEffect(EChunkEffect _effect)
     {
+        // Do not let the player change if the power is not unlocked
+        if (!s_activePowers[_effect])
+        {
+            return;
+        }
+
         ChangeEffectSilent(_effect);
 
         switch (_effect)
@@ -231,12 +237,6 @@ public class Player : MonoBehaviour
     // Changes the effect without any sound
     public void ChangeEffectSilent(EChunkEffect _effect)
     {
-        // Do not let the player change if the power is not unlocked
-        if (!s_activePowers[_effect])
-        {
-            return;
-        }
-
         // Change the player's power
         s_currentEffect = _effect;
 
