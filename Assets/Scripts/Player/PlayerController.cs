@@ -176,20 +176,36 @@ public class PlayerController : MonoBehaviour
     // Moves the player in a given direction
     public void Move(Vector2 _direction)
     {
-        // Only rotate and move character if there is directional input
-        if (_direction.magnitude != 0.0f)
+        if (!m_firstPerson)
         {
-            // Change the move direction relative to the camera
-            Vector3 moveDir = Camera.main.RelativeDirection2(_direction);
+            // Only rotate and move character if there is directional input
+            if (_direction.magnitude != 0.0f)
+            {
+                // Change the move direction relative to the camera
+                Vector3 moveDir = Camera.main.RelativeDirection2(_direction);
 
-            // Set look direction
-            transform.forward = moveDir;
+                // Set look direction
+                transform.forward = moveDir;
 
-            // Set move force
-            float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+                // Set move force
+                float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
 
-            // Add force
-            m_rigidBody.AddForce(moveDir * force, ForceMode.Impulse);
+                // Add force
+                m_rigidBody.AddForce(moveDir * force, ForceMode.Impulse);
+            }
+        }
+        // First person
+        else
+        {
+            if (_direction.magnitude != 0.0f)
+            {
+                transform.Rotate(0.0f, _direction.x * 3.0f, 0.0f);
+
+                float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+
+                // Add force
+                m_rigidBody.AddForce(transform.forward * _direction.y * force, ForceMode.Impulse);
+            }
         }
 
         ApplyDrag();
