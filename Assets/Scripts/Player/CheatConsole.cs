@@ -291,11 +291,19 @@ public class CheatConsole : MonoBehaviour
                 }
                 else if (intCommand != null)
                 {
-                    intCommand.Invoke(int.Parse(properties[1]));
+                    int parameter;
+                    if (int.TryParse(properties[1], out parameter))
+                    {
+                        intCommand.Invoke(parameter);
+                    }
                 }
                 else if (floatCommand != null)
                 {
-                    floatCommand.Invoke(float.Parse(properties[1]));
+                    float parameter;
+                    if (float.TryParse(properties[1], out parameter))
+                    {
+                        floatCommand.Invoke(parameter);
+                    }
                 }
                 else if (stringCommand != null)
                 {

@@ -32,6 +32,7 @@ public class Key : MonoBehaviour
 
     private Animator m_animator = null;
     private Player m_playerRef = null;
+    private PlayerInput m_playerInputRef = null;
 
     private void Awake()
     {
@@ -66,6 +67,7 @@ public class Key : MonoBehaviour
         if (m_state == States.waiting && player)
         {
             m_playerRef = player;
+            m_playerInputRef = player.GetComponent<PlayerInput>();
             KeyCollected();
         }
     }
@@ -86,13 +88,68 @@ public class Key : MonoBehaviour
         
         FindObjectOfType<KeyUI>().KeyCollected(m_type);
 
-        if (!m_isLoaded)
-        {
-            MessageBus.TriggerEvent(EMessageType.keyCollected);
-            MessageBus.TriggerEvent(EMessageType.keySpawned);
-        }
 
         m_doorManager.CollectedKey(m_keyID);
+
+        if (m_isLoaded)
+        {
+            StartCoroutine(KeyCollectAnimation(true));
+            return;
+        }
+
+        m_playerInputRef.SetMovement(false);
+        m_playerInputRef.SetCombat(false);
+
+        StartCoroutine(KeyCollectAnimation());
+    }
+
+    private IEnumerator KeyCollectAnimation(bool _silent = false)
+    {
+        MusicManager musicManager = FindObjectOfType<MusicManager>();
+
+        if (!_silent)
+        {
+            MessageBus.TriggerEvent(EMessageType.keySpawned);
+
+            StartCoroutine(musicManager.FadeMusic(0.5f));
+        }
+
+        // Disable effects
+        Destroy(GetComponent<Collider>());
+        for (int i = 0; i < m_particles.Length; i++)
+        {
+            m_particles[i].Stop();
+            Destroy(m_particles[i]);
+        }
+
+        bool animationCompleted = false;
+
+        if (!_silent)
+        {
+            // Animate
+            Sequence animation = DOTween.Sequence();
+            Vector3 rotation = new Vector3(0.0f, 360.0f, 0.0f);
+            float moveY = transform.position.y + 1.0f;
+
+            animation.Append(transform.DORotate(rotation, 1.0f, RotateMode.LocalAxisAdd));
+            animation.Insert(0.0f, transform.DOMoveY(moveY, 1.0f));
+            animation.OnComplete(() => animationCompleted = true);
+            animation.Play();
+
+            while (!animationCompleted)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            m_playerInputRef.SetCombat(true);
+            m_playerInputRef.SetMovement(true);
+
+            MessageBus.TriggerEvent(EMessageType.keyCollected);
+
+            StartCoroutine(musicManager.FadeMusic(1.0f, false));
+        }
 
         FloatToPlayer();
 
@@ -106,15 +163,9 @@ public class Key : MonoBehaviour
 
         transform.parent = m_beltLocation.transform;
 
-        Destroy(GetComponent<Collider>());
         m_animator.transform.localPosition = Vector3.zero;
         m_animator.transform.localRotation = Quaternion.identity;
         Destroy(m_animator);
-        for (int i = 0; i < m_particles.Length; i++)
-        {
-            m_particles[i].Stop();
-            Destroy(m_particles[i]);
-        }
 
         transform.DOScale(0.1f, 0.4f);
         transform.DOLocalRotateQuaternion(Quaternion.identity, 0.4f);
