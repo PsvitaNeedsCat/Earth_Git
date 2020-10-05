@@ -74,19 +74,25 @@ public class Grub : MonoBehaviour
             {
                 MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
 
-                if (!m_dead && !m_invincible) { Dead(); }
+                if (!m_dead && !m_invincible) 
+                {
+                    Dead(); 
+                }
             }
             else
             {
                 MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
             }
 
-            Destroy(chunk.gameObject);
+            chunk.GetComponent<HealthComponent>().Health = 0;
 
             return;
         }
 
-        if (m_dead || m_invincible) { return; }
+        if (m_dead || m_invincible) 
+        {
+            return; 
+        }
 
         PlayerController player = other.GetComponent<PlayerController>();
         if (player)
