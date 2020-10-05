@@ -13,6 +13,8 @@ public class MusicManager : MonoBehaviour
     private Dictionary<string, AudioClip> m_musicDictionary = new Dictionary<string, AudioClip>();
     private AudioSource m_audioSource;
 
+    private float m_defaultVolume = 1.0f;
+
     private void Awake()
     {
         if (s_instance != null && s_instance != this) 
@@ -64,6 +66,8 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
+        m_defaultVolume = m_audioSource.volume;
+
         if (m_startingMusic != EMessageType.none)
         {
             PlayMusic(m_startingMusic.ToString());
@@ -86,6 +90,8 @@ public class MusicManager : MonoBehaviour
 
         m_audioSource.clip = m_musicDictionary[_name];
 
+        m_audioSource.volume = m_defaultVolume;
+
         m_audioSource.Play();
     }
 
@@ -94,20 +100,32 @@ public class MusicManager : MonoBehaviour
         m_audioSource.Stop();
     }
     
-    // Fades the music out over a duration
-    public IEnumerator FadeMusicOut(float _duration)
+    // Fades the music in/out over a duration
+    public IEnumerator FadeMusic(float _duration, bool _fadeIOut = true)
     {
         float timer = 0.0f;
         float startVolume = m_audioSource.volume;
 
+        if (!_fadeIOut)
+        {
+            m_audioSource.Play();
+        }
         while (timer < _duration)
         {
             timer += Time.deltaTime;
-            m_audioSource.volume = Mathf.Lerp(startVolume, 0.0f, timer / _duration);
+            float endResult = (_fadeIOut) ? 0.0f : 1.0f;
+            m_audioSource.volume = Mathf.Lerp(startVolume, endResult, timer / _duration);
             yield return null;
         }
 
-        m_audioSource.Stop();
-        m_audioSource.volume = startVolume;
+        if (_fadeIOut)
+        {
+            m_audioSource.volume = 0.0f;
+            m_audioSource.Pause();
+        }
+        else
+        {
+            m_audioSource.volume = 1.0f;
+        }
     }
 }

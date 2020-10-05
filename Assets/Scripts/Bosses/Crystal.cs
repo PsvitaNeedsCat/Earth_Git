@@ -41,7 +41,7 @@ public class Crystal : MonoBehaviour
     // Called when the player collects the crystal
     public void Collected(Player _player)
     {
-        StartCoroutine(FindObjectOfType<MusicManager>().FadeMusicOut(1.0f));
+        StartCoroutine(FindObjectOfType<MusicManager>().FadeMusic(1.0f));
         MessageBus.TriggerEvent(EMessageType.crystalCollected);
 
         m_collected = true;
