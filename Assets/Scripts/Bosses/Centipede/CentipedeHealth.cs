@@ -108,17 +108,20 @@ public class CentipedeHealth : MonoBehaviour
     }
 
     // Damages a section of the centipede, storing the new state, and changing the materials
-    public void DamageSection(ESegmentType _type)
+    public void DamageSection(int _index)
     {
+        ESegmentType type = IndexToSegmentType(_index);
+
         // Debug.Log("Trying to damage section " + _type.ToString());
 
+        // If hitting a body segment, check adjacent body segments
 
         // If the section is not active, or has already been damaged, it can't be damaged
-        if (!m_sectionsActive[SegmentTypeToIndex(_type)])
+        if (!m_sectionsActive[_index])
         {
             return;
         }
-        if (m_sectionsDamaged[(int)_type])
+        if (m_sectionsDamaged[(int)type])
         {
             return;
         }
@@ -126,11 +129,13 @@ public class CentipedeHealth : MonoBehaviour
         // Debug.Log("Damaged section " + _type.ToString());
 
         m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
-        m_healthIcons[(int)_type].SetActive(false);
+        // m_healthIcons[(int)type].SetActive(false);
+        m_healthIcons[GetHealth() - 1].SetActive(false);
+
 
         HitFreezeManager.BeginHitFreeze(0.1f);
 
-        List<int> segments = m_sectionSegments[(int)_type];
+        List<int> segments = m_sectionSegments[(int)type];
 
         // Change material of segments
         for (int i = 0; i < segments.Count; i++)
@@ -140,7 +145,7 @@ public class CentipedeHealth : MonoBehaviour
 
             StopAllCoroutines();
 
-            m_segmentRenderers[segmentIndex].material.SetTexture("_MainTex", m_segmentMaterials[(int)_type].m_cooled);
+            m_segmentRenderers[segmentIndex].material.SetTexture("_MainTex", m_segmentMaterials[(int)type].m_cooled);
             m_segmentRenderers[segmentIndex].material.SetFloat("_TextureBlend", 0.0f);
             m_segmentRenderers[segmentIndex].material.SetFloat("_FresnelMultiplier", 1.0f);
             m_segmentRenderers[segmentIndex].material.SetFloat("_Cutoff", 0.8f);
@@ -149,12 +154,12 @@ public class CentipedeHealth : MonoBehaviour
             m_segmentDamagedEffects[i].SetActive(true);
         }
 
-        if (_type == ESegmentType.head)
+        if (type == ESegmentType.head)
         {
             m_trainAttack.OnDamaged(); 
         }
 
-        m_sectionsDamaged[(int)_type] = true;
+        m_sectionsDamaged[(int)type] = true;
 
         // Check if any sections of the body are still alive
         bool anyAlive = false;

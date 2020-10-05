@@ -245,6 +245,7 @@ public class Chunk : MonoBehaviour
         {
             _collider.GetComponent<CentipedeSegmentMover>().Damaged();
         }
+
         m_healthComp.Health = 0;
     }
 
