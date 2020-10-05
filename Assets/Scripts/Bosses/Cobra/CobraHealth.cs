@@ -124,7 +124,7 @@ public class CobraHealth : MonoBehaviour
         MessageBus.TriggerEvent(EMessageType.cobraDamaged);
 
         s_animations.Damaged();
-        Debug.Log("Set cobra damaged trigger");
+        // Debug.Log("Set cobra damaged trigger");
 
         s_barrage.CancelAttack();
 
