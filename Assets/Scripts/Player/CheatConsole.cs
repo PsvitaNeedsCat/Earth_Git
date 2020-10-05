@@ -26,6 +26,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<float> SET_MOUSTACHE;
     public static CheatCommand TOGGLE_JUMP;
     public static CheatCommand ERROR;
+    public static CheatCommand FIRST_PERSON;
 
     public List<object> m_commandList;
 
@@ -207,6 +208,11 @@ public class CheatConsole : MonoBehaviour
             errorObj.SetActive(true);
         });
 
+        FIRST_PERSON = new CheatCommand("first_person", "Toggles first-person camera", "first_person", () =>
+        {
+            m_player.ToggleFirstPerson();
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -224,6 +230,7 @@ public class CheatConsole : MonoBehaviour
             DEV_MODE_FAT,
             TOGGLE_JUMP,
             ERROR,
+            FIRST_PERSON
         };
     }
 

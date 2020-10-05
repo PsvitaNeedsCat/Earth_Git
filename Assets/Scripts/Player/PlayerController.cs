@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     // Public variables
     [HideInInspector] public Tile m_confirmedTile = null;
     [HideInInspector] public bool m_inSand = false;
+    [HideInInspector] public bool m_firstPerson = false;
     [HideInInspector] public Rigidbody m_rigidBody;
     [HideInInspector] public static bool s_saveOnAwake = false;
     public SkinnedMeshRenderer m_meshRenderer;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private GameCanvas m_gameCanvas;
     private PlayerRagdoll m_ragdoll;
     private CheatConsole m_cheats;
+    private Player m_player;
 
     private void Awake()
     {
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
         m_ragdoll = GetComponent<PlayerRagdoll>();
         m_cheats = GetComponent<CheatConsole>();
+        m_player = GetComponent<Player>();
 
         SetOutlineColour();
 
