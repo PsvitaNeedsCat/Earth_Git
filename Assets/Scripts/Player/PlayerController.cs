@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_moustache;
     private List<Image> m_healthImages;
     private List<Image> m_healthBackgroundImages;
+    [SerializeField] private AnimationCurve m_movementCurve = new AnimationCurve();
 
     // Private variables
     private PlayerController m_instance;
@@ -185,8 +186,11 @@ public class PlayerController : MonoBehaviour
             // Set look direction
             transform.forward = moveDir;
 
+            float speed = m_movementCurve.Evaluate(_direction.magnitude);
+
             // Set move force
             float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+            force *= speed;
 
             // Add force
             m_rigidBody.AddForce(moveDir * force, ForceMode.Impulse);
