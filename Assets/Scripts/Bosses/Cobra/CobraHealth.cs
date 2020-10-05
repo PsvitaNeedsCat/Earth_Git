@@ -131,7 +131,7 @@ public class CobraHealth : MonoBehaviour
         s_material.SetFloat("_FresnelStrength", 5.0f);
         s_material.SetFloat("_Cutoff", 0.8f);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         // If on 0 health, start the chase behaviour
         if (s_currentHealth == 0)
@@ -155,6 +155,8 @@ public class CobraHealth : MonoBehaviour
             s_boss.SortPotList();
 
             CobraShuffle.s_bossPotIndex = newBossPosition;
+
+            s_animations.ExitPot();
         }
     }
 

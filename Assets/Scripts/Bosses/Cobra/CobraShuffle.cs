@@ -21,7 +21,8 @@ public class CobraShuffle : CobraBehaviour
     public static List<Vector3> s_potStartingPositions = new List<Vector3>();
     public static List<Quaternion> s_potStartingRotations = new List<Quaternion>();
 
-    public AnimationCurve m_verticalMovementCurve;
+    public AnimationCurve m_risingVerticalCurve;
+    public AnimationCurve m_fallingVerticalCurve;
     public AnimationCurve m_horizontalMovementCurve;
 
     private readonly float m_lowJumpHeight = 1.5f;
@@ -84,7 +85,7 @@ public class CobraShuffle : CobraBehaviour
 
             // This pot jumps in
             Vector3 jumpInPos = CobraMovementGrid.WorldPosFromIndex(m_activePotDefs[i].m_jumpInPoint);
-            MovePot(thisPot, jumpInPos - thisPot.GetMoveTransform().position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true, m_verticalMovementCurve);
+            MovePot(thisPot, jumpInPos - thisPot.GetMoveTransform().position, 2.0f, CobraHealth.StateSettings.m_shuffleJumpInTime, true, m_fallingVerticalCurve);
         }
 
         bool bossMoved = false;
@@ -261,9 +262,11 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(_duration / 2.0f);
 
-        _pot.GetMoveTransform().DOBlendableMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(m_verticalMovementCurve);
+        _pot.GetMoveTransform().DOBlendableMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(m_fallingVerticalCurve);
 
         yield return new WaitForSeconds(_duration / 2.0f);
+
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
 
         _pot.SetColliderDamage(false);
 
@@ -293,7 +296,7 @@ public class CobraShuffle : CobraBehaviour
         // _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
         _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
-        _pot.m_mesh.transform.DOBlendableMoveBy(Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(_easeCurve);
+        _pot.m_mesh.transform.DOBlendableMoveBy(Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(m_risingVerticalCurve);
 
         yield return new WaitForSeconds(_duration / 2.0f);
 
@@ -301,6 +304,7 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(_duration / 2.0f);
 
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
         _pot.SetColliderDamage(false);
 
         if (_fireProjectiles)
@@ -321,7 +325,7 @@ public class CobraShuffle : CobraBehaviour
             if (potTileIndex >= 0)
             {
                 Vector3 moveDir = CobraBoss.s_settings.m_expandContractDirections[potTileIndex];
-                MovePot(m_activePots[i], moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleContractTime, true, m_verticalMovementCurve);
+                MovePot(m_activePots[i], moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleContractTime, true, m_fallingVerticalCurve);
             }
             else
             {
@@ -342,7 +346,7 @@ public class CobraShuffle : CobraBehaviour
             moveDir = -moveDir;
         }
 
-        MovePot(_pot, moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleRotateJumpTime, true, m_verticalMovementCurve);
+        MovePot(_pot, moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleRotateJumpTime, true, m_fallingVerticalCurve);
     }
 
     private float RotatePots(bool _clockwise)
@@ -361,8 +365,8 @@ public class CobraShuffle : CobraBehaviour
         Vector3 moveVec = _potTwo.GetMoveTransform().position - _potOne.GetMoveTransform().position;
         moveVec.y = 0.0f;
 
-        MovePot(_potOne, moveVec, m_mediumJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_verticalMovementCurve);
-        MovePot(_potTwo, -moveVec, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_verticalMovementCurve);
+        MovePot(_potOne, moveVec, m_mediumJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_fallingVerticalCurve);
+        MovePot(_potTwo, -moveVec, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_fallingVerticalCurve);
     }
 
     private float SwapPots()
@@ -382,8 +386,8 @@ public class CobraShuffle : CobraBehaviour
 
         moveVec /= 2.0f;
 
-        FakeMovePot(_potOne, moveVec, m_mediumJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_verticalMovementCurve);
-        FakeMovePot(_potTwo, -moveVec, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_verticalMovementCurve);
+        FakeMovePot(_potOne, moveVec, m_mediumJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_fallingVerticalCurve);
+        FakeMovePot(_potTwo, -moveVec, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSwapJumpTime, true, m_fallingVerticalCurve);
     }
 
     private float FakeOutPots()
@@ -404,7 +408,7 @@ public class CobraShuffle : CobraBehaviour
             int potTileIndex = CobraMovementGrid.IndexFromWorldPos(pot.GetMoveTransform().position);
             Vector3 moveDir = CobraBoss.s_settings.m_sideToSideDirections[potTileIndex];
 
-            MovePot(m_activePots[i], moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSideToSideJumpTime, true, m_verticalMovementCurve);
+            MovePot(m_activePots[i], moveDir, m_lowJumpHeight, CobraHealth.StateSettings.m_shuffleSideToSideJumpTime, true, m_fallingVerticalCurve);
         }
 
         return CobraHealth.StateSettings.m_shuffleSideToSideJumpTime + CobraHealth.StateSettings.m_shuffleIndicatorShowTime;
@@ -421,10 +425,10 @@ public class CobraShuffle : CobraBehaviour
             Vector3 threeMove = (m_activePots[3].GetMoveTransform().position - m_activePots[2].GetMoveTransform().position) / 2.0f;
             Vector3 fourMove = m_activePots[1].GetMoveTransform().position - m_activePots[3].GetMoveTransform().position;
 
-            MovePot(m_activePots[0], oneMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[1], twoMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            FakeMovePot(m_activePots[2], threeMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[3], fourMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
+            MovePot(m_activePots[0], oneMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[1], twoMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            FakeMovePot(m_activePots[2], threeMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[3], fourMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
         }
         else
         {
@@ -435,12 +439,12 @@ public class CobraShuffle : CobraBehaviour
             Vector3 fiveMove = m_activePots[2].GetMoveTransform().position - m_activePots[4].GetMoveTransform().position;
             Vector3 sixMove = m_activePots[4].GetMoveTransform().position - m_activePots[5].GetMoveTransform().position;
 
-            MovePot(m_activePots[0], oneMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[1], twoMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[2], threeMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[3], fourMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[4], fiveMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
-            MovePot(m_activePots[5], sixMove, m_lowJumpHeight, jumpTime, true, m_verticalMovementCurve);
+            MovePot(m_activePots[0], oneMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[1], twoMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[2], threeMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[3], fourMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[4], fiveMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
+            MovePot(m_activePots[5], sixMove, m_lowJumpHeight, jumpTime, true, m_fallingVerticalCurve);
         }
 
         return jumpTime + CobraHealth.StateSettings.m_shuffleIndicatorShowTime;
