@@ -11,6 +11,7 @@ public class Hurtbox : MonoBehaviour
     private int m_framesSkipped = 0;
     private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
+    private List<Chunk> m_collidedChunks = new List<Chunk>();
 
     // Called when hurtbox is instantiated
     public void Init(Vector3 _pos, EChunkEffect _effect)
@@ -41,7 +42,7 @@ public class Hurtbox : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); 
+            DestroyHurtbox();
         }
     }
 
@@ -52,22 +53,45 @@ public class Hurtbox : MonoBehaviour
         // Check collision is a chunk
         if (chunk)
         {
-            Vector3 hitDir = chunk.transform.position - m_playerPos;
-            hitDir.y = 0.0f;
-            hitDir.Normalize();
-
-            Vector3 cardinal = hitDir.Cardinal();
-            chunk.Hit(cardinal * m_settings.m_chunkHitForce, m_effect);
-
-            ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-
-            Destroy(gameObject);
+            m_collidedChunks.Add(chunk);
         }
+    }
 
-        WallButton button = other.GetComponent<WallButton>();
-        if (button)
+    private void DestroyHurtbox()
+    {
+        Chunk closestChunk = null;
+        float closestDist = float.MaxValue;
+
+        foreach (Chunk chunk in m_collidedChunks)
         {
-            button.Invoke(); 
+            float distance = (chunk.transform.position - transform.position).magnitude;
+            if (distance < closestDist)
+            {
+                closestDist = distance;
+                closestChunk = chunk;
+            }
         }
+        m_collidedChunks.Clear();
+
+        PunchChunk(closestChunk);
+
+        Destroy(gameObject);
+    }
+
+    private void PunchChunk(Chunk _chunk)
+    {
+        if (!_chunk)
+        {
+            return;
+        }
+
+        Vector3 hitDir = _chunk.transform.position - m_playerPos;
+        hitDir.y = 0.0f;
+        hitDir.Normalize();
+
+        Vector3 cardinal = hitDir.Cardinal();
+        _chunk.Hit(cardinal * m_settings.m_chunkHitForce, m_effect);
+
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
     }
 }
