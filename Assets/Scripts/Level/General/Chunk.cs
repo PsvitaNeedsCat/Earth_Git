@@ -371,7 +371,6 @@ public class Chunk : MonoBehaviour
         Vector3 checkPosition = transform.position + _hitVec.normalized;
 
         // Raycast in the direction of the hit vector for half a chunk's length
-        //if (Physics.Raycast(checkPosition, _hitVec, out hit, m_globalSettings.m_wallCheckDistance, m_globalSettings.m_wallLayers))
         Collider[] hits = Physics.OverlapBox(checkPosition, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, m_globalSettings.m_wallLayers);
         if (hits.Length > 0)
         {
