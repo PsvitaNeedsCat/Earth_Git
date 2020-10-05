@@ -273,7 +273,11 @@ public class CobraShuffle : CobraBehaviour
         if (_fireProjectiles)
         {
             _pot.FireLobProjectiles();
-            MessageBus.TriggerEvent(EMessageType.cobraPotFire);
+
+            if (_pot.gameObject == gameObject)
+            {
+                MessageBus.TriggerEvent(EMessageType.cobraPotFire);
+            }
         }
 
         _pot.DisablePotIndicator();
@@ -310,7 +314,11 @@ public class CobraShuffle : CobraBehaviour
         if (_fireProjectiles)
         {
             _pot.FireLobProjectiles();
-            MessageBus.TriggerEvent(EMessageType.cobraPotFire);
+
+            if (_pot.gameObject == gameObject)
+            {
+                MessageBus.TriggerEvent(EMessageType.cobraPotFire);
+            }
         }
 
         _pot.DisablePotIndicator();
