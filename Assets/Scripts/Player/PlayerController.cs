@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool m_inSand = false;
     [HideInInspector] public Rigidbody m_rigidBody;
     [HideInInspector] public static bool s_saveOnAwake = false;
+    public SkinnedMeshRenderer m_meshRenderer;
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
-    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
     [SerializeField] private GameObject m_moustache;
     private List<Image> m_healthImages;
     private List<Image> m_healthBackgroundImages;

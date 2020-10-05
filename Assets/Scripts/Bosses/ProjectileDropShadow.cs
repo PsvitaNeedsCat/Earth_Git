@@ -11,6 +11,13 @@ public class ProjectileDropShadow : MonoBehaviour
     public float m_dropShadowMinScale;
     public float m_dropShadowMaxScale;
 
+    private bool m_enabled = true;
+
+    public void SetDropShadow(bool _on)
+    {
+        m_enabled = _on;
+    }
+
     private void Update()
     {
         UpdateDropShadow();
@@ -19,6 +26,12 @@ public class ProjectileDropShadow : MonoBehaviour
     private void UpdateDropShadow()
     {
         RaycastHit hitInfo;
+
+        if (!m_enabled)
+        {
+            m_dropShadow.SetActive(false);
+            return;
+        }
 
         // If there is a surface below
         if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, m_dropShadowMaxRange, m_dropShadowLayerMask))
