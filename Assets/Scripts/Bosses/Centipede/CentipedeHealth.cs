@@ -111,11 +111,17 @@ public class CentipedeHealth : MonoBehaviour
     public void DamageSection(ESegmentType _type)
     {
         // Debug.Log("Trying to damage section " + _type.ToString());
-        
+
 
         // If the section is not active, or has already been damaged, it can't be damaged
-        if (!m_sectionsActive[SegmentTypeToIndex(_type)]) return;
-        if (m_sectionsDamaged[(int)_type]) return;
+        if (!m_sectionsActive[SegmentTypeToIndex(_type)])
+        {
+            return;
+        }
+        if (m_sectionsDamaged[(int)_type])
+        {
+            return;
+        }
 
         // Debug.Log("Damaged section " + _type.ToString());
 
@@ -164,6 +170,7 @@ public class CentipedeHealth : MonoBehaviour
         if (!anyAlive)
         {
             m_crystal.SetActive(true);
+            m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
             Destroy(m_bossObject);
         }
 

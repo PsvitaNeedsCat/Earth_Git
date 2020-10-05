@@ -39,7 +39,7 @@ public class Crystal : MonoBehaviour
     }
 
     // Called when the player collects the crystal
-    private void Collected(Player _player)
+    public void Collected(Player _player)
     {
         StartCoroutine(FindObjectOfType<MusicManager>().FadeMusicOut(1.0f));
         MessageBus.TriggerEvent(EMessageType.crystalCollected);
