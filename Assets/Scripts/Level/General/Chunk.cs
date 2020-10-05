@@ -245,6 +245,7 @@ public class Chunk : MonoBehaviour
         {
             _collider.GetComponent<CentipedeSegmentMover>().Damaged();
         }
+
         m_healthComp.Health = 0;
     }
 
@@ -380,7 +381,7 @@ public class Chunk : MonoBehaviour
             foreach (Collider i in hits)
             {
                 // Ignore self-collision
-                if (i.gameObject == gameObject || i.transform.parent.gameObject == gameObject)
+                if (i.gameObject == gameObject || (i.transform.parent && i.transform.parent.gameObject == gameObject))
                 {
                     continue;
                 }

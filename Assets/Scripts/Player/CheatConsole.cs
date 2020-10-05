@@ -18,6 +18,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<float> TIME_SCALE;
     public static CheatCommand DEV_MODE;
     public static CheatCommand DEV_MODE_FAST;
+    public static CheatCommand DEV_MODE_FAT;
     public static CheatCommand GOD_MODE;
     public static CheatCommand JUMP;
     public static CheatCommand<string> PLAY_SOUND;
@@ -25,6 +26,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<float> SET_MOUSTACHE;
     public static CheatCommand TOGGLE_JUMP;
     public static CheatCommand ERROR;
+    public static CheatCommand FIRST_PERSON;
 
     public List<object> m_commandList;
 
@@ -154,6 +156,18 @@ public class CheatConsole : MonoBehaviour
             Time.timeScale = 3.0f;
         });
 
+        DEV_MODE_FAT = new CheatCommand("dev_mode_fat", ":)", "dev_mode_fat", () =>
+        {
+            m_playerController.SetMaxHealth(6);
+            m_playerController.SetCurrentHealth(6);
+            m_player.TogglePower(EChunkEffect.water);
+            m_player.TogglePower(EChunkEffect.fire);
+            m_player.TogglePower(EChunkEffect.mirage);
+            m_playerController.ToggleInvincibility();
+            m_playerInput.ToggleJump();
+            m_playerController.m_meshRenderer.transform.parent.localScale = new Vector3(3.0f, 1.0f, 3.0f);
+        });
+
         GOD_MODE = new CheatCommand("god_mode", "Toggles invincibility", "god_mode", () =>
         {
             m_playerController.ToggleInvincibility();
@@ -194,6 +208,11 @@ public class CheatConsole : MonoBehaviour
             errorObj.SetActive(true);
         });
 
+        FIRST_PERSON = new CheatCommand("first_person", "Toggles first-person camera", "first_person", () =>
+        {
+            m_player.ToggleFirstPerson();
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -208,8 +227,10 @@ public class CheatConsole : MonoBehaviour
             KILL_PLAYER,
             SET_MOUSTACHE,
             DEV_MODE_FAST,
+            DEV_MODE_FAT,
             TOGGLE_JUMP,
             ERROR,
+            FIRST_PERSON
         };
     }
 
@@ -291,11 +312,19 @@ public class CheatConsole : MonoBehaviour
                 }
                 else if (intCommand != null)
                 {
-                    intCommand.Invoke(int.Parse(properties[1]));
+                    int parameter;
+                    if (int.TryParse(properties[1], out parameter))
+                    {
+                        intCommand.Invoke(parameter);
+                    }
                 }
                 else if (floatCommand != null)
                 {
-                    floatCommand.Invoke(float.Parse(properties[1]));
+                    float parameter;
+                    if (float.TryParse(properties[1], out parameter))
+                    {
+                        floatCommand.Invoke(parameter);
+                    }
                 }
                 else if (stringCommand != null)
                 {

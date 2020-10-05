@@ -10,16 +10,18 @@ public class PlayerController : MonoBehaviour
     // Public variables
     [HideInInspector] public Tile m_confirmedTile = null;
     [HideInInspector] public bool m_inSand = false;
+    [HideInInspector] public bool m_firstPerson = false;
     [HideInInspector] public Rigidbody m_rigidBody;
     [HideInInspector] public static bool s_saveOnAwake = false;
+    public SkinnedMeshRenderer m_meshRenderer;
 
     // Serialized Variables
     [SerializeField] private GameObject m_hurtboxPrefab;
     [SerializeField] private TileTargeter m_tileTargeter;
-    [SerializeField] private SkinnedMeshRenderer m_meshRenderer;
     [SerializeField] private GameObject m_moustache;
     private List<Image> m_healthImages;
     private List<Image> m_healthBackgroundImages;
+    [SerializeField] private AnimationCurve m_movementCurve = new AnimationCurve();
 
     // Private variables
     private PlayerController m_instance;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private GameCanvas m_gameCanvas;
     private PlayerRagdoll m_ragdoll;
     private CheatConsole m_cheats;
+    private Player m_player;
 
     private void Awake()
     {
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
         m_ragdoll = GetComponent<PlayerRagdoll>();
         m_cheats = GetComponent<CheatConsole>();
+        m_player = GetComponent<Player>();
 
         SetOutlineColour();
 
@@ -173,20 +177,42 @@ public class PlayerController : MonoBehaviour
     // Moves the player in a given direction
     public void Move(Vector2 _direction)
     {
-        // Only rotate and move character if there is directional input
-        if (_direction.magnitude != 0.0f)
+        if (!m_firstPerson)
         {
-            // Change the move direction relative to the camera
-            Vector3 moveDir = Camera.main.RelativeDirection2(_direction);
+            // Only rotate and move character if there is directional input
+            if (_direction.magnitude != 0.0f)
+            {
+                // Change the move direction relative to the camera
+                Vector3 moveDir = Camera.main.RelativeDirection2(_direction);
 
-            // Set look direction
-            transform.forward = moveDir;
+                // Set look direction
+                transform.forward = moveDir;
+
+            float speed = m_movementCurve.Evaluate(_direction.magnitude);
 
             // Set move force
             float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+            force *= speed;
 
-            // Add force
-            m_rigidBody.AddForce(moveDir * force, ForceMode.Impulse);
+                // Add force
+                m_rigidBody.AddForce(moveDir * force, ForceMode.Impulse);
+            }
+        }
+        // First person
+        else
+        {
+            if (_direction.magnitude != 0.0f)
+            {
+                transform.Rotate(0.0f, _direction.x * 3.0f, 0.0f);
+
+                float speed = m_movementCurve.Evaluate(_direction.magnitude);
+
+                // Set move force
+                float force = (m_inSand) ? m_settings.m_sandMoveForce : m_settings.m_moveForce;
+
+                // Add force
+                m_rigidBody.AddForce(transform.forward * _direction.y * force, ForceMode.Impulse);
+            }
         }
 
         ApplyDrag();

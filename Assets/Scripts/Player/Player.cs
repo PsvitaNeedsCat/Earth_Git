@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     };
     public static EChunkEffect s_currentEffect = EChunkEffect.none;
     [HideInInspector] public static int m_lastTempleEntered = 0;
+    public GameObject m_firstPersonCamera;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
     private bool m_inTutorial = false;
+    private bool m_firstPerson = false;
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -202,6 +204,12 @@ public class Player : MonoBehaviour
     // If the given power is unlocked, it selects it. Plays with sound
     public void TryChangeEffect(EChunkEffect _effect)
     {
+        // Do not let the player change if the power is not unlocked
+        if (!s_activePowers[_effect])
+        {
+            return;
+        }
+
         ChangeEffectSilent(_effect);
 
         switch (_effect)
@@ -229,12 +237,6 @@ public class Player : MonoBehaviour
     // Changes the effect without any sound
     public void ChangeEffectSilent(EChunkEffect _effect)
     {
-        // Do not let the player change if the power is not unlocked
-        if (!s_activePowers[_effect])
-        {
-            return;
-        }
-
         // Change the player's power
         s_currentEffect = _effect;
 
@@ -378,5 +380,22 @@ public class Player : MonoBehaviour
         }
 
         UpdateUI();
+    }
+
+    public void ToggleFirstPerson()
+    {
+        m_firstPerson = !m_firstPerson;
+        m_playerController.m_firstPerson = m_firstPerson;
+
+        if (m_firstPerson)
+        {
+            Camera.main.orthographic = false;
+            m_firstPersonCamera.SetActive(true);
+        }
+        else
+        {
+            Camera.main.orthographic = true;
+            m_firstPersonCamera.SetActive(false);
+        }
     }
 }

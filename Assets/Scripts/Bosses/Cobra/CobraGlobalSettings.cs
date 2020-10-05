@@ -25,6 +25,14 @@ public class CobraGlobalSettings : ScriptableObject
     public float m_jumpDelay;
     public float m_bigJumpHeight;
     public float m_bigJumpDuration;
+    public float m_chaseJumpHeight;
+    public float m_chaseJumpRaiseTime;
+    public float m_chaseJumpAimTime;
+    public float m_chaseJumpFallTime;
+    public float m_chaseSpeed;
+
+    public AnimationCurve m_chaseRaiseCurve;
+    public AnimationCurve m_chaseFallCurve;
 
     [Header("Jump Drop Shadow Settings")]
     public float m_dropShadowMinScale = 0.01f;
