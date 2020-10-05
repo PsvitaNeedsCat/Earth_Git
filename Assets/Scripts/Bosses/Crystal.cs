@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class Crystal : MonoBehaviour
 {
     [SerializeField] private int m_setMaxHealth = 3;
-    [SerializeField] private EChunkEffect m_crystalType;
+    public EChunkEffect m_crystalType;
     [SerializeField] private GameObject[] m_effects = new GameObject[] { };
     private bool m_collected = false;
     private Dialogue m_dialogue;
@@ -47,7 +47,7 @@ public class Crystal : MonoBehaviour
         m_collected = true;
 
         // If it is the endgame crystal, reset the powers, otherwise unlock one
-        _player.PowerUnlocked(m_crystalType);
+        //_player.PowerUnlocked(m_crystalType);
 
         _player.GetComponent<PlayerController>().SetMaxHealth(m_setMaxHealth);
         PlayerController.s_saveOnAwake = true;

@@ -54,27 +54,15 @@ public class MoveableBlock : MonoBehaviour
             // Check each object it hit
             for (int i = 0; i < hits.Length; i++)
             {
-                // Check the parent exists
-                Transform parent = hits[i].transform.parent;
-                if (!parent) 
-                {
-                    continue; 
-                }
-
                 // Check parent is a chunk
-                Chunk chunk = hits[i].transform.parent.GetComponent<Chunk>();
+                Chunk chunk = hits[i].GetComponentInParent<Chunk>();
                 if (!chunk) 
                 {
                     continue; 
                 }
 
-                // Hit the chunk
-                Vector3 dir = chunk.transform.position - transform.position;
-                dir.y = 0.0f;
-                dir.Normalize();
-                dir = dir.Cardinal();
-
-                chunk.Hit(dir * m_playerSettings.m_chunkHitForce, EChunkEffect.none);
+                // Destroy the chunk
+                chunk.OnDeath();
 
                 return;
             }

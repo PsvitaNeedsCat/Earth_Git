@@ -90,12 +90,8 @@ public class CobraMirageBarrage : CobraBehaviour
 
         m_spit.LowerHead();
 
-        bool fireRed = true;
-
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
-            mirageCobra.m_bulletType = (fireRed) ? ECobraMirageType.red : ECobraMirageType.blue;
-            fireRed = !fireRed;
             mirageCobra.LowerHead();
         }
     }
@@ -156,7 +152,16 @@ public class CobraMirageBarrage : CobraBehaviour
     public void CancelAttack()
     {
         StopAllCoroutines();
+
+        StartCoroutine(CancelAttackSequence());
+    }
+
+    private IEnumerator CancelAttackSequence()
+    {
         OnAttackEnd();
+
+        yield return new WaitForSeconds(4.0f);
+
         CompleteBehaviour();
     }
 

@@ -758,7 +758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955e2e2ecfef42d44bbb1f536080c91e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletType: 0
   m_bulletSpawn: {fileID: 6764861329650579425}
   m_meshRenderer: {fileID: 6931382166602389163}
   m_isReal: 1
@@ -814,7 +813,31 @@ MonoBehaviour:
   m_currentState: 0
   m_animations: {fileID: 2661657704115674940}
   m_cobraMesh: {fileID: 2661657702773684792}
-  m_verticalMovementCurve:
+  m_risingVerticalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_fallingVerticalCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -828,12 +851,12 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 1.0018044
-      inSlope: 4.9138427
-      outSlope: 4.9138427
+      value: 1
+      inSlope: 4.6826386
+      outSlope: 4.6826386
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.015414238
+      inWeight: 0.01801598
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

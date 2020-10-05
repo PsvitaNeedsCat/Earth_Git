@@ -5,26 +5,26 @@ using DG.Tweening;
 
 public class CobraMirageSpit : MonoBehaviour
 {
-    [HideInInspector] public ECobraMirageType m_bulletType;
     public Transform m_bulletSpawn;
     public SkinnedMeshRenderer m_meshRenderer;
     public bool m_isReal = false;
     public bool m_headRaised = true;
     public Material m_fadeMaterial;
 
-    [SerializeField] private ParticleSystem[] m_shieldParticles;// = new ParticleSystem[2];
+    [SerializeField] private ParticleSystem[] m_shieldParticles;
 
     private Player m_playerRef;
     private GameObject m_redBulletPrefab;
     private GameObject m_blueBulletPrefab;
+    private GameObject m_bulletPrefab;
     private Material m_normalMaterial;
     private CobraAnimations m_animations;
     private Collider m_hitBox;
 
     private void Awake()
     {
-        m_redBulletPrefab = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletRed");
-        m_blueBulletPrefab = Resources.Load<GameObject>("Prefabs/Enemies/MirageBulletBlue");
+        m_bulletPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
+
         m_playerRef = FindObjectOfType<Player>();
         m_meshRenderer.material = new Material(m_meshRenderer.material);
         m_normalMaterial = m_meshRenderer.material;
@@ -35,17 +35,13 @@ public class CobraMirageSpit : MonoBehaviour
 
     public void FireProjectile()
     {
-        MessageBus.TriggerEvent(EMessageType.cobraBarrageFire);
-
         if (m_isReal)
         {
+            MessageBus.TriggerEvent(EMessageType.cobraBarrageFire);
             CobraMirageBarrage.s_shotsFired++;
         }
 
-        GameObject bulletPrefab = (m_bulletType == ECobraMirageType.blue) ? m_blueBulletPrefab : m_redBulletPrefab;
-        GameObject newBullet = Instantiate(bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
-        EChunkEffect chunkEffect = (m_bulletType == ECobraMirageType.blue) ? EChunkEffect.water : EChunkEffect.fire;
-        newBullet.GetComponent<MirageBullet>().Init(chunkEffect, m_playerRef.GetCurrentPower());
+        GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
 
         Destroy(newBullet, CobraHealth.StateSettings.m_barrageProjectileLifetime);
         newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
