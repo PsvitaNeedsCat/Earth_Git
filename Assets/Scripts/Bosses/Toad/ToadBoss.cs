@@ -22,7 +22,11 @@ public class ToadBoss : MonoBehaviour
     ToadBossSettings m_toadSettings;
 
     [SerializeField] private GameObject m_crystal;
-    public void ActivateCrystal() => m_crystal.SetActive(true);
+    public void ActivateCrystal()
+    {
+        m_crystal.SetActive(true);
+        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
+    }
 
     private void Awake()
     {

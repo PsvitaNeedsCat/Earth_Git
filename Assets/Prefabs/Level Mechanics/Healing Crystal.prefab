@@ -5029,6 +5029,9 @@ MonoBehaviour:
   m_frequency: 0.6
   m_amplitude: 0.05
   m_rotationSpeed: 10
+  m_activtedEffects:
+  - {fileID: 4914978415345118512}
+  - {fileID: 6943913346198044849}
 --- !u!1001 &4914978415173300370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5212,6 +5215,18 @@ Transform:
 --- !u!1 &3730802587863095984 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8643529169934608930, guid: d13bf9d82d9f20b42b8bd9d385708ade,
+    type: 3}
+  m_PrefabInstance: {fileID: 4914978415173300370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4914978415345118512 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 239492514, guid: d13bf9d82d9f20b42b8bd9d385708ade,
+    type: 3}
+  m_PrefabInstance: {fileID: 4914978415173300370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6943913346198044849 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2623415735089066019, guid: d13bf9d82d9f20b42b8bd9d385708ade,
     type: 3}
   m_PrefabInstance: {fileID: 4914978415173300370}
   m_PrefabAsset: {fileID: 0}

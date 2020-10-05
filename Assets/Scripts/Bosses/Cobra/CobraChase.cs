@@ -108,6 +108,7 @@ public class CobraChase : CobraBehaviour
 
         // Die and activate the crystal
         m_crystal.SetActive(true);
+        m_crystal.GetComponentInChildren<Crystal>().Collected(m_playerRef);
         Death();
     }
 

@@ -12,6 +12,8 @@ public class HealingCrystal : Interactable
     public float m_amplitude;
     public float m_rotationSpeed;
 
+    [SerializeField] private ParticleSystem[] m_activtedEffects = new ParticleSystem[] { };
+
     private Vector3 m_startPosition;
 
     public override void Awake()
@@ -39,6 +41,11 @@ public class HealingCrystal : Interactable
         // Tween
         m_crystalMesh.transform.DORewind();
         m_crystalMesh.transform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+
+        for(int i = 0; i < m_activtedEffects.Length; i++)
+        {
+            m_activtedEffects[i].Play();
+        }
     }
 
     public override void Update()

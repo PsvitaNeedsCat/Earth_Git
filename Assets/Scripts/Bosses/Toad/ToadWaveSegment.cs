@@ -13,6 +13,14 @@ public class ToadWaveSegment : MonoBehaviour
             healthComp.Health -= 1;
         }
 
-        this.gameObject.SetActive(false);
+        Disable();
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+        EffectsManager.EEffectType effectType = EffectsManager.EEffectType.waveDestroyed;
+        Quaternion rotation = Quaternion.LookRotation(transform.forward);
+        EffectsManager.SpawnEffect(effectType, transform.position, rotation, Vector3.one, 3.0f);
     }
 }

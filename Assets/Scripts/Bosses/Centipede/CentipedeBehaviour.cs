@@ -5,7 +5,12 @@ using UnityEngine;
 // Parent class for all centipede behaviours. Contains basic logic for running and resetting a behaviour
 public class CentipedeBehaviour : MonoBehaviour
 {
-    public enum EBehaviourState { fresh, running, complete }
+    public enum EBehaviourState 
+    {
+        fresh,
+        running,
+        complete 
+    }
 
     [HideInInspector] public EBehaviourState m_currentState = EBehaviourState.fresh;
     public CentipedeAnimations m_animations;
