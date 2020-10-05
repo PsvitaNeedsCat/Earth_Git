@@ -9,6 +9,7 @@ public class Crystal : MonoBehaviour
 {
     [SerializeField] private int m_setMaxHealth = 3;
     [SerializeField] private EChunkEffect m_crystalType;
+    [SerializeField] private GameObject[] m_effects = new GameObject[] { };
     private bool m_collected = false;
     private Dialogue m_dialogue;
 
@@ -64,6 +65,15 @@ public class Crystal : MonoBehaviour
         transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 3.0f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
 
         // Init dialogue
-        m_dialogue.Invoke();
+        if (m_dialogue)
+        {
+            m_dialogue.Invoke();
+        }
+
+        // Remove effects
+        for (int i = 0; i < m_effects.Length; i++)
+        {
+            m_effects[i].SetActive(false);
+        }
     }
 }

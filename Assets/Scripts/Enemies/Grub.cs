@@ -19,6 +19,7 @@ public class Grub : MonoBehaviour
 
     [SerializeField] private MeshRenderer m_renderer;
     [SerializeField] private Material[] m_defaultMats;
+    [SerializeField] private GameObject[] m_chargingEffects = new GameObject[] { };
 
     // Position data
     private Vector3 m_startPos;
@@ -108,6 +109,11 @@ public class Grub : MonoBehaviour
     {
         m_invincible = false;
 
+        for (int i = 0; i < m_chargingEffects.Length; i++)
+        {
+            m_chargingEffects[i].SetActive(true);
+        }
+
         transform.DOScale(m_settings.m_grubGrowSize, m_settings.m_grubVulnerableTime).OnComplete(() => FireProjectile());
         for (int i = 0; i < m_renderer.materials.Length; i++)
         {
@@ -126,6 +132,11 @@ public class Grub : MonoBehaviour
             m_renderer.materials[i].SetFloat("_Blend", 0.0f);
         }
         m_invincible = true;
+
+        for (int i = 0; i < m_chargingEffects.Length; i++)
+        {
+            m_chargingEffects[i].SetActive(false);
+        }
 
         // Init
         Projectile proj = Instantiate(m_projPrefab, m_projSpawn.position, m_projSpawn.rotation).GetComponent<Projectile>();
