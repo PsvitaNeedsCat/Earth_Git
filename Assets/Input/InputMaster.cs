@@ -574,7 +574,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""id"": ""4b5cb2b5-827d-4ed6-9454-fddb1935debb"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone(min=0.125)"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Target"",
                     ""isComposite"": false,
