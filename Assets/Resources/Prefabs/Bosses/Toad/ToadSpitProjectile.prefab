@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8408417431327279557}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8408417431551410878}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!33 &8408417431327279552
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -158,9 +158,9 @@ MonoBehaviour:
   m_dropShadowLayerMask:
     serializedVersion: 2
     m_Bits: 2182332215
-  m_dropShadowMaxRange: 7
-  m_dropShadowMinScale: 0.03
-  m_dropShadowMaxScale: 0.1
+  m_dropShadowMaxRange: 10
+  m_dropShadowMinScale: 0.02
+  m_dropShadowMaxScale: 0.09
   m_dropShadow: {fileID: 7425155085332753280}
   m_visibleProjectile: {fileID: 8408417431327279557}
   m_shouldSplit: 0
