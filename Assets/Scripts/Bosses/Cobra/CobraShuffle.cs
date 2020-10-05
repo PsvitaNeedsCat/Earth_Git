@@ -115,7 +115,6 @@ public class CobraShuffle : CobraBehaviour
         _target = _target.OrderBy(x => System.Guid.NewGuid()).ToList();
     }
 
-
     // Pots move around the arena
     private IEnumerator MoveSequence()
     {
@@ -256,10 +255,15 @@ public class CobraShuffle : CobraBehaviour
 
         _pot.SetColliderDamage(true);
 
-        _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalMovementCurve);
-        _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
+        // _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy, _duration).SetEase(m_horizontalMovementCurve);
+        // _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
+        _pot.GetMoveTransform().DOBlendableMoveBy(_moveBy + Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(m_horizontalMovementCurve);
 
-        yield return new WaitForSeconds(_duration);
+        yield return new WaitForSeconds(_duration / 2.0f);
+
+        _pot.GetMoveTransform().DOBlendableMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(m_verticalMovementCurve);
+
+        yield return new WaitForSeconds(_duration / 2.0f);
 
         _pot.SetColliderDamage(false);
 
@@ -285,10 +289,17 @@ public class CobraShuffle : CobraBehaviour
 
         _pot.SetColliderDamage(true);
 
-        _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
-        _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
+        // _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
+        // _pot.m_mesh.transform.DOPunchPosition(Vector3.up * _jumpHeight, _duration, 0, 0).SetEase(_easeCurve);
 
-        yield return new WaitForSeconds(_duration);
+        _pot.GetMoveTransform().DOPunchPosition(_moveBy, _duration, 0, 0).SetEase(m_horizontalMovementCurve);
+        _pot.m_mesh.transform.DOBlendableMoveBy(Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(_easeCurve);
+
+        yield return new WaitForSeconds(_duration / 2.0f);
+
+        _pot.m_mesh.transform.DOBlendableMoveBy(-Vector3.up * _jumpHeight, _duration / 2.0f).SetEase(_easeCurve);
+
+        yield return new WaitForSeconds(_duration / 2.0f);
 
         _pot.SetColliderDamage(false);
 
