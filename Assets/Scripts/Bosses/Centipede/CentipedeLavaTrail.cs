@@ -2,41 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CentipedeLavaTrail : MonoBehaviour
+public class CentipedeLavaTrail : Lava
 {
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Destroy after lifetime is up
-        Destroy(this.gameObject, CentipedeBoss.s_settings.m_lavaLifetime);
+        StartCoroutine(DestroyAfterSeconds());
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void TurnToStone()
     {
-        // If the player walks on the lava, damage them and knock them back
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player)
-        {
-            Vector3 dir = (player.transform.position - transform.position);
-            dir.y = 0.0f;
-            player.KnockBack(dir.normalized);
-            player.GetComponent<HealthComponent>().Health -= 1;
+        base.TurnToStone();
 
-            return;
+        MessageBus.TriggerEvent(EMessageType.lavaToStone);
+
+        Destroy(transform.parent.gameObject);
+    }
+
+    // Destroys the lava trail after the lifetime is over
+    private IEnumerator DestroyAfterSeconds()
+    {
+        yield return new WaitForSeconds(CentipedeBoss.s_settings.m_lavaLifetime);
+
+        // Wait to destroy tile
+        while (m_tweeningChunk)
+        {
+            yield return null;
         }
 
-        // If a water-infused chunk hits the lava, destroy it, otherwise destroy the chunk
-        Chunk chunk = other.GetComponent<Chunk>();
-        if (chunk)
-        {
-            if (chunk.m_currentEffect == EChunkEffect.water)
-            {
-                Destroy(this.gameObject);
-                return;
-            }
-            else
-            {
-                chunk.GetComponent<HealthComponent>().Health = 0;
-            }
-        }
+        Destroy(transform.parent.gameObject);
     }
 }
