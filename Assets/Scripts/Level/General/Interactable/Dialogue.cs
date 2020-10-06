@@ -17,18 +17,18 @@ public class Dialogue : Interactable
     public string[] m_dialogue;
     [SerializeField] private UnityEvent m_endEvent = new UnityEvent();
 
-    private int m_dialogueIndex = 0;
-    private char[] m_curDialogue;
-    private int m_charIndex = 0;
-    private string m_displayText = "";
-    private bool m_active = false;
+    protected int m_dialogueIndex = 0;
+    protected char[] m_curDialogue;
+    protected int m_charIndex = 0;
+    protected string m_displayText = "";
+    protected bool m_active = false;
     private const float m_marginWithSprite = 462.927f;
 
     // References
     private GameObject m_dialoguePrefab;
-    private GameObject m_dialogueObj = null;
-    private TextMeshProUGUI m_dialogueText = null;
-    private PlayerInput m_player;
+    protected GameObject m_dialogueObj = null;
+    protected TextMeshProUGUI m_dialogueText = null;
+    protected PlayerInput m_player;
 
     // Timer
     private float m_timer = 0.0f;
@@ -153,7 +153,7 @@ public class Dialogue : Interactable
         }
     }
 
-    public void ContinueDialogue(string _null)
+    public virtual void ContinueDialogue(string _null)
     {
         if (!m_active)
         {

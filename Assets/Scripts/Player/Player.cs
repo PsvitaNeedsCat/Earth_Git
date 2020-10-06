@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     private readonly float m_maxSpeed = 1.6f;
 
     // Unlocks a power for use
-    public void PowerUnlocked(EChunkEffect _power)
+    public void PowerUnlocked(EChunkEffect _power, bool _silent = false)
     {
         // Power is already unlocked
         if (s_activePowers[_power])
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
         }
 
         s_activePowers[_power] = true;
-        UpdateUI();
+        UpdateUI(_silent);
     }
     public void ResetPowers()
     {
@@ -307,7 +307,7 @@ public class Player : MonoBehaviour
         TryChangeEffect(newPower);
     }
 
-    private void UpdateUI()
+    private void UpdateUI(bool _silent = false)
     {
         int num = -1;
         for (int i = 0; i < s_activePowers.Count; i++)
@@ -326,7 +326,7 @@ public class Player : MonoBehaviour
         if (m_crystalUI)
         {
             m_crystalUI.UpdateUnlocked(active);
-            m_crystalUI.UpdateSelected((int)s_currentEffect);
+            m_crystalUI.UpdateSelected((int)s_currentEffect, _silent);
         }
     }
 

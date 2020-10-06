@@ -11,12 +11,15 @@ public class CrystalSelection : MonoBehaviour
     [SerializeField] private Image m_backgroundImage;
     [SerializeField] private Image[] m_gemSprites;
 
-    public void UpdateSelected(int _selected)
+    public void UpdateSelected(int _selected, bool _silent = false)
     {
         m_backgroundImage.sprite = m_backgroundSprites[_selected];
 
-        m_gemSprites[_selected].rectTransform.DORewind();
-        m_gemSprites[_selected].rectTransform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+        if (!_silent)
+        {
+            m_gemSprites[_selected].rectTransform.DORewind();
+            m_gemSprites[_selected].rectTransform.DOPunchScale(Vector3.one * 0.1f, 0.2f);
+        }
     }
 
     public void UpdateUnlocked(bool[] _active)

@@ -13,25 +13,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &7867913296313569425
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 288946922344725396}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4d9b61c58eb9f5d4e851ac539c362727, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1114250066554984648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,10 +30,22 @@ MonoBehaviour:
   m_characterSprite: {fileID: 0}
   m_name: 
   m_playOnAwake: 0
-  m_dialogue: []
+  m_dialogue:
+  - You collected the water crystal!
   m_endEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 421304042}
+        m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4181634624423501498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_setMaxHealth: 3
   m_crystalType: 1
+  m_effects: []
 --- !u!1 &8495949933797505822
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4258283620526396709}
+  - component: {fileID: 421304042}
   m_Layer: 14
   m_Name: Crystal
   m_TagString: Untagged
@@ -98,6 +93,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &421304042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495949933797505822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd18a93386f6e547bce8adf83f6e360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_distToPlayer: 3.4028235e+38
+  m_prompt: {fileID: 0}
+  m_characterSprite: {fileID: 0}
+  m_name: 
+  m_playOnAwake: 0
+  m_dialogue: []
+  m_endEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_gemSprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_completedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8584818184413242013
 PrefabInstance:
   m_ObjectHideFlags: 0
