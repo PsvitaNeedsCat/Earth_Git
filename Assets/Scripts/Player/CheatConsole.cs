@@ -23,6 +23,8 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<string> PLAY_SOUND;
     public static CheatCommand KILL_PLAYER;
     public static CheatCommand<float> SET_MOUSTACHE;
+    public static CheatCommand TOGGLE_JUMP;
+    public static CheatCommand ERROR;
 
     public List<object> m_commandList;
 
@@ -31,6 +33,9 @@ public class CheatConsole : MonoBehaviour
     private PlayerInput m_playerInput;
 
     private bool m_justOpened = false;
+    private List<string> m_previousEntries = new List<string>();
+    private int m_entryIndex = 0;
+    private bool m_justRetrievedEntry = false;
 
     public bool ConsoleOpen()
     {
@@ -50,6 +55,8 @@ public class CheatConsole : MonoBehaviour
 
     public void OnToggleDebug()
     {
+        m_entryIndex = m_previousEntries.Count;
+
         m_showConsole = !m_showConsole;
 
         if (m_showConsole)
@@ -60,6 +67,32 @@ public class CheatConsole : MonoBehaviour
 
         m_playerInput.SetMovement(!m_showConsole);
         m_playerInput.SetCombat(!m_showConsole);
+    }
+
+    public void PreviousEntry()
+    {
+        if (!ConsoleOpen() || m_entryIndex - 1 < 0)
+        {
+            return;
+        }
+
+        --m_entryIndex;
+        m_input = m_previousEntries[m_entryIndex];
+
+        m_justRetrievedEntry = true;
+    }
+
+    public void NextEntry()
+    {
+        if (!ConsoleOpen() || m_entryIndex + 1 >= m_previousEntries.Count)
+        {
+            return;
+        }
+
+        ++m_entryIndex;
+        m_input = m_previousEntries[m_entryIndex];
+
+        m_justRetrievedEntry = true;
     }
 
     private void Awake()
@@ -150,6 +183,17 @@ public class CheatConsole : MonoBehaviour
             m_playerController.SetMoustacheScale(x);
         });
 
+        TOGGLE_JUMP = new CheatCommand("toggle_jump", "Toggles the ability to jump. (Press C)", "toggle_jump", () =>
+        {
+            m_playerInput.ToggleJump();
+        });
+
+        ERROR = new CheatCommand("error", "Throws a null reference error.", "error", () =>
+        {
+            GameObject errorObj = GameObject.Find("ObjectThatIsn'tReal");
+            errorObj.SetActive(true);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -163,7 +207,9 @@ public class CheatConsole : MonoBehaviour
             PLAY_SOUND,
             KILL_PLAYER,
             SET_MOUSTACHE,
-            DEV_MODE_FAST
+            DEV_MODE_FAST,
+            TOGGLE_JUMP,
+            ERROR,
         };
     }
 
@@ -203,6 +249,14 @@ public class CheatConsole : MonoBehaviour
         GUI.SetNextControlName("ConsoleInput");
         m_input = GUI.TextField(new Rect(10.0f, consoleHeight + 5.0f, Screen.width - 20.0f, 20.0f), m_input);
 
+        // User has just pressed Up or Down on the keyboard
+        if (m_justRetrievedEntry)
+        {
+            TextEditor textEditor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+            textEditor.MoveLineEnd();
+            m_justRetrievedEntry = false;
+        }
+
         // On opened
         if (m_justOpened)
         {
@@ -214,6 +268,10 @@ public class CheatConsole : MonoBehaviour
 
     private void HandleInput()
     {
+        if (m_previousEntries.Count <= 0 || m_previousEntries[m_previousEntries.Count - 1] != m_input)
+        {
+            m_previousEntries.Add(m_input);
+        }
         string[] properties = m_input.Split(' ');
 
         for (int i = 0; i < m_commandList.Count; i++)

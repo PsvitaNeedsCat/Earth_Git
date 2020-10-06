@@ -41,6 +41,11 @@ public class MainMenu : MonoBehaviour
             m_splashScreen.SetActive(false);
             m_menuObject.SetActive(true);
         }
+
+        Cursor.visible = false;
+#if UNITY_EDITOR
+        Cursor.visible = true;
+#endif
     }
 
     private void OnDisable()

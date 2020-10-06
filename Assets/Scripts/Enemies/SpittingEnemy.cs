@@ -48,7 +48,7 @@ public class SpittingEnemy : MonoBehaviour
     {
         Destroy(gameObject);
 
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.statueBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
     }
 
     private void FireProjectile()

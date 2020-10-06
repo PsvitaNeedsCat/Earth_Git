@@ -97,7 +97,7 @@ public class TongueEnemy : MonoBehaviour
 
         Destroy(gameObject);
 
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, transform.position, Quaternion.identity, Vector3.one, 1.0f);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.statueBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
     }
 
     // Begins the toad's motion - sets the timer to 0 so it immediately extends its tongue

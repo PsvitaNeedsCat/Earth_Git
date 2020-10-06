@@ -46,7 +46,7 @@ public class Grid : MonoBehaviour
         foreach (Tile tile in s_tiles)
         {
             // If not including tiles of type 'none', and this is one, skip it
-            if (tile.GetTileType() == EChunkType.none || tile.GetTileType() == EChunkType.lava) { continue; }
+            if (tile.GetTileType() == EChunkType.none || tile.GetTileType() == EChunkType.lava || tile.m_ignore) { continue; }
 
             Vector3 toPlayer = tile.transform.position - _playerPos;
             toPlayer.y = 0.0f;

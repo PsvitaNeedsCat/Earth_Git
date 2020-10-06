@@ -54,6 +54,8 @@ public enum EMessageType
     aaaa,
     wahoo,
     moveYourBody,
+    aaaaa,
+    ooooo,
 
     // Level
     doorUnlocked,
