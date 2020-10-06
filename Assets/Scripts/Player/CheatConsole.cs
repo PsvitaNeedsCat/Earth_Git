@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 
 public class CheatConsole : MonoBehaviour
 {
+    public GameObject m_headObject;
+    public GameObject m_leftArmObject;
+    public GameObject m_rightArmObject;
+    public GameObject m_leftLegObject;
+    public GameObject m_rightLegObject;
+
     private bool m_showConsole = false;
     private bool m_showHelp = false;
     private Vector2 m_scroll;
@@ -27,6 +34,9 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand TOGGLE_JUMP;
     public static CheatCommand ERROR;
     public static CheatCommand FIRST_PERSON;
+    public static CheatCommand<float> HEAD_SCALE;
+    public static CheatCommand<float> ARMS_SCALE;
+    public static CheatCommand<float> LEGS_SCALE;
 
     public List<object> m_commandList;
 
@@ -213,6 +223,23 @@ public class CheatConsole : MonoBehaviour
             m_player.ToggleFirstPerson();
         });
 
+        HEAD_SCALE = new CheatCommand<float>("head_scale", "Makes the player's head smaller", "head_scale <scale>", (x) =>
+        {
+            m_headObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        ARMS_SCALE = new CheatCommand<float>("arms_scale", "Makes the player's arms smaller", "arms_scale <scale>", (x) =>
+        {
+            m_leftArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+            m_rightArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        LEGS_SCALE = new CheatCommand<float>("legs_scale", "Makes the player's legs smaller", "legs_scale <scale>", (x) =>
+        {
+            m_leftLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+            m_rightLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -230,7 +257,10 @@ public class CheatConsole : MonoBehaviour
             DEV_MODE_FAT,
             TOGGLE_JUMP,
             ERROR,
-            FIRST_PERSON
+            FIRST_PERSON,
+            HEAD_SCALE,
+            ARMS_SCALE,
+            LEGS_SCALE
         };
     }
 
