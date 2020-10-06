@@ -12,7 +12,9 @@ public class Lava : MonoBehaviour
     [SerializeField] private Material m_stoneMat;
     [SerializeField] private ParticleSystem m_particles;
 
-    private void Awake()
+    protected bool m_tweeningChunk = false;
+
+    protected virtual void Awake()
     {
         m_settings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
         Debug.Assert(m_settings, "GlobalTileSettings could not be found");
@@ -56,6 +58,8 @@ public class Lava : MonoBehaviour
     // Gets the chunk set up to sink into lava
     private void PrepareToSink(Chunk _chunk)
     {
+        m_tweeningChunk = true;
+
         // Remove components
         GameObject chunkObj = _chunk.gameObject;
         Destroy(_chunk);
@@ -78,11 +82,19 @@ public class Lava : MonoBehaviour
         // Tween
         Vector3 sinkPosition = transform.position;
         sinkPosition.y -= 0.6f;
-        _chunk.transform.DOMove(sinkPosition, 1.0f).OnComplete(() => Destroy(_chunk));
+        _chunk.transform.DOMove(sinkPosition, 1.0f).OnComplete(() => DestroyChunk(_chunk));
+    }
+
+    // Called by sink - destroys the chunk
+    private void DestroyChunk(GameObject _chunk)
+    {
+        Destroy(_chunk);
+
+        m_tweeningChunk = false;
     }
 
     // Plays sound then turns the lava to stone
-    private void TurnToStone()
+    protected virtual void TurnToStone()
     {
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
 

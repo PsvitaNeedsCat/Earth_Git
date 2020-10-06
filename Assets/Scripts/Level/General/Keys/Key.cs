@@ -111,7 +111,7 @@ public class Key : MonoBehaviour
         {
             MessageBus.TriggerEvent(EMessageType.keySpawned);
 
-            StartCoroutine(musicManager.FadeMusic(0.5f));
+            StartCoroutine(musicManager.FadeMusic(1.5f));
         }
 
         // Disable effects
