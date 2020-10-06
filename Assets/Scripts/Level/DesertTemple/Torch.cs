@@ -6,10 +6,13 @@ using UnityEngine.Events;
 
 public class Torch : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem m_fireParticles = null;
+    [SerializeField] private bool m_active = false;
+    [SerializeField] private ParticleSystem m_activatedParticles = null;
+    [SerializeField] private ParticleSystem m_deactivatedParticles = null;
+
     [SerializeField] private UnityEvent m_activatedEvent = new UnityEvent();
     [SerializeField] private UnityEvent m_deactivatedEvent = new UnityEvent();
-    [SerializeField] private bool m_active = false;
-    private ParticleSystem m_fireParticles = null;
 
     private void Awake()
     {
@@ -29,6 +32,7 @@ public class Torch : MonoBehaviour
             m_active = true;
             m_activatedEvent.Invoke();
             m_fireParticles.Play();
+            m_activatedParticles.Play();
         }
     }
 
@@ -40,6 +44,7 @@ public class Torch : MonoBehaviour
             m_active = false;
             m_deactivatedEvent.Invoke();
             m_fireParticles.Stop();
+            m_deactivatedParticles.Play();
         }
     }
 }
