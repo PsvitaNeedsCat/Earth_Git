@@ -86,19 +86,20 @@ public class CentipedeHealth : MonoBehaviour
         // Debug.Log("Activated section " + _sectionIndex);
 
         // Change the segment's material
-        // m_segmentRenderers[_sectionIndex].material = (_activate) ? m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_heated : m_segmentMaterials[(int)IndexToSegmentType(_sectionIndex)].m_normal;
         if (_activate)
         {
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 0.0f, 1.0f, 2.5f, true));
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 1.0f, 1.0f));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 1.1f, 1.0f));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 20.0f, 1.0f));
+
             m_shieldBreakParticles[_sectionIndex].Play();
         }
         else
         {
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 1.0f, 0.0f, -2.5f, false));
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 1.1f, 0.8f, -0.3f, false));
-            StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 20.0f, 5.0f, -15.0f, false));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_TextureBlend", 0.0f, 1.0f));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_Cutoff", 0.8f, 1.0f));
+            StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_segmentRenderers[_sectionIndex].material, "_FresnelStrength", 5.0f, 1.0f));
+
             m_shieldRepairParticles[_sectionIndex].Play();
         }
         

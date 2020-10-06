@@ -76,8 +76,8 @@ public class ToadSwell : ToadBehaviour
         m_material.SetTexture("_MainTex", m_swollenTexture);
         m_shieldParticles[0].Play();
 
-        m_cutoffCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 0.8f, 1.1f, 0.3f, true));
-        m_fresnelCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 5.0f, 20.0f, 15.0f, true));
+        m_cutoffCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_Cutoff", 1.1f, 1.0f));
+        m_fresnelCoroutine = StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_FresnelStrength", 20.0f, 1.0f));
 
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
     }
@@ -108,8 +108,8 @@ public class ToadSwell : ToadBehaviour
             StopCoroutine(m_fresnelCoroutine);
         }
 
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_Cutoff", 1.1f, 0.8f, -0.3f, false));
-        StartCoroutine(BossHelper.ChangeMaterialFloatProperty(m_material, "_FresnelStrength", 20.0f, 5.0f, -15.0f, false));
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_Cutoff", 0.8f, 1.0f));
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_material, "_FresnelStrength", 5.0f, 1.0f));
 
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
     }
