@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TileTargeter : MonoBehaviour
 {
     // Public variables
-
+    public LayerMask m_tileLayerMask;
+    public Vector3 m_boxHalfExtents = new Vector3(0.5f, 0.6f, 0.5f);
+    public float m_minTileRange;
 
     // Private variables
     private TileTargeter m_instance;
@@ -46,7 +49,8 @@ public class TileTargeter : MonoBehaviour
             m_closestTile.SetHighlighted(false);
         }
 
-        m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
+        // m_closestTile = Grid.FindClosestTile(transform.position, transform.parent.transform.position);
+        m_closestTile = FindClosestTile();
 
         // Debug.LogError(m_closestTile);
 
@@ -126,5 +130,62 @@ public class TileTargeter : MonoBehaviour
     public void ResetDirection()
     {
         m_direction = Vector2.zero;
+    }
+
+    private Tile FindClosestTile()
+    {
+        Transform playerTransform = transform.parent;
+        Vector3 playerPosition = playerTransform.position;
+
+        Collider[] hits = Physics.OverlapBox(transform.position, m_boxHalfExtents, Quaternion.identity, m_tileLayerMask);
+        List<Tile> tiles = new List<Tile>();
+
+        // Find all tiles hit
+        for (int i = 0; i < hits.Length; i++)
+        {
+            Tile hitTile = hits[i].transform.parent.GetComponent<Tile>();
+
+            if (hitTile != null)
+            {
+                tiles.Add(hitTile);
+            }
+        }
+
+        // Order tiles by distance to tile targeter
+        tiles = tiles.OrderBy(x => Vector3.Distance(x.transform.position, transform.position)).ToList();
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            Tile checkTile = tiles[i];
+            EChunkType chunkType = checkTile.GetTileType();
+
+            if (chunkType == EChunkType.none || chunkType == EChunkType.lava)
+            {
+                continue;
+            }
+
+            float distToPlayer = Vector3.Distance(checkTile.transform.position, playerPosition);
+
+            if (!checkTile.IsOccupied() && distToPlayer > m_minTileRange)
+            {
+                return checkTile;
+            }
+        }
+
+        return null;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.cyan;
+
+        Transform playerTransform = transform.parent;
+
+        Gizmos.DrawWireCube(transform.position, m_boxHalfExtents * 2.0f);
     }
 }

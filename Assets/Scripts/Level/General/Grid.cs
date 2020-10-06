@@ -25,13 +25,22 @@ public class Grid : MonoBehaviour
         // Debug.Log("Tile removed. Count: " + m_tiles.Count);
     }
 
-    public static List<Tile> GetTiles() { return s_tiles; }
+    public static List<Tile> GetTiles() 
+    { 
+        return s_tiles;
+    }
 
     private void Awake()
     {
         // Only one instance of this
-        if (m_instance != null && m_instance != this) { Destroy(this.gameObject); }
-        else { m_instance = this; }
+        if (m_instance != null && m_instance != this) 
+        { 
+            Destroy(this.gameObject);
+        }
+        else 
+        { 
+            m_instance = this;
+        }
 
         s_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
     }
@@ -46,12 +55,18 @@ public class Grid : MonoBehaviour
         foreach (Tile tile in s_tiles)
         {
             // If not including tiles of type 'none', and this is one, skip it
-            if (tile.GetTileType() == EChunkType.none || tile.GetTileType() == EChunkType.lava || tile.m_ignore) { continue; }
+            if (tile.GetTileType() == EChunkType.none || tile.GetTileType() == EChunkType.lava || tile.m_ignore) 
+            {
+                continue; 
+            }
 
             Vector3 toPlayer = tile.transform.position - _playerPos;
             toPlayer.y = 0.0f;
 
-            if (toPlayer.magnitude < s_playerSettings.m_minTileRange) { continue; }
+            if (toPlayer.magnitude < s_playerSettings.m_minTileRange)
+            { 
+                continue;
+            }
 
             float dist = (tile.transform.position - _queryPosition).magnitude;
 
