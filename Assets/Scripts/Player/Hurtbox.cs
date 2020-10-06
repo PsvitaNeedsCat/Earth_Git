@@ -64,6 +64,11 @@ public class Hurtbox : MonoBehaviour
 
         foreach (Chunk chunk in m_collidedChunks)
         {
+            if (!chunk) // To avoid null ref
+            {
+                continue;
+            }
+
             float distance = (chunk.transform.position - transform.position).magnitude;
             if (distance < closestDist)
             {

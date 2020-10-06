@@ -140,14 +140,6 @@ public class Chunk : MonoBehaviour
             return;
         }
 
-        // Destroys the lava trail if hit by this chunk
-        CentipedeLavaTrail trail = other.GetComponent<CentipedeLavaTrail>();
-        if (trail)
-        {
-            Destroy(trail.gameObject);
-            return;
-        }
-
         // Chunk hit a fire bug enemy
         FireBug fireBug = other.GetComponent<FireBug>();
         if (fireBug && !other.isTrigger)
