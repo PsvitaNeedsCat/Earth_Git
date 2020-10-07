@@ -11,6 +11,7 @@ public class CheatConsole : MonoBehaviour
     public GameObject m_rightArmObject;
     public GameObject m_leftLegObject;
     public GameObject m_rightLegObject;
+    public GameObject m_playerMesh;
 
     private bool m_showConsole = false;
     private bool m_showHelp = false;
@@ -34,9 +35,14 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand TOGGLE_JUMP;
     public static CheatCommand ERROR;
     public static CheatCommand FIRST_PERSON;
-    public static CheatCommand<float> HEAD_SCALE;
-    public static CheatCommand<float> ARMS_SCALE;
-    public static CheatCommand<float> LEGS_SCALE;
+    public static CheatCommand<float> HEAD_SIZE;
+    public static CheatCommand<float> ARMS_SIZE;
+    public static CheatCommand<float> LEGS_SIZE;
+    public static CheatCommand<float> PLAYER_SIZE;
+    public static CheatCommand<Vector3> HEAD_SCALE;
+    public static CheatCommand<Vector3> ARMS_SCALE;
+    public static CheatCommand<Vector3> LEGS_SCALE;
+    public static CheatCommand<Vector3> PLAYER_SCALE;
 
     public List<object> m_commandList;
 
@@ -223,21 +229,48 @@ public class CheatConsole : MonoBehaviour
             m_player.ToggleFirstPerson();
         });
 
-        HEAD_SCALE = new CheatCommand<float>("head_scale", "Makes the player's head smaller", "head_scale <scale>", (x) =>
+        HEAD_SIZE = new CheatCommand<float>("head_size", "Sets the scale of the player's head", "head_size <scale>", (x) =>
         {
             m_headObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
         });
 
-        ARMS_SCALE = new CheatCommand<float>("arms_scale", "Makes the player's arms smaller", "arms_scale <scale>", (x) =>
+        ARMS_SIZE = new CheatCommand<float>("arms_size", "Sets the scale of the player's arms", "arms_size <scale>", (x) =>
         {
             m_leftArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
             m_rightArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
         });
 
-        LEGS_SCALE = new CheatCommand<float>("legs_scale", "Makes the player's legs smaller", "legs_scale <scale>", (x) =>
+        LEGS_SIZE = new CheatCommand<float>("legs_size", "Sets the scale of the player's legs", "legs_size <scale>", (x) =>
         {
             m_leftLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
             m_rightLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        PLAYER_SIZE = new CheatCommand<float>("player_size", "Sets the size of the whole player", "player_size <scale>", (x) =>
+        {
+            m_playerMesh.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        HEAD_SCALE = new CheatCommand<Vector3>("head_scale", "Sets the scale of the player's head", "head_scale <x scale> <y scale> <z scale>", (x) =>
+        {
+            m_headObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        ARMS_SCALE = new CheatCommand<Vector3>("arms_scale", "Sets the scale of the player's arms", "arms_scale <x scale> <y scale> <z scale>", (x) =>
+        {
+            m_leftArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+            m_rightArmObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        LEGS_SCALE = new CheatCommand<Vector3>("legs_scale", "Sets the scale of the player's legs", "legs_scale <x scale> <y scale> <z scale>", (x) =>
+        {
+            m_leftLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+            m_rightLegObject.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
+        });
+
+        PLAYER_SCALE = new CheatCommand<Vector3>("player_scale", "Scales the whole player", "player_scale <x scale> <y scale> <z scale>", (x) =>
+        {
+            m_playerMesh.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
         });
 
         m_commandList = new List<object>
@@ -258,9 +291,14 @@ public class CheatConsole : MonoBehaviour
             TOGGLE_JUMP,
             ERROR,
             FIRST_PERSON,
+            HEAD_SIZE,
+            ARMS_SIZE,
+            LEGS_SIZE,
+            PLAYER_SIZE,
             HEAD_SCALE,
             ARMS_SCALE,
-            LEGS_SCALE
+            LEGS_SCALE,
+            PLAYER_SCALE
         };
     }
 
@@ -336,6 +374,8 @@ public class CheatConsole : MonoBehaviour
                 CheatCommand<float> floatCommand = (m_commandList[i] as CheatCommand<float>);
                 CheatCommand<string> stringCommand = (m_commandList[i] as CheatCommand<string>);
                 CheatCommand<EChunkEffect> effectCommand = (m_commandList[i] as CheatCommand<EChunkEffect>);
+                CheatCommand<Vector3> vectorThreeCommand = (m_commandList[i] as CheatCommand<Vector3>);
+
                 if (command != null)
                 {
                     command.Invoke();
@@ -366,6 +406,15 @@ public class CheatConsole : MonoBehaviour
                     if (System.Enum.TryParse(properties[1], out effect))
                     {
                         effectCommand.Invoke(effect);
+                    }
+                }
+                else if (vectorThreeCommand != null)
+                {
+                    Vector3 vec;
+
+                    if (float.TryParse(properties[1], out vec.x) && float.TryParse(properties[2], out vec.y) && float.TryParse(properties[3], out vec.z))
+                    {
+                        vectorThreeCommand.Invoke(vec);
                     }
                 }
 
