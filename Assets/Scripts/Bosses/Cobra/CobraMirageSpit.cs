@@ -9,13 +9,9 @@ public class CobraMirageSpit : MonoBehaviour
     public SkinnedMeshRenderer m_meshRenderer;
     public bool m_isReal = false;
     public bool m_headRaised = true;
-    public Material m_fadeMaterial;
 
     [SerializeField] private ParticleSystem[] m_shieldParticles;
 
-    private Player m_playerRef;
-    private GameObject m_redBulletPrefab;
-    private GameObject m_blueBulletPrefab;
     private GameObject m_bulletPrefab;
     private Material m_normalMaterial;
     private CobraAnimations m_animations;
@@ -25,12 +21,17 @@ public class CobraMirageSpit : MonoBehaviour
     {
         m_bulletPrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
 
-        m_playerRef = FindObjectOfType<Player>();
         m_meshRenderer.material = new Material(m_meshRenderer.material);
         m_normalMaterial = m_meshRenderer.material;
 
         m_animations = GetComponent<CobraAnimations>();
         m_hitBox = GetComponent<Collider>();
+
+        if (!m_isReal)
+        {
+            Fade(false);
+            SetShieldMaterial(false);
+        }
     }
 
     public void FireProjectile()
@@ -46,13 +47,6 @@ public class CobraMirageSpit : MonoBehaviour
         Destroy(newBullet, CobraHealth.StateSettings.m_barrageProjectileLifetime);
         newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
     }
-
-    //public void Fade(bool _in)
-    //{
-    //    float endValue = (_in) ? 0.0f : 1.0f;
-    //    StopAllCoroutines();
-    //    StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_fadeMaterial, "_Cutoff", endValue, 2.0f));
-    //}
 
     public void LowerHead()
     {
@@ -72,10 +66,10 @@ public class CobraMirageSpit : MonoBehaviour
 
         SetShieldMaterial(true);
 
-        //if (!m_isReal)
-        //{
-        //    Fade(_in: false);
-        //}
+        if (!m_isReal)
+        {
+            Fade(_in: false);
+        }
 
         m_animations.RaiseHead();
         m_hitBox.enabled = false;
@@ -87,8 +81,8 @@ public class CobraMirageSpit : MonoBehaviour
         float fresnelEndValue = (_on) ? 5.0f : 20.0f;
         float transitionDuration = 2.0f;
 
-        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_Cutoff", cutoffEndValue, transitionDuration));
-        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_FresnelStrength", fresnelEndValue, transitionDuration));
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_ShieldCutoff", cutoffEndValue, transitionDuration));
+        //StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_FresnelStrength", fresnelEndValue, transitionDuration));
 
         if (_on)
         {
@@ -98,6 +92,20 @@ public class CobraMirageSpit : MonoBehaviour
         {
             m_shieldParticles[0].Play();
         }
+    }
+
+    public void Fade(bool _in)
+    {
+        float endValue = (_in) ? 0.0f : 1.0f;
+        StopAllCoroutines();
+        StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_normalMaterial, "_Cutoff", endValue, 2.0f));
+    }
+
+    public void ExitPotFade()
+    {
+        m_animations.ExitPot();
+        Fade(true);
+        SetShieldMaterial(true);
     }
 
     public void ExitPot()
