@@ -43,6 +43,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<Vector3> ARMS_SCALE;
     public static CheatCommand<Vector3> LEGS_SCALE;
     public static CheatCommand<Vector3> PLAYER_SCALE;
+    public static CheatCommand<int> ROOM;
 
     public List<object> m_commandList;
 
@@ -273,6 +274,11 @@ public class CheatConsole : MonoBehaviour
             m_playerMesh.transform.DOScale(x, 0.5f).SetEase(Ease.InOutElastic);
         });
 
+        ROOM = new CheatCommand<int>("room", "Teleports the player to the specified room", "room <room number>", (x) =>
+        {
+            RoomManager.Instance.ForceLoadRoom(x);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -298,7 +304,8 @@ public class CheatConsole : MonoBehaviour
             HEAD_SCALE,
             ARMS_SCALE,
             LEGS_SCALE,
-            PLAYER_SCALE
+            PLAYER_SCALE,
+            ROOM
         };
     }
 
