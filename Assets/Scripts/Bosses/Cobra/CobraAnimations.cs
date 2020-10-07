@@ -6,6 +6,7 @@ public class CobraAnimations : MonoBehaviour
 {
     public Animator m_animator;
     public bool m_isReal = false;
+    public GameObject m_cobraBodymesh;
 
     private CobraBoss m_boss;
 
@@ -16,6 +17,16 @@ public class CobraAnimations : MonoBehaviour
 
     private void OnEnable()
     {
+        if (m_isReal)
+        {
+            m_animator.SetBool("IsReal", true);
+        }
+    }
+
+    public void EnableAnimations()
+    {
+        m_animator.enabled = true;
+        m_cobraBodymesh.SetActive(true);
         if (m_isReal)
         {
             m_animator.SetBool("IsReal", true);
