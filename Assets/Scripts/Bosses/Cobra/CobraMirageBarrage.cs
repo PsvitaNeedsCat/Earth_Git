@@ -49,7 +49,6 @@ public class CobraMirageBarrage : CobraBehaviour
         // ChunkManager.DestroyAllChunks();
 
         yield return new WaitForSeconds(1.0f);
-
         
         ExitPots();
 

@@ -49,8 +49,8 @@ public class CobraShuffle : CobraBehaviour
         // Generate an order of moves
         GenerateMoves();
 
-        // Jump into the middle
-        StartCoroutine(JumpIn());
+        // Fade in mirage cobras
+        StartCoroutine(FadeInCobras());
     }
 
     private void GetPots()
@@ -65,6 +65,31 @@ public class CobraShuffle : CobraBehaviour
             m_activePots.Add(s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex]);
             s_boss.m_cobraPots[m_activePotDefs[i].m_potIndex].SetColliderDamage(true);
         }
+    }
+
+    private IEnumerator FadeInCobras()
+    {
+        foreach (CobraPot pot in m_activePots)
+        {
+            CobraMirageSpit spit = pot.GetComponent<CobraMirageSpit>();
+
+            if (!spit.m_isReal)
+            {
+                spit.ExitPotFade();
+            }
+        }
+
+        yield return new WaitForSeconds(3.0f);
+
+        foreach(CobraPot pot in m_activePots)
+        {
+            pot.GetComponent<CobraMirageSpit>().EnterPot();
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        // Jump into the middle
+        StartCoroutine(JumpIn());
     }
 
     // Pots jump into the center of the arena

@@ -93,7 +93,7 @@ public class CobraMirageWall : CobraBehaviour
 
     public override void CompleteBehaviour()
     {
-        m_animations.EnterPot();
+        // m_animations.EnterPot();
 
         base.CompleteBehaviour();
 
