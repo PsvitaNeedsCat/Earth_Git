@@ -46,9 +46,6 @@ public class Crystal : MonoBehaviour
 
         m_collected = true;
 
-        // If it is the endgame crystal, reset the powers, otherwise unlock one
-        //_player.PowerUnlocked(m_crystalType);
-
         _player.GetComponent<PlayerController>().SetMaxHealth(m_setMaxHealth);
         PlayerController.s_saveOnAwake = true;
 
@@ -75,5 +72,10 @@ public class Crystal : MonoBehaviour
         {
             m_effects[i].SetActive(false);
         }
+    }
+
+    public void UnlockPower()
+    {
+        FindObjectOfType<Player>().PowerUnlocked(m_crystalType);
     }
 }
