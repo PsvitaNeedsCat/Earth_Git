@@ -31,7 +31,7 @@ public class ToadTongueCollider : MonoBehaviour
 
                 chunk.Detach();
                 chunk.OnStuckToTongue();
-                chunk.transform.parent = this.transform;
+                chunk.transform.parent = transform;
 
                 m_attachedChunk = chunk;
                 m_tongueAttack.RetractTongue();
