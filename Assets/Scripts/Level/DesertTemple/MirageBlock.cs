@@ -23,13 +23,10 @@ public class MirageBlock : MirageParent
         {
             m_isPlayerInside = true;
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (m_damagesPlayer && !collision.collider.isTrigger && collision.gameObject.GetComponent<Player>())
+        if (m_damagesPlayer && !other.isTrigger && other.gameObject.GetComponent<Player>())
         {
-            collision.gameObject.GetComponent<HealthComponent>().Health -= 1;
+            other.gameObject.GetComponent<HealthComponent>().Health -= 1;
         }
     }
 
@@ -57,11 +54,15 @@ public class MirageBlock : MirageParent
         // Convert to enum
         m_currentEffect = StringToEffect(_powerName);
 
-        // Try to solidify
-        m_attemptToSolidify = m_currentEffect != m_effectType;
-        if (!m_attemptToSolidify)
+        // Don't do this if boss mirage wall
+        if (!m_damagesPlayer)
         {
-            CanWalkThrough(true);
+            // Try to solidify
+            m_attemptToSolidify = m_currentEffect != m_effectType;
+            if (!m_attemptToSolidify)
+            {
+                CanWalkThrough(true);
+            }
         }
 
         // Check if chunk is inside
