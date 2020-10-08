@@ -10,7 +10,7 @@ public class MirageParent : MonoBehaviour
 
     protected EChunkEffect m_currentEffect = EChunkEffect.none;
     protected MeshRenderer m_renderer = null;
-    private Collider m_collider = null;
+    protected Collider m_collider = null;
 
     protected virtual void Awake()
     {
@@ -81,8 +81,6 @@ public class MirageParent : MonoBehaviour
 
         // Update collider
         m_collider.isTrigger = (m_currentEffect == m_effectType);
-
-        StopAllCoroutines();
 
         // float currentValue = (_canWalkThrough) ? 0.0f : 1.0f;
         float endValue = (_canWalkThrough) ? 1.0f : 0.0f;
