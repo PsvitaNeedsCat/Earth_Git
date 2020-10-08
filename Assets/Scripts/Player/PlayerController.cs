@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         if (m_instance != null && m_instance != this)
         {
             Debug.LogError("A second instance of PlayerController.cs was instantiated");
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -66,7 +66,10 @@ public class PlayerController : MonoBehaviour
         int maxHealth = 2;
         foreach (KeyValuePair<EChunkEffect, bool> i in Player.s_activePowers)
         {
-            if (i.Value) { ++maxHealth; }
+            if (i.Value)
+            {
+                ++maxHealth; 
+            }
         }
         m_health.Init(maxHealth, maxHealth, OnHurt, OnHealed, OnDeath);
         SetMaxHealth(maxHealth);
@@ -83,7 +86,10 @@ public class PlayerController : MonoBehaviour
         // Save
         if (s_saveOnAwake)
         {
-            SaveManager.Instance.SaveGame();
+            if (SaveManager.Instance)
+            {
+                SaveManager.Instance.SaveGame();
+            }
             s_saveOnAwake = false;
         }
     }

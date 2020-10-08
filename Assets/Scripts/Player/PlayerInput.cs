@@ -89,9 +89,6 @@ public class PlayerInput : MonoBehaviour
         SetCombat(m_defaultCombat);
         s_controls.Pause.Disable();
         s_controls.Dialogue.Disable();
-
-        // Init power
-        m_player.ChangeEffectSilent(EChunkEffect.none);
     }
 
     private void OnDestroy()
