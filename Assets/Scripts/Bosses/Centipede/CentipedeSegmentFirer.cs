@@ -31,6 +31,9 @@ public class CentipedeSegmentFirer : MonoBehaviour
         GameObject left = Instantiate(m_projectilePrefab, transform.position + -transform.right * 0.5f + heightOffset, Quaternion.identity, transform.parent.parent);
         GameObject right = Instantiate(m_projectilePrefab, transform.position + transform.right * 0.5f + heightOffset, Quaternion.identity, transform.parent.parent);
 
+        left.transform.LookAt(left.transform.position + -transform.right);
+        right.transform.LookAt(right.transform.position + transform.right);
+
         left.GetComponent<Rigidbody>().velocity = -transform.right * _speed;
         right.GetComponent<Rigidbody>().velocity = transform.right * _speed;
     }
