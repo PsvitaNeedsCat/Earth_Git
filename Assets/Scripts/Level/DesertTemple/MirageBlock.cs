@@ -26,7 +26,7 @@ public class MirageBlock : MirageParent
 
         Player player = other.gameObject.GetComponent<Player>();
 
-        if (m_damagesPlayer && player && !other.isTrigger && m_currentEffect != m_effectType)
+        if (m_damagesPlayer && player && !other.isTrigger && m_playerEffect != m_effect)
         {
             player.GetComponent<HealthComponent>().Health -= 1;
         }
@@ -59,10 +59,10 @@ public class MirageBlock : MirageParent
     public override void PowerChanged(string _powerName)
     {
         // Convert to enum
-        m_currentEffect = StringToEffect(_powerName);
+        m_playerEffect = StringToEffect(_powerName);
 
         // Try to solidify
-        m_attemptToSolidify = m_currentEffect != m_effectType;
+        m_attemptToSolidify = m_playerEffect != m_effect;
         if (!m_attemptToSolidify)
         {
             CanWalkThrough(true);

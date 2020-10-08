@@ -56,7 +56,7 @@ public class MirageBullet : MirageParent
     public void Init(EChunkEffect _bulletEffect, EChunkEffect _playerEffect)
     {
         // Update bullet's effect
-        m_effectType = _bulletEffect;
+        m_effect = _bulletEffect;
 
         // Update the material
         // GetComponent<MeshRenderer>().material = m_materials[(int)m_effectType];
