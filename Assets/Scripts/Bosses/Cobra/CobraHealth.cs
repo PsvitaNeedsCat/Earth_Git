@@ -128,8 +128,8 @@ public class CobraHealth : MonoBehaviour
 
         s_barrage.CancelAttack();
 
-        s_material.SetFloat("_FresnelStrength", 5.0f);
-        s_material.SetFloat("_Cutoff", 0.8f);
+        // s_material.SetFloat("_FresnelStrength", 5.0f);
+        // s_material.SetFloat("_Cutoff", 0.8f);
 
         yield return new WaitForSeconds(2.0f);
 
