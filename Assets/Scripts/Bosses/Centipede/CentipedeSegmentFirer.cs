@@ -18,9 +18,12 @@ public class CentipedeSegmentFirer : MonoBehaviour
     }
 
     // Fire a projectile left and right
-    public void FireProjectiles(float _speed)
+    public void FireProjectiles(float _speed, bool _isDamaged = false)
     {
-        m_fireEffects.Play();
+        if (!_isDamaged)
+        {
+            m_fireEffects.Play();
+        }
         MessageBus.TriggerEvent(EMessageType.centipedeBodyFire);
 
         // Swell up as firing

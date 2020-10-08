@@ -90,12 +90,12 @@ public class CentipedeBodyAttack : CentipedeBehaviour
             float projectileSpeed = (bodyDamaged) ? CentipedeBoss.s_settings.m_bodyProjectileSpeedDamaged : CentipedeBoss.s_settings.m_bodyProjectileSpeed;
 
             // Fire projectiles
-            m_segmentFirers[i].FireProjectiles(projectileSpeed);
+            m_segmentFirers[i].FireProjectiles(projectileSpeed, m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.body));
 
             // Activate the section of the body that is firing, for a short time
             m_centipedeHealth.ActivateSection(true, i + 1);
             yield return new WaitForSeconds(_timeBetween);
-            StartCoroutine(DeactivateSectionAfter(i + 1, _timeBetween * 2.0f));
+            StartCoroutine(DeactivateSectionAfter(i + 1, _timeBetween * 3.0f));
         }
     }
 
@@ -109,5 +109,13 @@ public class CentipedeBodyAttack : CentipedeBehaviour
     public override void Reset()
     {
         base.Reset();
+    }
+
+    public void DisableFireParticles()
+    {
+        for (int i = 0; i < m_segmentFirers.Count; i++)
+        {
+            m_segmentFirers[i].m_fireEffects.Stop();
+        }
     }
 }
