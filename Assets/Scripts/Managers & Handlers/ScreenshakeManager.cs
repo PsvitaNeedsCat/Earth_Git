@@ -5,11 +5,18 @@ using Cinemachine;
 
 public class ScreenshakeManager : MonoBehaviour
 {
-    public enum EShakeType { small, medium, shortSharp, }
+    public enum EShakeType 
+    {
+        small,
+        medium,
+        shortSharp, 
+        centipedeHitChunk,
+    }
 
-    public CinemachineImpulseSource m_smallShake;
-    public CinemachineImpulseSource m_mediumShake;
-    public CinemachineImpulseSource m_shortSharpShake;
+    [SerializeField] private CinemachineImpulseSource m_smallShake;
+    [SerializeField] private CinemachineImpulseSource m_mediumShake;
+    [SerializeField] private CinemachineImpulseSource m_shortSharpShake;
+    [SerializeField] private CinemachineImpulseSource m_centipedeChunkHitShake;
 
     private static ScreenshakeManager s_instance;
 
@@ -32,6 +39,8 @@ public class ScreenshakeManager : MonoBehaviour
             case EShakeType.medium: s_instance.m_mediumShake.GenerateImpulse();
                 break;
             case EShakeType.shortSharp: s_instance.m_shortSharpShake.GenerateImpulse();
+                break;
+            case EShakeType.centipedeHitChunk: s_instance.m_centipedeChunkHitShake.GenerateImpulse();
                 break;
         }
     }

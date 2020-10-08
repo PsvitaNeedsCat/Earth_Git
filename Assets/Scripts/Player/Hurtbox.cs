@@ -33,56 +33,39 @@ public class Hurtbox : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Start()
     {
-        // Check the amount of frames skipped
-        if (m_framesSkipped < m_settings.m_framesBeforeDestroy)
-        {
-            m_framesSkipped++; 
-        }
-        else
-        {
-            DestroyHurtbox();
-        }
+        CheckForCollision();
     }
 
-    private void OnTriggerEnter(Collider other)
+    // Raycasts for chunks and interacts with them
+    private void CheckForCollision()
     {
-        Chunk chunk = other.GetComponentInParent<Chunk>();
+        Vector3 halfExtents = transform.localScale * 0.5f;
+        Collider[] colliders = Physics.OverlapBox(transform.position, halfExtents, transform.rotation);
 
-        // Check collision is a chunk
-        if (chunk)
-        {
-            m_collidedChunks.Add(chunk);
-        }
-    }
-
-    private void DestroyHurtbox()
-    {
         Chunk closestChunk = null;
         float closestDist = float.MaxValue;
-
-        foreach (Chunk chunk in m_collidedChunks)
+        for (int i = 0; i < colliders.Length; i++)
         {
-            if (!chunk) // To avoid null ref
+            Chunk chunk = colliders[i].GetComponentInParent<Chunk>();
+            if (chunk)
             {
-                continue;
-            }
-
-            float distance = (chunk.transform.position - transform.position).magnitude;
-            if (distance < closestDist)
-            {
-                closestDist = distance;
-                closestChunk = chunk;
+                float distance = (chunk.transform.position - transform.position).magnitude;
+                if (distance < closestDist)
+                {
+                    closestDist = distance;
+                    closestChunk = chunk;
+                }
             }
         }
-        m_collidedChunks.Clear();
 
         PunchChunk(closestChunk);
 
         Destroy(gameObject);
     }
 
+    // Punches a given chunk
     private void PunchChunk(Chunk _chunk)
     {
         if (!_chunk)
@@ -99,4 +82,54 @@ public class Hurtbox : MonoBehaviour
 
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
     }
+
+    //private void Update()
+    //{
+    //    // Check the amount of frames skipped
+    //    if (m_framesSkipped < m_settings.m_framesBeforeDestroy)
+    //    {
+    //        m_framesSkipped++; 
+    //    }
+    //    else
+    //    {
+    //        DestroyHurtbox();
+    //    }
+    //}
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Chunk chunk = other.GetComponentInParent<Chunk>();
+
+    //    // Check collision is a chunk
+    //    if (chunk)
+    //    {
+    //        m_collidedChunks.Add(chunk);
+    //    }
+    //}
+
+    //private void DestroyHurtbox()
+    //{
+    //    Chunk closestChunk = null;
+    //    float closestDist = float.MaxValue;
+
+    //    foreach (Chunk chunk in m_collidedChunks)
+    //    {
+    //        if (!chunk) // To avoid null ref
+    //        {
+    //            continue;
+    //        }
+
+    //        float distance = (chunk.transform.position - transform.position).magnitude;
+    //        if (distance < closestDist)
+    //        {
+    //            closestDist = distance;
+    //            closestChunk = chunk;
+    //        }
+    //    }
+    //    m_collidedChunks.Clear();
+
+    //    PunchChunk(closestChunk);
+
+    //    Destroy(gameObject);
+    //}
 }
