@@ -11,7 +11,7 @@ public class CentipedeProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger) return;
+        //if (other.isTrigger) return;
 
         // If the player is hit, damage them
         HealthComponent healthComp = other.GetComponent<HealthComponent>();

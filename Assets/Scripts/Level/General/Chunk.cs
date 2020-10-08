@@ -68,6 +68,7 @@ public class Chunk : MonoBehaviour
         // Setup health component
         m_healthComp = GetComponent<HealthComponent>();
         m_healthComp.Init(m_settings.m_maxHealth, m_settings.m_maxHealth, OnHurt, null, OnDeath);
+        m_healthComp.m_type = HealthComponent.EHealthType.chunk;
 
         m_spawnPos = transform.position;
 
