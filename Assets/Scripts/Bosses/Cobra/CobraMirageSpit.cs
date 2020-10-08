@@ -77,7 +77,12 @@ public class CobraMirageSpit : MonoBehaviour
 
     private void SetShieldMaterial(bool _on)
     {
-        float cutoffEndValue = (_on) ? 0.8f : 1.1f;
+        if (m_isReal)
+        {
+            Debug.Log("Boss set shield material " + _on);
+        }
+
+        float cutoffEndValue = (_on) ? 0.5f : 1.1f;
         float fresnelEndValue = (_on) ? 5.0f : 20.0f;
         float transitionDuration = 2.0f;
 
@@ -104,6 +109,9 @@ public class CobraMirageSpit : MonoBehaviour
     public void ExitPotFade()
     {
         m_animations.ExitPot();
+
+        StopAllCoroutines();
+
         Fade(true);
         SetShieldMaterial(true);
     }

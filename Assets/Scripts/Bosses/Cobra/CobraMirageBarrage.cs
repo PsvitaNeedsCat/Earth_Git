@@ -87,7 +87,7 @@ public class CobraMirageBarrage : CobraBehaviour
         // CobraHealth.SetCollider(true);
         MessageBus.TriggerEvent(EMessageType.vulnerableStart);
 
-        m_spit.LowerHead();
+        // m_spit.LowerHead();
 
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
@@ -100,7 +100,7 @@ public class CobraMirageBarrage : CobraBehaviour
         //CobraHealth.SetCollider(false);
         MessageBus.TriggerEvent(EMessageType.vulnerableEnd);
 
-        m_spit.RaiseHead();
+        // m_spit.RaiseHead();
 
         foreach (CobraMirageSpit mirageCobra in m_mirageCobras)
         {
