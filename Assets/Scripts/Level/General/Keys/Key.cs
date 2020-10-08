@@ -105,13 +105,9 @@ public class Key : MonoBehaviour
 
     private IEnumerator KeyCollectAnimation(bool _silent = false)
     {
-        MusicManager musicManager = FindObjectOfType<MusicManager>();
-
         if (!_silent)
         {
             MessageBus.TriggerEvent(EMessageType.keySpawned);
-
-            StartCoroutine(musicManager.FadeMusic(1.5f));
         }
 
         // Disable effects
@@ -147,8 +143,6 @@ public class Key : MonoBehaviour
             m_playerInputRef.SetMovement(true);
 
             MessageBus.TriggerEvent(EMessageType.keyCollected);
-
-            StartCoroutine(musicManager.FadeMusic(1.0f, false));
         }
 
         FloatToPlayer();

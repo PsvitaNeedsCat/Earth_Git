@@ -299,7 +299,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""cf278aff-a7f4-4a45-9a33-f86b3cecb9cf"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -495,7 +495,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""Target"",
                     ""type"": ""Value"",
                     ""id"": ""d5f19d8a-ef0c-4e1e-9e5d-004d36d1d3cb"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },

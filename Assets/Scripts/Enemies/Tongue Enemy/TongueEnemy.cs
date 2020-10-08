@@ -82,10 +82,7 @@ public class TongueEnemy : MonoBehaviour
             Dead();
         }
 
-        if (typeSwallowed != EChunkType.none)
-        {
-            MessageBus.TriggerEvent(EMessageType.enemySwallow); 
-        }
+        MessageBus.TriggerEvent(EMessageType.enemySwallow);
 
         m_tongue.gameObject.SetActive(false);
     }
