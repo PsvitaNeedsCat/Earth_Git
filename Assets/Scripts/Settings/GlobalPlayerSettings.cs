@@ -48,8 +48,6 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_hurtTime = 2.0f;
 
     [Header("Hurtbox Settings")]
-    [Tooltip("The amount of frames the hurtbox will exist before being destroyed")]
-    public int m_framesBeforeDestroy = 10;
     [Tooltip("The amount of force chunks are hit with")]
     public float m_chunkHitForce = 10000.0f;
     [Tooltip("How much horiztonally to move the hurt box by when spawning")]

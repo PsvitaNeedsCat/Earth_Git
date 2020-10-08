@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cinemachine;
+
 public class CentipedeTrainAttack : CentipedeBehaviour
 {
     [System.Serializable]
@@ -28,12 +30,16 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     private int m_chunksHit = 0;
     private CentipedeHealth m_centipedeHealth;
     [SerializeField] private StunnedStars m_stunnedStars = null;
+    [SerializeField] private DisableScreenShakeListener m_chargingScreenShake = null;
 
     private void Awake()
     {
         m_centipedeHealth = GetComponent<CentipedeHealth>();
         s_charging = false;
         s_stunned = false;
+
+        m_chargingScreenShake.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+        m_chargingScreenShake.StopScreenShake();
     }
 
     public override void StartBehaviour()
@@ -58,6 +64,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         CentipedeMovement.s_useTrainSpeed = true;
         CentipedeBoss.s_dropLava = true;
         m_trainAudio.SetActive(true);
+        m_chargingScreenShake.ResumeScreenShake();
         m_animations.ChargeStart();
         StartCoroutine(TunnelAttack());
     }
@@ -82,6 +89,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
             CentipedeBoss.s_dropLava = false;
             s_charging = false;
             m_animations.ChargeEnd();
+            m_chargingScreenShake.StopScreenShake();
             StartCoroutine(ReenterArena());
         }
         // Otherwise, go to the next tunnel
@@ -147,6 +155,8 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         s_stunned = true;
         m_head.DisableCollider();
         m_activeEffects.SetActive(false);
+        ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.centipedeHitChunk);
+        StartCoroutine(StopScreenShakeDelay());
         CentipedeMovement.s_seekingTarget = false;
         s_charging = false;
         m_centipedeHealth.ActivateSection(true, 0);
@@ -161,6 +171,14 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
         // After duration, recover
         StartCoroutine(Recover());
+    }
+
+    // Stops the screen shake after a delay
+    private IEnumerator StopScreenShakeDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        m_chargingScreenShake.StopScreenShake();
     }
 
     private IEnumerator Recover()
