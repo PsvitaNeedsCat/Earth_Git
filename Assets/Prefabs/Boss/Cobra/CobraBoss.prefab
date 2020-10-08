@@ -53,7 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589605130}
   - component: {fileID: 1589605131}
-  - component: {fileID: 1589605132}
+  - component: {fileID: 2406976269568280382}
   m_Layer: 26
   m_Name: CobraStompHurtbox
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ade4bf6a5a6db146825cc2c7a559144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1589605132
-BoxCollider:
+--- !u!136 &2406976269568280382
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -97,9 +97,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 2, z: 1.5}
-  m_Center: {x: 0, y: 0.18, z: 0}
+  m_Radius: 0.5
+  m_Height: 1.64
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &127852041067922199
 GameObject:
   m_ObjectHideFlags: 0

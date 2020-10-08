@@ -49,8 +49,11 @@ public class CobraMirageSpit : MonoBehaviour
 
         GameObject newBullet = Instantiate(m_bulletPrefab, m_bulletSpawn.position, transform.rotation, transform);
 
-        Destroy(newBullet, CobraHealth.StateSettings.m_barrageProjectileLifetime);
-        newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
+        if (newBullet)
+        {
+            Destroy(newBullet, CobraHealth.StateSettings.m_barrageProjectileLifetime);
+            newBullet.GetComponent<Rigidbody>().velocity = transform.forward * CobraHealth.StateSettings.m_barrageProjectileSpeed;
+        }
     }
 
     public void LowerHead()
@@ -69,11 +72,14 @@ public class CobraMirageSpit : MonoBehaviour
         m_headRaised = true;
         StopAllCoroutines();
 
-        SetShieldMaterial(true);
-
         if (!m_isReal)
         {
             Fade(_in: false);
+            SetShieldMaterial(false);
+        }
+        else
+        {
+            SetShieldMaterial(true);
         }
 
         m_animations.RaiseHead();
@@ -82,10 +88,10 @@ public class CobraMirageSpit : MonoBehaviour
 
     private void SetShieldMaterial(bool _on)
     {
-        if (m_isReal)
-        {
-            Debug.Log("Boss set shield material " + _on);
-        }
+        //if (m_isReal)
+        //{
+        //    Debug.Log("Boss set shield material " + _on);
+        //}
 
         float cutoffEndValue = (_on) ? 0.5f : 1.1f;
         float fresnelEndValue = (_on) ? 5.0f : 20.0f;

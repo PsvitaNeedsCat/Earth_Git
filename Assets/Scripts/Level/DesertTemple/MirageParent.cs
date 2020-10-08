@@ -6,11 +6,11 @@ public class MirageParent : MonoBehaviour
 {
     [SerializeField] private string m_defaultLayer = "Walls";
 
-    public EChunkEffect m_effectType = EChunkEffect.none;
+    public EChunkEffect m_effect = EChunkEffect.none;
 
-    protected EChunkEffect m_currentEffect = EChunkEffect.none;
+    protected EChunkEffect m_playerEffect = EChunkEffect.none;
     protected MeshRenderer m_renderer = null;
-    private Collider m_collider = null;
+    protected Collider m_collider = null;
 
     protected virtual void Awake()
     {
@@ -43,10 +43,10 @@ public class MirageParent : MonoBehaviour
     public virtual void PowerChanged(string _powerName)
     {
         // Convert to enum
-        m_currentEffect = StringToEffect(_powerName);
+        m_playerEffect = StringToEffect(_powerName);
 
         // Solidify / Unsolidify
-        CanWalkThrough(m_currentEffect == m_effectType);
+        CanWalkThrough(m_playerEffect == m_effect);
     }
 
     // Converts a string to an eChunkEffect
@@ -77,12 +77,10 @@ public class MirageParent : MonoBehaviour
     protected virtual void CanWalkThrough(bool _canWalkThrough)
     {
         // Update layer
-        gameObject.layer = LayerMask.NameToLayer((m_currentEffect == m_effectType) ? "Ground" : m_defaultLayer);
+        gameObject.layer = LayerMask.NameToLayer((m_playerEffect == m_effect) ? "Ground" : m_defaultLayer);
 
         // Update collider
-        m_collider.isTrigger = (m_currentEffect == m_effectType);
-
-        StopAllCoroutines();
+        m_collider.isTrigger = (m_playerEffect == m_effect);
 
         // float currentValue = (_canWalkThrough) ? 0.0f : 1.0f;
         float endValue = (_canWalkThrough) ? 1.0f : 0.0f;
