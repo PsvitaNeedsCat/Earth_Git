@@ -35,6 +35,8 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_minTileRange = 7.0f;
     [Tooltip("How far in front of the player the tile targeter will be")]
     public float m_TargeterMoveDist = 1.1f;
+    [Tooltip("How far forward the visual targeter will appear in front of the player")]
+    public float m_arrowMoveDist = 0.5f;
 
     [Tooltip("Maximum number of chunks allowed at once")]
     public int m_maxChunks = 3;

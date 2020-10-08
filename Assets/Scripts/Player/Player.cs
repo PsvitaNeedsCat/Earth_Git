@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private Player m_instance;
     private PlayerController m_playerController;
     [SerializeField] private TileTargeter m_tileTargeter = null;
+    [SerializeField] private TileArrow m_tileArrow = null;
     private CrystalSelection m_crystalUI;
     private Vector3 m_rStickDir = Vector3.zero;
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
@@ -149,8 +150,10 @@ public class Player : MonoBehaviour
         m_rStickDir = Camera.main.RelativeDirection2(_dir);
 
         m_tileTargeter.SetTargetDirection(_dir, transform.position);
-
         m_tileTargeter.gameObject.SetActive(_dir != Vector2.zero);
+
+        m_tileArrow.SetDirection(_dir);
+        m_tileArrow.gameObject.SetActive(_dir != Vector2.zero);
     }
 
     // Called by PlayerInput
