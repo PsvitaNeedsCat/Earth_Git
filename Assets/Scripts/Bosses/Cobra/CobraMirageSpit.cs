@@ -34,6 +34,11 @@ public class CobraMirageSpit : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        m_normalMaterial = m_meshRenderer.material;
+    }
+
     public void FireProjectile()
     {
         if (m_isReal)
