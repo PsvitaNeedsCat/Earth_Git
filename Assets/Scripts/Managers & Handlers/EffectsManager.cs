@@ -8,8 +8,9 @@ public class EffectsManager : MonoBehaviour
     public enum EEffectType
     {
         rockSummon,
-        fieryExplosion,
         rockBreak,
+        rockDamage,
+        fieryExplosion,
         waveDestroyed,
         glassBreak,
         potBreak,
@@ -43,7 +44,7 @@ public class EffectsManager : MonoBehaviour
     }
 
     // Create an instance of the specified type of effect, and returns a reference to the object created
-    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter)
+    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter, Material _override = null)
     {
         if (s_transform = null)
         {
@@ -67,6 +68,16 @@ public class EffectsManager : MonoBehaviour
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;
         newEffect.transform.localScale = _scale;
+
+        if (_override != null)
+        {
+            List<Renderer> overrideRenderers = newEffect.GetComponent<MaterialOverrides>().m_overrideRenderers;
+
+            foreach(Renderer renderer in overrideRenderers)
+            {
+                renderer.material = _override;
+            }
+        }
 
         return newEffect;
     }

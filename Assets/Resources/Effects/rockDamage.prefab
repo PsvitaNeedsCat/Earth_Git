@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2410694444424126576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5302991824253002025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1dd8652e3d01a4fa7aaa1fc990c8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_overrideRenderers:
+  - {fileID: 5302991824253002024}
 --- !u!1001 &7832978783415572417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,7 +74,7 @@ PrefabInstance:
     - target: {fileID: 2678610730144413416, guid: 88aaa05630bb33a459639ee5268f4695,
         type: 3}
       propertyPath: m_Name
-      value: rockDamage_PS Variant
+      value: rockDamage
       objectReference: {fileID: 0}
     - target: {fileID: 2678610730144413422, guid: 88aaa05630bb33a459639ee5268f4695,
         type: 3}
@@ -111,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678610730144413422, guid: 88aaa05630bb33a459639ee5268f4695,
+        type: 3}
+      propertyPath: ShapeModule.m_Rotation.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2678610730144413423, guid: 88aaa05630bb33a459639ee5268f4695,
         type: 3}
@@ -169,3 +188,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88aaa05630bb33a459639ee5268f4695, type: 3}
+--- !u!1 &5302991824253002025 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2678610730144413416, guid: 88aaa05630bb33a459639ee5268f4695,
+    type: 3}
+  m_PrefabInstance: {fileID: 7832978783415572417}
+  m_PrefabAsset: {fileID: 0}
+--- !u!199 &5302991824253002024 stripped
+ParticleSystemRenderer:
+  m_CorrespondingSourceObject: {fileID: 2678610730144413417, guid: 88aaa05630bb33a459639ee5268f4695,
+    type: 3}
+  m_PrefabInstance: {fileID: 7832978783415572417}
+  m_PrefabAsset: {fileID: 0}
