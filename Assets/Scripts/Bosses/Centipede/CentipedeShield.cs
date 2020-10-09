@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CentipedeShield : MonoBehaviour
 {
-    public void Break()
+    public void HitChunk()
     {
-        transform.parent.gameObject.SetActive(false);
+        // Play sound or something
     }
 }

@@ -153,8 +153,8 @@ public class Chunk : MonoBehaviour
         CentipedeShield centipedeShield = other.GetComponent<CentipedeShield>();
         if (centipedeShield)
         {
-            Destroy(gameObject);
-            centipedeShield.Break();
+            OnDeath();
+            centipedeShield.HitChunk();
             return;
         }
         
