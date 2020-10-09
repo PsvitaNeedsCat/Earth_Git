@@ -48,7 +48,8 @@ public class CobraMirageWall : CobraBehaviour
 
             // Check if there is a second wall, and if so, send it
             if (wallDef.m_wallTwoType != ECobraMirageType.none)
-            { 
+            {
+                yield return new WaitForSeconds(CobraHealth.StateSettings.m_wallStaggerTime);
                 StartCoroutine(SendWall(wallDef.m_wallTwoType, wallDef.m_wallTwoFrom));
             }
 
@@ -58,7 +59,6 @@ public class CobraMirageWall : CobraBehaviour
         }
 
         CompleteBehaviour();
-
     }
 
     // Handles the sending of one wall
