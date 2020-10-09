@@ -34,10 +34,12 @@ public class Chunk : MonoBehaviour
     [SerializeField] private bool m_startOverride = false;
     [SerializeField] private GameObject[] m_meshObjects = new GameObject[3];
 
+    public MeshRenderer m_renderer;
+
     // Private variables
     private Rigidbody m_rigidBody;
     private Vector3 m_spawnPos;
-    GlobalChunkSettings m_globalSettings;
+    private GlobalChunkSettings m_globalSettings;
     private HealthComponent m_healthComp;
     private Vector3 m_prevVelocity = Vector3.zero;
 
@@ -295,7 +297,7 @@ public class Chunk : MonoBehaviour
 
             default:
                 {
-                    EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f);
+                    EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockBreak, transform.position, Quaternion.identity, Vector3.one, 1.0f, m_renderer.material);
                     MessageBus.TriggerEvent(EMessageType.chunkDestroyed);
                     break;
                 }
@@ -323,6 +325,11 @@ public class Chunk : MonoBehaviour
         {
             // Play sound
             m_healthComp.Health -= 1;
+
+            Vector3 hitDir = _hitVec.normalized;
+            Vector3 effectSpawnLocation = transform.position + -hitDir * 0.5f;
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockDamage, effectSpawnLocation, Quaternion.LookRotation(-hitDir), Vector3.one, 1.0f, m_renderer.material);
+
             return false;
         }
 
