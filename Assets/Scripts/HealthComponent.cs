@@ -12,7 +12,8 @@ public class HealthComponent : MonoBehaviour
     {
         player,
         enemy,
-        boss 
+        boss,
+        chunk
     }
     public EHealthType m_type;
 

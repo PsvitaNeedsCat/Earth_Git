@@ -44,6 +44,8 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<Vector3> LEGS_SCALE;
     public static CheatCommand<Vector3> PLAYER_SCALE;
     public static CheatCommand<int> ROOM;
+    public static CheatCommand NEXT_ROOM;
+    public static CheatCommand PREV_ROOM;
 
     public List<object> m_commandList;
 
@@ -279,6 +281,16 @@ public class CheatConsole : MonoBehaviour
             RoomManager.Instance.ForceLoadRoom(x);
         });
 
+        NEXT_ROOM = new CheatCommand("next_room", "Moves the player to the next room", "next_room", () =>
+        {
+            RoomManager.Instance.ForceLoadRoom(RoomManager.Instance.GetCurrentRoom() + 1);
+        });
+
+        PREV_ROOM = new CheatCommand("prev_room", "Moves the player to the previous room", "prev_room", () =>
+        {
+            RoomManager.Instance.ForceLoadRoom(RoomManager.Instance.GetCurrentRoom() - 1);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -305,7 +317,9 @@ public class CheatConsole : MonoBehaviour
             ARMS_SCALE,
             LEGS_SCALE,
             PLAYER_SCALE,
-            ROOM
+            ROOM,
+            NEXT_ROOM,
+            PREV_ROOM
         };
     }
 

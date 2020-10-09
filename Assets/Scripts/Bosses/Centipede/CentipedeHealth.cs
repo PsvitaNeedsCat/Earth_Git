@@ -30,6 +30,7 @@ public class CentipedeHealth : MonoBehaviour
     private bool[] m_sectionsActive = { false, false, false, false, false, false, false };
     private bool[] m_sectionsDamaged = { false, false, false};
     private CentipedeTrainAttack m_trainAttack;
+    private CentipedeBodyAttack m_bodyAttack;
 
     // Array of lists of segments indices: "Head segments", "Body segments", "Tail segments"
     private List<int>[] m_sectionSegments = { new List<int> { 0 }, new List<int> { 1, 2, 3, 4, 5 }, new List<int> { 6 } };
@@ -37,6 +38,7 @@ public class CentipedeHealth : MonoBehaviour
     private void Awake()
     {
         m_trainAttack = GetComponent<CentipedeTrainAttack>();
+        m_bodyAttack = GetComponent<CentipedeBodyAttack>();
     }
 
     public bool IsSectionDamaged(ESegmentType _type)
@@ -133,7 +135,6 @@ public class CentipedeHealth : MonoBehaviour
         // m_healthIcons[(int)type].SetActive(false);
         m_healthIcons[GetHealth() - 1].SetActive(false);
 
-
         HitFreezeManager.BeginHitFreeze(0.1f);
 
         List<int> segments = m_sectionSegments[(int)type];
@@ -158,6 +159,10 @@ public class CentipedeHealth : MonoBehaviour
         if (type == ESegmentType.head)
         {
             m_trainAttack.OnDamaged(); 
+        }
+        else if (type == ESegmentType.body)
+        {
+            m_bodyAttack.DisableFireParticles();
         }
 
         m_sectionsDamaged[(int)type] = true;

@@ -53,7 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589605130}
   - component: {fileID: 1589605131}
-  - component: {fileID: 1589605132}
+  - component: {fileID: 2406976269568280382}
   m_Layer: 26
   m_Name: CobraStompHurtbox
   m_TagString: Untagged
@@ -87,8 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ade4bf6a5a6db146825cc2c7a559144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1589605132
-BoxCollider:
+--- !u!136 &2406976269568280382
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -97,9 +97,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 2, z: 1.5}
-  m_Center: {x: 0, y: 0.18, z: 0}
+  m_Radius: 0.5
+  m_Height: 1.64
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &127852041067922199
 GameObject:
   m_ObjectHideFlags: 0
@@ -13884,6 +13885,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 26
       objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14791,6 +14797,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
       propertyPath: m_Name
@@ -14825,6 +14836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
@@ -14961,6 +14977,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
       propertyPath: m_Name
@@ -14995,6 +15016,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
@@ -15131,6 +15157,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
       propertyPath: m_Name
@@ -15215,6 +15246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
@@ -16073,6 +16109,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
       propertyPath: m_Name
@@ -16107,6 +16148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
@@ -16192,6 +16238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
@@ -16327,6 +16378,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}
@@ -17907,6 +17963,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 26
       objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17991,6 +18052,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1006857213734951634, guid: 8e80356060dd770419ef7c971c16c14a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1006857213734951645, guid: 8e80356060dd770419ef7c971c16c14a,
         type: 3}
@@ -19670,6 +19736,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087103497687691881, guid: 75b6da03f6ecbf947bd3eee9a887caea,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6087103497687691882, guid: 75b6da03f6ecbf947bd3eee9a887caea,
         type: 3}

@@ -45,7 +45,10 @@ public class CentipedeTailAttack : CentipedeBehaviour
         // Burrow down
         CentipedeMovement.s_seekingTarget = false;
         CentipedeMovement.BurrowDown(m_burrowDownPoints);
-        while (CentipedeMovement.s_burrowing) yield return null;
+        while (CentipedeMovement.s_burrowing)
+        {
+            yield return null;
+        }
 
         // Start tail attack
         CentipedeMovement.s_burrowing = false;

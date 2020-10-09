@@ -4823,6 +4823,7 @@ GameObject:
   - component: {fileID: 9044731852935819371}
   - component: {fileID: 9044731852935819372}
   - component: {fileID: 9044731852935819373}
+  - component: {fileID: 8021813483230147560}
   m_Layer: 0
   m_Name: rockBreak
   m_TagString: Untagged
@@ -9625,3 +9626,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8021813483230147560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9044731852935819374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1dd8652e3d01a4fa7aaa1fc990c8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_overrideRenderers:
+  - {fileID: 9044731852935819373}
+  - {fileID: 9044731852079137896}

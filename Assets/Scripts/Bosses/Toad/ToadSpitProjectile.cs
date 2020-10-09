@@ -40,7 +40,7 @@ public class ToadSpitProjectile : MonoBehaviour
         // Face velocity
         m_visibleProjectile.transform.up = -m_rigidbody.velocity;
 
-        UpdateDropShadow();
+        //UpdateDropShadow();
     }
 
     private void FixedUpdate()

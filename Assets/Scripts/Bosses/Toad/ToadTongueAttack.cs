@@ -30,7 +30,7 @@ public class ToadTongueAttack : ToadBehaviour
 
         if (m_isRetracting)
         {
-            if (m_tongueAnimator.GetCurrentAnimatorStateInfo(0).IsName("Tongue_Extend") && m_tongueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.01f)
+            if (m_tongueAnimator.GetCurrentAnimatorStateInfo(0).IsName("ManualTongueExtend_ANIM") && m_tongueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.01f)
             {
                 m_tongueAnimator.SetTrigger("Retract");
             }
@@ -78,7 +78,10 @@ public class ToadTongueAttack : ToadBehaviour
         m_toadAnimator.SetTrigger("TongueRetracted");
     }
 
-    public void AEExtendTongue() => ExtendTongue();
+    public void AEExtendTongue()
+    {
+        ExtendTongue();
+    }
 
     public void AESwallow() => Swallow();
 }

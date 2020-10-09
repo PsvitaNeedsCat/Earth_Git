@@ -15,7 +15,7 @@ public class CobraMirageClone : MonoBehaviour
 
     public void Damage()
     {
-        MessageBus.TriggerEvent(EMessageType.cobraMirageDamaged);
+        MessageBus.TriggerEvent(EMessageType.cobraLaugh);
         m_spit.RaiseHead();
     }
 }
