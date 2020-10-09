@@ -29,10 +29,13 @@ public class Player : MonoBehaviour
     [SerializeField] private TileTargeter m_tileTargeter = null;
     [SerializeField] private TileArrow m_tileArrow = null;
     private CrystalSelection m_crystalUI;
-    private Vector3 m_rStickDir = Vector3.zero;
+    private Vector3 m_relativeRStickDir = Vector3.zero; // Relative to camera
+    private Vector2 m_rStickDir = Vector2.zero; // Not relative to camera
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
     private bool m_inTutorial = false;
     private bool m_firstPerson = false;
+    [SerializeField] private SkinnedMeshRenderer m_meshRenderer = null;
+    [SerializeField] private Material[] m_playerMaterials = new Material[4];
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour
     {
         // Move player with provided input
         m_playerController.Move(m_moveDirection);
+        UpdateRAnalogDirection();
 
         // Update the animator's 'MoveInput' boolean based on player input
         m_animator.SetBool("MoveInput", m_moveDirection.magnitude > 0.01f);
@@ -147,13 +151,18 @@ public class Player : MonoBehaviour
     // Modifies targeting - called by PlayerInput
     public void SetRAnalogDirection(Vector2 _dir)
     {
-        m_rStickDir = Camera.main.RelativeDirection2(_dir);
+        m_relativeRStickDir = Camera.main.RelativeDirection2(_dir);
+        m_rStickDir = _dir;
 
-        m_tileTargeter.SetTargetDirection(_dir, transform.position);
-        m_tileTargeter.gameObject.SetActive(_dir != Vector2.zero);
+        UpdateRAnalogDirection();
+    }
+    private void UpdateRAnalogDirection()
+    {
+        m_tileTargeter.SetTargetDirection(m_rStickDir, transform.position);
+        m_tileTargeter.gameObject.SetActive(m_rStickDir != Vector2.zero);
 
-        m_tileArrow.SetDirection(_dir);
-        m_tileArrow.gameObject.SetActive(_dir != Vector2.zero);
+        m_tileArrow.SetDirection(m_rStickDir);
+        m_tileArrow.gameObject.SetActive(m_rStickDir != Vector2.zero);
     }
 
     // Called by PlayerInput
@@ -161,9 +170,9 @@ public class Player : MonoBehaviour
     {
         if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
-            if (!m_inTutorial && m_rStickDir != Vector3.zero && m_moveDirection == Vector2.zero)
+            if (!m_inTutorial && m_relativeRStickDir != Vector3.zero && m_moveDirection == Vector2.zero)
             {
-                transform.forward = m_rStickDir;
+                transform.forward = m_relativeRStickDir;
             }
 
             m_animator.SetTrigger("Punch");
@@ -251,6 +260,9 @@ public class Player : MonoBehaviour
         {
             m_powerParticles[(int)_effect].Play();
         }
+
+        // Material
+        m_meshRenderer.material = m_playerMaterials[(int)_effect];
     }
 
     // Checks if the power in the given d-pad direction is unlocked and selects it
