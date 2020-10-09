@@ -56,6 +56,7 @@ public class GlobalPlayerSettings : ScriptableObject
     public float m_hurtboxMoveBy = 5.0f;
     [Tooltip("The size the hurtbox changes to when using the fire punch")]
     public float m_firePunchSize = 0.5f;
+    public int m_hurtboxFramesToSkip = 10;
 
     [Space(10.0f)]
 
