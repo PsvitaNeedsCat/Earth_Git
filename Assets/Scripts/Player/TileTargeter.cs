@@ -9,6 +9,7 @@ public class TileTargeter : MonoBehaviour
     public LayerMask m_tileLayerMask;
     public Vector3 m_boxHalfExtents = new Vector3(0.5f, 0.6f, 0.5f);
     public float m_minTileRange;
+    public GameObject m_targeterRockParticles;
 
     // Private variables
     private TileTargeter m_instance;
@@ -16,6 +17,7 @@ public class TileTargeter : MonoBehaviour
     private GlobalPlayerSettings m_settings;
     [SerializeField] GameObject m_indicator;
     private Vector2 m_direction = Vector2.zero;
+    private Renderer m_targeterRockRenderer;
 
     private void Awake()
     {
@@ -31,6 +33,7 @@ public class TileTargeter : MonoBehaviour
         }
 
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+        m_targeterRockRenderer = m_targeterRockParticles.GetComponent<Renderer>();
     }
 
     // Update is only called when tile targeter is active
@@ -95,6 +98,7 @@ public class TileTargeter : MonoBehaviour
         if (m_closestTile != null)
         {
             m_closestTile.SetHighlighted(_active);
+            m_targeterRockRenderer.material = m_closestTile.GetMaterial();
         }
     }
 
