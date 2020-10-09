@@ -27,7 +27,10 @@ public class CentipedeHead : MonoBehaviour
     // Damage things when hit by the centipede's head
     private void OnTriggerEnter(Collider other)
     {
-        if (CentipedeTrainAttack.s_stunned) return;
+        if (CentipedeTrainAttack.s_stunned)
+        {
+            return;
+        }
 
         // Damage the player if they're hit by the centipede head
         PlayerController player = other.GetComponent<PlayerController>();

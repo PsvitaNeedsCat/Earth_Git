@@ -78,7 +78,7 @@ public class Tile : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f, m_normalMaterial);
 
         return newChunk;
     }
@@ -94,7 +94,7 @@ public class Tile : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f, m_normalMaterial);
     }
 
     // Checks if there is a chunk currently above thise tile
@@ -141,5 +141,10 @@ public class Tile : MonoBehaviour
         {
             m_renderer.material = m_normalMaterial;
         }
+    }
+
+    public Material GetMaterial()
+    {
+        return m_normalMaterial;
     }
 }

@@ -18,9 +18,12 @@ public class CentipedeSegmentFirer : MonoBehaviour
     }
 
     // Fire a projectile left and right
-    public void FireProjectiles(float _speed)
+    public void FireProjectiles(float _speed, bool _isDamaged = false)
     {
-        m_fireEffects.Play();
+        if (!_isDamaged)
+        {
+            m_fireEffects.Play();
+        }
         MessageBus.TriggerEvent(EMessageType.centipedeBodyFire);
 
         // Swell up as firing
@@ -30,6 +33,9 @@ public class CentipedeSegmentFirer : MonoBehaviour
         Vector3 heightOffset = Vector3.up * m_settings.m_heightOffset;
         GameObject left = Instantiate(m_projectilePrefab, transform.position + -transform.right * 0.5f + heightOffset, Quaternion.identity, transform.parent.parent);
         GameObject right = Instantiate(m_projectilePrefab, transform.position + transform.right * 0.5f + heightOffset, Quaternion.identity, transform.parent.parent);
+
+        left.transform.LookAt(left.transform.position + -transform.right);
+        right.transform.LookAt(right.transform.position + transform.right);
 
         left.GetComponent<Rigidbody>().velocity = -transform.right * _speed;
         right.GetComponent<Rigidbody>().velocity = transform.right * _speed;

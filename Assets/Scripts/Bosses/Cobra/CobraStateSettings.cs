@@ -48,6 +48,7 @@ public class CobraStateSettings : ScriptableObject
     public float m_timeBetweenWalls;
     public float m_wallDelayBeforeMove;
     public float m_wallMoveDuration;
+    public float m_wallStaggerTime;
 
     [Header("Sand Drop Settings")]
     public float m_potProjectileSpeed; // How fast the bullets of the pot should go

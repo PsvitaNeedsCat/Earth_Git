@@ -8,7 +8,6 @@ public class Hurtbox : MonoBehaviour
     [HideInInspector] public EChunkEffect m_effect = EChunkEffect.none;
 
     // Private variables
-    private int m_framesSkipped = 0;
     private GlobalPlayerSettings m_settings;
     private Vector3 m_playerPos;
     private List<Chunk> m_collidedChunks = new List<Chunk>();
@@ -18,6 +17,8 @@ public class Hurtbox : MonoBehaviour
     {
         m_playerPos = _pos;
         m_effect = _effect;
+
+        StartCoroutine(DestroyAfter());
     }
 
     private void Awake()
@@ -61,8 +62,6 @@ public class Hurtbox : MonoBehaviour
         }
 
         PunchChunk(closestChunk);
-
-        Destroy(gameObject);
     }
 
     // Punches a given chunk
@@ -83,53 +82,15 @@ public class Hurtbox : MonoBehaviour
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
     }
 
-    //private void Update()
-    //{
-    //    // Check the amount of frames skipped
-    //    if (m_framesSkipped < m_settings.m_framesBeforeDestroy)
-    //    {
-    //        m_framesSkipped++; 
-    //    }
-    //    else
-    //    {
-    //        DestroyHurtbox();
-    //    }
-    //}
+    private IEnumerator DestroyAfter()
+    {
+        int frameCounter = 0;
+        while (frameCounter < m_settings.m_hurtboxFramesToSkip)
+        {
+            ++frameCounter;
+            yield return null;
+        }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Chunk chunk = other.GetComponentInParent<Chunk>();
-
-    //    // Check collision is a chunk
-    //    if (chunk)
-    //    {
-    //        m_collidedChunks.Add(chunk);
-    //    }
-    //}
-
-    //private void DestroyHurtbox()
-    //{
-    //    Chunk closestChunk = null;
-    //    float closestDist = float.MaxValue;
-
-    //    foreach (Chunk chunk in m_collidedChunks)
-    //    {
-    //        if (!chunk) // To avoid null ref
-    //        {
-    //            continue;
-    //        }
-
-    //        float distance = (chunk.transform.position - transform.position).magnitude;
-    //        if (distance < closestDist)
-    //        {
-    //            closestDist = distance;
-    //            closestChunk = chunk;
-    //        }
-    //    }
-    //    m_collidedChunks.Clear();
-
-    //    PunchChunk(closestChunk);
-
-    //    Destroy(gameObject);
-    //}
+        Destroy(gameObject);
+    }
 }
