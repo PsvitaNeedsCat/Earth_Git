@@ -19,6 +19,6 @@ public class PauseUI : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(Player.s_activePowers[m_effect]);
+        gameObject.SetActive(!Player.s_activePowers[m_effect]);
     }
 }
