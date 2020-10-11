@@ -40,7 +40,7 @@ public class RoomManager : MonoBehaviour
     {
         if (s_instance != null && s_instance != this)
         {
-            Destroy(this.gameObject); 
+            Destroy(gameObject); 
         }
         else 
         {

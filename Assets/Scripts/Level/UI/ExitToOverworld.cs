@@ -15,7 +15,7 @@ public class ExitToOverworld : MonoBehaviour
         {
             gameObject.SetActive(false);
             Vector3 centredPos = m_viewControlsButton.anchoredPosition;
-            centredPos.x = 0.0f;
+            centredPos.y = 0.0f;
             m_viewControlsButton.anchoredPosition = centredPos;
         }
     }
