@@ -20,4 +20,21 @@ public static class BossHelper
 
         _material.SetFloat(_property, _endValue);
     }
+
+    public static  IEnumerator ChangeMaterialVectorPropertyOver(Material _material, string _property, Vector4 _endValue, float _overSeconds)
+    {
+        Vector4 startValue = _material.GetVector(_property);
+        Vector4 totalDelta = _endValue - startValue;
+        Vector4 currentDelta = Vector4.zero;
+
+        while (Mathf.Abs(currentDelta.magnitude) <=  Mathf.Abs(totalDelta.magnitude))
+        {
+            currentDelta += (totalDelta * Time.deltaTime) / _overSeconds;
+            _material.SetVector(_property, startValue + currentDelta);
+
+            yield return null;
+        }
+
+        _material.SetVector(_property, _endValue);
+    }
 }
