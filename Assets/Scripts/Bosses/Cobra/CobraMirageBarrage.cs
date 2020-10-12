@@ -122,14 +122,6 @@ public class CobraMirageBarrage : CobraBehaviour
         {
             m_mirageCobras.Add(s_boss.m_cobraPots[cobra].GetComponent<CobraMirageSpit>());
         }
-
-        //for(int i = 0; i < m_mirageCobras.Count; i++)
-        //{
-        //    if (!m_mirageCobras[i].m_isReal)
-        //    {
-        //        m_mirageCobras[i].Fade(_in: true);
-        //    }
-        //}
     }
 
     private IEnumerator FireProjectiles()
@@ -159,7 +151,7 @@ public class CobraMirageBarrage : CobraBehaviour
     {
         OnAttackEnd();
 
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(2.0f);
 
         CompleteBehaviour();
     }

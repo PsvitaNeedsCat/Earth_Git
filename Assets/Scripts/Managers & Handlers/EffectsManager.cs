@@ -15,6 +15,7 @@ public class EffectsManager : MonoBehaviour
         glassBreak,
         potBreak,
         statueBreak,
+        cobraPotBreak
     }
 
     private readonly string m_effectsPath = "Effects";
