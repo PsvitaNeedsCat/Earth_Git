@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CobraSandDrop : CobraBehaviour
 {
@@ -70,13 +71,32 @@ public class CobraSandDrop : CobraBehaviour
 
         for (int i = 0; i < CobraHealth.StateSettings.m_sandDropNumPotGroups; i++)
         {
+            // Store the indices of the pots that will fire in this group, and make them shake to warn the player
+            List<int> firingPotIndices = new List<int>();
+            for (int x = 0; x < CobraHealth.StateSettings.m_sandDropPotsPerGroup; x++)
+            {
+                int potIndex = (i * CobraHealth.StateSettings.m_sandDropPotsPerGroup + x) % m_potFiringOrder.Count;
+                firingPotIndices.Add(potIndex);
+                CobraPot pot = s_boss.m_cobraPots[m_potFiringOrder[potIndex]];
+                Debug.Log("Flashing eye " + m_potFiringOrder[potIndex]);
+                pot.FlashEye();
+                // pot.m_moveTransform.DOPunchScale()
+            }
+
+            yield return new WaitForSeconds(1.5f);
+
             for (int j = 0; j < CobraHealth.StateSettings.m_projectilesPerPot; j++)
             {
-                for (int k = 0; k < CobraHealth.StateSettings.m_sandDropPotsPerGroup; k++)
+                foreach(int potIndex in firingPotIndices)
                 {
-                    int potIndex = (i * CobraHealth.StateSettings.m_sandDropPotsPerGroup + k) % m_potFiringOrder.Count;
                     s_boss.m_cobraPots[m_potFiringOrder[potIndex]].FireProjectile();
                 }
+
+                //for (int k = 0; k < CobraHealth.StateSettings.m_sandDropPotsPerGroup; k++)
+                //{
+                //    int potIndex = (i * CobraHealth.StateSettings.m_sandDropPotsPerGroup + k) % m_potFiringOrder.Count;
+                //    s_boss.m_cobraPots[m_potFiringOrder[potIndex]].FireProjectile();
+                //}
 
                 yield return new WaitForSeconds(CobraHealth.StateSettings.m_potProjectileInterval);
             }
@@ -136,7 +156,7 @@ public class CobraSandDrop : CobraBehaviour
                     case 'S':
                     case 's':
                         {
-                            generatedBlock = Instantiate(m_sandPrefab, worldPosition, Quaternion.identity, transform.parent);
+                            generatedBlock = Instantiate(m_sandPrefab, worldPosition, Quaternion.identity, m_arenaCenter);
                             generatedBlock.GetComponent<SandBlock>().Fall();
                             break;
                         }
@@ -152,7 +172,7 @@ public class CobraSandDrop : CobraBehaviour
                 if (generatedBlock != null)
                 {
                     CobraStateSettings settings = CobraHealth.StateSettings;
-                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval + settings.m_waitAfterSandDrop;
+                    float lifetime = settings.m_sandDropNumPotGroups * settings.m_delayBetweenPotGroups + settings.m_sandDropNumPotGroups * settings.m_projectilesPerPot * settings.m_potProjectileInterval + settings.m_waitAfterSandDrop + settings.m_sandDropNumPotGroups * 1.5f;
                     Destroy(generatedBlock, lifetime);
                 }
             }

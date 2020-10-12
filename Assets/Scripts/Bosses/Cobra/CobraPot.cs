@@ -18,6 +18,7 @@ public class CobraPot : MonoBehaviour
     public Transform m_moveTransform;
     public bool m_damagePlayer = false;
 
+    public SkinnedMeshRenderer m_eyeRenderer;
     public GameObject m_potLandIndicator;
     public List<GameObject> m_potProjectileLandIndicators;
 
@@ -36,6 +37,7 @@ public class CobraPot : MonoBehaviour
         m_projectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotProjectile");
         m_lobProjectilePrefab = Resources.Load<GameObject>("Prefabs/Bosses/Cobra/CobraPotLobProjectile");
         m_animations = GetComponent<CobraAnimations>();
+        m_eyeRenderer.material = new Material(m_eyeRenderer.material);
 
         m_potLandIndicator.SetActive(false);
         for (int i = 0; i < m_potProjectileLandIndicators.Count; i++)
@@ -71,6 +73,20 @@ public class CobraPot : MonoBehaviour
     public void FireLobProjectiles()
     {
         FireAtSurroundingTiles();
+    }
+
+    public void FlashEye()
+    {
+        StartCoroutine(FlashEyeSequence());
+    }
+
+    private IEnumerator FlashEyeSequence()
+    {
+        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", Color.red, 1.0f));
+
+        yield return new WaitForSeconds(1.0f);
+
+        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", Color.white, 1.0f));
     }
 
     private void LobProjectile(Vector3 _dir)

@@ -9815,6 +9815,7 @@ MonoBehaviour:
   m_mesh: {fileID: 6364217884858845287}
   m_moveTransform: {fileID: 8963776639094657822}
   m_damagePlayer: 0
+  m_eyeRenderer: {fileID: 2384146023930458437}
   m_potLandIndicator: {fileID: 0}
   m_potProjectileLandIndicators: []
   m_potIndex: -1
@@ -9895,6 +9896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 4449959404218173288}
   m_isReal: 0
+  m_cobraBodymesh: {fileID: 0}
 --- !u!1001 &3131078592708759918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10599,6 +10601,12 @@ Transform:
 --- !u!4 &2075084221390052390 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5206163922502775480, guid: 4a0af93de4dcd0b42aac6c759959cac9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3131078592708759918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &2384146023930458437 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8474117220028080085, guid: 4a0af93de4dcd0b42aac6c759959cac9,
     type: 3}
   m_PrefabInstance: {fileID: 3131078592708759918}
   m_PrefabAsset: {fileID: 0}
