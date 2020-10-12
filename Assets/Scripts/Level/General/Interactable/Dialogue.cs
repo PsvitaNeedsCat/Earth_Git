@@ -13,8 +13,8 @@ public class Dialogue : Interactable
     [SerializeField] private Sprite m_characterSprite;
     [SerializeField] private string m_name = "";
     [SerializeField] private bool m_playOnAwake = false;
-    [TextArea(5, 5)]
-    public string[] m_dialogue;
+    [SerializeField] private bool m_introDialogue = false;
+    [TextArea(5, 5)] public string[] m_dialogue;
     [SerializeField] private UnityEvent m_endEvent = new UnityEvent();
 
     protected int m_dialogueIndex = 0;
@@ -76,6 +76,16 @@ public class Dialogue : Interactable
         // Second text is always the correct one
         TextMeshProUGUI[] textMeshes = m_dialogueObj.GetComponentsInChildren<TextMeshProUGUI>();
         m_dialogueText = textMeshes[1];
+
+        // If this is the intro dialogue, remove the  background and move the text box to the center of the screen
+        if (m_introDialogue)
+        {
+            m_dialogueObj.transform.Find("Background").gameObject.SetActive(false);
+            m_dialogueObj.transform.Find("Controls").gameObject.SetActive(false);
+
+            m_dialogueText.rectTransform.position += Vector3.up * 230.0f;
+            m_dialogueText.GetComponent<TextMeshProUGUI>().color = Color.white;
+        }
 
         if (m_characterSprite != null)
         {

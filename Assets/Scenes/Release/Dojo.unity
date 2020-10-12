@@ -2699,6 +2699,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Well done!
   - Now channel its force to punch the rock forwards, the key is not holding back!
@@ -5071,6 +5072,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 0b141de469c9c7f4bb52af5d9f17ae3f, type: 3}
   m_name: Granny
   m_playOnAwake: 0
+  m_introDialogue: 0
   m_dialogue:
   - I remember when I was your age, so full of energy
   m_endEvent:
@@ -7854,6 +7856,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Great work!
   - Now, I'd like you to strike the rock again while it's against a barrier like
@@ -9244,6 +9247,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - This is an elemental crystal. It is the duty of this village to keep them safe.
   - This one here is the earth crystal, which we will be using in our training today.
@@ -13721,6 +13725,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: e7b6c9603d6b780498603ee62c5749c2, type: 3}
   m_name: Gerald
   m_playOnAwake: 0
+  m_introDialogue: 0
   m_dialogue:
   - Excited for training today?
   - Let's head into the Dojo!
@@ -13936,6 +13941,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Everyone, watch out!
   m_endEvent:
@@ -14828,6 +14834,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Wh-what's happening?
   m_endEvent:
@@ -15283,8 +15290,8 @@ GameObject:
   m_Component:
   - component: {fileID: 853830525}
   - component: {fileID: 853830528}
-  - component: {fileID: 853830527}
   - component: {fileID: 853830526}
+  - component: {fileID: 853830527}
   m_Layer: 0
   m_Name: IntroBG
   m_TagString: Untagged
@@ -15327,7 +15334,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 853830524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c432b6348a9dc0845beea064083a65a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 02153b0e32160da4499e739e13566c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_distToPlayer: 3.4028235e+38
@@ -15335,6 +15342,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 0}
   m_name: 
   m_playOnAwake: 1
+  m_introDialogue: 1
   m_dialogue:
   - Long ago in an empty world, a goddess used four crystals to create life...
   - ...Earth, Water, Fire, and Magic.
@@ -15364,8 +15372,8 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.5
-          m_StringArgument: Exterior
+          m_FloatArgument: 2
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!212 &853830528
@@ -16925,6 +16933,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: b085b658bed53304e8ec60d44173a69d, type: 3}
   m_name: Willow
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - They destroyed everything...
   - I can't dwell on this, I need to retrieve the crystals before things get any
@@ -19048,6 +19057,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Brilliant!
   - To finish, I'd like you to show me how good you are at targeting and summoning
@@ -29459,6 +29469,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Everyone into position!
   - Today we'll be moving onto crystal training, you'll need to combine the stances
@@ -32432,6 +32443,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
   m_name: Teacher
   m_playOnAwake: 1
+  m_introDialogue: 0
   m_dialogue:
   - Amazing!
   - You've done spectacularly at showing your synchronisation with the crystal's
@@ -33590,6 +33602,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 21300000, guid: 6fd9d5e4cf4f05547a336513c1007500, type: 3}
   m_name: Enya
   m_playOnAwake: 0
+  m_introDialogue: 0
   m_dialogue:
   - We should hurry, I don't want to be late!
   m_endEvent:
