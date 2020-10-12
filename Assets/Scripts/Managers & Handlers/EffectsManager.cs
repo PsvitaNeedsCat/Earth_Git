@@ -66,6 +66,11 @@ public class EffectsManager : MonoBehaviour
         // Create effect, and modify transform
         GameObject newEffect = Instantiate(effectPrefab, s_transform);
         Destroy(newEffect, _destroyAfter);
+
+        // Set the scaling mode of the 
+        ParticleSystem.MainModule mainModule = newEffect.GetComponent<ParticleSystem>().main;
+        mainModule.scalingMode = ParticleSystemScalingMode.Hierarchy;
+
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;
         newEffect.transform.localScale = _scale;
