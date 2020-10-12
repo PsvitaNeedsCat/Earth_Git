@@ -35,6 +35,10 @@ public class Projectile : MonoBehaviour
         }
 
         MessageBus.TriggerEvent(m_destroyedSignal);
+        if (m_destroyedSignal == EMessageType.projectileSplash)
+        {
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, transform.rotation, Vector3.one, 1.0f);
+        }
         Destroy(gameObject);
     }
 }

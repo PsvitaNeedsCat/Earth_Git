@@ -136,6 +136,7 @@ public class CobraChase : CobraBehaviour
         {
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
             MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.cobraPotLand, landingPos, transform.rotation, Vector3.one, 1.0f);
         });
     }
 

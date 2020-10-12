@@ -67,13 +67,18 @@ public class ToadSpitProjectile : MonoBehaviour
         }
 
         // If not a fragment, return aimed tile to the spit attack's dictionary
+        Vector3 effectScale = Vector3.one * 0.5f;
         if (!m_isFragment)
         {
             ToadSpit.ProjectileDestroyed(m_aimedTile);
+            effectScale = Vector3.one;
         }
 
+        Quaternion rotation = Quaternion.Euler(new Vector3(270.0f, 0.0f, 0.0f));
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, rotation, effectScale);
+
         MessageBus.TriggerEvent(EMessageType.projectileSplash);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void Split()
@@ -88,7 +93,7 @@ public class ToadSpitProjectile : MonoBehaviour
             pos.y += 0.5f;
             fragment.transform.position = pos;
             fragment.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-            fragment.transform.DOScale(0.7f, 0.07f).SetEase(Ease.InElastic);
+            fragment.transform.DOScale(0.5f, 0.07f).SetEase(Ease.InElastic);
             fragment.transform.parent = transform.parent;
 
             // Projectile motion

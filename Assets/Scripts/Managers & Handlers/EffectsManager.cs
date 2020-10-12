@@ -15,7 +15,9 @@ public class EffectsManager : MonoBehaviour
         glassBreak,
         potBreak,
         statueBreak,
-        cobraPotBreak
+        cobraPotBreak,
+        cobraPotLand,
+        waterProjectileDestroyed,
     }
 
     private readonly string m_effectsPath = "Effects";
@@ -45,12 +47,17 @@ public class EffectsManager : MonoBehaviour
     }
 
     // Create an instance of the specified type of effect, and returns a reference to the object created
-    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3 _scale, float _destroyAfter, Material _override = null)
+    public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3? _scale = null, float _destroyAfter = 1.0f, Material _override = null)
     {
-        if (s_transform = null)
+        if (s_transform == null)
         {
             Debug.LogError("Tried to spawn an effect without an instance of effects manager, please place the prefab in the scene");
             return null;
+        }
+
+        if (_scale == null)
+        {
+            _scale = Vector3.one;
         }
 
         // Try to find effect in dictionary
@@ -68,7 +75,7 @@ public class EffectsManager : MonoBehaviour
         Destroy(newEffect, _destroyAfter);
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;
-        newEffect.transform.localScale = _scale;
+        newEffect.transform.localScale = (Vector3)_scale;
 
         if (_override != null)
         {
