@@ -35,7 +35,9 @@ public class Player : MonoBehaviour
     private bool m_inTutorial = false;
     private bool m_firstPerson = false;
     [SerializeField] private SkinnedMeshRenderer m_meshRenderer = null;
-    [SerializeField] private Material[] m_playerMaterials = new Material[4];
+    [SerializeField] private Texture[] m_playerTextures;
+    private Coroutine m_materialBlendSequence;
+    private Coroutine m_materialBlendSequenceTwo;
 
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
@@ -249,6 +251,8 @@ public class Player : MonoBehaviour
     // Changes the effect without any sound
     public void ChangeEffectSilent(EChunkEffect _effect)
     {
+        EChunkEffect oldEffect = s_currentEffect;
+
         // Change the player's power
         s_currentEffect = _effect;
 
@@ -261,8 +265,36 @@ public class Player : MonoBehaviour
             m_powerParticles[(int)_effect].Play();
         }
 
-        // Material
-        m_meshRenderer.material = m_playerMaterials[(int)_effect];
+        // Stop active coroutines
+        if (m_materialBlendSequence != null)
+        {
+            StopCoroutine(m_materialBlendSequence);
+        }
+
+        if (m_materialBlendSequenceTwo != null)
+        {
+            StopCoroutine(m_materialBlendSequenceTwo);
+
+            // Set texture to blend from for next blend
+            m_meshRenderer.material.SetTexture("_MainTex", m_playerTextures[(int)oldEffect]);
+        }
+
+        m_materialBlendSequence = StartCoroutine(BlendMaterialTo((int)_effect));
+    }
+
+    private IEnumerator BlendMaterialTo(int _newEffect)
+    {
+        // Set texture  to  blend to, reset blend parameter
+        m_meshRenderer.material.SetFloat("_TextureBlend", 0.0f);
+        m_meshRenderer.material.SetTexture("_MainTexTwo", m_playerTextures[_newEffect]);
+
+        // Change blend parameter
+        m_materialBlendSequenceTwo = StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_meshRenderer.material, "_TextureBlend", 1.0f, 0.2f));
+        
+        yield return new WaitForSeconds(1.0f);
+
+        m_meshRenderer.material.SetTexture("_MainTex", m_playerTextures[_newEffect]);
+        m_meshRenderer.material.SetFloat("_TextureBlend", 0.0f);
     }
 
     // Checks if the power in the given d-pad direction is unlocked and selects it

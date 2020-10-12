@@ -111,7 +111,7 @@ public class Chunk : MonoBehaviour
         if (boss)
         {
             boss.OnHit();
-            Destroy(gameObject);
+            OnDeath();
             return;
         }
         
@@ -131,7 +131,7 @@ public class Chunk : MonoBehaviour
         if (cobra)
         {
             CobraHealth.Damage();
-            Destroy(gameObject);
+            OnDeath();
             return;
         }
 
@@ -139,7 +139,7 @@ public class Chunk : MonoBehaviour
         if (clone)
         {
             clone.Damage();
-            Destroy(gameObject);
+            OnDeath();
             return;
         }
 
@@ -148,7 +148,7 @@ public class Chunk : MonoBehaviour
         if (fireBug && !other.isTrigger)
         {
             fireBug.Hit(m_currentEffect);
-            Destroy(gameObject);
+            OnDeath();
             return;
         }
 
