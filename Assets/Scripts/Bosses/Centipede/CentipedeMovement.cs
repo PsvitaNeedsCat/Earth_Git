@@ -237,6 +237,11 @@ public class CentipedeMovement : MonoBehaviour
         return false;
     }
 
+    public static int GetCurrentTargetIndex()
+    {
+        return s_currentTargetIndex;
+    }
+
     private static void GetPath()
     {
         // Will be incremented before use

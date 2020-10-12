@@ -26,6 +26,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
     public CentipedeHead m_head;
     [SerializeField] private GameObject m_movingEffects = null;
     [SerializeField] private GameObject m_fireEffects = null;
+    [SerializeField] private List<GameObject> m_tunnelLights;
 
     private int m_currentTunnelIndex = 0;
     private int m_chunksHit = 0;
@@ -84,6 +85,24 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         // Wait for centipede to reach a target
         while (!CentipedeMovement.s_atTarget)
         {
+            int currentTargetIndex = CentipedeMovement.GetCurrentTargetIndex();
+
+            // If in tunnel
+            if (currentTargetIndex == 1)
+            {
+                m_tunnelLights[m_currentTunnelIndex].SetActive(true);
+                float distToEntrance = (m_head.transform.position - m_tunnelLights[m_currentTunnelIndex].transform.position).magnitude;
+                float lightQuotient = Mathf.Clamp01(1.0f - (distToEntrance / 7.0f));
+                Material lightMat = m_tunnelLights[m_currentTunnelIndex].GetComponent<MeshRenderer>().material;
+                Color lightColor = lightMat.color;
+                lightColor.a = lightQuotient;
+                lightMat.color = lightColor;
+            }
+            else
+            {
+                m_tunnelLights[m_currentTunnelIndex].SetActive(false);
+            }
+
             yield return null;
         }
 
