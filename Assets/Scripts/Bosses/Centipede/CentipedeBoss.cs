@@ -8,12 +8,14 @@ public class CentipedeBoss : MonoBehaviour
     public static CentipedeSettings s_settings;
     public static bool s_dropLava = false;
     public List<CentipedeBehaviour> m_behaviourLoop;
+    public GameObject m_centipedeCam;
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
     private int m_behaviourLoopCount = 0;
     private CentipedeBehaviour m_currentBehaviour;
     private CentipedeHealth m_centipedeHealth;
+    private bool m_centipedeCamActive = false;
 
     // Initialise variables
     private void Awake()
@@ -98,6 +100,22 @@ public class CentipedeBoss : MonoBehaviour
         if (m_currentBehaviourIndex == 0)
         {
             m_behaviourLoopCount++;
+        }
+    }
+
+    public void ToggleCentipedeCam()
+    {
+        m_centipedeCamActive = !m_centipedeCamActive;
+
+        if (m_centipedeCamActive)
+        {
+            Camera.main.orthographic = false;
+            m_centipedeCam.SetActive(true);
+        }
+        else
+        {
+            Camera.main.orthographic = true;
+            m_centipedeCam.SetActive(false);
         }
     }
 }

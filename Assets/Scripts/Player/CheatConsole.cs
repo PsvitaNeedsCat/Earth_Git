@@ -46,6 +46,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<int> ROOM;
     public static CheatCommand NEXT_ROOM;
     public static CheatCommand PREV_ROOM;
+    public static CheatCommand CENTIPEDE_CAM;
 
     public List<object> m_commandList;
 
@@ -291,6 +292,16 @@ public class CheatConsole : MonoBehaviour
             RoomManager.Instance.ForceLoadRoom(RoomManager.Instance.GetCurrentRoom() - 1);
         });
 
+        CENTIPEDE_CAM = new CheatCommand("centipede_cam", "Gives the player a camera attached to the centipede", "centipede_cam", () =>
+        {
+            CentipedeBoss centipede = FindObjectOfType<CentipedeBoss>();
+
+            if (centipede)
+            {
+                centipede.ToggleCentipedeCam();
+            }
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -319,7 +330,8 @@ public class CheatConsole : MonoBehaviour
             PLAYER_SCALE,
             ROOM,
             NEXT_ROOM,
-            PREV_ROOM
+            PREV_ROOM,
+            CENTIPEDE_CAM
         };
     }
 
