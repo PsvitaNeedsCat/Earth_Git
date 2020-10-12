@@ -2700,8 +2700,8 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Great work, Willow!
-  - Now I would like you to channel the crystal's force and punch the chunk forwards.
+  - Well done!
+  - Now channel its force to punch the rock forwards, the key is not holding back!
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -5410,139 +5410,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 238120472}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &240327138
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 240327139}
-  - component: {fileID: 240327142}
-  - component: {fileID: 240327141}
-  - component: {fileID: 240327140}
-  m_Layer: 5
-  m_Name: TextBG
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &240327139
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240327138}
-  m_LocalRotation: {x: 0.41717872, y: 0.2996232, z: -0.14789467, w: 0.84517163}
-  m_LocalPosition: {x: 4.24, y: 5.14, z: 5.22}
-  m_LocalScale: {x: 50, y: 50, z: 50}
-  m_Children: []
-  m_Father: {fileID: 1680394409}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 52.542004, y: 39.04, z: 0}
---- !u!114 &240327140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240327138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c432b6348a9dc0845beea064083a65a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_distToPlayer: 3.4028235e+38
-  m_prompt: {fileID: 0}
-  m_characterSprite: {fileID: 0}
-  m_name: 
-  m_playOnAwake: 1
-  m_dialogue:
-  - Long ago, when the world was nothing, four crystals came together to create life.
-  - Earth, Water, Fire, and the Magic that holds them together.
-  - These four crystals were placed in the care of a people who dedicated their lives
-    and bloodlines to protecting them.
-  - With time, the people were able to harness the powers of the crystals in their
-    day to day lives.
-  - It became ritual for the children of the village to train with them for when
-    they would become guardians.
-  - Should the crystals ever fall into the wrong hands, the world as we know it would
-    be thrown out of balance and into chaos...
-  m_endEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1245379409}
-        m_MethodName: SetMovement
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1680394408}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Exterior
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!23 &240327141
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240327138}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a20bed2fbd9842a468661243f6567d31, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &240327142
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240327138}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &251457175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7988,9 +7855,9 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Fantastic!
-  - Now, I'd like you to strike the chunk again a couple of times to break it while
-    it's up against this other chunk.
+  - Great work!
+  - Now, I'd like you to strike the rock again while it's against a barrier like
+    this.
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -9380,8 +9247,9 @@ MonoBehaviour:
   m_dialogue:
   - This is an elemental crystal. It is the duty of this village to keep them safe.
   - This one here is the earth crystal, which we will be using in our training today.
-  - Now, use the stances we've been practicing to raise a chunk from the summoning
-    tile on the floor in front of you. Go on, then!
+  - Willow, we'll start with you.
+  - Channel its power to raise a rock from the summoning tile on the floor in front
+    of you.
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -10041,37 +9909,37 @@ PrefabInstance:
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.3979129
+      value: 0.42578602
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.3957968
+      value: 0.3464172
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5834125
+      value: -0.5212691
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5870605
+      value: 0.653437
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.06283348
+      value: -0.06283349
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.000000076293944
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9191125632061463203, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000000009536743
       objectReference: {fileID: 0}
     - target: {fileID: -8478382936923737623, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10181,22 +10049,22 @@ PrefabInstance:
     - target: {fileID: -6742372529940939128, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0000029066384
+      value: -0.034734376
       objectReference: {fileID: 0}
     - target: {fileID: -6742372529940939128, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00007204958
+      value: -0.037725266
       objectReference: {fileID: 0}
     - target: {fileID: -6742372529940939128, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.121621914
+      value: 0.1492752
       objectReference: {fileID: 0}
     - target: {fileID: -6742372529940939128, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9925765
+      value: 0.9874651
       objectReference: {fileID: 0}
     - target: {fileID: -4995983142119281858, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10321,22 +10189,22 @@ PrefabInstance:
     - target: {fileID: -3770548399102464842, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000002587443
+      value: -0.029776385
       objectReference: {fileID: 0}
     - target: {fileID: -3770548399102464842, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000071980845
+      value: -0.00648193
       objectReference: {fileID: 0}
     - target: {fileID: -3770548399102464842, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.12838063
+      value: -0.14541613
       objectReference: {fileID: 0}
     - target: {fileID: -3770548399102464842, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99172497
+      value: 0.9889012
       objectReference: {fileID: 0}
     - target: {fileID: -3359289005819795502, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10416,22 +10284,22 @@ PrefabInstance:
     - target: {fileID: -2470367918977350695, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.16531622
+      value: -0.17601593
       objectReference: {fileID: 0}
     - target: {fileID: -2470367918977350695, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.26480505
+      value: 0.25781673
       objectReference: {fileID: 0}
     - target: {fileID: -2470367918977350695, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6517824
+      value: -0.6229468
       objectReference: {fileID: 0}
     - target: {fileID: -2470367918977350695, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6911791
+      value: 0.71727705
       objectReference: {fileID: 0}
     - target: {fileID: -2207962003890483107, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10456,22 +10324,22 @@ PrefabInstance:
     - target: {fileID: -1470817754536382322, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.3395407
+      value: -0.3636297
       objectReference: {fileID: 0}
     - target: {fileID: -1470817754536382322, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.41702896
+      value: -0.38617656
       objectReference: {fileID: 0}
     - target: {fileID: -1470817754536382322, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.59892905
+      value: -0.53797704
       objectReference: {fileID: 0}
     - target: {fileID: -1470817754536382322, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5933658
+      value: 0.65515023
       objectReference: {fileID: 0}
     - target: {fileID: -1470817754536382322, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10591,22 +10459,22 @@ PrefabInstance:
     - target: {fileID: -288083660246382124, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.10324171
+      value: -0.10300641
       objectReference: {fileID: 0}
     - target: {fileID: -288083660246382124, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.040544406
+      value: 0.041023314
       objectReference: {fileID: 0}
     - target: {fileID: -288083660246382124, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.23995759
+      value: -0.23531784
       objectReference: {fileID: 0}
     - target: {fileID: -288083660246382124, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9644261
+      value: 0.96557355
       objectReference: {fileID: 0}
     - target: {fileID: 622876380987533600, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10651,22 +10519,22 @@ PrefabInstance:
     - target: {fileID: 3372790155275112283, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.000000002292167
+      value: -0.1332321
       objectReference: {fileID: 0}
     - target: {fileID: 3372790155275112283, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000076666005
+      value: 0.009890243
       objectReference: {fileID: 0}
     - target: {fileID: 3372790155275112283, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.014971412
+      value: 0.020156052
       objectReference: {fileID: 0}
     - target: {fileID: 3372790155275112283, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99988794
+      value: 0.99083054
       objectReference: {fileID: 0}
     - target: {fileID: 5190329841665757411, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10756,22 +10624,22 @@ PrefabInstance:
     - target: {fileID: 7039635657303087584, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.091261
+      value: 0.09083273
       objectReference: {fileID: 0}
     - target: {fileID: 7039635657303087584, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.08172917
+      value: -0.08213401
       objectReference: {fileID: 0}
     - target: {fileID: 7039635657303087584, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.30313316
+      value: -0.29858366
       objectReference: {fileID: 0}
     - target: {fileID: 7039635657303087584, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.94504076
+      value: 0.9464942
       objectReference: {fileID: 0}
     - target: {fileID: 7253678525837369328, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -10866,22 +10734,22 @@ PrefabInstance:
     - target: {fileID: 7848112745657160939, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.65178245
+      value: 0.63323635
       objectReference: {fileID: 0}
     - target: {fileID: 7848112745657160939, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.26480502
+      value: 0.26033095
       objectReference: {fileID: 0}
     - target: {fileID: 7848112745657160939, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16531616
+      value: 0.17227583
       objectReference: {fileID: 0}
     - target: {fileID: 7848112745657160939, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6911791
+      value: 0.70820946
       objectReference: {fileID: 0}
     - target: {fileID: 9082575522439318035, guid: b11f0ba2d76dc2742841fb7d42d796b5,
         type: 3}
@@ -11650,8 +11518,6 @@ PlayableDirector:
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
-  - key: {fileID: -3235050675766032841, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
-    value: {fileID: 1756981254}
   - key: {fileID: 8790820915190781197, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
     value: {fileID: 687288468}
   - key: {fileID: -5159102575057788044, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
@@ -11660,6 +11526,8 @@ PlayableDirector:
     value: {fileID: 1371202619}
   - key: {fileID: 1573555983758235818, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
     value: {fileID: 1633584792}
+  - key: {fileID: 2923578795415942180, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
+    value: {fileID: 1103199588}
   m_ExposedReferences:
     m_References: []
 --- !u!1001 &599356038
@@ -14069,7 +13937,7 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Protect the crystals!
+  - Everyone, watch out!
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -15436,7 +15304,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 1680394409}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -13.636001, y: 39.04, z: 0}
 --- !u!114 &853830526
 MonoBehaviour:
@@ -15468,16 +15336,13 @@ MonoBehaviour:
   m_name: 
   m_playOnAwake: 1
   m_dialogue:
-  - Long ago, when the world was nothing, four crystals came together to create life.
-  - Earth, Water, Fire, and the Magic that holds them together.
-  - These four crystals were placed in the care of a people who dedicated their lives
-    and bloodlines to protecting them.
-  - With time, the people were able to harness the powers of the crystals in their
-    day to day lives.
-  - It became ritual for the children of the village to train with them for when
-    they would become guardians.
-  - Should the crystals ever fall into the wrong hands, the world as we know it would
-    be thrown out of balance and into chaos...
+  - Long ago in an empty world, a goddess used four crystals to create life...
+  - ...Earth, Water, Fire, and Magic.
+  - Due to their power, a dedicated group of people chose a life of solitude atop
+    a mountain to protect them.
+  - With time, the people were able to harness the power of the crystals, and passed
+    them down through the generations.
+  - Should the crystals ever be lost, something terrible would surely happen...
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -15500,7 +15365,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0.5
-          m_StringArgument: 
+          m_StringArgument: Exterior
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!212 &853830528
@@ -17061,10 +16926,11 @@ MonoBehaviour:
   m_name: Willow
   m_playOnAwake: 1
   m_dialogue:
-  - Oh no! Those monsters knocked everyone unconscious.
-  - Someone's got to get back those crystals.
-  - And I guess I'm going to have to be that someone.
-  - It seems they missed the earth crystal. I'll take that with me.
+  - They destroyed everything...
+  - I can't dwell on this, I need to retrieve the crystals before things get any
+    worse.
+  - I'm sorry everyone...
+  - It looks like they missed the Earth Crystal, maybe I can use it to get them back...
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -18534,7 +18400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1050031897
 Transform:
   m_ObjectHideFlags: 0
@@ -18830,6 +18696,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091035387}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1103199586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2053017480412241932, guid: 5e0277e0aed87da4bb6e5660bdfd2345,
+    type: 3}
+  m_PrefabInstance: {fileID: 1998111982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1103199588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103199586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: e5c3b2cfeb76dc84ca735fc4a203c747, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1176640562}
+          m_MethodName: ForceLoadRoom
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1104204210
 GameObject:
   m_ObjectHideFlags: 0
@@ -19148,12 +19049,12 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Brilliant, Willow!
-  - Finally, I'd like you to show me how good you are at targeting chunks around
-    you.
-  - You'll have to focus on the chunks you create to keep them stable.
-  - I'd expect a novice to be able to keep 3 chunks stable. Why don't you try raise
-    3 for me then?
+  - Brilliant!
+  - To finish, I'd like you to show me how good you are at targeting and summoning
+    the rocks around you.
+  - You'll have to focus on the rocks you create to keep them stable.
+  - I'd expect a novice to be able to summon up to three rocks at a time. Why don't
+    you try summoning some?
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -19866,7 +19767,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1998111982}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1103199586}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37dacdcb40b753c409a93184141b83d8, type: 3}
@@ -20467,7 +20368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1230811571
 Transform:
   m_ObjectHideFlags: 0
@@ -20709,7 +20610,7 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 0}
     value: {fileID: 0}
-  - key: {fileID: -3235050675766032841, guid: 899d87a93bd5abf40aeffe87348b6ca4, type: 2}
+  - key: {fileID: 0}
     value: {fileID: 0}
   - key: {fileID: -4925171864034145877, guid: 737d23160bd7b3648af5cd34356c16af, type: 2}
     value: {fileID: 0}
@@ -25527,6 +25428,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 0.98872954
       objectReference: {fileID: 0}
+    - target: {fileID: 5372937954149706687, guid: e8d870656e681f543b6fbaf6456e019a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 28744af39a6cf4542aa67942507af14a, type: 2}
     - target: {fileID: 5463014590168698717, guid: e8d870656e681f543b6fbaf6456e019a,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -27421,7 +27327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1617708523
 Transform:
   m_ObjectHideFlags: 0
@@ -27932,7 +27838,6 @@ Transform:
   - {fileID: 1136364221}
   - {fileID: 1934982962}
   - {fileID: 795994612}
-  - {fileID: 1756981256}
   m_Father: {fileID: 385699180}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28303,7 +28208,6 @@ Transform:
   m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 240327139}
   - {fileID: 853830525}
   m_Father: {fileID: 1617708523}
   m_RootOrder: 5
@@ -29432,70 +29336,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1756512938}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1756981254
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1756981256}
-  - component: {fileID: 1756981255}
-  m_Layer: 0
-  m_Name: Dialogue8
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1756981255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756981254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c432b6348a9dc0845beea064083a65a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_distToPlayer: 3.4028235e+38
-  m_prompt: {fileID: 0}
-  m_characterSprite: {fileID: 21300000, guid: 490d8c3d4b148c14ba3cd7e97879f13f, type: 3}
-  m_name: Teacher
-  m_playOnAwake: 1
-  m_dialogue:
-  - Quick, everyone hide!
-  m_endEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1176640562}
-        m_MethodName: ForceLoadRoom
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!4 &1756981256
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1756981254}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1665026296}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1757299190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29620,10 +29460,9 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Positions!
-  - Today we'll be moving onto crystal training.
-  - You'll have to combine the stances you've been learning with the power of the
-    crystals.
+  - Everyone into position!
+  - Today we'll be moving onto crystal training, you'll need to combine the stances
+    you've been learning with the power of the crystals.
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
@@ -32594,9 +32433,9 @@ MonoBehaviour:
   m_name: Teacher
   m_playOnAwake: 1
   m_dialogue:
-  - Well done!
+  - Amazing!
   - You've done spectacularly at showing your synchronisation with the crystal's
-    power.
+    power, now we'll move onto-
   m_endEvent:
     m_PersistentCalls:
       m_Calls:
