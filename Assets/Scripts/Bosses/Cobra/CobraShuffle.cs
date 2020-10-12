@@ -9,6 +9,7 @@ using UnityEditor;
 public class CobraShuffle : CobraBehaviour
 {
     public GameObject m_cobraMesh;
+    public GameObject m_bossPotEyes;
 
     public static int s_bossPotIndex = 2;
     private static int s_nextBossPotIndex = 2;
@@ -88,6 +89,8 @@ public class CobraShuffle : CobraBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
+        m_bossPotEyes.SetActive(true);
+
         // Jump into the middle
         StartCoroutine(JumpIn());
     }
@@ -147,6 +150,11 @@ public class CobraShuffle : CobraBehaviour
         // Do move sequence
         for (int i = 0; i < m_cobraMoves.Count; i++)
         {
+            if (i == 1)
+            {
+                m_bossPotEyes.SetActive(false);
+            }
+
             CobraMoveDef move = m_cobraMoves[i];
             float waitFor = ExecuteMove(move.m_actionType, move.m_moveType);
             yield return new WaitForSeconds(waitFor);
