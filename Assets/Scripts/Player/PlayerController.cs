@@ -361,9 +361,12 @@ public class PlayerController : MonoBehaviour
         Destroy(m_pauseMenu);
 
         // Reenable event systems
-        for (int i = 0; i < m_eventSystems.Length; i++)
+        if (m_eventSystems != null)
         {
-            m_eventSystems[i].enabled = true; 
+            for (int i = 0; i < m_eventSystems.Length; i++)
+            {
+                m_eventSystems[i].enabled = true;
+            }
         }
     }
 

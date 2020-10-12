@@ -25,6 +25,11 @@ public static class Extensions
 
     public static Vector3 RelativeDirection2(this Camera _camera, Vector2 _direction)
     {
+        if (!_camera)
+        {
+            return _direction;
+        }
+
         // Get yaw
         float yaw = _camera.transform.rotation.eulerAngles.y;
 
