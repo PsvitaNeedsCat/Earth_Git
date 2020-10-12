@@ -8,11 +8,12 @@ public class Lava : MonoBehaviour
     private GlobalTileSettings m_settings;
     private Collider m_lavaTrigger;
     [SerializeField] private Collider m_lavaCollider;
-    [SerializeField] private MeshRenderer m_meshRenderer;
+    [SerializeField] protected MeshRenderer m_meshRenderer;
     [SerializeField] private Material m_stoneMat;
     [SerializeField] private ParticleSystem m_particles;
 
     protected bool m_tweeningChunk = false;
+    protected bool m_damagePlayer = true;
 
     protected virtual void Awake()
     {
@@ -25,7 +26,7 @@ public class Lava : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerController player = other.GetComponent<PlayerController>();
-        if (player)
+        if (player && m_damagePlayer)
         {
             // Push player back
             Vector3 dir = (player.transform.position - transform.position);
