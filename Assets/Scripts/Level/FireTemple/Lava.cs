@@ -8,7 +8,7 @@ public class Lava : MonoBehaviour
     private GlobalTileSettings m_settings;
     private Collider m_lavaTrigger;
     [SerializeField] private Collider m_lavaCollider;
-    [SerializeField] private MeshRenderer m_meshRenderer;
+    [SerializeField] protected MeshRenderer m_meshRenderer;
     [SerializeField] private Material m_stoneMat;
     [SerializeField] private ParticleSystem m_particles;
 
