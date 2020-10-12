@@ -28,7 +28,11 @@ public class CentipedeLavaTrail : Lava
         StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_meshRenderer.material, "_Color", Vector4.zero, CentipedeBoss.s_settings.m_lavaLifetime));
         StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_meshRenderer.material, "_Emission", Vector4.zero, CentipedeBoss.s_settings.m_lavaLifetime));
 
-        yield return new WaitForSeconds(CentipedeBoss.s_settings.m_lavaLifetime);
+        yield return new WaitForSeconds(CentipedeBoss.s_settings.m_lavaLifetime * 0.75f);
+
+        m_damagePlayer = false;
+
+        yield return new WaitForSeconds(CentipedeBoss.s_settings.m_lavaLifetime * 0.25f);
 
         // Wait to destroy tile
         while (m_tweeningChunk)
