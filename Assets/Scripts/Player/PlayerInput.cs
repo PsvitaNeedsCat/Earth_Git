@@ -47,10 +47,10 @@ public class PlayerInput : MonoBehaviour
         // Controls //
 
         // Movement
-        s_controls.PlayerMovement.Movement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerMovement.Movement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerMovement.KeyboardMovement.performed += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerMovement.KeyboardMovement.canceled += ctx => m_player.SetLAnalogDirection(ctx.ReadValue<Vector2>());
+        s_controls.PlayerMovement.Movement.performed += ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+        s_controls.PlayerMovement.Movement.canceled += ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+        s_controls.PlayerMovement.KeyboardMovement.performed += ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+        s_controls.PlayerMovement.KeyboardMovement.canceled += ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
 
         s_controls.PlayerMovement.Jump.performed += _ => m_player.Jump();
 
@@ -61,10 +61,10 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         s_controls.PlayerCombat.Raise.performed += _ => m_player.BeginRaiseAnimation();
         // Target
-        s_controls.PlayerCombat.Target.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerCombat.Target.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerCombat.KeyboardTarget.performed += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
-        s_controls.PlayerCombat.KeyboardTarget.canceled += ctx => m_player.SetRAnalogDirection(ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.Target.performed += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.Target.canceled += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.KeyboardTarget.performed += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.KeyboardTarget.canceled += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
         // Change powers
         if (m_allowPowerSelection)
         {
@@ -93,10 +93,65 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (s_instance == this)
+        if (s_controls != null)
         {
-            s_controls.Disable(); 
+            // Movement
+            s_controls.PlayerMovement.Movement.performed -= ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+            s_controls.PlayerMovement.Movement.canceled -= ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+            s_controls.PlayerMovement.KeyboardMovement.performed -= ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+            s_controls.PlayerMovement.KeyboardMovement.canceled -= ctx => TrySetAnalogDirection(true, ctx.ReadValue<Vector2>());
+
+            s_controls.PlayerMovement.Jump.performed -= _ => m_player.Jump();
+
+            // Interact
+            s_controls.PlayerMovement.Interact.performed -= _ => m_player.TryInteract();
+            // Punch
+            s_controls.PlayerCombat.Punch.performed -= _ => m_player.BeginPunchAnimation();
+            // Raise Chunk
+            s_controls.PlayerCombat.Raise.performed -= _ => m_player.BeginRaiseAnimation();
+            // Target
+            s_controls.PlayerCombat.Target.performed -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.Target.canceled -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.KeyboardTarget.performed -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.KeyboardTarget.canceled -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            // Change powers
+            if (m_allowPowerSelection)
+            {
+                s_controls.PlayerCombat.PowerSelection.performed -= ctx => m_player.TryChangeEffect(ctx.ReadValue<Vector2>());
+                s_controls.PlayerCombat.PowerRotation.performed -= ctx => m_player.RotateCurrentPower(ctx.ReadValue<float>());
+            }
+            // Pause
+            s_controls.PlayerMovement.Pause.performed -= _ => m_player.Pause();
+            s_controls.Pause.UnPause.performed -= _ => m_player.UnPause();
+            // Dialogue
+            s_controls.Dialogue.Continue.performed -= _ => m_player.ContinueDialogue();
+
+            // Cheat console
+            s_controls.Cheats.ToggleConsole.performed -= _ => m_cheatConsole.OnToggleDebug();
+            s_controls.Cheats.Return.performed -= _ => m_cheatConsole.OnReturn();
+            s_controls.Cheats.PreviousEntry.performed -= _ => m_cheatConsole.PreviousEntry();
+            s_controls.Cheats.NextEntry.performed -= _ => m_cheatConsole.NextEntry();
+
+            s_controls.Disable();
         }
+    }
+
+    // Tries to set the analog stick direction. Will return instantly if the player is null
+    private void TrySetAnalogDirection(bool _leftAnalog, Vector2 _direction)
+    {
+        if (!m_player)
+        {
+            return;
+        }
+
+        if (_leftAnalog) // Left
+        {
+            m_player.SetLAnalogDirection(_direction);
+            return;
+        }
+        
+        // Right
+        m_player.SetRAnalogDirection(_direction);
     }
 
     public void SetMovement(bool _active)
