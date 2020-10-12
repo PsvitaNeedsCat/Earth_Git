@@ -15,6 +15,7 @@ public class CobraChase : CobraBehaviour
     private int m_timesJumped = 0;
     private Player m_playerRef;
     private Transform m_moveTransform; // Use this transform to move the cobra
+    private bool m_dead = false;
 
     protected override void Awake()
     {
@@ -41,44 +42,13 @@ public class CobraChase : CobraBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // Turn on the drop shadow
-        // m_fallingDropShadow.SetActive(true);
         m_dropShadow.gameObject.SetActive(true);
         m_dropShadow.SetDropShadow(true);
 
-        //bool landed = false;
-
-        // Jump up in the air
-        // m_mesh.transform.DOPunchPosition(Vector3.up * CobraBoss.s_settings.m_bigJumpHeight, CobraBoss.s_settings.m_bigJumpDuration, vibrato: 0, elasticity: 0).SetEase(Ease.OutCubic);
-        // m_moveTransform.DOMove(m_arenaCenter.position - Vector3.up * 0.49f, CobraBoss.s_settings.m_bigJumpDuration).OnComplete(() => landed = true);
-
-        // m_mesh.transform.DOMove()
-
-        // Update the drop shadow until we've landed
-        //while (!landed)
-        //{
-        //    // UpdateDropShadow();
-        //    yield return null;
-        //}
-
-        // MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
-        // ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
-
-        // Disable drop shadow
-        // m_fallingDropShadow.SetActive(false);
-
         m_stompHurtbox.SetActive(true);
-        // m_chasingDropShadow.SetActive(true);
 
         StartCoroutine(Chase());
     }
-
-    //private void UpdateDropShadow()
-    //{
-    //    // Update scale of drop shadow based on distance to the cobra
-    //    float dist = Mathf.Abs(m_mesh.transform.position.y - m_arenaCenter.position.y);
-    //    float quot = Mathf.Clamp01(dist / CobraBoss.s_settings.m_bigJumpHeight);
-    //    m_fallingDropShadow.transform.localScale = Vector3.one * Mathf.Lerp(CobraBoss.s_settings.m_dropShadowMaxScale, CobraBoss.s_settings.m_dropShadowMinScale, quot);
-    //}
 
     // Returns the direction from the cobra to the player (ignoring changes on the y axis)
     private Vector3 DirToPlayer()
@@ -106,15 +76,28 @@ public class CobraChase : CobraBehaviour
         // Wait for last jump to complete before dying
         yield return new WaitForSeconds(waitTime);
 
+        Death();
+
+        Time.timeScale = 0.5f;
+
+        DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.5f, 0.5f).SetEase(Ease.OutSine);
+
+        yield return new WaitForSeconds(1.0f);
+
+        DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1.0f, 0.5f).SetEase(Ease.OutSine);
+
+        yield return new WaitForSeconds(1.0f);
+
+        transform.parent.gameObject.SetActive(false);
+
         // Die and activate the crystal
         m_crystal.SetActive(true);
         m_crystal.GetComponentInChildren<Crystal>().Collected(m_playerRef);
-        Death();
     }
 
     private void Update()
     {
-        if (!(m_currentState == EBehaviourState.running))
+        if (!(m_currentState == EBehaviourState.running) || m_dead)
         {
             return;
         }
@@ -154,22 +137,19 @@ public class CobraChase : CobraBehaviour
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
             MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
         });
-
-        // Debug.Log("Cobra chase moving to player: " + dir);
-
-        // m_moveTransform.DOMove(m_moveTransform.position + dir, CobraBoss.s_settings.m_jumpDuration);
-        // m_mesh.DOPunchPosition(Vector3.up * 1.0f, CobraBoss.s_settings.m_jumpDuration).SetEase(Ease.InOutElastic);
     }
 
     private void Death()
     {
+        m_dead = true;
+
         MessageBus.TriggerEvent(EMessageType.cobraDeath);
         MessageBus.TriggerEvent(EMessageType.potDestroyed);
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.potBreak, m_moveTransform.position, m_moveTransform.rotation, Vector3.one * 2.5f, 4.0f);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.cobraPotBreak, m_moveTransform.position, m_moveTransform.rotation, Vector3.one * 2.5f, 4.0f);
         // Destroy(transform.parent.parent.gameObject);
         m_dropShadow.SetDropShadow(false);
         m_dropShadow.m_dropShadow.SetActive(false);
-        transform.parent.gameObject.SetActive(false);
+        m_mesh.localScale = Vector3.zero;
     }
 
     public override void CompleteBehaviour()
