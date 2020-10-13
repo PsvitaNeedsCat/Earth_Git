@@ -18,6 +18,10 @@ public class EffectsManager : MonoBehaviour
         cobraPotBreak,
         cobraPotLand,
         waterProjectileDestroyed,
+        rockToadProjectileDestroyed,
+        sandProjectileDestroyed,
+        centipedeBurrow,
+        toadSplash,
     }
 
     private readonly string m_effectsPath = "Effects";

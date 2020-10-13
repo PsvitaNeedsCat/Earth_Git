@@ -51,12 +51,6 @@ public class ToadSpitProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // If allowed, split
-        if (m_shouldSplit && !m_isFragment)
-        {
-            Split();
-        }
-
         HealthComponent playerHealthComp = other.GetComponent<HealthComponent>();
 
         // If the player is hit
@@ -74,8 +68,16 @@ public class ToadSpitProjectile : MonoBehaviour
             effectScale = Vector3.one;
         }
 
+        // If allowed, split
+        EffectsManager.EEffectType effectType = EffectsManager.EEffectType.waterProjectileDestroyed;
+        if (m_shouldSplit && !m_isFragment)
+        {
+            Split();
+            effectType = EffectsManager.EEffectType.rockToadProjectileDestroyed;
+        }
+
         Quaternion rotation = Quaternion.Euler(new Vector3(270.0f, 0.0f, 0.0f));
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, rotation, effectScale);
+        EffectsManager.SpawnEffect(effectType, transform.position, rotation, effectScale);
 
         MessageBus.TriggerEvent(EMessageType.projectileSplash);
         Destroy(gameObject);

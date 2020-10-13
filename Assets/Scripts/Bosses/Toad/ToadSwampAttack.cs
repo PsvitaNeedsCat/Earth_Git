@@ -6,6 +6,8 @@ public class ToadSwampAttack : ToadBehaviour
 {
     public ToadWave m_toadWave;
 
+    [SerializeField] private Transform m_splashParticlesSpawn = null;
+
     private float m_startingX;
     private float[] m_possiblePositions;
     private List<float> m_positionSeq = new List<float>();
@@ -85,6 +87,8 @@ public class ToadSwampAttack : ToadBehaviour
 
     public void LaunchWave()
     {
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.toadSplash, m_splashParticlesSpawn.position, Quaternion.identity, Vector3.one, 2.0f);
+
         // Move wave back to initial location
         m_toadWave.transform.localPosition = Vector3.zero;
 

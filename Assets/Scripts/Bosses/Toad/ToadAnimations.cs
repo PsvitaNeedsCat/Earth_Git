@@ -11,7 +11,10 @@ public class ToadAnimations : MonoBehaviour
     public ToadTongueAttack m_tongueAttack;
 
     public void AESpitProjectile() => m_spitAttack.AESpitProjectile();
-    public void AELaunchWave() => m_swampAttack.AELaunchWave();
+    public void AELaunchWave()
+    {
+        m_swampAttack.AELaunchWave();
+    }
     public void AEFrogLand()
     {
         MessageBus.TriggerEvent(EMessageType.toadLand);
