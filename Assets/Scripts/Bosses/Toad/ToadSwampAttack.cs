@@ -6,6 +6,8 @@ public class ToadSwampAttack : ToadBehaviour
 {
     public ToadWave m_toadWave;
 
+    [SerializeField] private Transform m_splashParticlesSpawn = null;
+
     private float m_startingX;
     private float[] m_possiblePositions;
     private List<float> m_positionSeq = new List<float>();

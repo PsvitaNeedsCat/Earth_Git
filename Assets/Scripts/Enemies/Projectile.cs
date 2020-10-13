@@ -35,6 +35,13 @@ public class Projectile : MonoBehaviour
         }
 
         MessageBus.TriggerEvent(m_destroyedSignal);
+        EffectsManager.EEffectType effectType = EffectsManager.EEffectType.waterProjectileDestroyed;
+        if (m_destroyedSignal == EMessageType.sandProjectileDestroyed)
+        {
+            effectType = EffectsManager.EEffectType.sandProjectileDestroyed;
+        }
+
+        EffectsManager.SpawnEffect(effectType, transform.position, transform.rotation, Vector3.one, 1.0f);
         Destroy(gameObject);
     }
 }

@@ -94,6 +94,7 @@ public class CobraPot : MonoBehaviour
         Vector3 spawnPosition = m_moveTransform.position + m_moveTransform.up * m_lobProjectileSpawnHeight;
         GameObject lobProjectile = Instantiate(m_lobProjectilePrefab, spawnPosition, m_moveTransform.rotation, m_projectileParent);
         // Destroy(lobProjectile, CobraHealth.StateSettings.m_potProjectileLifetime);
+        lobProjectile.GetComponent<Projectile>().m_destroyedSignal = EMessageType.sandProjectileDestroyed;
 
         lobProjectile.GetComponent<Rigidbody>().velocity = _dir * m_lobVelocity;
     }

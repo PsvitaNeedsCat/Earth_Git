@@ -40,11 +40,18 @@ public class CentipedeTailAttack : CentipedeBehaviour
         // Move to the pre-burrow point
         CentipedeMovement.SetTargets(new List<Transform> { m_preBurrowPoint });
         CentipedeMovement.s_seekingTarget = true;
-        while (!CentipedeMovement.s_atTarget) yield return null;
+        while (!CentipedeMovement.s_atTarget)
+        {
+            yield return null;
+        }
 
         // Burrow down
         CentipedeMovement.s_seekingTarget = false;
         CentipedeMovement.BurrowDown(m_burrowDownPoints);
+        Vector3 effectPosition = m_burrowDownPoints[1].position;
+        effectPosition.y -= 0.5f;
+        Quaternion effectRotation = Quaternion.Euler(new Vector3(-90.0f, 0.0f, 0.0f));
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.centipedeBurrow, effectPosition, effectRotation, Vector3.one, 9.0f);
         while (CentipedeMovement.s_burrowing)
         {
             yield return null;
@@ -87,6 +94,11 @@ public class CentipedeTailAttack : CentipedeBehaviour
         yield return new WaitForSeconds(3.0f);
 
         m_mesh.transform.localPosition -= Vector3.forward * 1.5f;
+
+        Vector3 effectPosition = m_burrowDownPoints[1].position;
+        effectPosition.y -= 0.5f;
+        Quaternion effectRotation = Quaternion.Euler(new Vector3(-90.0f, 0.0f, 0.0f));
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.centipedeBurrow, effectPosition, effectRotation, Vector3.one, 9.0f);
 
         while (CentipedeMovement.s_burrowing)
         {

@@ -11,11 +11,15 @@ public class ToadAnimations : MonoBehaviour
     public ToadTongueAttack m_tongueAttack;
 
     public void AESpitProjectile() => m_spitAttack.AESpitProjectile();
-    public void AELaunchWave() => m_swampAttack.AELaunchWave();
+    public void AELaunchWave()
+    {
+        m_swampAttack.AELaunchWave();
+    }
     public void AEFrogLand()
     {
         MessageBus.TriggerEvent(EMessageType.toadLand);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.toadSplash, transform.position, Quaternion.identity, Vector3.one, 5.0f);
     }
 
     public void AESwampComplete() => m_swampAttack.AEBehaviourComplete();

@@ -300,6 +300,8 @@ public class CobraShuffle : CobraBehaviour
         yield return new WaitForSeconds(_duration / 2.0f);
 
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+        Vector3 effectPosition = _pot.m_potLandIndicator.transform.position;
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.cobraPotLand, effectPosition, Quaternion.identity, Vector3.one, 1.0f);
 
         _pot.SetColliderDamage(false);
 
