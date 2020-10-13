@@ -10,12 +10,14 @@ public class MoveableBlock : MonoBehaviour
     private Vector3 m_startLocation;
     private GlobalChunkSettings m_chunkSettings;
     private GlobalPlayerSettings m_playerSettings;
+    private MeshRenderer m_renderer;
 
     private void Awake()
     {
         m_startLocation = transform.position;
         m_chunkSettings = Resources.Load<GlobalChunkSettings>("ScriptableObjects/GlobalChunkSettings");
         m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
+        m_renderer = GetComponent<MeshRenderer>();
     }
 
     // Tween to start location
@@ -25,6 +27,8 @@ public class MoveableBlock : MonoBehaviour
 
         transform.DOKill();
         transform.DOMove(m_startLocation, 0.5f).SetEase(Ease.OutBounce);
+
+        SetMaterial(false);
     }
 
     // Goes to the other location
@@ -34,6 +38,19 @@ public class MoveableBlock : MonoBehaviour
 
         transform.DOKill();
         transform.DOMove(m_move_location.position, 0.5f).SetEase(Ease.OutBounce);
+        SetMaterial(true);
+    }
+
+    private void SetMaterial(bool _on)
+    {
+        // StopAllCoroutines();
+        float endValue = (_on) ? 1.0f : 0.0f;
+
+        // StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_renderer.material, "_TextureBlend", endValue, 0.5f));
+
+        DOTween.Kill(this);
+
+        DOTween.To(() => m_renderer.material.GetFloat("_TextureBlend"), x => m_renderer.material.SetFloat("_TextureBlend", x), endValue, 0.5f).SetEase(Ease.OutSine);
     }
 
     // Called when the block is moved
