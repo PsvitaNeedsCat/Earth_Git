@@ -47,12 +47,14 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand NEXT_ROOM;
     public static CheatCommand PREV_ROOM;
     public static CheatCommand CENTIPEDE_CAM;
+    public static CheatCommand<EHatType> HAT;
 
     public List<object> m_commandList;
 
     private PlayerController m_playerController;
     private Player m_player;
     private PlayerInput m_playerInput;
+    private PlayerHats m_playerHats;
 
     private bool m_justOpened = false;
     private List<string> m_previousEntries = new List<string>();
@@ -122,6 +124,7 @@ public class CheatConsole : MonoBehaviour
         m_playerController = GetComponent<PlayerController>();
         m_player = GetComponent<Player>();
         m_playerInput = GetComponent<PlayerInput>();
+        m_playerHats = GetComponent<PlayerHats>();
 
         CUR_HEALTH = new CheatCommand<int>("cur_health", "Sets the player's current health", "cur_health <health_amount>", (x) =>
         {
@@ -302,6 +305,11 @@ public class CheatConsole : MonoBehaviour
             }
         });
 
+        HAT = new CheatCommand<EHatType>("hat", "Gives the player a hat", "hat", (x) =>
+        {
+            m_playerHats.SetHat(x);
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -331,7 +339,8 @@ public class CheatConsole : MonoBehaviour
             ROOM,
             NEXT_ROOM,
             PREV_ROOM,
-            CENTIPEDE_CAM
+            CENTIPEDE_CAM,
+            HAT
         };
     }
 
@@ -408,6 +417,7 @@ public class CheatConsole : MonoBehaviour
                 CheatCommand<string> stringCommand = (m_commandList[i] as CheatCommand<string>);
                 CheatCommand<EChunkEffect> effectCommand = (m_commandList[i] as CheatCommand<EChunkEffect>);
                 CheatCommand<Vector3> vectorThreeCommand = (m_commandList[i] as CheatCommand<Vector3>);
+                CheatCommand<EHatType> hatCommand = (m_commandList[i] as CheatCommand<EHatType>);
 
                 if (command != null)
                 {
@@ -448,6 +458,14 @@ public class CheatConsole : MonoBehaviour
                     if (float.TryParse(properties[1], out vec.x) && float.TryParse(properties[2], out vec.y) && float.TryParse(properties[3], out vec.z))
                     {
                         vectorThreeCommand.Invoke(vec);
+                    }
+                }
+                else if (hatCommand != null)
+                {
+                    EHatType hatType;
+                    if (System.Enum.TryParse(properties[1], out hatType))
+                    {
+                        hatCommand.Invoke(hatType);
                     }
                 }
 
