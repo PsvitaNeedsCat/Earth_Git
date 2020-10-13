@@ -19,6 +19,7 @@ public class ToadAnimations : MonoBehaviour
     {
         MessageBus.TriggerEvent(EMessageType.toadLand);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.toadSplash, transform.position, Quaternion.identity, Vector3.one, 5.0f);
     }
 
     public void AESwampComplete() => m_swampAttack.AEBehaviourComplete();

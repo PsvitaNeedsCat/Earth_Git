@@ -87,8 +87,6 @@ public class ToadSwampAttack : ToadBehaviour
 
     public void LaunchWave()
     {
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.toadSplash, m_splashParticlesSpawn.position, Quaternion.identity, Vector3.one, 2.0f);
-
         // Move wave back to initial location
         m_toadWave.transform.localPosition = Vector3.zero;
 
