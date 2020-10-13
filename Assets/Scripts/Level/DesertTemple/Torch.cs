@@ -11,6 +11,10 @@ public class Torch : MonoBehaviour
     [SerializeField] private ParticleSystem m_activatedParticles = null;
     [SerializeField] private ParticleSystem m_deactivatedParticles = null;
 
+    [SerializeField] private Material m_activeMaterial;
+    [SerializeField] private Material m_inactiveMaterial;
+    private MeshRenderer m_meshRenderer = null;
+
     [SerializeField] private UnityEvent m_activatedEvent = new UnityEvent();
     [SerializeField] private UnityEvent m_deactivatedEvent = new UnityEvent();
 
@@ -18,10 +22,14 @@ public class Torch : MonoBehaviour
     {
         m_fireParticles = GetComponentInChildren<ParticleSystem>();
 
+        m_meshRenderer = GetComponentInChildren<MeshRenderer>();
+
         if (m_active)
         {
             m_fireParticles.Play();
         }
+
+        UpdateMaterial();
     }
 
     // Called by chunk - checks if already activated, and activates it if required
@@ -33,6 +41,8 @@ public class Torch : MonoBehaviour
             m_activatedEvent.Invoke();
             m_fireParticles.Play();
             m_activatedParticles.Play();
+
+            UpdateMaterial();
         }
     }
 
@@ -45,6 +55,13 @@ public class Torch : MonoBehaviour
             m_deactivatedEvent.Invoke();
             m_fireParticles.Stop();
             m_deactivatedParticles.Play();
+
+            UpdateMaterial();
         }
+    }
+
+    private void UpdateMaterial()
+    {
+        m_meshRenderer.material = (m_active) ? m_activeMaterial : m_inactiveMaterial;
     }
 }
