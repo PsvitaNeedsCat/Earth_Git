@@ -47,9 +47,6 @@ public class RoomManager : MonoBehaviour
             s_instance = this; 
         }
 
-        BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
-        Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
-        m_blackWall = blackWall.GetComponent<Animator>();
         m_playerInput = FindObjectOfType<PlayerInput>();
 
         // Disbale all rooms
@@ -78,6 +75,13 @@ public class RoomManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void Start()
+    {
+        BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
+        Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
+        m_blackWall = blackWall.GetComponent<Animator>();
     }
 
     private void OnEnable()
