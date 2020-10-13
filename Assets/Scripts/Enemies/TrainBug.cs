@@ -19,6 +19,7 @@ public class TrainBug : MonoBehaviour
 
     [SerializeField] private GameObject m_meshParent = null;
     [SerializeField] private MeshRenderer m_meshRenderer = null;
+    [SerializeField] private ParticleSystem m_chargingParticles = null;
     private AudioSource m_chargingSound;
     private GlobalEnemySettings m_settings;
     private Rigidbody m_rigidbody;
@@ -50,6 +51,7 @@ public class TrainBug : MonoBehaviour
                         m_chargingSound.Play();
                         m_state = EStates.charging;
                         Flip(false);
+                        m_chargingParticles.Play();
                         transform.DOMove(m_stunnedLocation, 0.1f);
                     }
                     break;
@@ -182,6 +184,7 @@ public class TrainBug : MonoBehaviour
         m_vulnerableTimer = m_settings.m_trainVulernableTime;
         m_state = EStates.vulnerable;
         m_stunnedStars.Init(m_settings.m_trainVulernableTime);
+        m_chargingParticles.Stop();
     }
 
     // Kills the bug
