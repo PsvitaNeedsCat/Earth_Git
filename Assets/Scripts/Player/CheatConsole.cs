@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using DG.Tweening;
+using Cinemachine;
 
 public class CheatConsole : MonoBehaviour
 {
@@ -47,6 +47,8 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand NEXT_ROOM;
     public static CheatCommand PREV_ROOM;
     public static CheatCommand CENTIPEDE_CAM;
+    public static CheatCommand TOP_DOWN;
+    public static CheatCommand CAMERA_PROJECTION;
 
     public List<object> m_commandList;
 
@@ -58,6 +60,10 @@ public class CheatConsole : MonoBehaviour
     private List<string> m_previousEntries = new List<string>();
     private int m_entryIndex = 0;
     private bool m_justRetrievedEntry = false;
+
+    private Quaternion m_originalCamera;
+    private Quaternion m_topDownCamera = Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f));
+    private bool m_topDownActive = false;
 
     public bool ConsoleOpen()
     {
@@ -302,6 +308,28 @@ public class CheatConsole : MonoBehaviour
             }
         });
 
+        TOP_DOWN = new CheatCommand("top_down", "Toggles a top-down camera", "top_down", () =>
+        {
+            GameObject vCamObject = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject;
+
+            if (m_topDownActive)
+            {
+                vCamObject.transform.rotation = m_originalCamera;
+            }
+            else
+            {
+                m_originalCamera = vCamObject.transform.rotation;
+                vCamObject.transform.rotation = m_topDownCamera;
+            }
+
+            m_topDownActive = !m_topDownActive;
+        });
+
+        CAMERA_PROJECTION = new CheatCommand("camera_projection", "Toggles the camera mode", "camera_projection", () =>
+        {
+            Camera.main.orthographic = !Camera.main.orthographic;
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -331,7 +359,9 @@ public class CheatConsole : MonoBehaviour
             ROOM,
             NEXT_ROOM,
             PREV_ROOM,
-            CENTIPEDE_CAM
+            CENTIPEDE_CAM,
+            TOP_DOWN,
+            CAMERA_PROJECTION,
         };
     }
 
