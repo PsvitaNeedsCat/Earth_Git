@@ -52,7 +52,8 @@ public class PlayerHats : MonoBehaviour
                 }
 
                 HatDef hatDef = m_hatDefs[(int)_hatType];
-                m_hatObject = Instantiate(hatDef.hatPrefab, m_hatParent.position, Quaternion.Euler(hatDef.rotationOverride), m_hatParent);
+                m_hatObject = Instantiate(hatDef.hatPrefab, m_hatParent.position, transform.rotation * Quaternion.Euler(hatDef.rotationOverride), m_hatParent);
+                
                 m_hatObject.transform.localScale = hatDef.scaleOverride;
                 m_hatObject.transform.localPosition = hatDef.positionOverride;
 
