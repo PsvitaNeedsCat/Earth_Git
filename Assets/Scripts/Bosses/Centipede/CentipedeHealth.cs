@@ -31,14 +31,22 @@ public class CentipedeHealth : MonoBehaviour
     private bool[] m_sectionsDamaged = { false, false, false};
     private CentipedeTrainAttack m_trainAttack;
     private CentipedeBodyAttack m_bodyAttack;
+    private CentipedeBoss m_boss;
 
     // Array of lists of segments indices: "Head segments", "Body segments", "Tail segments"
     private List<int>[] m_sectionSegments = { new List<int> { 0 }, new List<int> { 1, 2, 3, 4, 5 }, new List<int> { 6 } };
+    private readonly List<EffectsManager.EEffectType> m_deathEffects = new List<EffectsManager.EEffectType> 
+    { 
+        EffectsManager.EEffectType.centipedeHeadDeath,
+        EffectsManager.EEffectType.centipedeBodyDeath,
+        EffectsManager.EEffectType.centipedeTailDeath 
+    };
 
     private void Awake()
     {
         m_trainAttack = GetComponent<CentipedeTrainAttack>();
         m_bodyAttack = GetComponent<CentipedeBodyAttack>();
+        m_boss = GetComponent<CentipedeBoss>();
     }
 
     public bool IsSectionDamaged(ESegmentType _type)
@@ -59,6 +67,11 @@ public class CentipedeHealth : MonoBehaviour
         }
 
         return currentHealth;
+    }
+
+    public bool IsAlive()
+    {
+        return (GetHealth() > 0);
     }
 
     public List<int> GetDamagedSegments()
@@ -180,14 +193,30 @@ public class CentipedeHealth : MonoBehaviour
         // If no sections are alive, die
         if (!anyAlive)
         {
-            m_crystal.SetActive(true);
-            m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
-            Destroy(m_bossObject);
+            StartCoroutine(DeathSequence());
         }
 
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
         MessageBus.TriggerEvent(EMessageType.centipedeDamaged);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        m_boss.OnDeath();
+
+        for (int i = m_segmentRenderers.Count - 1; i >= 0; i--)
+        {
+            GameObject renderer = m_segmentRenderers[i].gameObject;
+
+            renderer.SetActive(false);
+            EffectsManager.SpawnEffect(m_deathEffects[(int)IndexToSegmentType(i)], renderer.transform.position, renderer.transform.rotation, Vector3.one, 3.0f);
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        m_crystal.SetActive(true);
+        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
+        Destroy(m_bossObject);
     }
 
     private int SegmentTypeToIndex(ESegmentType _type)

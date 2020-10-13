@@ -36,4 +36,10 @@ public class CentipedeBehaviour : MonoBehaviour
         yield return new WaitForSeconds(_afterSeconds);
         CompleteBehaviour();
     }
+
+    public virtual void CancelAttack()
+    {
+        StopAllCoroutines();
+        m_currentState = EBehaviourState.complete;
+    }
 }

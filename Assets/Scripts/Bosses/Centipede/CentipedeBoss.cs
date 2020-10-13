@@ -41,6 +41,11 @@ public class CentipedeBoss : MonoBehaviour
 
     private void UpdateBehaviour()
     {
+        if (!m_centipedeHealth.IsAlive())
+        {
+            return;
+        }
+
         // Move to next state when complete
         if (m_currentBehaviour.m_currentState == CentipedeBehaviour.EBehaviourState.complete)
         {
@@ -117,5 +122,10 @@ public class CentipedeBoss : MonoBehaviour
             Camera.main.orthographic = true;
             m_centipedeCam.SetActive(false);
         }
+    }
+
+    public void OnDeath()
+    {
+        m_currentBehaviour.CancelAttack();
     }
 }
