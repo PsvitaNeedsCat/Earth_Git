@@ -91,7 +91,10 @@ public class HealthComponent : MonoBehaviour
                 m_timerActive = false;
                 IsInvincible = false;
             }
-            else { m_invincibleTimer -= Time.deltaTime; }
+            else 
+            {
+                m_invincibleTimer -= Time.deltaTime; 
+            }
         }
     }
 

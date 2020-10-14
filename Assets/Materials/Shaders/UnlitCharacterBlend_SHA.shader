@@ -77,7 +77,7 @@
 
             void surf(Input IN, inout SurfaceOutput o)
             {
-				o.Albedo = lerp(tex2D(_MainTex, IN.uv_MainTex), tex2D(_MainTexTwo, IN.uv_MainTexTwo), _TextureBlend);
+				o.Albedo = lerp(tex2D(_MainTex, IN.uv_MainTex), tex2D(_MainTexTwo, IN.uv_MainTexTwo), _TextureBlend) * _Color;
             }
 
             ENDCG

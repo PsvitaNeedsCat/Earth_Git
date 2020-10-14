@@ -122,8 +122,10 @@ public class PlayerController : MonoBehaviour
 
         // Tween colour change
         Sequence seq = DOTween.Sequence();
-        seq.Append(m_meshRenderer.material.DOColor(m_settings.m_hurtColour, m_settings.m_hurtTime * 0.5f));
-        seq.Append(m_meshRenderer.material.DOColor(Color.white, m_settings.m_hurtTime * 0.5f));
+        seq.Append(m_meshRenderer.material.DOColor(m_settings.m_hurtColour, m_settings.m_hurtTime * 0.25f));
+        seq.Append(m_meshRenderer.material.DOColor(Color.white, m_settings.m_hurtTime * 0.25f));
+        seq.SetLoops(2);
+        seq.Play();
 
         // Tween health bar
         m_healthBackgroundImages[m_health.Health].rectTransform.DORewind();
