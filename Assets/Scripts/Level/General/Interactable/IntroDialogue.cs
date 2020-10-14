@@ -4,27 +4,45 @@ using UnityEngine;
 
 public class IntroDialogue : Dialogue
 {
+    private bool m_timing = false;
+    private Coroutine m_timingCorutine = null;
 
-    public override void OnEnable()
+
+    public override void OnDisable()
     {
-        StartCoroutine(AutoplayDialogue(5.0f));
-        StartCoroutine(AutoplayDialogue(8.0f));
-        StartCoroutine(AutoplayDialogue(14.5f));
-        StartCoroutine(AutoplayDialogue(21.0f));
-        StartCoroutine(AutoplayDialogue(27.0f));
+        StopAllCoroutines();
+
+        base.OnDisable();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (!m_timing && m_charIndex >= m_curDialogue.Length)
+        {
+            m_timing = true;
+            m_timingCorutine = StartCoroutine(AutoplayDialogue(2.0f));
+        }
     }
 
     private IEnumerator AutoplayDialogue(float _afterSeconds)
     {
         yield return new WaitForSeconds(_afterSeconds);
 
-        ContinueDialogue("");
+        base.ContinueDialogue("");
+
+        m_timing = false;
     }
 
-    public override void OnDisable()
+    public override void ContinueDialogue(string _null)
     {
-        StopAllCoroutines();
+        m_timing = false;
+        if (m_timingCorutine != null)
+        {
+            StopCoroutine(m_timingCorutine);
+        }
+
+        base.ContinueDialogue(_null);
     }
-
-
 }
