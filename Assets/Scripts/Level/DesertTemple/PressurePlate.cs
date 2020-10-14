@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using DG.Tweening;
+
 public class PressurePlate : MonoBehaviour
 {
     [SerializeField] private UnityEvent m_activatedEvent;
     [SerializeField] private UnityEvent m_deactivatedEvent;
+    [SerializeField] private float m_moveAmount;
 
-    // Holds all objects currently on the preasure plate
+    private MeshRenderer m_renderer;
+    private float m_rendererY;
+    private Vector3 m_inactivePosition;
+    private Vector3 m_activePosition;
+
+    // Holds all objects currently on the pressure plate
     private List<GameObject> m_objects = new List<GameObject>();
 
     private void OnEnable()
@@ -30,6 +38,13 @@ public class PressurePlate : MonoBehaviour
         MessageBus.RemoveListener(EMessageType.chunkHit, CheckChunkForMovement);
         m_activatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOn));
         m_deactivatedEvent.RemoveListener(() => MessageBus.TriggerEvent(EMessageType.pressurePlateOff));
+    }
+
+    private void Awake()
+    {
+        m_renderer = GetComponentInChildren<MeshRenderer>();
+        m_inactivePosition = m_renderer.transform.position;
+        m_activePosition = m_renderer.transform.position + Vector3.down * m_moveAmount;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -86,6 +101,7 @@ public class PressurePlate : MonoBehaviour
         if (m_objects.Count == 0)
         {
             m_activatedEvent.Invoke();
+            OnActivated();
         }
 
         m_objects.Add(_go);
@@ -102,7 +118,24 @@ public class PressurePlate : MonoBehaviour
         if (m_objects.Count == 0)
         {
             m_deactivatedEvent.Invoke();
+            OnDeactivated();
         }
+    }
+
+    private void OnActivated()
+    {
+        DOTween.Kill(this);
+        DOTween.To(() => m_renderer.material.GetFloat("_TextureBlend"), x => m_renderer.material.SetFloat("_TextureBlend", x), 1.0f, 0.5f).SetEase(Ease.OutSine);
+
+        m_renderer.transform.DOMove(m_activePosition, 0.5f).SetEase(Ease.OutBounce);
+    }
+
+    private void OnDeactivated()
+    {
+        DOTween.Kill(this);
+        DOTween.To(() => m_renderer.material.GetFloat("_TextureBlend"), x => m_renderer.material.SetFloat("_TextureBlend", x), 0.0f, 0.5f).SetEase(Ease.OutSine);
+
+        m_renderer.transform.DOMove(m_inactivePosition, 0.5f).SetEase(Ease.OutBounce);
     }
 
     // Called when a chunk is destroyed - checks if it was on the preasure plate
