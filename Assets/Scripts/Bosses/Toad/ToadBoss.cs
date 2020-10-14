@@ -152,12 +152,6 @@ public class ToadBoss : MonoBehaviour
 
     private IEnumerator CollectCrystalAfter(float _seconds)
     {
-        //DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.5f, 1.5f).SetEase(Ease.OutSine);
-
-        //yield return new WaitForSeconds(2.0f);
-
-        //DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1.0f, 0.5f).SetEase(Ease.OutSine);
-
         StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
 
         yield return new WaitForSeconds(2.0f);

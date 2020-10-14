@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 using Cinemachine;
 
@@ -19,20 +20,26 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         public Transform m_nextCorner;
     }
 
+    public float m_lightDelay;
+    public float m_lightUpOver;
+    public float m_fadeOver;
+
     public List<TunnelDef> m_tunnels;
     public GameObject m_trainAudio;
     public static bool s_charging = false;
     public static bool s_stunned = false;
     public CentipedeHead m_head;
+    [SerializeField] private Color m_tunnelLightColor;
     [SerializeField] private GameObject m_movingEffects = null;
     [SerializeField] private GameObject m_fireEffects = null;
-    [SerializeField] private List<GameObject> m_tunnelLights;
+    [SerializeField] private List<MeshRenderer> m_tunnelLights;
 
     private int m_currentTunnelIndex = 0;
     private int m_chunksHit = 0;
     private CentipedeHealth m_centipedeHealth;
     [SerializeField] private StunnedStars m_stunnedStars = null;
     [SerializeField] private DisableScreenShakeListener m_chargingScreenShake = null;
+    private Color m_tunnelStartColor;
 
     private void Awake()
     {
@@ -42,6 +49,7 @@ public class CentipedeTrainAttack : CentipedeBehaviour
 
         m_chargingScreenShake.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
         m_chargingScreenShake.StopScreenShake();
+        m_tunnelStartColor = m_tunnelLights[0].material.color;
     }
 
     public override void StartBehaviour()
@@ -77,6 +85,9 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         TunnelDef currentTunnel = m_tunnels[m_currentTunnelIndex];
         CentipedeMovement.SetTargets(new List<Transform> { currentTunnel.m_tunnelEnd, currentTunnel.m_tunnelStart, currentTunnel.m_tunnelTarget, currentTunnel.m_nextCorner });
         m_movingEffects.SetActive(true);
+
+        StartCoroutine(FlashTunnel(m_currentTunnelIndex));
+
         if (!m_centipedeHealth.IsSectionDamaged(CentipedeHealth.ESegmentType.head))
         {
             m_fireEffects.SetActive(true);
@@ -85,23 +96,23 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         // Wait for centipede to reach a target
         while (!CentipedeMovement.s_atTarget)
         {
-            int currentTargetIndex = CentipedeMovement.GetCurrentTargetIndex();
+            //int currentTargetIndex = CentipedeMovement.GetCurrentTargetIndex();
 
-            // If in tunnel
-            if (currentTargetIndex == 1)
-            {
-                m_tunnelLights[m_currentTunnelIndex].SetActive(true);
-                float distToEntrance = (m_head.transform.position - m_tunnelLights[m_currentTunnelIndex].transform.position).magnitude;
-                float lightQuotient = Mathf.Clamp01(1.0f - (distToEntrance / 7.0f));
-                Material lightMat = m_tunnelLights[m_currentTunnelIndex].GetComponent<MeshRenderer>().material;
-                Color lightColor = lightMat.color;
-                lightColor.a = lightQuotient;
-                lightMat.color = lightColor;
-            }
-            else
-            {
-                m_tunnelLights[m_currentTunnelIndex].SetActive(false);
-            }
+            //// If in tunnel
+            //if (currentTargetIndex == 1)
+            //{
+            //    m_tunnelLights[m_currentTunnelIndex].SetActive(true);
+            //    float distToEntrance = (m_head.transform.position - m_tunnelLights[m_currentTunnelIndex].transform.position).magnitude;
+            //    float lightQuotient = Mathf.Clamp01(1.0f - (distToEntrance / 7.0f));
+            //    Material lightMat = m_tunnelLights[m_currentTunnelIndex].GetComponent<MeshRenderer>().material;
+            //    Color lightColor = lightMat.color;
+            //    lightColor.a = lightQuotient;
+            //    lightMat.color = lightColor;
+            //}
+            //else
+            //{
+            //    m_tunnelLights[m_currentTunnelIndex].SetActive(false);
+            //}
 
             yield return null;
         }
@@ -120,8 +131,18 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         else
         {
             m_currentTunnelIndex++;
+            StartCoroutine(FlashTunnel(m_currentTunnelIndex));
             StartCoroutine(TunnelAttack());
         }
+    }
+
+    private IEnumerator FlashTunnel(int _tunnelIndex)
+    {
+        yield return new WaitForSeconds(m_lightDelay);
+
+        m_tunnelLights[_tunnelIndex].material.DOColor(m_tunnelLightColor, m_lightUpOver).OnComplete(
+            () => m_tunnelLights[_tunnelIndex].material.DOColor(m_tunnelStartColor, m_fadeOver)
+            );
     }
 
     // Move back into the arena
