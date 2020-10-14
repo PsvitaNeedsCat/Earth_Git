@@ -9,7 +9,7 @@ public class PressurePlate : MonoBehaviour
 {
     [SerializeField] private UnityEvent m_activatedEvent;
     [SerializeField] private UnityEvent m_deactivatedEvent;
-    [SerializeField] private float m_moveAmount;
+    private float m_moveAmount = 0.05f;
 
     private MeshRenderer m_renderer;
     private float m_rendererY;
