@@ -49,7 +49,7 @@ public class HealthComponent : MonoBehaviour
             // If invincible, cannot be damaged, but can still be healed
             if (IsInvincible && delta < 0)
             {
-                delta = 0; 
+                return;
             }
 
             // Update health, and check for death

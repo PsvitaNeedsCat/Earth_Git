@@ -42,6 +42,7 @@ public class Chunk : MonoBehaviour
     private GlobalChunkSettings m_globalSettings;
     private HealthComponent m_healthComp;
     private Vector3 m_prevVelocity = Vector3.zero;
+    private Vector3 m_hitDirection = Vector3.zero;
 
     // Hitboxes
     [SerializeField] private Collider m_posXCollider;
@@ -284,7 +285,7 @@ public class Chunk : MonoBehaviour
             case EChunkEffect.water:
                 {
                     MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
-                    Quaternion rot = Quaternion.LookRotation(m_prevVelocity.normalized, Vector3.up);
+                    Quaternion rot = Quaternion.LookRotation(m_hitDirection, Vector3.up);
                     EffectsManager.SpawnEffect(EffectsManager.EEffectType.waveDestroyed, transform.position, rot, Vector3.one, 1.0f);
                     break;
                 }
@@ -321,28 +322,17 @@ public class Chunk : MonoBehaviour
             return true;
         }
 
-        if (IsAgainstWall(_hitVec))
+        if ((_effect != EChunkEffect.water || m_chunkType == EChunkType.carapace) && IsAgainstWall(_hitVec))
         {
-            if ((_effect != EChunkEffect.water || m_chunkType == EChunkType.carapace))
-            {
-                // Play sound
-                m_healthComp.Health -= 1;
+            // Play sound
+            m_healthComp.Health -= 1;
 
-                // Spawn effect
-                Vector3 hitDir = _hitVec.normalized;
-                Vector3 effectPos = transform.position + -hitDir * 0.5f;
-                EffectsManager.EEffectType effectType = EffectsManager.EEffectType.rockDamage;
-                Quaternion effectRot = Quaternion.LookRotation(-hitDir);
-                EffectsManager.SpawnEffect(effectType, effectPos, effectRot, Vector3.one, 1.0f, m_renderer.material);
-            }
-            else
-            {
-                // Water
-                MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
-                Quaternion rot = Quaternion.LookRotation(_hitVec.normalized, Vector3.up);
-                EffectsManager.SpawnEffect(EffectsManager.EEffectType.waveDestroyed, transform.position, rot, Vector3.one, 1.0f);
-                Destroy(gameObject);
-            }
+            // Spawn effect
+            Vector3 hitDir = _hitVec.normalized;
+            Vector3 effectPos = transform.position + -hitDir * 0.5f;
+            EffectsManager.EEffectType effectType = EffectsManager.EEffectType.rockDamage;
+            Quaternion effectRot = Quaternion.LookRotation(-hitDir);
+            EffectsManager.SpawnEffect(effectType, effectPos, effectRot, Vector3.one, 1.0f, m_renderer.material);
 
             return false;
         }
@@ -350,16 +340,16 @@ public class Chunk : MonoBehaviour
         Detach();
 
         // Enable the correct directional collider
-        Vector3 cardinal = _hitVec.normalized;
-        if (cardinal.x >= 0.9f)
+        m_hitDirection = _hitVec.normalized;
+        if (m_hitDirection.x >= 0.9f)
         {
             m_posXCollider.enabled = true;
         }
-        else if (cardinal.x <= -0.9f)
+        else if (m_hitDirection.x <= -0.9f)
         {
             m_negXCollider.enabled = true;
         }
-        else if (cardinal.z >= 0.9f)
+        else if (m_hitDirection.z >= 0.9f)
         {
             m_posZCollider.enabled = true;
         }
