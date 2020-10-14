@@ -12,6 +12,7 @@ public class ToadBoss : MonoBehaviour
 
     public static EChunkType s_eaten = EChunkType.none;
     public static bool s_tookDamage = false;
+    public static bool s_isDead = false;
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
@@ -25,7 +26,7 @@ public class ToadBoss : MonoBehaviour
     public void ActivateCrystal()
     {
         m_crystal.SetActive(true);
-        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
+        
     }
 
     private void Awake()
@@ -36,6 +37,7 @@ public class ToadBoss : MonoBehaviour
         m_healthComp.Init(m_toadSettings.m_maxHealth, m_toadSettings.m_maxHealth, DamageTaken, null, Died);
         s_tookDamage = false;
         s_eaten = EChunkType.none;
+        s_isDead = false;
     }
 
     private void Start()
@@ -52,6 +54,11 @@ public class ToadBoss : MonoBehaviour
 
     private void UpdateBehaviour()
     {
+        if (s_isDead)
+        {
+            return;
+        }
+
         if (m_currentBehaviour.m_currentState == ToadBehaviour.EBehaviourState.complete)
         {
             GoToNextBehaviour();
@@ -130,10 +137,27 @@ public class ToadBoss : MonoBehaviour
     private void Died()
     {
         // Turn canvas off
-
         m_toadAnimator.SetTrigger("Dead");
 
+        StartCoroutine(CollectCrystalAfter(1.0f));
+        s_isDead = true;
+
         // Remove script
-        Destroy(this);
+        // Destroy(this);
+    }
+
+    private IEnumerator CollectCrystalAfter(float _seconds)
+    {
+        //DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.5f, 1.5f).SetEase(Ease.OutSine);
+
+        //yield return new WaitForSeconds(2.0f);
+
+        //DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1.0f, 0.5f).SetEase(Ease.OutSine);
+
+        StartCoroutine(BossHelper.SlowTimeFor(1.5f, 0.5f, 2.0f, 0.5f));
+
+        yield return new WaitForSeconds(4.0f);
+
+        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
     }
 }

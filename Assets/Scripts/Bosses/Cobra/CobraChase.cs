@@ -78,8 +78,6 @@ public class CobraChase : CobraBehaviour
 
         Death();
 
-        Time.timeScale = 0.5f;
-
         DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.5f, 0.5f).SetEase(Ease.OutSine);
 
         yield return new WaitForSeconds(1.0f);

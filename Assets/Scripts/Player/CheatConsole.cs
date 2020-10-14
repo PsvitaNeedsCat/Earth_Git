@@ -15,6 +15,7 @@ public class CheatConsole : MonoBehaviour
 
     private bool m_showConsole = false;
     private bool m_showHelp = false;
+    private bool m_showTimeScale = false;
     private Vector2 m_scroll;
 
     string m_input = "";
@@ -50,6 +51,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand TOP_DOWN;
     public static CheatCommand CAMERA_PROJECTION;
     public static CheatCommand<EHatType> HAT;
+    public static CheatCommand SHOW_TIME_SCALE;
 
     public List<object> m_commandList;
 
@@ -338,6 +340,11 @@ public class CheatConsole : MonoBehaviour
             m_playerHats.SetHat(x);
         });
 
+        SHOW_TIME_SCALE = new CheatCommand("show_time_scale", "Toggles showing time scale", "show_time_scale", () =>
+        {
+            m_showTimeScale = !m_showTimeScale;
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -370,12 +377,18 @@ public class CheatConsole : MonoBehaviour
             CENTIPEDE_CAM,
             TOP_DOWN,
             CAMERA_PROJECTION,
-            HAT
+            HAT,
+            SHOW_TIME_SCALE
         };
     }
 
     private void OnGUI()
     {
+        if (m_showTimeScale)
+        {
+            GUI.Label(new Rect(Screen.width - 50, 0, 200, 50), Time.timeScale.ToString());
+        }
+
         if (!m_showConsole)
         {
             return;
