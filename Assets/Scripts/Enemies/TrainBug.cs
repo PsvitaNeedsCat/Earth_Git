@@ -79,7 +79,7 @@ public class TrainBug : MonoBehaviour
                 Stun();
             }
 
-            Destroy(chunk.gameObject);
+            chunk.OnDeath();
 
             return;
         }
@@ -114,7 +114,7 @@ public class TrainBug : MonoBehaviour
                 Dead();
             }
 
-            Destroy(chunk.gameObject);
+            chunk.OnDeath();
         }
     }
 

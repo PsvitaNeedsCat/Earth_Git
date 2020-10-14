@@ -321,14 +321,28 @@ public class Chunk : MonoBehaviour
             return true;
         }
 
-        if ((_effect != EChunkEffect.water || m_chunkType == EChunkType.carapace) && IsAgainstWall(_hitVec))
+        if (IsAgainstWall(_hitVec))
         {
-            // Play sound
-            m_healthComp.Health -= 1;
+            if ((_effect != EChunkEffect.water || m_chunkType == EChunkType.carapace))
+            {
+                // Play sound
+                m_healthComp.Health -= 1;
 
-            Vector3 hitDir = _hitVec.normalized;
-            Vector3 effectSpawnLocation = transform.position + -hitDir * 0.5f;
-            EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockDamage, effectSpawnLocation, Quaternion.LookRotation(-hitDir), Vector3.one, 1.0f, m_renderer.material);
+                // Spawn effect
+                Vector3 hitDir = _hitVec.normalized;
+                Vector3 effectPos = transform.position + -hitDir * 0.5f;
+                EffectsManager.EEffectType effectType = EffectsManager.EEffectType.rockDamage;
+                Quaternion effectRot = Quaternion.LookRotation(-hitDir);
+                EffectsManager.SpawnEffect(effectType, effectPos, effectRot, Vector3.one, 1.0f, m_renderer.material);
+            }
+            else
+            {
+                // Water
+                MessageBus.TriggerEvent(EMessageType.waterChunkDestroyed);
+                Quaternion rot = Quaternion.LookRotation(_hitVec.normalized, Vector3.up);
+                EffectsManager.SpawnEffect(EffectsManager.EEffectType.waveDestroyed, transform.position, rot, Vector3.one, 1.0f);
+                Destroy(gameObject);
+            }
 
             return false;
         }

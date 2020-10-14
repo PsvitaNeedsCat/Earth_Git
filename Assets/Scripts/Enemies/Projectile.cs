@@ -34,14 +34,20 @@ public class Projectile : MonoBehaviour
             playerHealth.GetComponent<HealthComponent>().Health -= m_damage;
         }
 
+        OnDeath();
+    }
+
+    private void OnDeath()
+    {
         MessageBus.TriggerEvent(m_destroyedSignal);
-        EffectsManager.EEffectType effectType = EffectsManager.EEffectType.waterProjectileDestroyed;
         if (m_destroyedSignal == EMessageType.sandProjectileDestroyed)
         {
-            effectType = EffectsManager.EEffectType.sandProjectileDestroyed;
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.sandProjectileDestroyed, transform.position, transform.rotation);
         }
-
-        EffectsManager.SpawnEffect(effectType, transform.position, transform.rotation, Vector3.one, 1.0f);
+        else if (m_destroyedSignal == EMessageType.projectileSplash)
+        {
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, transform.rotation);
+        }
         Destroy(gameObject);
     }
 }
