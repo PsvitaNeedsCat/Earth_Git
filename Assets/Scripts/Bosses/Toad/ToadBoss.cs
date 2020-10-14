@@ -131,7 +131,11 @@ public class ToadBoss : MonoBehaviour
         m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         m_healthIcons[m_healthComp.Health].SetActive(false);
 
-        HitFreezeManager.BeginHitFreeze(0.1f);
+        // No hit freeze on killing blow, as we are slowing down time
+        if (m_healthComp.Health > 0)
+        {
+            HitFreezeManager.BeginHitFreeze(0.1f);
+        }
     }
 
     private void Died()
@@ -154,9 +158,9 @@ public class ToadBoss : MonoBehaviour
 
         //DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1.0f, 0.5f).SetEase(Ease.OutSine);
 
-        StartCoroutine(BossHelper.SlowTimeFor(1.5f, 0.5f, 2.0f, 0.5f));
+        StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
 
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(2.0f);
 
         m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
     }
