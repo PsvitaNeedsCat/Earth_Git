@@ -66,9 +66,9 @@ public class CobraChase : CobraBehaviour
         // Jump after the player for a number of jumps
         for (int i = 0; i < CobraBoss.s_settings.m_jumpsBeforeDeath; i++)
         {
+            yield return new WaitForSeconds(waitTime);
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
             MessageBus.TriggerEvent(EMessageType.cobraPotThud);
-            yield return new WaitForSeconds(waitTime);
 
             StartCoroutine(Jump());
         }
@@ -78,13 +78,9 @@ public class CobraChase : CobraBehaviour
 
         Death();
 
-        DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.5f, 0.5f).SetEase(Ease.OutSine);
+        StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
 
-        yield return new WaitForSeconds(1.0f);
-
-        DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1.0f, 0.5f).SetEase(Ease.OutSine);
-
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         transform.parent.gameObject.SetActive(false);
 

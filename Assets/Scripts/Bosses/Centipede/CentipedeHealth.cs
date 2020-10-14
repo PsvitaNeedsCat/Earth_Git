@@ -207,12 +207,17 @@ public class CentipedeHealth : MonoBehaviour
 
         for (int i = m_segmentRenderers.Count - 1; i >= 0; i--)
         {
+            yield return new WaitForSeconds(0.15f);
+
             GameObject renderer = m_segmentRenderers[i].gameObject;
 
             renderer.SetActive(false);
             EffectsManager.SpawnEffect(m_deathEffects[(int)IndexToSegmentType(i)], renderer.transform.position, renderer.transform.rotation, Vector3.one, 3.0f);
-            yield return new WaitForSeconds(0.15f);
         }
+
+        StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
+
+        yield return new WaitForSeconds(2.0f);
 
         m_crystal.SetActive(true);
         m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
