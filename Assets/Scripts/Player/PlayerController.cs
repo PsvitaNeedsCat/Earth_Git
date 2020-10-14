@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     private CheatConsole m_cheats;
     private Player m_player;
 
+    private Sequence m_healthAnim;
+    private Sequence m_healthBGAnim;
+
     private void Awake()
     {
         // Only one instance
@@ -62,17 +65,6 @@ public class PlayerController : MonoBehaviour
 
         // Set health
         m_health = GetComponent<HealthComponent>();
-        // Set max health based on powers unlocked
-        int maxHealth = 2;
-        foreach (KeyValuePair<EChunkEffect, bool> i in Player.s_activePowers)
-        {
-            if (i.Value)
-            {
-                ++maxHealth; 
-            }
-        }
-        m_health.Init(maxHealth, maxHealth, OnHurt, OnHealed, OnDeath);
-        SetMaxHealth(maxHealth);
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
@@ -96,6 +88,22 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        m_healthAnim = DOTween.Sequence();
+        m_healthBGAnim = DOTween.Sequence();
+
+        // Set max health based on powers unlocked
+        int maxHealth = 2;
+        foreach (KeyValuePair<EChunkEffect, bool> i in Player.s_activePowers)
+        {
+            if (i.Value)
+            {
+                ++maxHealth;
+            }
+        }
+        m_health.Init(maxHealth, maxHealth, OnHurt, OnHealed, OnDeath);
+        SetMaxHealth(maxHealth);
+        UpdateHealthSprites();
+
         // Set init spawn location
         if (RoomManager.Instance)
         {
@@ -173,12 +181,49 @@ public class PlayerController : MonoBehaviour
 
     private void OnHealed()
     {
-        // Update health sprites
-        UpdateHealthSprites();
+        m_healthAnim.Kill();
+        m_healthBGAnim.Kill();
+        m_healthAnim = DOTween.Sequence();
+        m_healthBGAnim = DOTween.Sequence();
 
-        // Tween health bar
-        m_healthBackgroundImages[m_health.Health - 1].rectTransform.DORewind();
-        m_healthBackgroundImages[m_health.Health - 1].rectTransform.DOPunchScale(Vector3.one * 0.5f, 0.2f);
+        for (int i = 0; i < 6; i++)
+        {
+            // Health
+            m_healthImages[i].rectTransform.DORewind();
+            if (i >= m_health.Health)
+            {
+                m_healthImages[i].enabled = false;
+            }
+            else
+            {
+                if (m_healthImages[i].enabled)
+                {
+                    // Pulse
+                    m_healthImages[i].rectTransform.transform.localScale = Vector3.one;
+                    m_healthAnim.Insert(i * 0.25f, m_healthImages[i].rectTransform.DOPunchScale(Vector3.one * 0.5f, 0.5f));
+                }
+                else
+                {
+                    // Scale
+                    m_healthImages[i].enabled = true;
+                    m_healthImages[i].rectTransform.transform.localScale = Vector3.zero;
+                    m_healthAnim.Insert(i * 0.25f, m_healthImages[i].rectTransform.DOScale(1.0f, 0.5f).SetEase(Ease.OutBounce));
+                }
+            }
+
+            // Background
+            m_healthBackgroundImages[i].rectTransform.DORewind();
+            if (!m_healthBackgroundImages[i].enabled && i < m_health.m_maxHealth)
+            {
+                m_healthBackgroundImages[i].enabled = true;
+                m_healthBackgroundImages[i].rectTransform.transform.localScale = Vector3.zero;
+                m_healthBGAnim.Insert(i * 0.25f, m_healthBackgroundImages[i].rectTransform.DOScale(1.0f, 0.5f).SetEase(Ease.OutBounce));
+            }
+        }
+
+        m_healthAnim.Play();
+        m_healthBGAnim.Play();
+
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.shortSharp);
     }
 
@@ -403,38 +448,21 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < 6; i++)
         {
-            if (i < newCurrentHealth)
-            {
-                m_healthImages[i].enabled = true;
-            }
-            else
-            {
-                m_healthImages[i].enabled = false;
-            }
+            // Health
+            m_healthImages[i].enabled = i < newCurrentHealth;
+
+            // Background
+            m_healthBackgroundImages[i].enabled = i < m_health.m_maxHealth;
         }
     }
 
     public void SetMaxHealth(int _newMax)
     {
-        _newMax = Mathf.Clamp(_newMax, 1, 6);
-
-        // Activate / disable background images
-        for (int i = 0; i < 6; i++)
+        if (!m_health) 
         {
-            if (i < _newMax)
-            {
-                m_healthBackgroundImages[i].enabled = true;
-            }
-            else
-            {
-                m_healthBackgroundImages[i].enabled = false;
-            }
+            m_health = GetComponent<HealthComponent>(); 
         }
-
-        if (!m_health) { m_health = GetComponent<HealthComponent>(); }
         m_health.SetMaxHealth(_newMax);
-
-        UpdateHealthSprites();
     }
 
     public void SetCurrentHealth(int _newValue)

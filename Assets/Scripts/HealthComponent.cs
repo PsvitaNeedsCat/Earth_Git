@@ -17,7 +17,7 @@ public class HealthComponent : MonoBehaviour
     }
     public EHealthType m_type;
 
-    private int m_maxHealth = int.MaxValue;
+    [HideInInspector] public int m_maxHealth = int.MaxValue;
 
     private bool m_isDead = false;
     public bool IsInvincible
@@ -67,7 +67,7 @@ public class HealthComponent : MonoBehaviour
                 OnDeath?.Invoke();
             }
 
-            if (delta > 0)
+            if (delta >= 0)
             {
                 OnHealed?.Invoke();
             }
@@ -135,7 +135,7 @@ public class HealthComponent : MonoBehaviour
     {
         _newMax = Mathf.Clamp(_newMax, 1, int.MaxValue);
         m_maxHealth = _newMax;
-        Health = Mathf.Clamp(Health, 0, m_maxHealth);
+        Health = _newMax;
     }
 
     // Sets the health component to 0 regardless of invincibility

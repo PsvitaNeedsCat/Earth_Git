@@ -165,7 +165,6 @@ public class CheatConsole : MonoBehaviour
         DEV_MODE = new CheatCommand("dev_mode", "Max health, all powers, invincibility", "dev_mode", () =>
         {
             m_playerController.SetMaxHealth(6);
-            m_playerController.SetCurrentHealth(6);
             m_player.TogglePower(EChunkEffect.water);
             m_player.TogglePower(EChunkEffect.fire);
             m_player.TogglePower(EChunkEffect.mirage);
