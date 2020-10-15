@@ -42,4 +42,15 @@ public class RoomTrigger : MonoBehaviour
             m_triggerEvent = null;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+
+        Gizmos.DrawWireSphere(transform.position + m_spawnOffset, 0.4f);
+
+#if UNITY_EDITOR
+        UnityEditor.Handles.Label(transform.position + m_spawnOffset + Vector3.up * 0.2f, "Spawn point");
+#endif
+    }
 }

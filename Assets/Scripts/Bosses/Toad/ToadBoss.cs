@@ -26,7 +26,6 @@ public class ToadBoss : MonoBehaviour
     public void ActivateCrystal()
     {
         m_crystal.SetActive(true);
-        
     }
 
     private void Awake()
@@ -44,6 +43,11 @@ public class ToadBoss : MonoBehaviour
     {
         m_currentBehaviour = m_behaviourLoop[0];
 
+        // StartCoroutine(AwakenAfter(m_toadSettings.m_wakeAfter));
+    }
+
+    public void TriggerToadWakeup()
+    {
         StartCoroutine(AwakenAfter(m_toadSettings.m_wakeAfter));
     }
 
