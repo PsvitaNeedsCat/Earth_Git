@@ -15,6 +15,7 @@ public class PressurePlate : MonoBehaviour
     private float m_rendererY;
     private Vector3 m_inactivePosition;
     private Vector3 m_activePosition;
+    private bool m_active = false;
 
     // Holds all objects currently on the pressure plate
     private List<GameObject> m_objects = new List<GameObject>();
@@ -45,6 +46,15 @@ public class PressurePlate : MonoBehaviour
         m_renderer = GetComponentInChildren<MeshRenderer>();
         m_inactivePosition = m_renderer.transform.position;
         m_activePosition = m_renderer.transform.position + Vector3.down * m_moveAmount;
+    }
+
+    private void Update()
+    {
+        if (!m_active)
+        {
+            float blendVal = (Mathf.Sin(Time.time) + 1.0f) / 6.0f;
+            m_renderer.material.SetFloat("_TextureBlend", blendVal);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -124,6 +134,8 @@ public class PressurePlate : MonoBehaviour
 
     private void OnActivated()
     {
+        m_active = true;
+
         DOTween.Kill(this);
         DOTween.To(() => m_renderer.material.GetFloat("_TextureBlend"), x => m_renderer.material.SetFloat("_TextureBlend", x), 1.0f, 0.5f).SetEase(Ease.OutSine);
 
@@ -132,6 +144,8 @@ public class PressurePlate : MonoBehaviour
 
     private void OnDeactivated()
     {
+        m_active = false;
+
         DOTween.Kill(this);
         DOTween.To(() => m_renderer.material.GetFloat("_TextureBlend"), x => m_renderer.material.SetFloat("_TextureBlend", x), 0.0f, 0.5f).SetEase(Ease.OutSine);
 
