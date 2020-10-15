@@ -16,6 +16,9 @@ public class CheatConsole : MonoBehaviour
     private bool m_showConsole = false;
     private bool m_showHelp = false;
     private bool m_showTimeScale = false;
+    private bool m_showFPS = false;
+    private float m_deltaTime = 0.0f;
+    private GUIStyle m_textStyle;
     private Vector2 m_scroll;
 
     string m_input = "";
@@ -52,6 +55,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand CAMERA_PROJECTION;
     public static CheatCommand<EHatType> HAT;
     public static CheatCommand SHOW_TIME_SCALE;
+    public static CheatCommand SHOW_FPS;
 
     public List<object> m_commandList;
 
@@ -133,6 +137,10 @@ public class CheatConsole : MonoBehaviour
         m_player = GetComponent<Player>();
         m_playerInput = GetComponent<PlayerInput>();
         m_playerHats = GetComponent<PlayerHats>();
+
+        m_textStyle = new GUIStyle();
+        m_textStyle.fontSize = 18;
+        m_textStyle.normal.textColor = Color.white;
 
         CUR_HEALTH = new CheatCommand<int>("cur_health", "Sets the player's current health", "cur_health <health_amount>", (x) =>
         {
@@ -344,6 +352,11 @@ public class CheatConsole : MonoBehaviour
             m_showTimeScale = !m_showTimeScale;
         });
 
+        SHOW_FPS = new CheatCommand("show_fps", "Toggles showing FPS", "show_fps", () =>
+        {
+            m_showFPS = !m_showFPS;
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -377,7 +390,8 @@ public class CheatConsole : MonoBehaviour
             TOP_DOWN,
             CAMERA_PROJECTION,
             HAT,
-            SHOW_TIME_SCALE
+            SHOW_TIME_SCALE,
+            SHOW_FPS
         };
     }
 
@@ -385,7 +399,15 @@ public class CheatConsole : MonoBehaviour
     {
         if (m_showTimeScale)
         {
-            GUI.Label(new Rect(Screen.width - 50, 0, 200, 50), Time.timeScale.ToString());
+            GUI.Label(new Rect(Screen.width - 350, 0, 200, 50), "Time scale: " + Time.timeScale.ToString(), m_textStyle);
+        }
+
+        if (m_showFPS)
+        {
+            float miliSeconds = m_deltaTime * 1000.0f;
+            float fps = 1.0f / m_deltaTime;
+            string fpsText = string.Format("{0:0.0} ms ({1:0.} fps)", miliSeconds, fps);
+            GUI.Label(new Rect(Screen.width - 150, 0, 200, 50), fpsText, m_textStyle);
         }
 
         if (!m_showConsole)
@@ -437,6 +459,11 @@ public class CheatConsole : MonoBehaviour
 
             GUI.FocusControl("ConsoleInput");
         }
+    }
+
+    private void Update()
+    {
+        m_deltaTime += (Time.unscaledDeltaTime - m_deltaTime) * 0.1f;
     }
 
     private void HandleInput()
