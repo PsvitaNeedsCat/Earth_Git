@@ -109,6 +109,14 @@ public class Player : MonoBehaviour
         UpdateUI();
     }
 
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "Dojo")
+        {
+            m_materialBlendSequence = StartCoroutine(BlendMaterialTo((int)EChunkEffect.fire));
+        }
+    }
+
     private void FixedUpdate()
     {
         // Move player with provided input
