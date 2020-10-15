@@ -4763,8 +4763,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4987080045119556112}
-  - component: {fileID: 7668021007353866424}
   - component: {fileID: 6450762991265053993}
+  - component: {fileID: 3653948073079313994}
   m_Layer: 9
   m_Name: LavaTrigger
   m_TagString: Lava
@@ -4786,19 +4786,6 @@ Transform:
   m_Father: {fileID: 5155076969820039331}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7668021007353866424
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4580671113828430748}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 1, z: 0.8}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &6450762991265053993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4811,10 +4798,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b8c7a7b0b139a4292266b385da2f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lavaCollider: {fileID: 786701334071620405}
+  m_lavaCollider: {fileID: 9106710237800022393}
   m_meshRenderer: {fileID: 9013809242753232119}
   m_stoneMat: {fileID: 2100000, guid: df371c8a18e1df14789d7018552f4a57, type: 2}
   m_particles: {fileID: 2469545375581211725}
+--- !u!136 &3653948073079313994
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580671113828430748}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.425
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4812257409311202234
 GameObject:
   m_ObjectHideFlags: 0
@@ -4824,7 +4825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5791804276644837690}
-  - component: {fileID: 786701334071620405}
+  - component: {fileID: 9106710237800022393}
   m_Layer: 12
   m_Name: LavaCollider
   m_TagString: Lava
@@ -4846,8 +4847,8 @@ Transform:
   m_Father: {fileID: 5155076969820039331}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &786701334071620405
-BoxCollider:
+--- !u!136 &9106710237800022393
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4856,9 +4857,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.7, y: 1, z: 0.7}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Radius: 0.35
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &329498052940753911
 PrefabInstance:
   m_ObjectHideFlags: 0

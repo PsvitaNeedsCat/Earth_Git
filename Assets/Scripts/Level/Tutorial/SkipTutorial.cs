@@ -8,10 +8,16 @@ using DG.Tweening;
 public class SkipTutorial : MonoBehaviour
 {
     [SerializeField] private Image m_skipButtonPrompt = null;
+    private GameObject m_skipText = null;
 
     private float m_skipTimer = 0.0f;
     private float m_heldButtonMin = 1.5f;
     private bool m_skipButtonHeld = false;
+
+    private void Awake()
+    {
+        m_skipText = m_skipButtonPrompt.transform.GetChild(0).gameObject;
+    }
 
     private void Start()
     {
@@ -35,11 +41,16 @@ public class SkipTutorial : MonoBehaviour
 
         if (m_skipTimer < 0.0f)
         {
+            m_skipText.SetActive(false);
             m_skipTimer = 0.0f;
         }
         else if (m_skipTimer >= m_heldButtonMin)
         {
             LoadOverworld();
+        }
+        else
+        {
+            m_skipText.SetActive(true);
         }
 
         m_skipButtonPrompt.fillAmount = (m_skipTimer == 0.0f) ? 0.0f : m_skipTimer / m_heldButtonMin;
