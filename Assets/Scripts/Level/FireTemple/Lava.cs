@@ -20,7 +20,7 @@ public class Lava : MonoBehaviour
         m_settings = Resources.Load<GlobalTileSettings>("ScriptableObjects/GlobalTileSettings");
         Debug.Assert(m_settings, "GlobalTileSettings could not be found");
 
-        m_lavaTrigger = GetComponent<BoxCollider>();
+        m_lavaTrigger = GetComponent<Collider>();
     }
 
     private void OnTriggerEnter(Collider other)
