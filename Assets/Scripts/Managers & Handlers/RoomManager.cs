@@ -206,6 +206,8 @@ public class RoomManager : MonoBehaviour
 
         Vector3 oldPos = m_rooms[m_currentRoom].transform.position;
 
+        EffectsManager.DestroyActiveEffects();
+
         // Destroy current room
         Destroy(m_rooms[m_currentRoom]);
         m_rooms.RemoveAt(m_currentRoom);

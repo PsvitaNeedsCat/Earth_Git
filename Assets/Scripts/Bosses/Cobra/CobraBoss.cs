@@ -51,6 +51,10 @@ public class CobraBoss : MonoBehaviour
         m_flippableTiles = new List<FlippableTile>(FindObjectsOfType<FlippableTile>());
 
         m_currentBehaviour = m_behaviourLoop[0];
+    }
+
+    public void TriggerWakeup()
+    {
         StartCoroutine(DelayedStart());
     }
 
