@@ -12,6 +12,7 @@ public class ToadBoss : MonoBehaviour
 
     public static EChunkType s_eaten = EChunkType.none;
     public static bool s_tookDamage = false;
+    public static bool s_isDead = false;
 
     private int m_currentBehaviourIndex = 0;
     private int m_totalBehaviours;
@@ -25,7 +26,7 @@ public class ToadBoss : MonoBehaviour
     public void ActivateCrystal()
     {
         m_crystal.SetActive(true);
-        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
+        
     }
 
     private void Awake()
@@ -36,6 +37,7 @@ public class ToadBoss : MonoBehaviour
         m_healthComp.Init(m_toadSettings.m_maxHealth, m_toadSettings.m_maxHealth, DamageTaken, null, Died);
         s_tookDamage = false;
         s_eaten = EChunkType.none;
+        s_isDead = false;
     }
 
     private void Start()
@@ -52,6 +54,11 @@ public class ToadBoss : MonoBehaviour
 
     private void UpdateBehaviour()
     {
+        if (s_isDead)
+        {
+            return;
+        }
+
         if (m_currentBehaviour.m_currentState == ToadBehaviour.EBehaviourState.complete)
         {
             GoToNextBehaviour();
@@ -124,16 +131,31 @@ public class ToadBoss : MonoBehaviour
         m_healthIcons[0].transform.parent.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         m_healthIcons[m_healthComp.Health].SetActive(false);
 
-        HitFreezeManager.BeginHitFreeze(0.1f);
+        // No hit freeze on killing blow, as we are slowing down time
+        if (m_healthComp.Health > 0)
+        {
+            HitFreezeManager.BeginHitFreeze(0.1f);
+        }
     }
 
     private void Died()
     {
         // Turn canvas off
-
         m_toadAnimator.SetTrigger("Dead");
 
+        StartCoroutine(CollectCrystalAfter(1.0f));
+        s_isDead = true;
+
         // Remove script
-        Destroy(this);
+        // Destroy(this);
+    }
+
+    private IEnumerator CollectCrystalAfter(float _seconds)
+    {
+        StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
+
+        yield return new WaitForSeconds(2.0f);
+
+        m_crystal.GetComponentInChildren<Crystal>().Collected(FindObjectOfType<Player>());
     }
 }

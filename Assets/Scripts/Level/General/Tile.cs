@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
     private Material m_normalMaterial;
     private Texture m_normalTexture;
     private MeshRenderer m_renderer;
+    [SerializeField] private Material m_chunkMaterialOverride = null;
 
     // Tiles automatically added to and removed from grid over lifetime
     private void OnEnable()
@@ -75,6 +76,11 @@ public class Tile : MonoBehaviour
         newChunk = Instantiate(chunkPrefab, transform.position, Quaternion.identity, null).GetComponent<Chunk>();
         newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
+
+        if (m_chunkMaterialOverride)
+        {
+            newChunk.GetComponentInChildren<MeshRenderer>().material = m_chunkMaterialOverride;
+        }
 
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);

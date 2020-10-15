@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public static class BossHelper
 {
@@ -21,7 +22,7 @@ public static class BossHelper
         _material.SetFloat(_property, _endValue);
     }
 
-    public static  IEnumerator ChangeMaterialVectorPropertyOver(Material _material, string _property, Vector4 _endValue, float _overSeconds)
+    public static IEnumerator ChangeMaterialVectorPropertyOver(Material _material, string _property, Vector4 _endValue, float _overSeconds)
     {
         Vector4 startValue = _material.GetVector(_property);
         Vector4 totalDelta = _endValue - startValue;
@@ -36,5 +37,20 @@ public static class BossHelper
         }
 
         _material.SetVector(_property, _endValue);
+    }
+
+    public static IEnumerator SlowTimeFor(float _slowDownOver, float _speedUpOver, float _secondsBetween, float _timeScale, Ease _easeType = Ease.OutSine)
+    {
+        DOTween.To(() => Time.timeScale, TimeScaleSetter, _timeScale, _slowDownOver).SetEase(_easeType);
+
+        yield return new WaitForSeconds(_secondsBetween);
+
+        DOTween.To(() => Time.timeScale, TimeScaleSetter, 1.0f, _speedUpOver).SetEase(_easeType);
+    }
+
+    private static void TimeScaleSetter(float _timeScale)
+    {
+        Time.timeScale = _timeScale;
+        HitFreezeManager.s_ogTimeScale = _timeScale;
     }
 }

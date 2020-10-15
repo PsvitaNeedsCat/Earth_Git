@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!135 &9144238982817047839
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 288946922344725396}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1114250066554984648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,6 +17,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 0}
   m_name: 
   m_playOnAwake: 0
+  m_introDialogue: 0
   m_dialogue:
   - You collected the water crystal!
   m_endEvent:
@@ -110,6 +98,7 @@ MonoBehaviour:
   m_characterSprite: {fileID: 0}
   m_name: 
   m_playOnAwake: 0
+  m_introDialogue: 0
   m_dialogue: []
   m_endEvent:
     m_PersistentCalls:

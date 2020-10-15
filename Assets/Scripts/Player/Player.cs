@@ -289,7 +289,7 @@ public class Player : MonoBehaviour
         m_meshRenderer.material.SetTexture("_MainTexTwo", m_playerTextures[_newEffect]);
 
         // Change blend parameter
-        m_materialBlendSequenceTwo = StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_meshRenderer.material, "_TextureBlend", 1.0f, 0.2f));
+        m_materialBlendSequenceTwo = StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_meshRenderer.material, "_TextureBlend", 1.0f, 0.1f));
         
         yield return new WaitForSeconds(1.0f);
 
