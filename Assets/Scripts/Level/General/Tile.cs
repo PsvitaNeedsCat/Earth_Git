@@ -98,6 +98,11 @@ public class Tile : MonoBehaviour
         newChunk.m_chunkType = m_chunkType;
         newChunk.RaiseChunk();
 
+        if (m_chunkMaterialOverride)
+        {
+            newChunk.GetComponentInChildren<MeshRenderer>().material = m_chunkMaterialOverride;
+        }
+
         MessageBus.TriggerEvent(EMessageType.chunkRaise);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
         EffectsManager.SpawnEffect(EffectsManager.EEffectType.rockSummon, newChunk.transform.position, Quaternion.identity, newChunk.transform.localScale, 2.0f, m_normalMaterial);
