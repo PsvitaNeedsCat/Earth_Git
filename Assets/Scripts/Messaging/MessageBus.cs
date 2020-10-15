@@ -117,7 +117,8 @@ public enum EMessageType
     dMusic,
     dCobraMusic,
     oceanMan,
-    overworldMusic
+    overworldMusic,
+    dojoMusic = 810,
 }
 
 [System.Serializable]
