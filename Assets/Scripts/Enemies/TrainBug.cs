@@ -20,6 +20,7 @@ public class TrainBug : MonoBehaviour
     [SerializeField] private GameObject m_meshParent = null;
     [SerializeField] private MeshRenderer m_meshRenderer = null;
     [SerializeField] private ParticleSystem m_chargingParticles = null;
+    [SerializeField] private Material m_deathMaterial = null;
     private AudioSource m_chargingSound;
     private GlobalEnemySettings m_settings;
     private Rigidbody m_rigidbody;
@@ -194,6 +195,16 @@ public class TrainBug : MonoBehaviour
 
         m_state = EStates.dead;
 
-        m_meshParent.transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
+        // m_meshParent.transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
+        StartCoroutine(DeathSequence());
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        // m_meshRenderer.material = m_deathMaterial;
+
+        yield return null;
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fireChargerDeath, transform.position, transform.rotation);
     }
 }
