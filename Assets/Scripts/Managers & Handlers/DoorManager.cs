@@ -22,7 +22,7 @@ public class DoorManager : MonoBehaviour
         {
             if (m_isDoorUnlocked[i])
             {
-                m_doors[i].SetActive(false);
+                m_doors[i].GetComponent<DoorMaster>().UnlockDoorSilent();
             }
         }
 

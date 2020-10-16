@@ -9,13 +9,17 @@ public class DoorMaster : Interactable
     [SerializeField] private GameObject[] m_locks;
 
     private bool m_unlocking = false;
+    private bool m_unlocked = false;
     private Animator m_animator = null;
 
-    public override void Awake()
+    public override void OnEnable()
     {
-        base.Awake();
+        base.OnEnable();
 
-        m_animator = GetComponentInChildren<Animator>();
+        if (m_unlocked && m_animator)
+        {
+            m_animator.SetTrigger("Open");
+        }
     }
 
     // Begins the setup for attempting to unlock the door - called when the player interacts with the door
@@ -118,6 +122,14 @@ public class DoorMaster : Interactable
 
     public void UnlockDoorSilent()
     {
+        if (m_unlocked)
+        {
+            return;
+        }
+
+        m_unlocked = true;
+
+        m_animator = GetComponentInChildren<Animator>();
         if (m_animator)
         {
             foreach (GameObject i in m_locks)
@@ -127,7 +139,6 @@ public class DoorMaster : Interactable
 
             m_animator.SetTrigger("Open");
             Destroy(GetComponent<Collider>());
-            Destroy(this);
         }
         else
         {
@@ -138,7 +149,7 @@ public class DoorMaster : Interactable
     // Makes sure not to update the sprite while unlocking the door
     public override void Update()
     {
-        if (!m_unlocking)
+        if (!m_unlocking && !m_unlocked)
         {
             base.Update();
         }
