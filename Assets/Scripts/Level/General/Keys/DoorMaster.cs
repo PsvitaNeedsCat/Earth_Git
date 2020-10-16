@@ -9,6 +9,18 @@ public class DoorMaster : Interactable
     [SerializeField] private GameObject[] m_locks;
 
     private bool m_unlocking = false;
+    private bool m_unlocked = false;
+    private Animator m_animator = null;
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (m_unlocked && m_animator)
+        {
+            m_animator.SetTrigger("Open");
+        }
+    }
 
     // Begins the setup for attempting to unlock the door - called when the player interacts with the door
     public override void Invoke()
@@ -46,7 +58,6 @@ public class DoorMaster : Interactable
         Player player = FindObjectOfType<Player>();
         player.GetComponent<PlayerInput>().SetMovement(false);
 
-        int completedTweens = 0;
         int keysRequired = 0;
         bool animationFinished = false;
 
@@ -66,7 +77,7 @@ public class DoorMaster : Interactable
             _keys[i].transform.rotation = Quaternion.Euler(_keys[i].transform.rotation.eulerAngles + new Vector3(0.0f, 90.0f, 90.0f));
             Sequence unlockSeq = DOTween.Sequence();
             unlockSeq.Append(_keys[i].transform.DOMove(m_locks[i].transform.position, 0.5f).OnComplete(() => AudioManager.Instance.PlaySound("unlocking")));
-            unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(1.0f, 0.4f));
+            unlockSeq.Insert(0.0f, _keys[i].transform.DOScale(0.8f, 0.4f));
 
             // Unlocking animation
             Vector3 rotationVector = new Vector3(0.0f, 90.0f, 0.0f);
@@ -104,30 +115,41 @@ public class DoorMaster : Interactable
             FindObjectOfType<DoorManager>().UnlockDoor(gameObject.GetInstanceID());
         }
 
-        gameObject.SetActive(false);
+        UnlockDoorSilent();
 
         MessageBus.TriggerEvent(EMessageType.doorUnlocked);
     }
 
-    // Tweens the keys back to the player's belt
-    private void ReturnKeysToPlayer(ref List<Key> _keys)
+    public void UnlockDoorSilent()
     {
-        for (int i = 0; i < _keys.Count; i++)
+        if (m_unlocked)
         {
-            _keys[i].m_state = Key.States.collected;
-            _keys[i].transform.parent = _keys[i].m_beltLocation.transform;
-            _keys[i].transform.DORotateQuaternion(Quaternion.identity, 0.5f);
-            _keys[i].transform.DOScale(0.1f, 0.4f);
-            _keys[i].transform.DOLocalMove(Vector3.zero, 0.5f);
+            return;
         }
 
-        MessageBus.TriggerEvent(EMessageType.doorLocked);
+        m_unlocked = true;
+
+        m_animator = GetComponentInChildren<Animator>();
+        if (m_animator)
+        {
+            foreach (GameObject i in m_locks)
+            {
+                Destroy(i);
+            }
+
+            m_animator.SetTrigger("Open");
+            Destroy(GetComponent<Collider>());
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // Makes sure not to update the sprite while unlocking the door
     public override void Update()
     {
-        if (!m_unlocking)
+        if (!m_unlocking && !m_unlocked)
         {
             base.Update();
         }

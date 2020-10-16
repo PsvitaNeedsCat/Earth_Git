@@ -19,7 +19,10 @@ public abstract class Interactable : MonoBehaviour
         if (!s_playerRef)
         {
             Player player = FindObjectOfType<Player>();
-            if (player) { s_playerRef = player; }
+            if (player) 
+            {
+                s_playerRef = player; 
+            }
         }
 
         m_playerSettings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");

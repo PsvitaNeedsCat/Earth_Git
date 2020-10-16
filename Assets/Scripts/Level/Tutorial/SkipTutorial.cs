@@ -62,7 +62,7 @@ public class SkipTutorial : MonoBehaviour
         m_skipButtonPrompt.rectTransform.DOScale(Vector3.one * 1.4f, 0.5f);
         m_skipButtonPrompt.DOFade(0.0f, 0.5f);
 
-        RoomManager.Instance.LoadScene("Overworld");
+        RoomManager.Instance.ForceLoadScene("Overworld");
 
         Destroy(this);
     }

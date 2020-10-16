@@ -53,6 +53,14 @@ public class EffectsManager : MonoBehaviour
         s_transform = null;
     }
 
+    public static void DestroyActiveEffects()
+    {
+        foreach (Transform child in s_transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     // Create an instance of the specified type of effect, and returns a reference to the object created
     public static GameObject SpawnEffect(EEffectType _type, Vector3 _position, Quaternion _rotation, Vector3? _scale = null, float _destroyAfter = 1.0f, Material _override = null)
     {

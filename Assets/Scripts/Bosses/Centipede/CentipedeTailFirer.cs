@@ -29,6 +29,7 @@ public class CentipedeTailFirer : MonoBehaviour
         float projectileSpeed = (_tailDamaged) ? CentipedeBoss.s_settings.m_projectileSpeedDamaged : CentipedeBoss.s_settings.m_projectileSpeed;
 
         GameObject newProjectile = Instantiate(m_projectilePrefab, transform.position + m_spawnDistance * _dir + Vector3.up * m_spawnHeight, Quaternion.identity, m_projectileParent);
+        newProjectile.transform.LookAt(newProjectile.transform.position + _dir);
         newProjectile.GetComponent<Rigidbody>().velocity = _dir * projectileSpeed;
     }
 }

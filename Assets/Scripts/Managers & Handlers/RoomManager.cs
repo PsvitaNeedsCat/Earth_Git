@@ -199,12 +199,22 @@ public class RoomManager : MonoBehaviour
         m_blackWall.SetTrigger("FadeToBlack");
     }
 
+    public void ForceLoadScene(string _sceneName)
+    {
+        m_loadScene = true;
+        m_newScene = _sceneName;
+
+        ChangeRooms();
+    }
+
     // Resets the current room - used when player dies
     public void ReloadCurrentRoom()
     {
         string roomName = m_rooms[m_currentRoom].name;
 
         Vector3 oldPos = m_rooms[m_currentRoom].transform.position;
+
+        EffectsManager.DestroyActiveEffects();
 
         // Destroy current room
         Destroy(m_rooms[m_currentRoom]);
