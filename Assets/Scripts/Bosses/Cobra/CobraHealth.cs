@@ -51,7 +51,7 @@ public class CobraHealth : MonoBehaviour
 
                 default:
                 {
-                    return null;
+                    return s_settingsHurtTwice;
                 }
             }
                

@@ -67,6 +67,7 @@ public class CobraChase : CobraBehaviour
         for (int i = 0; i < CobraBoss.s_settings.m_jumpsBeforeDeath; i++)
         {
             yield return new WaitForSeconds(waitTime);
+
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.small);
             MessageBus.TriggerEvent(EMessageType.cobraPotThud);
 
@@ -74,11 +75,11 @@ public class CobraChase : CobraBehaviour
         }
 
         // Wait for last jump to complete before dying
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(waitTime * 0.75f);
 
         Death();
 
-        StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));
+        StartCoroutine(BossHelper.SlowTimeFor(0.05f, 0.25f, 0.5f, 0.25f));
 
         yield return new WaitForSeconds(2.0f);
 
