@@ -19,6 +19,8 @@ public class EffectsManager : MonoBehaviour
         centipedeHeadDeath,
         centipedeBodyDeath,
         centipedeTailDeath,
+        fireChargerDeath,
+        fireGrubDeath,
         cobraPotLand,
         waterProjectileDestroyed,
         rockToadProjectileDestroyed,
