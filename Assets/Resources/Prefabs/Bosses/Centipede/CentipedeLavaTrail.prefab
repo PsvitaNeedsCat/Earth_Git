@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5feb42d13222c043ae7094151f538ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lavaCollider: {fileID: 9178098974092384883}
+  m_lavaCollider: {fileID: 852390223705188415}
   m_meshRenderer: {fileID: 622270175868945841}
   m_stoneMat: {fileID: 2100000, guid: df371c8a18e1df14789d7018552f4a57, type: 2}
   m_particles: {fileID: 6336655647508489483}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 8201577086796520112, guid: 70ddeffe2aed9a84eb1d2462716765b3,
         type: 3}
       propertyPath: m_Name
-      value: LavaTrail
+      value: CentipedeLavaTrail
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6450762991265053993, guid: 70ddeffe2aed9a84eb1d2462716765b3, type: 3}
@@ -92,9 +92,9 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 8481901880812595526}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &9178098974092384883 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 786701334071620405, guid: 70ddeffe2aed9a84eb1d2462716765b3,
+--- !u!136 &852390223705188415 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 9106710237800022393, guid: 70ddeffe2aed9a84eb1d2462716765b3,
     type: 3}
   m_PrefabInstance: {fileID: 8481901880812595526}
   m_PrefabAsset: {fileID: 0}
