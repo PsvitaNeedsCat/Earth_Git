@@ -75,7 +75,7 @@ public class CobraChase : CobraBehaviour
         }
 
         // Wait for last jump to complete before dying
-        yield return new WaitForSeconds(waitTime * 0.75f);
+        yield return new WaitForSeconds(waitTime * 0.73f);
 
         Death();
 
