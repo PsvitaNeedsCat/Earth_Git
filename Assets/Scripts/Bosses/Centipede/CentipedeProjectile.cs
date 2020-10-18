@@ -20,6 +20,10 @@ public class CentipedeProjectile : MonoBehaviour
             healthComp.Health -= 1;
         }
 
-        Destroy(this.gameObject);
+        Quaternion rotation = Quaternion.LookRotation(-transform.forward);
+        Vector3 scale = Vector3.one * 0.5f;
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, transform.position, rotation, scale, 0.5f);
+
+        Destroy(gameObject);
     }
 }

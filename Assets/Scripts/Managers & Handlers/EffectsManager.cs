@@ -95,6 +95,16 @@ public class EffectsManager : MonoBehaviour
         ParticleSystem.MainModule mainModule = newEffect.GetComponent<ParticleSystem>().main;
         mainModule.scalingMode = ParticleSystemScalingMode.Hierarchy;
 
+        for (int i = 0; i < newEffect.transform.childCount; i++)
+        {
+            ParticleSystem ps = newEffect.transform.GetChild(i).GetComponent<ParticleSystem>();
+            if (ps)
+            {
+                ParticleSystem.MainModule module = ps.main;
+                module.scalingMode = ParticleSystemScalingMode.Hierarchy;
+            }
+        }
+
         newEffect.transform.position = _position;
         newEffect.transform.rotation = _rotation;
         newEffect.transform.localScale = (Vector3)_scale;
