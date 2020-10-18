@@ -18,7 +18,7 @@ public class TrainBug : MonoBehaviour
     private Vector3 m_startPosition;
 
     [SerializeField] private GameObject m_meshParent = null;
-    [SerializeField] private MeshRenderer m_meshRenderer = null;
+    [SerializeField] private Renderer m_meshRenderer = null;
     [SerializeField] private ParticleSystem m_chargingParticles = null;
     [SerializeField] private Material m_deathMaterial = null;
     private AudioSource m_chargingSound;
@@ -196,15 +196,22 @@ public class TrainBug : MonoBehaviour
         m_state = EStates.dead;
 
         // m_meshParent.transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
-        StartCoroutine(DeathSequence());
+        // StartCoroutine(DeathSequence());
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fireChargerDeath, transform.position, transform.rotation);
+        Destroy(transform.parent.gameObject);
     }
 
     private IEnumerator DeathSequence()
     {
-        // m_meshRenderer.material = m_deathMaterial;
+        //m_meshRenderer.material = m_deathMaterial;
+
+        //StartCoroutine(BossHelper.ChangeMaterialFloatPropertyOver(m_meshRenderer.material, "_TextureBlend", 1.0f, 0.5f));
+
+        //yield return new WaitForSeconds(0.4f);
 
         yield return null;
 
-        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fireChargerDeath, transform.position, transform.rotation);
+        
     }
 }

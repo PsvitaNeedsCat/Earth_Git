@@ -105,10 +105,14 @@ public class Grub : MonoBehaviour
     private void Dead()
     {
         transform.DOKill();
-        transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
+        // transform.DOScale(0.1f, 0.2f).OnComplete(() => Destroy(transform.parent.gameObject));
         m_dead = true;
+
         MessageBus.TriggerEvent(EMessageType.grubKilled);
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
+
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.fireGrubDeath, transform.position, transform.rotation);
+        Destroy(transform.parent.gameObject);
     }
 
     private void ChargeUp()
