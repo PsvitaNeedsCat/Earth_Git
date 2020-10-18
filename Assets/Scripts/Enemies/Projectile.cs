@@ -48,6 +48,12 @@ public class Projectile : MonoBehaviour
         {
             EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, transform.rotation);
         }
+        else if (m_destroyedSignal == EMessageType.fieryExplosion)
+        {
+            Quaternion rotation = Quaternion.LookRotation(-transform.forward);
+            Vector3 scale = Vector3.one * 0.5f;
+            EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, transform.position, rotation, scale, 0.5f);
+        }
         Destroy(gameObject);
     }
 }
