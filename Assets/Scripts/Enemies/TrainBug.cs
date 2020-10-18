@@ -192,6 +192,7 @@ public class TrainBug : MonoBehaviour
     private void Dead()
     {
         MessageBus.TriggerEvent(EMessageType.grubKilled);
+        MessageBus.TriggerEvent(EMessageType.rockCrumble);
 
         m_state = EStates.dead;
 

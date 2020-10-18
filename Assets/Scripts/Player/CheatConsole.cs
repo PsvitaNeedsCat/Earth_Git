@@ -185,7 +185,6 @@ public class CheatConsole : MonoBehaviour
         DEV_MODE_FAST = new CheatCommand("dev_mode_fast", "Max health, all powers, invincibility, speed up time", "dev_mode_fast", () =>
         {
             m_playerController.SetMaxHealth(6);
-            m_playerController.SetCurrentHealth(6);
             m_player.TogglePower(EChunkEffect.water);
             m_player.TogglePower(EChunkEffect.fire);
             m_player.TogglePower(EChunkEffect.mirage);
@@ -197,7 +196,6 @@ public class CheatConsole : MonoBehaviour
         DEV_MODE_FAT = new CheatCommand("dev_mode_fat", ":)", "dev_mode_fat", () =>
         {
             m_playerController.SetMaxHealth(6);
-            m_playerController.SetCurrentHealth(6);
             m_player.TogglePower(EChunkEffect.water);
             m_player.TogglePower(EChunkEffect.fire);
             m_player.TogglePower(EChunkEffect.mirage);

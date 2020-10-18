@@ -43,6 +43,8 @@ public enum EMessageType
     centipedeBodyFire,
     playerSpotted,
     chargingUp,
+    rockCrumble,
+    snakeFire,
 
     // Player
     playerHurt,
@@ -119,6 +121,8 @@ public enum EMessageType
     oceanMan,
     overworldMusic,
     dojoMusic = 810,
+    creaturesLoopMusic,
+    tutorialMusic,
 }
 
 [System.Serializable]

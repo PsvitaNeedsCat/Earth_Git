@@ -74,7 +74,7 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    private void PlayMusic(string _name)
+    public void PlayMusic(string _name)
     {
         if (m_audioSource.isPlaying)
         {
