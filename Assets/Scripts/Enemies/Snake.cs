@@ -45,6 +45,9 @@ public class Snake : MonoBehaviour
         MirageBullet bullet = Instantiate(bulletRef, spawnPos, transform.rotation).GetComponent<MirageBullet>();
         bullet.Init(m_effectType, m_playerRef.GetCurrentPower());
         bullet.transform.parent = transform;
+
+        //MessageBus.TriggerEvent(EMessageType.snakeFire);
+
         // Tween mesh
         //transform.GetChild(0).transform.DORewind();
         //transform.GetChild(0).transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
