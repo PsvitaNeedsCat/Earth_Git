@@ -9,13 +9,18 @@ public class MirageParent : MonoBehaviour
     public EChunkEffect m_effect = EChunkEffect.none;
 
     protected EChunkEffect m_playerEffect = EChunkEffect.none;
-    protected MeshRenderer m_renderer = null;
+    [SerializeField] protected MeshRenderer m_renderer = null;
     protected Collider m_collider = null;
 
     protected virtual void Awake()
     {
         m_collider = GetComponent<Collider>();
-        m_renderer = GetComponent<MeshRenderer>();
+
+        if (m_renderer == null)
+        {
+            m_renderer = GetComponent<MeshRenderer>();
+        }
+
         m_renderer.material = new Material(m_renderer.material);
     }
 
