@@ -202,6 +202,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &95046316 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7812908229352066604, guid: 6c7f7e68cc5674c41bcc0f213de17d64,
+    type: 3}
+  m_PrefabInstance: {fileID: 2049721792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &106468561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1143,6 +1149,8 @@ PlayableDirector:
     value: {fileID: 1942478515}
   - key: {fileID: -2661667546835317766, guid: 1b1b8948262d3964ea0291e0cb73f1f3, type: 2}
     value: {fileID: 600080563}
+  - key: {fileID: -8440621973765282, guid: 1b1b8948262d3964ea0291e0cb73f1f3, type: 2}
+    value: {fileID: 95046316}
   m_ExposedReferences:
     m_References:
     - f805a35f302d0ba4a88b79488ef6c23a: {fileID: 600080561}
@@ -2964,7 +2972,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 157e63880a1c282469536e5d95288d15, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 7812908229352066604, guid: 6c7f7e68cc5674c41bcc0f213de17d64,
         type: 3}
       propertyPath: m_PlayOnAwake

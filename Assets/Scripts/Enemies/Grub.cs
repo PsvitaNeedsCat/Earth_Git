@@ -110,6 +110,7 @@ public class Grub : MonoBehaviour
 
         MessageBus.TriggerEvent(EMessageType.grubKilled);
         MessageBus.TriggerEvent(EMessageType.lavaToStone);
+        MessageBus.TriggerEvent(EMessageType.rockCrumble);
 
         EffectsManager.SpawnEffect(EffectsManager.EEffectType.fireGrubDeath, transform.position, transform.rotation);
         Destroy(transform.parent.gameObject);

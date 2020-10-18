@@ -58,6 +58,13 @@ public class CentipedeTrainAttack : CentipedeBehaviour
         StartCoroutine(ExitArena());
     }
 
+    public override void CancelAttack()
+    {
+        base.CancelAttack();
+
+        m_trainAudio.SetActive(false);
+    }
+
     // Exit arena to begin tunnel attacks
     private IEnumerator ExitArena()
     {

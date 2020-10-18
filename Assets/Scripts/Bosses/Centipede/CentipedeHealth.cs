@@ -213,6 +213,7 @@ public class CentipedeHealth : MonoBehaviour
 
             renderer.SetActive(false);
             EffectsManager.SpawnEffect(m_deathEffects[(int)IndexToSegmentType(i)], renderer.transform.position, renderer.transform.rotation, Vector3.one, 3.0f);
+            MessageBus.TriggerEvent(EMessageType.rockCrumble);
         }
 
         StartCoroutine(BossHelper.SlowTimeFor(0.1f, 0.25f, 0.5f, 0.25f));

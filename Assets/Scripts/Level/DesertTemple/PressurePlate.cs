@@ -52,7 +52,7 @@ public class PressurePlate : MonoBehaviour
     {
         if (!m_active)
         {
-            float blendVal = (Mathf.Sin(Time.time) + 1.0f) / 6.0f;
+            float blendVal = (Mathf.Sin(Time.time) + 1.0f) / 25.0f;
             m_renderer.material.SetFloat("_TextureBlend", blendVal);
         }
     }
