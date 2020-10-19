@@ -12,6 +12,7 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public Transform m_mesh;
     public GameObject m_shields;
     public SphereCollider m_tailCollider;
+    public List<Renderer> m_shieldRenderers;
 
     private CentipedeHealth m_centipedeHealth;
     private float m_timeFiredFor = 0.0f;
@@ -145,6 +146,16 @@ public class CentipedeTailAttack : CentipedeBehaviour
     public override void CompleteBehaviour()
     {
         base.CompleteBehaviour();
+    }
+
+    public override void CancelAttack()
+    {
+        base.CancelAttack();
+
+        foreach(Renderer renderer in m_shieldRenderers)
+        {
+            renderer.enabled = false;
+        }
     }
 
     public override void Reset()
