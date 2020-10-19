@@ -18,6 +18,8 @@ public class CentipedeProjectile : MonoBehaviour
         if (healthComp?.m_type == HealthComponent.EHealthType.player)
         {
             healthComp.Health -= 1;
+
+            MessageBus.TriggerEvent(EMessageType.fireProjectileHitPlayer);
         }
 
         Quaternion rotation = Quaternion.LookRotation(-transform.forward);
