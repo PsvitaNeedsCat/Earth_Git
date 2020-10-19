@@ -32,6 +32,11 @@ public class Projectile : MonoBehaviour
         if (playerHealth)
         {
             playerHealth.GetComponent<HealthComponent>().Health -= m_damage;
+
+            if (m_destroyedSignal == EMessageType.fieryExplosion)
+            {
+                MessageBus.TriggerEvent(EMessageType.fireProjectileHitPlayer);
+            }
         }
 
         OnDeath();

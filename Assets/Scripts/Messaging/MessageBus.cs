@@ -45,6 +45,7 @@ public enum EMessageType
     chargingUp,
     rockCrumble,
     snakeFire,
+    fireProjectileHitPlayer,
 
     // Player
     playerHurt,
