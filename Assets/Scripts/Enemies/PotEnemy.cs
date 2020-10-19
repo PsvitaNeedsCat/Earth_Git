@@ -22,6 +22,7 @@ public class PotEnemy : MonoBehaviour
 
     [SerializeField] private GameObject m_spottedEffect = null;
     [SerializeField] private GameObject m_windupEffect = null;
+    [SerializeField] private ParticleSystem m_aimIndicator = null;
 
     private void OnEnable()
     {
@@ -181,6 +182,10 @@ public class PotEnemy : MonoBehaviour
     private IEnumerator SpawnWindupEffect()
     {
         m_windupEffect.SetActive(true);
+
+        m_aimIndicator.gameObject.SetActive(true);
+        m_aimIndicator.Simulate(0.5f);
+        m_aimIndicator.Play();
 
         MessageBus.TriggerEvent(EMessageType.chargingUp);
 
