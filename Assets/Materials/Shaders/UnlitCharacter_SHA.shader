@@ -81,5 +81,5 @@
 
         }
 
-        Fallback "Diffuse"
+        Fallback "Unlit/Texture"
 }
