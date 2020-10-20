@@ -73,19 +73,21 @@ public class MirageBlock : MirageParent
             m_collider.isTrigger = true;
         }
 
+        if (!m_attemptToSolidify)
+        {
+            return;
+        }
+
         // Check if chunk is inside
-        RaycastHit[] hits = Physics.BoxCastAll(transform.position, new Vector3(0.45f, 0.45f, 0.45f), Vector3.one, Quaternion.identity, 0.0f);
-        foreach (RaycastHit hit in hits)
+        Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(0.45f, 0.45f, 0.45f));
+        foreach (Collider collider in colliders)
         {
             // If hit a chunk
-            if (hit.collider.GetComponentInParent<Chunk>())
+            Chunk chunk = collider.GetComponentInParent<Chunk>();
+            if (chunk)
             {
-                if (!hit.collider.isTrigger)
-                {
-                    Destroy(hit.collider.transform.parent.gameObject);
-                    continue;
-                }
-                Destroy(hit.collider.gameObject);
+                chunk.OnDeath();
+                continue;
             }
         }
     }
