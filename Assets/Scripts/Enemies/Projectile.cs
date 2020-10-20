@@ -47,17 +47,21 @@ public class Projectile : MonoBehaviour
         MessageBus.TriggerEvent(m_destroyedSignal);
         if (m_destroyedSignal == EMessageType.sandProjectileDestroyed)
         {
-            EffectsManager.SpawnEffect(EffectsManager.EEffectType.sandProjectileDestroyed, transform.position, transform.rotation);
+            EffectsManager.EEffectType effectType = EffectsManager.EEffectType.sandProjectileDestroyed;
+            EffectsManager.SpawnEffect(effectType, transform.position, transform.rotation);
         }
         else if (m_destroyedSignal == EMessageType.projectileSplash)
         {
-            EffectsManager.SpawnEffect(EffectsManager.EEffectType.waterProjectileDestroyed, transform.position, transform.rotation);
+            EffectsManager.EEffectType effectType = EffectsManager.EEffectType.waterProjectileDestroyed;
+            Vector3 scale = Vector3.one * 0.5f;
+            EffectsManager.SpawnEffect(effectType, transform.position, transform.rotation, scale);
         }
         else if (m_destroyedSignal == EMessageType.fieryExplosion)
         {
+            EffectsManager.EEffectType effectType = EffectsManager.EEffectType.fieryExplosion;
             Quaternion rotation = Quaternion.LookRotation(-transform.forward);
             Vector3 scale = Vector3.one * 0.5f;
-            EffectsManager.SpawnEffect(EffectsManager.EEffectType.fieryExplosion, transform.position, rotation, scale, 0.5f);
+            EffectsManager.SpawnEffect(effectType, transform.position, rotation, scale, 0.5f);
         }
         Destroy(gameObject);
     }
