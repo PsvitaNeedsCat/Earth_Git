@@ -77,6 +77,7 @@ public class CobraShuffle : CobraBehaviour
             if (!spit.m_isReal)
             {
                 spit.ExitPotFade();
+                EffectsManager.SpawnEffect(EffectsManager.EEffectType.mirageSummon, spit.transform.position + Vector3.up * 0.75f, spit.transform.rotation, Vector3.one, 5.0f);
             }
         }
 
