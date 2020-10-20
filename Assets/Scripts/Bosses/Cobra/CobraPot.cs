@@ -17,6 +17,7 @@ public class CobraPot : MonoBehaviour
     public GameObject m_mesh;
     public Transform m_moveTransform;
     public bool m_damagePlayer = false;
+    public Color m_flashColour;
 
     public SkinnedMeshRenderer m_eyeRenderer;
     public GameObject m_potLandIndicator;
@@ -82,11 +83,11 @@ public class CobraPot : MonoBehaviour
 
     private IEnumerator FlashEyeSequence()
     {
-        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", Color.red, 1.0f));
+        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", m_flashColour, 0.25f));
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.25f);
 
-        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", Color.white, 1.0f));
+        StartCoroutine(BossHelper.ChangeMaterialVectorPropertyOver(m_eyeRenderer.material, "_Color", Color.white, 0.25f));
     }
 
     private void LobProjectile(Vector3 _dir)

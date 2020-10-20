@@ -62,23 +62,26 @@ public abstract class Interactable : MonoBehaviour
 
     public virtual void Update()
     {
-        // Check if the player is close enough to trigger the prompt
-        m_playerIsClose = (s_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
-
-        // If there is a prompt
-        if (m_prompt)
+        if (s_playerRef)
         {
-            // Player is close enough to interact - prompt is not currently active
-            if (!m_prompt.activeSelf && m_playerIsClose)
+            // Check if the player is close enough to trigger the prompt
+            m_playerIsClose = (s_playerRef.transform.position - transform.position).magnitude < m_playerSettings.m_maxInteractableDist;
+
+            // If there is a prompt
+            if (m_prompt)
             {
-                // Turn prompt on
-                m_prompt.SetActive(true);
-            }
-            // Player is not close enough to interact - prompt is currently active
-            else if (m_prompt.activeSelf && !m_playerIsClose)
-            {
-                // Turn off prompt
-                m_prompt.SetActive(false);
+                // Player is close enough to interact - prompt is not currently active
+                if (!m_prompt.activeSelf && m_playerIsClose)
+                {
+                    // Turn prompt on
+                    m_prompt.SetActive(true);
+                }
+                // Player is not close enough to interact - prompt is currently active
+                else if (m_prompt.activeSelf && !m_playerIsClose)
+                {
+                    // Turn off prompt
+                    m_prompt.SetActive(false);
+                }
             }
         }
     }

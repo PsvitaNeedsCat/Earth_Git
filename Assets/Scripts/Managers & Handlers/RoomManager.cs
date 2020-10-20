@@ -79,9 +79,8 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
-        BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
-        Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
-        m_blackWall = blackWall.GetComponent<Animator>();
+        m_blackWall = FindObjectOfType<GameCanvas>().m_blackwall.GetComponent<Animator>();
+        Debug.Assert(m_blackWall, "TURN THE BLACK WALL BACK ON");
     }
 
     private void OnEnable()
@@ -135,7 +134,10 @@ public class RoomManager : MonoBehaviour
             m_rooms[m_currentRoom].SetActive(true);
 
             m_blackWall.SetTrigger("FadeToGame");
-            m_playerInput.SetMovement(true);
+            if (m_playerInput)
+            {
+                m_playerInput.SetMovement(true);
+            }
 
             // Set a new respawn point if teleporting
             if (!m_movePlayer)
@@ -173,8 +175,11 @@ public class RoomManager : MonoBehaviour
                 }
 
                 // Room is valid
-                m_playerInput.SetMovement(false);
-                m_playerInput.GetComponent<HealthComponent>().SetInvincibleTimer(2.0f);
+                if (m_playerInput)
+                {
+                    m_playerInput.SetMovement(false);
+                    m_playerInput.GetComponent<HealthComponent>().SetInvincibleTimer(2.0f);
+                }
                 m_newRoom = i;
                 m_blackWall.SetTrigger("FadeToBlack");
                 return;
@@ -182,6 +187,12 @@ public class RoomManager : MonoBehaviour
         }
 
         Debug.LogError("Room does not exist");
+    }
+
+    // Called by Unity timeline - changes room without any interaction with the player
+    public void TimelineChangeRoom(string _roomName)
+    {
+        PrepareToChangeRoom(_roomName, false);
     }
 
     // Returns the active room
