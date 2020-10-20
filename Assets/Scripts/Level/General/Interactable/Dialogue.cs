@@ -68,7 +68,10 @@ public class Dialogue : Interactable
 
     public override void Invoke()
     {
-        m_player.SetDialogue(true);
+        if (m_player)
+        {
+            m_player.SetDialogue(true);
+        }
 
         // Instantiate dialogue
         m_dialogueObj = Instantiate(m_dialoguePrefab, Vector3.zero, Quaternion.identity);
@@ -128,7 +131,7 @@ public class Dialogue : Interactable
             }
         }
 
-        m_curDialogue = m_dialogue[m_dialogueIndex].ToCharArray();
+        m_curDialogue = (m_dialogue[m_dialogueIndex].Length > 0) ? m_dialogue[m_dialogueIndex].ToCharArray() : "".ToCharArray();
 
         StartCoroutine(ActivateDialogue());
     }
@@ -171,7 +174,7 @@ public class Dialogue : Interactable
         }
 
         // If text is still being 'typed'
-        if (m_charIndex < m_curDialogue.Length)
+        if (m_charIndex < m_curDialogue.Length && m_curDialogue.Length != 0)
         {
             m_charIndex = m_curDialogue.Length;
             m_displayText = m_dialogue[m_dialogueIndex];
@@ -210,7 +213,10 @@ public class Dialogue : Interactable
         m_dialogueObj = null;
         m_dialogueText = null;
         m_displayText = "";
-        m_player.SetDialogue(false);
+        if (m_player)
+        {
+            m_player.SetDialogue(false);
+        }
         m_charIndex = 0;
         m_dialogueIndex = 0;
         m_endEvent.Invoke();
