@@ -127,6 +127,9 @@ public class SandBlock : MonoBehaviour
         GetComponent<Collider>().isTrigger = false;
         GetComponentInChildren<MeshRenderer>().material = m_glassMat;
 
+        transform.Find("Mesh").localScale = new Vector3(1.01f, 1.0f, 1.01f);
+        transform.Find("Mesh").localPosition = Vector3.zero;
+
         // Break chunk inside
         if (m_chunkInside)
         {
