@@ -79,9 +79,8 @@ public class RoomManager : MonoBehaviour
 
     private void Start()
     {
-        BlackWallAnimator blackWall = FindObjectOfType<BlackWallAnimator>();
-        Debug.Assert(blackWall, "TURN THE BLACK WALL BACK ON");
-        m_blackWall = blackWall.GetComponent<Animator>();
+        m_blackWall = FindObjectOfType<GameCanvas>().m_blackwall.GetComponent<Animator>();
+        Debug.Assert(m_blackWall, "TURN THE BLACK WALL BACK ON");
     }
 
     private void OnEnable()
