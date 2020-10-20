@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
         // Fade to black
         RoomManager.Instance.FadeToBlack();
+        MessageBus.TriggerEvent(EMessageType.playerDeath);
     }
 
     // Called by message bus after the screen has faded to black

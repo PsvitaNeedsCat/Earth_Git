@@ -59,6 +59,7 @@ public enum EMessageType
     moveYourBody,
     aaaaa,
     ooooo,
+    playerDeath,
 
     // Level
     doorUnlocked,
