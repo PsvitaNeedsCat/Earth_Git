@@ -77,6 +77,7 @@ public class CobraShuffle : CobraBehaviour
             if (!spit.m_isReal)
             {
                 spit.ExitPotFade();
+                EffectsManager.SpawnEffect(EffectsManager.EEffectType.mirageSummon, spit.transform.position + Vector3.up * 0.75f, spit.transform.rotation, Vector3.one, 5.0f);
             }
         }
 
@@ -178,7 +179,7 @@ public class CobraShuffle : CobraBehaviour
         {
             m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
-            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay + CobraHealth.StateSettings.m_shuffleIndicatorShowTime);
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
         }
 
         s_nextBossPotIndex = s_boss.m_cobraPots[s_bossPotIndex].m_endIndex;
