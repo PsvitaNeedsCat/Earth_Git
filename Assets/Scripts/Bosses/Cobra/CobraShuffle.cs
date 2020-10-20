@@ -179,7 +179,7 @@ public class CobraShuffle : CobraBehaviour
         {
             m_activePots[i].JumpOut(CobraHealth.StateSettings.m_shuffleJumpOutTime);
 
-            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay + CobraHealth.StateSettings.m_shuffleIndicatorShowTime);
+            yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleJumpOutDelay);
         }
 
         s_nextBossPotIndex = s_boss.m_cobraPots[s_bossPotIndex].m_endIndex;
