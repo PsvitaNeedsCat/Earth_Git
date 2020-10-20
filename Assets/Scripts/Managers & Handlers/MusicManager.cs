@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
@@ -76,23 +77,54 @@ public class MusicManager : MonoBehaviour
 
     public void PlayMusic(string _name)
     {
+        StopAllCoroutines();
+        StartCoroutine(SwitchMusic(_name));
+
+        //if (m_audioSource.isPlaying)
+        //{
+        //    // If the clip playing is the one wanted to be played, return
+        //    if (m_audioSource.clip.name == _name)
+        //    {
+        //        return; 
+        //    }
+
+        //    // If the clip playing is not the one wanted, stop it playing
+        //    m_audioSource.Stop();
+        //}
+
+        //m_audioSource.clip = m_musicDictionary[_name];
+
+        //m_audioSource.volume = m_defaultVolume;
+
+        //m_audioSource.Play();
+    }
+
+    private IEnumerator SwitchMusic(string _name)
+    {
         if (m_audioSource.isPlaying)
         {
             // If the clip playing is the one wanted to be played, return
             if (m_audioSource.clip.name == _name)
             {
-                return; 
+                yield break;
             }
 
             // If the clip playing is not the one wanted, stop it playing
+            
+            m_audioSource.DOFade(0.0f, 1.0f);
+            yield return new WaitForSeconds(1.0f);
             m_audioSource.Stop();
         }
+
+        m_audioSource.volume = 0.0f;
 
         m_audioSource.clip = m_musicDictionary[_name];
 
         m_audioSource.volume = m_defaultVolume;
 
         m_audioSource.Play();
+
+        m_audioSource.DOFade(1.0f, 1.0f);
     }
 
     private void StopMusic(string _null)
