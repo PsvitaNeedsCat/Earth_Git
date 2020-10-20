@@ -24,12 +24,20 @@ public class Torch : MonoBehaviour
 
         m_meshRenderer = GetComponentInChildren<MeshRenderer>();
 
+
+        UpdateMaterial();
+    }
+
+    private void OnEnable()
+    {
         if (m_active)
         {
             m_fireParticles.Play();
         }
-
-        UpdateMaterial();
+        else
+        {
+            m_fireParticles.Stop();
+        }
     }
 
     // Called by chunk - checks if already activated, and activates it if required
