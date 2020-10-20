@@ -125,7 +125,7 @@ public class SandBlock : MonoBehaviour
 
         m_isGlass = true;
         GetComponent<Collider>().isTrigger = false;
-        GetComponent<MeshRenderer>().material = m_glassMat;
+        GetComponentInChildren<MeshRenderer>().material = m_glassMat;
 
         // Break chunk inside
         if (m_chunkInside)

@@ -430,7 +430,7 @@ public class Chunk : MonoBehaviour
         SnapChunk();
 
         Quaternion effectRot = Quaternion.LookRotation(Vector3.down);
-        Vector3 effectScale = Vector3.one * 0.1f;
+        Vector3 effectScale = Vector3.one * 0.5f;
         Vector3 effectPos = transform.position;
 
         // Creates 4 raycasts around the centre point, if the raycasts hit sand, they'll be turned to glass
