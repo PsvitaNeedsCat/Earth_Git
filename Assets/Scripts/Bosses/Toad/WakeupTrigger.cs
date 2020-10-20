@@ -22,6 +22,7 @@ public class WakeupTrigger : MonoBehaviour
             m_boss.TriggerToadWakeup();
             m_bossWall.SetActive(true);
             m_director.Play();
+            MessageBus.TriggerEvent(EMessageType.wToadMusic);
             m_hasTriggered = true;
         }
     }
