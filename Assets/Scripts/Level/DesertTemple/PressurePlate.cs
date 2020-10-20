@@ -44,6 +44,7 @@ public class PressurePlate : MonoBehaviour
     private void Awake()
     {
         m_renderer = GetComponentInChildren<MeshRenderer>();
+        m_renderer.material = new Material(m_renderer.material);
         m_inactivePosition = m_renderer.transform.position;
         m_activePosition = m_renderer.transform.position + Vector3.down * m_moveAmount;
     }
