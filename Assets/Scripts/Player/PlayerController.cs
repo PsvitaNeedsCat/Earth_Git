@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
 
         // Set rigidbody
         m_rigidBody = GetComponent<Rigidbody>();
-        Debug.Assert(m_rigidBody, "No rigidbody found on player");
 
         m_input = GetComponent<PlayerInput>();
         Debug.Assert(m_input, "Player has no PlayerInput.cs");
