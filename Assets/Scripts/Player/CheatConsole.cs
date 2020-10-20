@@ -56,6 +56,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand<EHatType> HAT;
     public static CheatCommand SHOW_TIME_SCALE;
     public static CheatCommand SHOW_FPS;
+    public static CheatCommand VSYNC;
 
     public List<object> m_commandList;
 
@@ -355,6 +356,18 @@ public class CheatConsole : MonoBehaviour
             m_showFPS = !m_showFPS;
         });
 
+        VSYNC = new CheatCommand("vsync", "Toggles vsync", "vsync", () =>
+        {
+            if (QualitySettings.vSyncCount == 0)
+            {
+                QualitySettings.vSyncCount = 1;
+            }
+            else
+            {
+                QualitySettings.vSyncCount = 0;
+            }
+        });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -389,7 +402,8 @@ public class CheatConsole : MonoBehaviour
             CAMERA_PROJECTION,
             HAT,
             SHOW_TIME_SCALE,
-            SHOW_FPS
+            SHOW_FPS,
+            VSYNC
         };
     }
 
