@@ -32,7 +32,7 @@ public class Dialogue : Interactable
 
     // Timer
     private float m_timer = 0.0f;
-    private const float m_timerMax = 0.04f;
+    private const float m_timerMax = 0.03f;
 
     public override void Awake()
     {
