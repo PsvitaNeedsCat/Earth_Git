@@ -19,14 +19,15 @@
 		{
 			Tags {"Queue" = "Transparent" "RenderType" = "Transparent"}
 			LOD 100
+			Blend SrcAlpha OneMinusSrcAlpha
 
 				CGPROGRAM
-				#pragma surface surf Flat vertex:vert
+				#pragma surface surf Lambert alpha:fade vertex:vert
 
-				half4 LightingFlat(SurfaceOutput o, half3 lightDir, half atten)
+				/*half4 LightingFlat(SurfaceOutput o, half3 lightDir, half atten)
 				{
 					return half4(o.Albedo, 1);
-				}
+				}*/
 
 				sampler2D _MainTex;
 				float4 _MainTex_ST;
@@ -49,7 +50,7 @@
 				o.st_MainTex.y += cos((o.st_MainTex.x - o.st_MainTex.y) + _Time.g) * _Dist;
 			}
 
-				fixed4 _Color;
+				float4 _Color;
 				fixed4 _Emission;
 				sampler2D _EmissionMap;
 
@@ -57,6 +58,7 @@
 				{
 					float4 col = tex2D(_MainTex, IN.st_MainTex);
 					o.Albedo = col.rgb * _Color.rgb;
+					o.Alpha = _Color.a;
 					o.Emission = tex2D(_EmissionMap, IN.st_MainTex) * _Emission.rgb;
 				}
 
