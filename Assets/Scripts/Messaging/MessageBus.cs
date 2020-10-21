@@ -105,6 +105,7 @@ public enum EMessageType
     cobraPotFire,
     cobraPotThud,
     cobraLaugh,
+    cobraRoar,
 
     // Added stuff
     fireBugKilled = 400,
