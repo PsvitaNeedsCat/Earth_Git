@@ -23,6 +23,7 @@ public class CobraWakeup : MonoBehaviour
             m_bossWall.SetActive(true);
             m_director.Play();
             m_hasTriggered = true;
+            MessageBus.TriggerEvent(EMessageType.dCobraMusic);
         }
     }
 }

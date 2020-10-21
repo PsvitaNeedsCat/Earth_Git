@@ -62,6 +62,5 @@ public class CobraEyes : MonoBehaviour
     {
         Vector2 offset = new Vector2(_frameIndex * (1.0f / m_blinkFrames), 0);
         m_renderer.material.SetTextureOffset("_MainTex", offset);
-        Debug.Log("Setting eyes to frame: " + _frameIndex);
     }
 }
