@@ -9,6 +9,7 @@ public class ReturnTeleporter : Interactable
     private bool m_unlocked = false;
 
     [SerializeField] private ParticleSystem m_particles;
+    [SerializeField] private Material m_activeMaterial = null;
 
     private Vector3 m_startPosition;
     public GameObject m_crystalMesh;
@@ -53,10 +54,26 @@ public class ReturnTeleporter : Interactable
         }
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (m_unlocked)
+        {
+            m_particles.Play();
+        }
+    }
+
     // Unlocks the teleport for use
     public void Unlock()
     {
         m_unlocked = true;
+
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            meshRenderers[i].material = m_activeMaterial;
+        }
 
         m_particles.Play();
     }

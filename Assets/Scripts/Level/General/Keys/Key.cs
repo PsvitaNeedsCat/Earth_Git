@@ -26,6 +26,7 @@ public class Key : MonoBehaviour
     public int m_keyID;
     [HideInInspector] public bool m_isLoaded = false;
     [HideInInspector] public GameObject m_beltLocation = null;
+    [SerializeField] private GameObject m_returnTile = null;
     [SerializeField] private UnityEvent m_collectedEvent = new UnityEvent();
     [SerializeField] private ParticleSystem[] m_particles = new ParticleSystem[] { };
     private DoorManager m_doorManager = null;
