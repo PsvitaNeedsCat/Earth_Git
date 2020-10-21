@@ -35,6 +35,12 @@ public class MainMenu : MonoBehaviour
             s_instance = this; 
         }
 
+        float vol = PlayerPrefs.GetFloat("volume");
+        if (vol > 0.001f)
+        {
+            AudioListener.volume = vol;
+        }
+
         // Disable splash screen
         if (s_splashSeen)
         {

@@ -57,6 +57,7 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand SHOW_TIME_SCALE;
     public static CheatCommand SHOW_FPS;
     public static CheatCommand VSYNC;
+    public static CheatCommand<float> VOLUME;
 
     public List<object> m_commandList;
 
@@ -368,6 +369,13 @@ public class CheatConsole : MonoBehaviour
             }
         });
 
+        VOLUME = new CheatCommand<float>("volume", "Sets the game volume", "volume <0.0-1.0>", (x) =>
+       {
+           float vol = Mathf.Clamp01(x);
+           AudioListener.volume = vol;
+           PlayerPrefs.SetFloat("volume", vol);
+       });
+
         m_commandList = new List<object>
         {
             CUR_HEALTH,
@@ -403,7 +411,8 @@ public class CheatConsole : MonoBehaviour
             HAT,
             SHOW_TIME_SCALE,
             SHOW_FPS,
-            VSYNC
+            VSYNC,
+            VOLUME
         };
     }
 
