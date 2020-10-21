@@ -133,24 +133,24 @@ public class MusicManager : MonoBehaviour
     }
     
     // Fades the music in/out over a duration
-    public IEnumerator FadeMusic(float _duration, bool _fadeIOut = true)
+    public IEnumerator FadeMusic(float _duration, bool _fadeOut = true)
     {
         float timer = 0.0f;
         float startVolume = m_audioSource.volume;
 
-        if (!_fadeIOut)
+        if (!_fadeOut)
         {
             m_audioSource.Play();
         }
         while (timer < _duration)
         {
             timer += Time.deltaTime;
-            float endResult = (_fadeIOut) ? 0.0f : 1.0f;
+            float endResult = (_fadeOut) ? 0.0f : 1.0f;
             m_audioSource.volume = Mathf.Lerp(startVolume, endResult, timer / _duration);
             yield return null;
         }
 
-        if (_fadeIOut)
+        if (_fadeOut)
         {
             m_audioSource.volume = 0.0f;
             m_audioSource.Pause();
@@ -159,5 +159,10 @@ public class MusicManager : MonoBehaviour
         {
             m_audioSource.volume = 1.0f;
         }
+    }
+
+    public void AEFadeMusicOut(float _duration)
+    {
+        StartCoroutine(FadeMusic(_duration, true));
     }
 }

@@ -16,6 +16,8 @@ public class EpilogueChunk : MonoBehaviour
         if (other.GetComponent<Hurtbox>())
         {
             MoveForward();
+
+            MessageBus.TriggerEvent(EMessageType.chunkHit);
         }
     }
 

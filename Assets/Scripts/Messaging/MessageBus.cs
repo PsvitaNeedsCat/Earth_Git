@@ -86,6 +86,7 @@ public enum EMessageType
     toadRoar,
     toadSpit,
     toadTongue,
+    laserBeam,
 
     // General
     vulnerableStart,
@@ -125,6 +126,7 @@ public enum EMessageType
     creaturesLoopMusic,
     tutorialMusic,
     lEpicMusic,
+    lightTempleIntro,
 }
 
 [System.Serializable]
