@@ -7,6 +7,7 @@
         _MainTex("Texture One", 2D) = "white" {}
 		_MainTexTwo("Texture Two", 2D) = "white" {}
 		_TextureBlend("Texture Blend", Range(0,1)) = 0.0
+		_WhiteOverride("WhiteOverride", Range(0,1)) = 0.0
         [Space]
         [Header(SILHOUETTE)]
         _SilhouetteColor("Silhouette Color", Color) = (1, 1, 1, 1)
@@ -74,10 +75,12 @@
 
             float4 _Color;
 			float _TextureBlend;
+			float _WhiteOverride;
 
             void surf(Input IN, inout SurfaceOutput o)
             {
-				o.Albedo = lerp(tex2D(_MainTex, IN.uv_MainTex), tex2D(_MainTexTwo, IN.uv_MainTexTwo), _TextureBlend) * _Color;
+				float3 normalColour = lerp(tex2D(_MainTex, IN.uv_MainTex), tex2D(_MainTexTwo, IN.uv_MainTexTwo), _TextureBlend) * _Color;
+				o.Albedo = lerp(normalColour, float3(1, 1, 1), _WhiteOverride);
             }
 
             ENDCG

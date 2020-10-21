@@ -64,6 +64,11 @@ public class DoorManager : MonoBehaviour
     // Checks if a key with a specific ID has been collected - used to destroy previously collected keys
     public bool HasKeyBeenCollected(int _id)
     {
+        if (!m_collectedKeys.ContainsKey(_id))
+        {
+            return false;
+        }
+
         return m_collectedKeys[_id];
     }
 
