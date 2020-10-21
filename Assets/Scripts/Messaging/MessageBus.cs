@@ -104,7 +104,6 @@ public enum EMessageType
     cobraPotBreak,
     cobraPotFire,
     cobraPotThud,
-    cobraPotBigThud,
     cobraLaugh,
 
     // Added stuff
