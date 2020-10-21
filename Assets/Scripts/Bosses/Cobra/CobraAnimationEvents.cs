@@ -16,4 +16,12 @@ public class CobraAnimationEvents : MonoBehaviour
     {
         m_animations.AEFlipTiles();
     }
+
+    public void AERoarSound()
+    {
+        if (GetComponent<CobraBossPot>())
+        {
+            MessageBus.TriggerEvent(EMessageType.cobraRoar);
+        }
+    }
 }

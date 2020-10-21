@@ -27,7 +27,8 @@ public class EffectsManager : MonoBehaviour
         sandProjectileDestroyed,
         centipedeBurrow,
         toadSplash,
-        mirageSummon
+        mirageSummon,
+        toadBigSplash
     }
 
     private readonly string m_effectsPath = "Effects";
