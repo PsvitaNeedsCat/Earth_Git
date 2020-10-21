@@ -162,6 +162,9 @@ public class CobraShuffle : CobraBehaviour
             CobraMoveDef move = m_cobraMoves[i];
             float waitFor = ExecuteMove(move.m_actionType, move.m_moveType);
             yield return new WaitForSeconds(waitFor);
+
+            MessageBus.TriggerEvent(EMessageType.cobraPotThud);
+
             yield return new WaitForSeconds(CobraHealth.StateSettings.m_shuffleMoveDelay);
         }
 

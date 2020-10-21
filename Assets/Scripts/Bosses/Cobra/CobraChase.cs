@@ -130,7 +130,7 @@ public class CobraChase : CobraBehaviour
         m_moveTransform.DOMove(landingPos, CobraBoss.s_settings.m_chaseJumpFallTime).SetEase(CobraBoss.s_settings.m_chaseFallCurve).OnComplete(() => 
         {
             ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.medium);
-            MessageBus.TriggerEvent(EMessageType.cobraPotBigThud);
+            MessageBus.TriggerEvent(EMessageType.cobraPotThud);
             EffectsManager.SpawnEffect(EffectsManager.EEffectType.cobraPotLand, landingPos, transform.rotation, Vector3.one, 1.0f);
         });
     }
