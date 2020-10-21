@@ -11,6 +11,7 @@
         Tags { "RenderType"="Opaque" }
         LOD 100
             Cull Off
+			
 
             CGPROGRAM
             #pragma surface surf Flat
@@ -41,6 +42,7 @@
         float2 uv = moveUV(IN.uv_MainTex, _Time.y);
 
         o.Albedo = tex2D(_MainTex, uv).rgb * _Color;
+		
         o.Emission = _EmissionColor;
     }
 
