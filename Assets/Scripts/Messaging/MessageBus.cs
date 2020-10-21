@@ -124,6 +124,7 @@ public enum EMessageType
     dojoMusic = 810,
     creaturesLoopMusic,
     tutorialMusic,
+    lEpicMusic,
 }
 
 [System.Serializable]
