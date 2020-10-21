@@ -9,11 +9,13 @@ public class ToadAnimations : MonoBehaviour
     public ToadSwell m_swell;
     public ToadSwampAttack m_swampAttack;
     public ToadTongueAttack m_tongueAttack;
+    public Transform m_particleSpawn;
 
     public void AESpitProjectile() => m_spitAttack.AESpitProjectile();
     public void AELaunchWave()
     {
         m_swampAttack.AELaunchWave();
+        EffectsManager.SpawnEffect(EffectsManager.EEffectType.toadBigSplash, m_particleSpawn.position, Quaternion.identity, Vector3.one, 2.0f);
     }
     public void AEFrogLand()
     {
