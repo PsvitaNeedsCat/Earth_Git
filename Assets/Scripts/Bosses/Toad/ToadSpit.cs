@@ -88,7 +88,10 @@ public class ToadSpit : ToadBehaviour
     // Re-adds tile to the dictionary, because the projectile aiming at it has been destroyed
     public static void ProjectileDestroyed(Tile _aimedTile)
     {
-        s_levelTiles.Add(_aimedTile.GetInstanceID(), _aimedTile);
+        if (!s_levelTiles.ContainsKey(_aimedTile.GetInstanceID()))
+        {
+            s_levelTiles.Add(_aimedTile.GetInstanceID(), _aimedTile);
+        }
     }
 
     private Tile GetRandomFreeTile()
