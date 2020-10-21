@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private GameCanvas m_gameCanvas;
     private PlayerRagdoll m_ragdoll;
     private CheatConsole m_cheats;
-    private Player m_player;
+    private float m_defaultVignette = 0.0f;
 
     private Sequence m_healthAnim;
     private Sequence m_healthBGAnim;
@@ -59,7 +60,6 @@ public class PlayerController : MonoBehaviour
         m_settings = Resources.Load<GlobalPlayerSettings>("ScriptableObjects/GlobalPlayerSettings");
         m_ragdoll = GetComponent<PlayerRagdoll>();
         m_cheats = GetComponent<CheatConsole>();
-        m_player = GetComponent<Player>();
 
         SetOutlineColour();
 
@@ -87,6 +87,18 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        // Get default vignette
+        PostProcessVolume pp = FindObjectOfType<PostProcessVolume>();
+        if (pp)
+        {
+            Vignette v;
+            pp.profile.TryGetSettings(out v);
+            if (v)
+            {
+                m_defaultVignette = v.intensity.value;
+            }
+        }
+
         m_healthAnim = DOTween.Sequence();
         m_healthBGAnim = DOTween.Sequence();
 
@@ -138,6 +150,21 @@ public class PlayerController : MonoBehaviour
         m_healthBackgroundImages[m_health.Health].rectTransform.DORewind();
         m_healthBackgroundImages[m_health.Health].rectTransform.DOPunchScale(Vector3.one * 0.5f, 0.2f);
         ScreenshakeManager.Shake(ScreenshakeManager.EShakeType.shortSharp);
+
+        // Vignette
+        if (m_health.Health == 1)
+        {
+            PostProcessVolume pp = FindObjectOfType<PostProcessVolume>();
+            if (pp)
+            {
+                Vignette v;
+                pp.profile.TryGetSettings(out v);
+                if (v)
+                {
+                    v.intensity.value = m_defaultVignette + 0.2f;
+                }
+            }
+        }
     }
 
     private void OnDeath()
@@ -218,6 +245,21 @@ public class PlayerController : MonoBehaviour
                 m_healthBackgroundImages[i].enabled = true;
                 m_healthBackgroundImages[i].rectTransform.transform.localScale = Vector3.zero;
                 m_healthBGAnim.Insert(i * 0.25f, m_healthBackgroundImages[i].rectTransform.DOScale(1.0f, 0.5f).SetEase(Ease.OutBounce));
+            }
+        }
+
+        // Vignette
+        if (m_health.Health > 1)
+        {
+            PostProcessVolume pp = FindObjectOfType<PostProcessVolume>();
+            if (pp)
+            {
+                Vignette v;
+                pp.profile.TryGetSettings(out v);
+                if (v)
+                {
+                    v.intensity.value = m_defaultVignette;
+                }
             }
         }
 
