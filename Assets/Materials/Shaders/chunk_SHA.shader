@@ -6,6 +6,7 @@
 		_CrackTex("Crack Texture", 2D) = "white" {}
 		_Cutoff("Crack Alpha Cutoff", Float) = 0.5
 		[Toggle] _Crack("Cracked", Float) = 0
+		_CrackColor("Crack Colour", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
@@ -50,12 +51,13 @@
 
 		sampler2D _CrackTex;
 		float _Crack;
+		float4 _CrackColor;
 
 		void surf(Input IN, inout SurfaceOutput o)
 		{
 			if (_Crack)
 			{
-				o.Albedo = tex2D(_CrackTex, IN.uv_MainTex).rgb;
+				o.Albedo = tex2D(_CrackTex, IN.uv_MainTex).rgb * _CrackColor.rgb;
 				o.Alpha = tex2D(_CrackTex, IN.uv_MainTex).a;
 			}
 		}
