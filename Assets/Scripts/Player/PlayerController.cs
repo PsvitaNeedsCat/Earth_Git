@@ -140,9 +140,11 @@ public class PlayerController : MonoBehaviour
         m_health.SetInvincibleTimer(m_settings.m_hurtTime);
 
         // Tween colour change
+
+        Material mat = m_meshRenderer.material;
         Sequence seq = DOTween.Sequence();
-        seq.Append(m_meshRenderer.material.DOColor(m_settings.m_hurtColour, m_settings.m_hurtTime * 0.25f));
-        seq.Append(m_meshRenderer.material.DOColor(Color.white, m_settings.m_hurtTime * 0.25f));
+        seq.Append(DOTween.To(() => mat.GetFloat("_WhiteOverride"), x => mat.SetFloat("_WhiteOverride", x), 1.0f, m_settings.m_hurtTime / 12.0f));
+        seq.Append(DOTween.To(() => mat.GetFloat("_WhiteOverride"), x => mat.SetFloat("_WhiteOverride", x), 0.0f, m_settings.m_hurtTime / 12.0f));
         seq.SetLoops(2);
         seq.Play();
 
