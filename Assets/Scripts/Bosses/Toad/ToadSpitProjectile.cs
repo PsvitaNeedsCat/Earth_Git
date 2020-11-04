@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -25,7 +26,7 @@ public class ToadSpitProjectile : MonoBehaviour
 
     // Also determines number of fragments
     readonly Vector3[] m_fragmentDirections = { Vector3.forward, Vector3.back, Vector3.right, Vector3.left };
-    readonly float m_fragmentLifetime = 3.0f;
+    readonly float m_fragmentLifetime = 5.0f;
     readonly float m_gravity = 100.0f;
 
 
@@ -33,6 +34,14 @@ public class ToadSpitProjectile : MonoBehaviour
     {
         m_rigidbody = GetComponent<Rigidbody>();
         m_settings = Resources.Load<ToadBossSettings>("ScriptableObjects/ToadBossSettings");
+    }
+
+    private void Start()
+    {
+        if (m_isFragment)
+        {
+            Destroy(gameObject, m_fragmentLifetime);
+        }
     }
 
     private void Update()
@@ -85,10 +94,12 @@ public class ToadSpitProjectile : MonoBehaviour
 
     private void Split()
     {
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Bosses/Toad/ToadSpitProjectile");
+
         // Spawn four fragments around this one
         for (int i = 0; i < m_fragmentDirections.Length; i++)
         {
-            ToadSpitProjectile fragment = Instantiate(this.gameObject, transform.position, transform.rotation, null).GetComponent<ToadSpitProjectile>();
+            ToadSpitProjectile fragment = Instantiate(prefab, transform.position, transform.rotation).GetComponent<ToadSpitProjectile>();
             fragment.m_isFragment = true;
             fragment.m_fDir = m_fragmentDirections[i];
             Vector3 pos = fragment.transform.position;
@@ -96,39 +107,11 @@ public class ToadSpitProjectile : MonoBehaviour
             fragment.transform.position = pos;
             fragment.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
             fragment.transform.DOScale(0.5f, 0.07f).SetEase(Ease.InElastic);
-            fragment.transform.parent = transform.parent;
+            fragment.transform.parent = transform.parent.parent;
 
             // Projectile motion
-            fragment.m_rigidbody.AddForce(
-                (Quaternion.Euler(m_fragmentDirections[i] * m_settings.m_fragmentAngle) * Vector3.up)
-                * m_settings.m_fragmentForce, ForceMode.Impulse
-                );
-        }
-    }
-
-    private void UpdateDropShadow()
-    {
-        RaycastHit hitInfo;
-
-        // If there is a surface below
-        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, m_dropShadowMaxRange, m_dropShadowLayerMask))
-        {
-            // If surface is out of range, deactivate drop shadow
-            if (hitInfo.distance > m_dropShadowMaxRange || hitInfo.distance < 0.0f)
-            {
-                m_dropShadow.SetActive(false);
-                return;
-            }
-
-            // Otherwise, scale drop shadow based on distance, and place it just above floor
-            float newScale = Mathf.Lerp(m_dropShadowMinScale, m_dropShadowMaxScale, (m_dropShadowMaxRange - hitInfo.distance) / m_dropShadowMaxRange);
-            m_dropShadow.SetActive(true);
-            m_dropShadow.transform.localScale = Vector3.one * newScale;
-            m_dropShadow.transform.position = hitInfo.point + Vector3.up * 0.01f;
-        }
-        else
-        {
-            m_dropShadow.SetActive(false);
+            Vector3 force = Quaternion.Euler(m_fragmentDirections[i] * m_settings.m_fragmentAngle) * Vector3.up * m_settings.m_fragmentForce;
+            fragment.m_rigidbody.AddForce(force, ForceMode.Impulse);
         }
     }
 }
