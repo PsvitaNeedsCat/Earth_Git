@@ -17,7 +17,7 @@
 		//Transparency
 			
 		Lighting Off
-		ZWrite Off
+		ZWrite On
 		Cull Back
 		Blend SrcAlpha OneMinusSrcAlpha
 		//Tags {"Queue"="Transparent"}
@@ -33,7 +33,7 @@
 
 		//Solid Overlay
 
-		ZWrite Off
+		ZWrite On
 		Cull Back
 
 		CGPROGRAM
