@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public static EChunkEffect s_currentEffect = EChunkEffect.none;
     [HideInInspector] public static int m_lastTempleEntered = 0;
     public GameObject m_firstPersonCamera;
+    [HideInInspector] public bool m_inTutorial = false;
 
     // Private variables
     private GlobalPlayerSettings m_settings;
@@ -32,7 +33,6 @@ public class Player : MonoBehaviour
     private Vector3 m_relativeRStickDir = Vector3.zero; // Relative to camera
     private Vector2 m_rStickDir = Vector2.zero; // Not relative to camera
     [SerializeField] private ParticleSystem[] m_powerParticles = new ParticleSystem[] { };
-    private bool m_inTutorial = false;
     private bool m_firstPerson = false;
     [SerializeField] private SkinnedMeshRenderer m_meshRenderer = null;
     [SerializeField] private Texture[] m_playerTextures;
