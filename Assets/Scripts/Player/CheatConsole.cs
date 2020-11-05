@@ -17,6 +17,7 @@ public class CheatConsole : MonoBehaviour
     private bool m_showHelp = false;
     private bool m_showTimeScale = false;
     private bool m_showFPS = false;
+    private bool m_showUI = true;
     private float m_deltaTime = 0.0f;
     private GUIStyle m_textStyle;
     private Vector2 m_scroll;
@@ -58,6 +59,9 @@ public class CheatConsole : MonoBehaviour
     public static CheatCommand SHOW_FPS;
     public static CheatCommand VSYNC;
     public static CheatCommand<float> VOLUME;
+    public static CheatCommand<float> MUSIC_VOLUME;
+    public static CheatCommand TOGGLE_UI;
+    public static CheatCommand<string> SCENE;
 
     public List<object> m_commandList;
 
@@ -370,11 +374,72 @@ public class CheatConsole : MonoBehaviour
         });
 
         VOLUME = new CheatCommand<float>("volume", "Sets the game volume", "volume <0.0-1.0>", (x) =>
-       {
+        {
            float vol = Mathf.Clamp01(x);
            AudioListener.volume = vol;
            PlayerPrefs.SetFloat("volume", vol);
-       });
+        });
+
+        MUSIC_VOLUME = new CheatCommand<float>("music_volume", "Sets the music volume", "volume <0.0-1.0>", (x) =>
+        {
+            float vol = Mathf.Clamp01(x);
+            MusicManager music = FindObjectOfType<MusicManager>();
+
+            if (music)
+            {
+                music.m_defaultVolume = vol;
+                music.m_audioSource.volume = vol;
+            }
+        });
+
+        TOGGLE_UI = new CheatCommand("toggle_ui", "Toggles visibility of the UI", "toggle_ui", () =>
+        {
+            GameCanvas canvas = FindObjectOfType<GameCanvas>();
+
+            if (canvas)
+            {
+                m_showUI = !m_showUI;
+
+                foreach(Transform child in canvas.transform)
+                {
+                    RectTransform rectTransform = child.GetComponent<RectTransform>();
+                    if (rectTransform)
+                    {
+                        rectTransform.localScale = (m_showUI) ? Vector3.one : Vector3.zero;
+                    }
+                }
+                
+            }
+
+            ToadBoss toadBoss = FindObjectOfType<ToadBoss>();
+
+            if (toadBoss)
+            {
+                toadBoss.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localScale = (m_showUI) ? Vector3.one : Vector3.zero;
+                toadBoss.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localPosition = Vector3.one * 10000.0f;
+            }
+
+            CentipedeHealth centipedeHealth = FindObjectOfType<CentipedeHealth>();
+
+            if (centipedeHealth)
+            {
+                centipedeHealth.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localScale = (m_showUI) ? Vector3.one : Vector3.zero;
+                centipedeHealth.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localPosition = Vector3.one * 10000.0f;
+            }
+
+            CobraHealth cobraHealth = FindObjectOfType<CobraHealth>();
+
+            if (cobraHealth)
+            {
+                cobraHealth.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localScale = (m_showUI) ? Vector3.one : Vector3.zero;
+                cobraHealth.m_healthIcons[0].transform.parent.GetComponent<RectTransform>().localPosition = Vector3.one * 10000.0f;
+            }
+        });
+
+        SCENE = new CheatCommand<string>("scene", "Changes the scene", "scene <scene_name>", (x) =>
+        {
+            RoomManager.Instance.ForceLoadScene(x);
+        });
 
         m_commandList = new List<object>
         {
@@ -412,7 +477,10 @@ public class CheatConsole : MonoBehaviour
             SHOW_TIME_SCALE,
             SHOW_FPS,
             VSYNC,
-            VOLUME
+            VOLUME,
+            MUSIC_VOLUME,
+            TOGGLE_UI,
+            SCENE
         };
     }
 

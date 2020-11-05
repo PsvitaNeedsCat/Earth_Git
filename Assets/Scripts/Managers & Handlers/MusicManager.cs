@@ -12,9 +12,9 @@ public class MusicManager : MonoBehaviour
 
     private string m_musicPath = "Music";
     private Dictionary<string, AudioClip> m_musicDictionary = new Dictionary<string, AudioClip>();
-    private AudioSource m_audioSource;
+    public AudioSource m_audioSource;
 
-    private float m_defaultVolume = 1.0f;
+    public float m_defaultVolume = 1.0f;
 
     private void Awake()
     {
