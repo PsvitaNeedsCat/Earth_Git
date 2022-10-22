@@ -1,24 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class MenuGradientScript : MonoBehaviour
 {
-    private MeshRenderer m_meshRenderer;
+    private Image m_image = null;
 
-    public Gradient m_gradient1;
-    public Gradient m_gradient2;
+    [FormerlySerializedAs("m_gradient1")]
+    public Gradient m_gradient;
 
     public float m_speed = 0.5f;
     private float m_gradientTime = 0.0f;
 
-    private Color m_colour1;
-    private Color m_colour2;
-
     // Start is called before the first frame update
     void Awake()
     {
-        m_meshRenderer = GetComponent<MeshRenderer>();
+        m_image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -26,10 +25,6 @@ public class MenuGradientScript : MonoBehaviour
     {
         m_gradientTime = Mathf.PingPong(Time.time * m_speed, 1);
 
-        m_colour1 = (m_gradient1.Evaluate(m_gradientTime));
-        m_meshRenderer.material.SetColor("_Color", m_colour1);
-
-        m_colour2 = (m_gradient2.Evaluate(m_gradientTime));
-        m_meshRenderer.material.SetColor("_Color1", m_colour2);
+        m_image.color = m_gradient.Evaluate(m_gradientTime);
     }
 }

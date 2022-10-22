@@ -9,6 +9,8 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
+    private const float TITLE_MOVE_BY = 1400.0f;
+
     [SerializeField] private Button m_playButton;
     [SerializeField] private Button m_quitButton;
     [SerializeField] private GameObject m_title = null;
@@ -73,9 +75,9 @@ public class MainMenu : MonoBehaviour
         FadeButton(m_quitButton, false);
 
         // Tween out title
-        Vector3 newPos = m_title.transform.position;
-        newPos.x -= 12.0f;
-        m_title.transform.DOMove(newPos, 0.5f);
+        Vector3 newPos = m_title.transform.localPosition;
+        newPos.x -= TITLE_MOVE_BY;
+        m_title.transform.DOLocalMove(newPos, 0.5f);
 
         for (int i = 0; i < m_saveButtons.Length; i++)
         {
@@ -171,9 +173,9 @@ public class MainMenu : MonoBehaviour
         FadeButton(m_quitButton, true);
 
         // Fade in title
-        Vector3 newPos = m_title.transform.position;
-        newPos.x += 12.0f;
-        m_title.transform.DOMove(newPos, 0.5f);
+        Vector3 newPos = m_title.transform.localPosition;
+        newPos.x += TITLE_MOVE_BY;
+        m_title.transform.DOLocalMove(newPos, 0.5f);
     }
 
     // Tries to load a save, otherwise it will create a save
