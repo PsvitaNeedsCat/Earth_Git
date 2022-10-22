@@ -13,14 +13,20 @@ public class DialogueButtons : MonoBehaviour
     };
 
     [SerializeField] private GameObject[] m_buttons = new GameObject[] { };
-    private EButton m_activeButton = EButton.A;
 
     public void ChangeActiveButton(EButton _button)
     {
-        m_buttons[(int)m_activeButton].SetActive(false);
+        foreach (GameObject button in m_buttons)
+        {
+            button.SetActive(false);
+        }
 
-        m_buttons[(int)_button].SetActive(true);
+        if (_button == EButton.A)
+        {
+            m_buttons[0].SetActive(true);
+            return;
+        }
 
-        m_activeButton = _button;
+        m_buttons[1].SetActive(true);
     }
 }

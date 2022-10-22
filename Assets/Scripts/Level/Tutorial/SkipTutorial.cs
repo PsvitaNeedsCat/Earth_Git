@@ -39,7 +39,7 @@ public class SkipTutorial : MonoBehaviour
     {
         m_skipTimer += (m_skipButtonHeld) ? Time.deltaTime : -1.0f * Time.deltaTime;
 
-        if (m_skipTimer < 0.0f)
+        if (m_skipTimer <= 0.0f)
         {
             m_skipText.SetActive(false);
             m_skipTimer = 0.0f;

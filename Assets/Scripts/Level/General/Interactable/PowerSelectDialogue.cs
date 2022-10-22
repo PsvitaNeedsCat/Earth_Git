@@ -29,7 +29,8 @@ public class PowerSelectDialogue : Dialogue
 
     public override void Invoke()
     {
-        PlayerInput.s_controls.PlayerCombat.PowerSelection.performed += ctx => PowerEquipped(ctx.ReadValue<Vector2>());
+        //PlayerInput.s_controls.PlayerCombat.PowerSelection.performed += ctx => PowerEquipped(ctx.ReadValue<Vector2>());
+        PlayerInput.s_controls.PlayerCombat.PowerRotation.performed += ctx => PowerEquipped(ctx.ReadValue<float>());
 
         base.Invoke();
 
@@ -64,9 +65,9 @@ public class PowerSelectDialogue : Dialogue
         }
     }
 
-    private void PowerEquipped(Vector2 _dpadDir)
+    private void PowerEquipped(float dir)
     {
-        EChunkEffect effect = EChunkEffect.none;
+        /*EChunkEffect effect = EChunkEffect.none;
         if (_dpadDir == Vector2.left) // Water
         {
             effect = EChunkEffect.water;
@@ -82,9 +83,9 @@ public class PowerSelectDialogue : Dialogue
         if (effect != m_crystalType)
         {
             return;
-        }
+        }*/
 
-        GameObject gem = m_gemSprites[(int)effect];
+        GameObject gem = m_gemSprites[(int) m_crystalType];
 
         // Enable sprite
         gem.GetComponent<Image>().enabled = true;
@@ -93,15 +94,16 @@ public class PowerSelectDialogue : Dialogue
         // Set size and scale
         RectTransform gemTransform = gem.GetComponent<RectTransform>();
         gemTransform.localScale = Vector3.one;
-        gemTransform.anchoredPosition = m_gemPositions[(int)effect];
+        gemTransform.anchoredPosition = m_gemPositions[(int) m_crystalType];
 
         // Animate sprite
         Sequence animation = DOTween.Sequence();
         animation.Append(gemTransform.DOLocalMove(Vector3.zero, 1.0f));
         animation.Insert(0.0f, gemTransform.DOScale(Vector3.one * 0.2f, 0.5f));
-        animation.OnComplete(() => AnimationComplete(effect));
+        animation.OnComplete(() => AnimationComplete(m_crystalType));
 
-        PlayerInput.s_controls.PlayerCombat.PowerSelection.performed -= ctx => PowerEquipped(ctx.ReadValue<Vector2>());
+        //PlayerInput.s_controls.PlayerCombat.PowerSelection.performed -= ctx => PowerEquipped(ctx.ReadValue<Vector2>());
+        PlayerInput.s_controls.PlayerCombat.PowerRotation.performed -= ctx => PowerEquipped(ctx.ReadValue<float>());
     }
 
     private void AnimationComplete(EChunkEffect _effect)
