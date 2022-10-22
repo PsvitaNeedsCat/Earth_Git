@@ -40,12 +40,12 @@ public class TileTargeter : MonoBehaviour
     private void Update()
     {
         // Don't target anything if the player is not moving the LAnalogStick
-        if (m_direction == Vector2.zero)
+        /*if (m_direction == Vector2.zero)
         {
             Activate(false);
             m_closestTile = null; 
             return; 
-        }
+        }*/
 
         if (m_closestTile != null)
         {

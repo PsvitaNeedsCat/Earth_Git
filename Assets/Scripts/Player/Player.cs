@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     private Coroutine m_materialBlendSequence;
     private Coroutine m_materialBlendSequenceTwo;
 
+    private Camera m_camera = null;
+
     // Max speed that the player will reach with their current drag (it's not capped to this, this was found via testing) (used for animation blend tree)
     private readonly float m_maxSpeed = 1.6f;
 
@@ -155,21 +157,35 @@ public class Player : MonoBehaviour
         // Player is trying to move
         m_moveDirection = _dir;
 
+        if (_dir != Vector2.zero)
+        {
+            // Bandaid to try and reduce Camera.main call
+            if (m_camera == null)
+            {
+                m_camera = Camera.main;
+            }
+
+            m_relativeRStickDir = m_camera.RelativeDirection2(_dir);
+            m_rStickDir = _dir;
+            UpdateRAnalogDirection();
+        }
+
         m_tileTargeter.UpdateDirection(transform.position);
     }
 
     // Modifies targeting - called by PlayerInput
-    public void SetRAnalogDirection(Vector2 _dir)
+    /*public void SetRAnalogDirection(Vector2 _dir)
     {
         m_relativeRStickDir = Camera.main.RelativeDirection2(_dir);
         m_rStickDir = _dir;
 
         UpdateRAnalogDirection();
-    }
+    }*/
     private void UpdateRAnalogDirection()
     {
         m_tileTargeter.SetTargetDirection(m_rStickDir, transform.position);
-        m_tileTargeter.gameObject.SetActive(m_rStickDir != Vector2.zero);
+        //m_tileTargeter.gameObject.SetActive(m_rStickDir != Vector2.zero);
+        m_tileTargeter.gameObject.SetActive(true);
 
         m_tileArrow.SetDirection(m_rStickDir);
         m_tileArrow.gameObject.SetActive(m_rStickDir != Vector2.zero);
