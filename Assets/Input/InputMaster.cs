@@ -1142,7 +1142,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""272cc348-e238-446c-985a-c47c8fd78b1c"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/n"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
