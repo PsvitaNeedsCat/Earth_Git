@@ -139,6 +139,8 @@ public class PlayerInput : MonoBehaviour
     // Tries to set the analog stick direction. Will return instantly if the player is null
     private void TrySetAnalogDirection(bool _leftAnalog, Vector2 _direction)
     {
+        _direction.Normalize();
+
         if (!m_player)
         {
             return;

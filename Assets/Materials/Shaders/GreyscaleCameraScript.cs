@@ -13,6 +13,8 @@ public class GreyscaleCameraScript : MonoBehaviour
 
     private void Update()
     {
+        return;
+
         if (Input.GetKeyDown(KeyCode.V))
         {
             if (!turnGrey)
