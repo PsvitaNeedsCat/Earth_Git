@@ -61,8 +61,8 @@ public class PlayerInput : MonoBehaviour
         // Raise Chunk
         s_controls.PlayerCombat.Raise.performed += _ => m_player.BeginRaiseAnimation();
         // Target
-        //s_controls.PlayerCombat.Target.performed += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
-        //s_controls.PlayerCombat.Target.canceled += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.Target.performed += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+        s_controls.PlayerCombat.Target.canceled += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
         s_controls.PlayerCombat.KeyboardTarget.performed += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
         s_controls.PlayerCombat.KeyboardTarget.canceled += ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
         // Change powers
@@ -110,8 +110,8 @@ public class PlayerInput : MonoBehaviour
             // Raise Chunk
             s_controls.PlayerCombat.Raise.performed -= _ => m_player.BeginRaiseAnimation();
             // Target
-            //s_controls.PlayerCombat.Target.performed -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
-            //s_controls.PlayerCombat.Target.canceled -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.Target.performed -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
+            s_controls.PlayerCombat.Target.canceled -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
             s_controls.PlayerCombat.KeyboardTarget.performed -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
             s_controls.PlayerCombat.KeyboardTarget.canceled -= ctx => TrySetAnalogDirection(false, ctx.ReadValue<Vector2>());
             // Change powers
@@ -144,11 +144,14 @@ public class PlayerInput : MonoBehaviour
             return;
         }
 
-        // Can only set Left analog stick
-        m_player.SetLAnalogDirection(_direction);
+        // Left
+        if (_leftAnalog)
+        {
+            m_player.SetLAnalogDirection(_direction);
+        }
         
         // Right
-        //m_player.SetRAnalogDirection(_direction);
+        m_player.SetRAnalogDirection(_direction);
     }
 
     public void SetMovement(bool _active)

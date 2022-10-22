@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
         // Player is trying to move
         m_moveDirection = _dir;
 
-        if (_dir != Vector2.zero)
+        /*if (_dir != Vector2.zero)
         {
             // Bandaid to try and reduce Camera.main call
             if (m_camera == null)
@@ -168,19 +168,24 @@ public class Player : MonoBehaviour
             m_relativeRStickDir = m_camera.RelativeDirection2(_dir);
             m_rStickDir = _dir;
             UpdateRAnalogDirection();
-        }
+        }*/
 
         m_tileTargeter.UpdateDirection(transform.position);
     }
 
     // Modifies targeting - called by PlayerInput
-    /*public void SetRAnalogDirection(Vector2 _dir)
+    public void SetRAnalogDirection(Vector2 _dir)
     {
+        if (_dir == Vector2.zero)
+        {
+            return;
+        }
+
         m_relativeRStickDir = Camera.main.RelativeDirection2(_dir);
         m_rStickDir = _dir;
 
         UpdateRAnalogDirection();
-    }*/
+    }
     private void UpdateRAnalogDirection()
     {
         m_tileTargeter.SetTargetDirection(m_rStickDir, transform.position);
